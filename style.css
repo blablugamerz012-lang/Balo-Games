@@ -519,3 +519,15 @@ footer {
 .game-link:hover {
   color: inherit;
 }
+
+.game-link,
+.game-link:visited,
+.game-link:hover,
+.game-link:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+.game-link {
+  display: block;
+}
