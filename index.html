@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,19 @@
   <meta name="theme-color" content="#100b24">
   <link rel="icon" type="image/png" sizes="512x512" href="./icon/icon.png?v=3">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Hero text position adjustment only -->
+  <style>
+    .hero-copy {
+      transform: translateY(60px);
+    }
+
+    @media (max-width: 768px) {
+      .hero-copy {
+        transform: translateY(30px);
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="topline"></div>
@@ -27,6 +41,7 @@
         <h1>PLAY. CHALLENGE.<span>REPEAT.</span></h1>
         <p>Fast, free browser games built for quick fun. Pick your game, jump straight in, and make every session count.</p>
       </div>
+
       <div class="hero-art" aria-hidden="true">
         <div class="orb"></div>
         <div class="ring"></div>
@@ -52,6 +67,7 @@
           <input id="gameSearch" type="search" placeholder="Search games..." autocomplete="off">
           <button id="clearSearch" type="button" aria-label="Clear search" hidden>✕</button>
         </label>
+
         <div class="filters" role="group" aria-label="Filter games by category">
           <button class="filter-btn category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)">✦ All Games</button>
           <button class="filter-btn category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)">⚔ Action</button>
@@ -61,6 +77,7 @@
       </div>
 
       <div class="game-grid games-grid" id="gameGrid"></div>
+
       <div class="empty-games" id="emptyGames" hidden>
         <span aria-hidden="true">🎯</span>
         <h3>No games found</h3>
@@ -107,3 +124,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+```
