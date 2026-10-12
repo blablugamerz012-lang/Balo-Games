@@ -25,7 +25,7 @@ const games = [
   {
     id: "evo-eater",
     title: "Evo-Eater",
-    icon: "🦅"
+    icon: "🦅",
     category: "action",
     path: "games/evoeater/index.html"
   },
