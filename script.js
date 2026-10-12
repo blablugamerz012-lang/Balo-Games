@@ -25,8 +25,9 @@ function isGameOpen(){return gameOverlay.classList.contains("open");}
 function showGames(list){
   grid.innerHTML="";
   list.forEach(game=>{
-    const card=document.createElement("article");
+    const card=document.createElement(game.comingSoon?"article":"a");
     card.className="game-card"+(game.comingSoon?" coming-soon-card":"");
+    if(!game.comingSoon)card.href=game.path;
     const art=document.createElement("div");
     art.className="game-image game-image-"+game.id;
     art.setAttribute("aria-hidden","true");
@@ -40,9 +41,8 @@ function showGames(list){
     action.textContent=game.comingSoon?"Coming soon ✦":"Play game →";
     info.append(title,desc,action);card.append(art,info);
     if(!game.comingSoon){
-      card.tabIndex=0;card.setAttribute("role","link");card.setAttribute("aria-label","Play "+game.title);
-      card.addEventListener("click",()=>openGame(game.path));
-      card.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openGame(game.path);}});
+      card.setAttribute("aria-label","Play "+game.title);
+      card.addEventListener("click",event=>{event.preventDefault();openGame(game.path);});
     }else{card.setAttribute("aria-label",game.title+", coming soon");}
     grid.appendChild(card);
   });
