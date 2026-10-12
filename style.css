@@ -652,3 +652,121 @@ footer {
 .game-link {
   display: block;
 }
+
+
+/* =========================
+   ABOUT / CONTACT / PRIVACY CONTENT CARDS
+========================= */
+.about-content {
+  position: relative;
+  width: min(920px, calc(100% - 40px));
+  margin: 48px auto 64px;
+  padding: clamp(24px, 5vw, 52px);
+  overflow: hidden;
+  background: linear-gradient(145deg, #ffffff 0%, #fffaf8 100%);
+  border: 1px solid #f0ded9;
+  border-radius: 24px;
+  box-shadow: 0 14px 38px rgba(45, 30, 26, 0.09);
+}
+
+.about-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #ff493d, #ff8b42, #ffd16a);
+}
+
+.about-content h1 {
+  position: relative;
+  margin: 0 0 22px;
+  padding: 0 0 18px;
+  color: #22242b;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -0.7px;
+}
+
+.about-content h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 76px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ff493d, #ff8b42);
+}
+
+.about-content h2 {
+  margin: 30px 0 12px;
+  padding: 13px 16px;
+  color: #302a2a;
+  font-size: 21px;
+  line-height: 1.35;
+  background: #fff2ef;
+  border: 1px solid #ffe0d9;
+  border-left: 5px solid #ff493d;
+  border-radius: 10px;
+}
+
+.about-content p {
+  margin: 0 0 18px;
+  color: #555963;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.about-content p strong {
+  color: #30323a;
+}
+
+.about-content a:not(.about-home) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 4px 0 8px;
+  padding: 12px 18px;
+  border: 1px solid #ff493d;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #ff493d, #ff7138);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 15px rgba(255, 73, 61, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.about-content a:not(.about-home):hover,
+.about-content a:not(.about-home):focus-visible {
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255, 73, 61, 0.25);
+  outline: none;
+}
+
+.about-content a:not(.about-home):active {
+  transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+  .about-content {
+    width: calc(100% - 28px);
+    margin: 26px auto 40px;
+    padding: 25px 20px;
+    border-radius: 18px;
+  }
+
+  .about-content h2 {
+    margin-top: 24px;
+    font-size: 19px;
+  }
+
+  .about-content p {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+}
