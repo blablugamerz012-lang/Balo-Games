@@ -27,9 +27,13 @@
 
   <header id="home">
     <div class="header-inner">
-      <button class="logo" id="logoBtn" aria-label="Home" style="display:flex;align-items:center;justify-content:center;gap:12px;width:100%;flex-wrap:nowrap;">
+      <button class="logo" id="logoBtn" type="button" aria-label="Refresh home page" onclick="window.location.reload()" title="Click to refresh" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;flex-wrap:nowrap;cursor:pointer;">
         <img src="./icon/icon.png" alt="EVO-GAMES HUB icon" style="display:block;flex:0 0 44px;width:44px;height:44px;object-fit:contain;margin:0;">
-        <span style="display:block;width:auto;font-size:20px;font-weight:1000;letter-spacing:1.2px;color:#f8f7ff;white-space:nowrap;line-height:1.2;">BEST GAMES-SITE</span>
+        <span style="display:flex;align-items:center;gap:7px;width:auto;font-size:20px;font-weight:1000;letter-spacing:1.2px;color:#f8f7ff;white-space:nowrap;line-height:1.2;">
+          <span aria-hidden="true" style="color:#ff4fd8;font-size:27px;font-weight:1000;">[</span>
+          <span>BEST GAMES-SITE</span>
+          <span aria-hidden="true" style="color:#35e7ff;font-size:27px;font-weight:1000;">]</span>
+        </span>
       </button>
     </div>
   </header>
