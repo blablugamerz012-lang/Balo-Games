@@ -1,312 +1,99 @@
-/*
-  EVO-GAMES HUB
-  Game list
-*/
-
+/* EVO-GAMES HUB — game library, search, and play controls */
 const games = [
-
-  {
-    id: "my-gun-life",
-    title: "My Gun Life",
-    icon: "⚡",
-    category: "action",
-    path: "games/my-gun-life/index.html"
-  },
-
-  {
-    id: "tik-tak-toe",
-    title: "TIK TAK TOE",
-    icon: "❌⭕",
-    desc: "Classic Tic Tac Toe",
-    category: "arcade",
-    path: "games/tik-tak-toe/index.html"
-  },
-
-  {
-    id: "evo-eater",
-    title: "Evo-Eater",
-    icon: "🦅",
-    category: "action",
-    path: "games/evoeater/index.html"
-  },
-
-  {
-    id: "coming-soon-adventure",
-    title: "Coming Soon",
-    icon: "🗺️",
-    desc: "New adventure game coming soon",
-    category: "adventure",
-    path: "#"
-  },
-
-  {
-    id: "coming-soon-arcade",
-    title: "Coming Soon",
-    icon: "🕹️",
-    desc: "New arcade game coming soon",
-    category: "arcade",
-    path: "#"
-  }
-
+  { id:"my-gun-life", title:"My Gun Life", icon:"⚡", desc:"Jump into a fast-paced action game.", category:"action", path:"games/my-gun-life/index.html" },
+  { id:"tik-tak-toe", title:"Tic Tac Toe", icon:"❌⭕", desc:"A classic strategy game for a quick match.", category:"arcade", path:"games/tik-tak-toe/index.html" },
+  { id:"evo-eater", title:"Evo-Eater", icon:"🦅", desc:"Grow, evolve, and explore the arena.", category:"action", path:"games/evoeater/index.html" },
+  { id:"coming-soon-adventure", title:"Adventure Games", icon:"🗺️", desc:"A new adventure is being prepared.", category:"adventure", path:"", comingSoon:true },
+  { id:"coming-soon-arcade", title:"More Arcade Games", icon:"🕹️", desc:"More quick-play challenges are on the way.", category:"arcade", path:"", comingSoon:true }
 ];
-
-
-/* =========================
-   ELEMENTS
-========================= */
-
-const grid =
-  document.getElementById("gameGrid");
-
-const gameOverlay =
-  document.getElementById("gameOverlay");
-
-const gameFrame =
-  document.getElementById("gameFrame");
-
-const logoBtn =
-  document.getElementById("logoBtn");
-
-const gameCloseBtn =
-  document.getElementById("gameCloseBtn");
-
-const confirmBackdrop =
-  document.getElementById("confirmBackdrop");
-
-const confirmYesBtn =
-  document.getElementById("confirmYesBtn");
-
-const confirmNoBtn =
-  document.getElementById("confirmNoBtn");
-
-const confirmCloseBtn =
-  document.getElementById("confirmCloseBtn");
-
-
-/* =========================
-   CHECK GAME
-========================= */
-
-function isGameOpen() {
-
-  return gameOverlay.classList.contains("open");
-
-}
-
-
-/* =========================
-   SHOW GAMES
-========================= */
-
-function showGames(list) {
-
-  grid.innerHTML = "";
-
-  list.forEach(game => {
-
-    const card =
-      document.createElement("div");
-
-    card.className = "game-card";
-
- card.innerHTML = `
-
-      <a href="${game.path}" class="game-link">
-
-        <div class="game-image">
-          ${game.icon}
-        </div>
-
-        <div class="game-info">
-
-          <h3>
-            ${game.title}
-          </h3>
-
-          <p>
-            ${game.desc}
-          </p>
-
-        </div>
-
-      </a>
-
-    `;
-    card.addEventListener("click", () => {
-
-      openGame(game.path);
-
-    });
-
+const grid=document.getElementById("gameGrid");
+const gameOverlay=document.getElementById("gameOverlay");
+const gameFrame=document.getElementById("gameFrame");
+const logoBtn=document.getElementById("logoBtn");
+const gameCloseBtn=document.getElementById("gameCloseBtn");
+const confirmBackdrop=document.getElementById("confirmBackdrop");
+const confirmYesBtn=document.getElementById("confirmYesBtn");
+const confirmNoBtn=document.getElementById("confirmNoBtn");
+const confirmCloseBtn=document.getElementById("confirmCloseBtn");
+const gameSearch=document.getElementById("gameSearch");
+const clearSearch=document.getElementById("clearSearch");
+const gameCount=document.getElementById("gameCount");
+const emptyGames=document.getElementById("emptyGames");
+let selectedCategory="all";
+let searchTerm="";
+function isGameOpen(){return gameOverlay.classList.contains("open");}
+function showGames(list){
+  grid.innerHTML="";
+  list.forEach(game=>{
+    const card=document.createElement("article");
+    card.className="game-card"+(game.comingSoon?" coming-soon-card":"");
+    const art=document.createElement("div");
+    art.className="game-image game-image-"+game.id;
+    art.setAttribute("aria-hidden","true");
+    const icon=document.createElement("span");icon.className="game-icon";icon.textContent=game.icon;
+    const tag=document.createElement("span");tag.className="game-category-tag";tag.textContent=game.category;
+    art.append(icon,tag);
+    const info=document.createElement("div");info.className="game-info";
+    const title=document.createElement("h3");title.textContent=game.title;
+    const desc=document.createElement("p");desc.textContent=game.desc;
+    const action=document.createElement("span");action.className="game-action"+(game.comingSoon?" coming-soon-label":"");
+    action.textContent=game.comingSoon?"Coming soon ✦":"Play game →";
+    info.append(title,desc,action);card.append(art,info);
+    if(!game.comingSoon){
+      card.tabIndex=0;card.setAttribute("role","link");card.setAttribute("aria-label","Play "+game.title);
+      card.addEventListener("click",()=>openGame(game.path));
+      card.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openGame(game.path);}});
+    }else{card.setAttribute("aria-label",game.title+", coming soon");}
     grid.appendChild(card);
-
   });
-
+  gameCount.textContent=list.length+(list.length===1?" game":" games")+" shown";
+  emptyGames.hidden=list.length!==0;
+  grid.hidden=list.length===0;
 }
-
-
-/* =========================
-   OPEN GAME
-========================= */
-
-function openGame(path) {
-
-  if (!path || path === "#") {
-    return;
-  }
-
-  gameFrame.src = path;
-
-  gameOverlay.classList.add("open");
-
-  document.body.style.overflow = "hidden";
-
+function applyFilters(){
+  const filtered=games.filter(game=>{
+    const categoryMatches=selectedCategory==="all"||game.category===selectedCategory;
+    const haystack=(game.title+" "+game.desc+" "+game.category).toLowerCase();
+    return categoryMatches&&haystack.includes(searchTerm);
+  });
+  showGames(filtered);
 }
-
-
-/* =========================
-   CLOSE GAME
-========================= */
-
-function closeGame() {
-
-  gameOverlay.classList.remove("open");
-
-  gameFrame.src = "";
-
-  confirmBackdrop.classList.remove("open");
-
-  document.body.style.overflow = "";
-
+function filterGames(category){
+  selectedCategory=category;
+  document.querySelectorAll(".category[data-category]").forEach(button=>{
+    const active=button.dataset.category===category;
+    button.classList.toggle("active",active);
+    button.setAttribute("aria-pressed",String(active));
+  });
+  applyFilters();
 }
-
-
-/* =========================
-   CONFIRM BOX
-========================= */
-
-function showConfirm() {
-
-  confirmBackdrop.classList.add("open");
-
+function openGame(path){
+  if(!path)return;
+  gameFrame.src=path;gameOverlay.classList.add("open");document.body.style.overflow="hidden";gameCloseBtn.focus();
 }
-
-function hideConfirm() {
-
-  confirmBackdrop.classList.remove("open");
-
+function closeGame(){
+  gameOverlay.classList.remove("open");gameFrame.src="";confirmBackdrop.classList.remove("open");
+  document.body.style.overflow="";logoBtn.focus();
 }
-
-
-/* =========================
-   LOGO BUTTON
-========================= */
-
-logoBtn.addEventListener("click", () => {
-
-  if (isGameOpen()) {
-
-    showConfirm();
-
-  } else {
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  }
-
+function showConfirm(){confirmBackdrop.classList.add("open");confirmYesBtn.focus();}
+function hideConfirm(){confirmBackdrop.classList.remove("open");gameCloseBtn.focus();}
+logoBtn.addEventListener("click",()=>{if(isGameOpen())showConfirm();else window.scrollTo({top:0,behavior:"smooth"});});
+gameCloseBtn.addEventListener("click",showConfirm);
+confirmYesBtn.addEventListener("click",closeGame);
+confirmNoBtn.addEventListener("click",hideConfirm);
+confirmCloseBtn.addEventListener("click",hideConfirm);
+confirmBackdrop.addEventListener("click",event=>{if(event.target===confirmBackdrop)hideConfirm();});
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"&&confirmBackdrop.classList.contains("open"))hideConfirm();
+  else if(event.key==="Escape"&&isGameOpen())showConfirm();
 });
-
-
-/* =========================
-   CLOSE GAME BUTTON
-========================= */
-
-gameCloseBtn.addEventListener("click", () => {
-
-  showConfirm();
-
+gameSearch.addEventListener("input",()=>{
+  searchTerm=gameSearch.value.trim().toLowerCase();clearSearch.hidden=!gameSearch.value;applyFilters();
 });
-
-
-/* =========================
-   YES
-========================= */
-
-confirmYesBtn.addEventListener("click", () => {
-
-  closeGame();
-
+clearSearch.addEventListener("click",()=>{
+  gameSearch.value="";searchTerm="";clearSearch.hidden=true;applyFilters();gameSearch.focus();
 });
-
-
-/* =========================
-   NO
-========================= */
-
-confirmNoBtn.addEventListener("click", () => {
-
-  hideConfirm();
-
+document.getElementById("resetFilters").addEventListener("click",()=>{
+  gameSearch.value="";searchTerm="";clearSearch.hidden=true;filterGames("all");gameSearch.focus();
 });
-
-
-/* =========================
-   X BUTTON
-========================= */
-
-confirmCloseBtn.addEventListener("click", () => {
-
-  hideConfirm();
-
-});
-
-
-/* =========================
-   OUTSIDE MODAL
-========================= */
-
-confirmBackdrop.addEventListener("click", (event) => {
-
-  if (event.target === confirmBackdrop) {
-
-    hideConfirm();
-
-  }
-
-});
-
-
-/* =========================
-   CATEGORY FILTER
-========================= */
-
-function filterGames(category) {
-
-  if (category === "all") {
-
-    showGames(games);
-
-    return;
-
-  }
-
-  const filteredGames =
-    games.filter(game => {
-
-      return game.category === category;
-
-    });
-
-  showGames(filteredGames);
-
-}
-
-
-/* =========================
-   START
-========================= */
-
 showGames(games);
