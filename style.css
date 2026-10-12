@@ -1099,3 +1099,5 @@ footer nav a:focus-visible {
  .game-action { font-size:11px; }
 }
 @media(prefers-reduced-motion:reduce) { :root { scroll-behavior:auto; } }
+
+.game-card,.game-card:visited,.game-card:hover { color:inherit;text-decoration:none; }
