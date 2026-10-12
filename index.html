@@ -5,82 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EVO-GAMES HUB | Free Online Games</title>
   <meta name="description" content="EVO-GAMES HUB — play free browser games with a clean, fast gaming experience. No downloads required.">
-  <meta name="theme-color" content="#f7f9fc">
+  <meta name="theme-color" content="#100b24">
   <link rel="icon" type="image/png" sizes="512x512" href="./icon/icon.png?v=3">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
+  <div class="topline"></div>
+  <header id="home">
     <div class="header-inner">
       <button class="logo" id="logoBtn" aria-label="Home"><img src="./logo.png" alt="EVO-GAMES HUB"></button>
       <nav class="main-nav" aria-label="Main navigation">
-        <a href="./">Home</a>
+        <a class="active" href="#home">Home</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
         <a href="privacy-policy.html">Privacy Policy</a>
       </nav>
     </div>
-    <div class="header-accent" aria-hidden="true"></div>
   </header>
 
-  <!-- Blank hero space: hero copy intentionally removed as requested. -->
-  <section class="hero hero-empty" aria-hidden="true"></section>
-
   <main>
+    <section class="hero" id="about">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> YOUR NEXT LEVEL STARTS HERE</div>
+        <h1>PLAY. CHALLENGE.<span>REPEAT.</span></h1>
+        <p>Fast, free browser games built for quick fun. Pick your game, jump straight in, and make every session count.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orb"></div><div class="ring"></div><div class="controller">🎮</div>
+        <div class="float-tag tag-one">✦ LEVEL UP</div><div class="float-tag tag-two">⚡ INSTANT PLAY</div>
+      </div>
+    </section>
+
     <section class="games-section" id="browseGames" aria-label="Browse games">
       <div class="section-title-row">
-        <div>
-          <span class="section-kicker">GAME LIBRARY</span>
-          <h2 class="section-title">Featured Games</h2>
-        </div>
+        <div><span class="section-kicker">CHOOSE YOUR NEXT ADVENTURE</span><h2 class="section-title">Featured <span>Games</span></h2><p class="section-sub">No downloads. Just pick a game and play.</p></div>
         <p id="gameCount" class="game-count" aria-live="polite">Loading games…</p>
       </div>
-
       <div class="controls">
-        <label class="search-box">
-          <span class="sr-only">Search games</span>
-          <input id="gameSearch" type="search" placeholder="Search games..." autocomplete="off">
-          <button id="clearSearch" type="button" aria-label="Clear search" hidden>✕</button>
-        </label>
+        <label class="search-box"><span class="sr-only">Search games</span><input id="gameSearch" type="search" placeholder="Search games..." autocomplete="off"><button id="clearSearch" type="button" aria-label="Clear search" hidden>✕</button></label>
         <div class="filters" role="group" aria-label="Filter games by category">
-          <button class="filter-btn category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)">🎮 All Games</button>
-          <button class="filter-btn category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)">⚡ Action</button>
-          <button class="filter-btn category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)">🗺️ Adventure</button>
-          <button class="filter-btn category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)">🕹️ Arcade</button>
+          <button class="filter-btn category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)">✦ All Games</button>
+          <button class="filter-btn category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)">⚔ Action</button>
+          <button class="filter-btn category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)">▲ Adventure</button>
+          <button class="filter-btn category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)">🎮 Arcade</button>
         </div>
       </div>
-
       <div class="game-grid games-grid" id="gameGrid"></div>
-      <div class="empty-games" id="emptyGames" hidden>
-        <span aria-hidden="true">🎯</span>
-        <h3>No games found</h3>
-        <p>Try another search or category.</p>
-        <button type="button" class="reset-filters" id="resetFilters">Show all games</button>
-      </div>
+      <div class="empty-games" id="emptyGames" hidden><span aria-hidden="true">🎯</span><h3>No games found</h3><p>Try another search or category.</p><button type="button" class="reset-filters" id="resetFilters">Show all games</button></div>
     </section>
 
-    <section class="community-strip" aria-label="Site update">
-      <span class="community-icon" aria-hidden="true">⚡</span>
-      <div><h2>New games are coming</h2><p>EVO-GAMES HUB is growing with more games and improvements.</p></div>
-    </section>
+    <section class="community-strip" aria-label="Site update"><span class="community-icon" aria-hidden="true">⚡</span><div><h2>New games are coming</h2><p>EVO-GAMES HUB is growing with more games and improvements.</p></div></section>
   </main>
 
-  <footer>
-    <div>© 2026 EVO-GAMES HUB</div>
-    <nav aria-label="Footer navigation"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy-policy.html">Privacy Policy</a></nav>
-  </footer>
+  <footer><div>© 2026 EVO-GAMES HUB</div><nav aria-label="Footer navigation"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy-policy.html">Privacy Policy</a></nav></footer>
 
-  <div id="gameOverlay">
-    <button id="gameCloseBtn" aria-label="Close Game">✕</button>
-    <iframe id="gameFrame" src="" title="Game" allowfullscreen></iframe>
-  </div>
-  <div id="confirmBackdrop">
-    <div class="confirm-box">
-      <button class="confirm-close" id="confirmCloseBtn" aria-label="Close">✕</button>
-      <p>Do you want to quit the game and go to the home page?</p>
-      <div class="confirm-actions"><button class="btn-yes" id="confirmYesBtn">YES</button><button class="btn-no" id="confirmNoBtn">NO</button></div>
-    </div>
-  </div>
+  <div id="gameOverlay"><button id="gameCloseBtn" aria-label="Close Game">✕</button><iframe id="gameFrame" src="" title="Game" allowfullscreen></iframe></div>
+  <div id="confirmBackdrop"><div class="confirm-box"><button class="confirm-close" id="confirmCloseBtn" aria-label="Close">✕</button><p>Do you want to quit the game and go to the home page?</p><div class="confirm-actions"><button class="btn-yes" id="confirmYesBtn">YES</button><button class="btn-no" id="confirmNoBtn">NO</button></div></div></div>
   <script src="script.js"></script>
 </body>
 </html>
