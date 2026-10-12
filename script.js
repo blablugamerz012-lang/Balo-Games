@@ -9,7 +9,6 @@ const games = [
     id: "my-gun-life",
     title: "My Gun Life",
     icon: "⚡",
-    desc: "2D Side-View Battle Royale — 3 levels abhi ready",
     category: "action",
     path: "games/my-gun-life/index.html"
   },
@@ -26,8 +25,7 @@ const games = [
   {
     id: "evo-eater",
     title: "Evo-Eater",
-    icon: "🦅",
-    desc: "Evo-Eater — Skyfall Brawl",
+    icon: "🦅"
     category: "action",
     path: "games/evoeater/index.html"
   },
