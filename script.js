@@ -111,26 +111,29 @@ function showGames(list) {
 
     card.className = "game-card";
 
-    card.innerHTML = `
+ card.innerHTML = `
 
-      <div class="game-image">
-        ${game.icon}
-      </div>
+      <a href="${game.path}" class="game-link">
 
-      <div class="game-info">
+        <div class="game-image">
+          ${game.icon}
+        </div>
 
-        <h3>
-          ${game.title}
-        </h3>
+        <div class="game-info">
 
-        <p>
-          ${game.desc}
-        </p>
+          <h3>
+            ${game.title}
+          </h3>
 
-      </div>
+          <p>
+            ${game.desc}
+          </p>
+
+        </div>
+
+      </a>
 
     `;
-
     card.addEventListener("click", () => {
 
       openGame(game.path);
