@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>EVO-GAMES HUB | Free Online Games</title>
-  <meta name="description" content="Discover EVO-GAMES HUB, your destination for free online games. Explore action, adventure, and arcade games and start playing.">
+  <meta name="description" content="Play free browser games on EVO-GAMES HUB. Explore action and arcade games, launch games instantly, and discover new games as they arrive.">
+  <meta name="theme-color" content="#ff493d">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EVO-GAMES HUB | Free Online Games">
+  <meta property="og:description" content="Discover and play free browser games on EVO-GAMES HUB.">
+  <meta property="og:url" content="https://blablugamerz012-lang.github.io/EVO-KiLLER/">
 
   <!-- FAVICON -->
   <link rel="icon" type="image/png" sizes="512x512" href="./icon/icon.png?v=3">
@@ -33,24 +38,33 @@
   </header>
 
   <!-- HERO -->
-  <section class="hero">
-    <h1>Play Free Online Games</h1>
-    <p>Discover and play games instantly.</p>
+  <section class="hero" aria-labelledby="heroTitle">
+    <span class="hero-eyebrow">WELCOME TO EVO-GAMES HUB</span>
+    <h1 id="heroTitle">Your next game starts here.</h1>
+    <p>Jump into quick browser games, challenge yourself, and have fun — no download needed.</p>
+    <a class="hero-cta" href="#browseGames">Explore Games <span aria-hidden="true">↓</span></a>
   </section>
 
-  <!-- CATEGORIES -->
-  <div class="categories">
-    <button class="category" onclick="filterGames('all')">🎮 All Games</button>
-    <button class="category" onclick="filterGames('action')">⚡ Action</button>
-    <button class="category" onclick="filterGames('adventure')">🗺️ Adventure</button>
-    <button class="category" onclick="filterGames('arcade')">🕹️ Arcade</button>
-  </div>
+  <!-- GAME DISCOVERY -->
+  <section class="browse-tools" id="browseGames" aria-label="Browse games">
+    <div class="browse-heading"><div><span class="section-kicker">PICK YOUR PLAY</span><h2>Find your next favorite</h2><p>Choose a category or search the game library.</p></div>
+      <label class="game-search"><span class="sr-only">Search games</span><span aria-hidden="true">⌕</span><input id="gameSearch" type="search" placeholder="Search games..." autocomplete="off"><button id="clearSearch" type="button" aria-label="Clear search" hidden>✕</button></label>
+    </div>
+    <div class="categories" role="group" aria-label="Filter games by category">
+      <button class="category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)">🎮 All Games</button>
+      <button class="category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)">⚡ Action</button>
+      <button class="category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)">🗺️ Adventure</button>
+      <button class="category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)">🕹️ Arcade</button>
+    </div>
+  </section>
 
   <!-- GAMES -->
   <main class="games-section">
-    <h2>🔥 Popular Games</h2>
+    <div class="games-heading"><div><span class="section-kicker">THE GAME LIBRARY</span><h2>🔥 Games to play</h2></div><p id="gameCount" class="game-count" aria-live="polite">Loading games…</p></div>
     <div class="game-grid" id="gameGrid"></div>
+    <div class="empty-games" id="emptyGames" hidden><span aria-hidden="true">🎯</span><h3>No games found</h3><p>Try another search or choose a different category.</p><button type="button" class="reset-filters" id="resetFilters">Show all games</button></div>
   </main>
+  <section class="community-strip"><span class="community-icon" aria-hidden="true">🚀</span><div><h2>More fun is on the way</h2><p>We’re working on new games and improvements for the hub.</p></div><a href="about.html">About the hub <span aria-hidden="true">→</span></a></section>
 
   <!-- FOOTER -->
   <footer>
