@@ -464,15 +464,16 @@ footer {
     padding: 0 15px;
   }
 
-  .logo {
-    width: 380px;
-    max-width: 90vw;
-  }
+ .logo {
+  width: 220px;
+  max-width: 70vw;
+}
 
-  .logo img {
-    width: 380px;
-    height: 94px;
-  }
+.logo img {
+  width: 220px;
+  height: 94px;
+  object-position: left center;
+}
 
   .hero {
     padding: 35px 6%;
