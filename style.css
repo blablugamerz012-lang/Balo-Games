@@ -506,3 +506,16 @@ footer {
   }
 
 }
+.game-link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+.game-link:visited {
+  color: inherit;
+}
+
+.game-link:hover {
+  color: inherit;
+}
