@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://blablugamerz012-lang.github.io/EVO-KiLLER/sitemap.xml
+Sitemap: https://blablugamerz012-lang.github.io/Balo-Games/sitemap.xml
