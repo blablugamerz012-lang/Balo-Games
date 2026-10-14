@@ -1,4 +1,4 @@
-/* EVO-GAMES HUB — game library, search, and play controls */
+/* Balo Games — game library, search, and play controls */
 const games = [
   { id:"my-gun-life", title:"My Gun Life", icon:"⚡", desc:"Jump into a fast-paced action game.", category:"action", path:"games/my-gun-life/index.html" },
   { id:"tik-tak-toe", title:"Tic Tac Toe", icon:"❌⭕", desc:"A classic strategy game for a quick match.", category:"arcade", path:"games/tik-tak-toe/index.html" },
