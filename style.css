@@ -15,4 +15,18 @@ footer{padding:25px 24px;display:flex;justify-content:space-between;gap:16px;ali
 @media(max-width:900px){.game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{min-height:390px}.controls{align-items:stretch}.search-box{flex-basis:100%}}
 @media(max-width:760px){.header-inner{height:auto;min-height:70px;flex-wrap:wrap;padding:10px 14px}.logo,.logo img{width:150px;height:54px}.main-nav{width:100%;justify-content:space-between;gap:3px;font-size:11px;overflow-x:auto}.main-nav a{padding:8px 9px}.hero{grid-template-columns:1fr;padding-top:43px;padding-bottom:25px}.hero-art{min-height:220px}.orb,.ring{width:210px}.controller{font-size:130px}.tag-one{right:10%}.tag-two{left:8%}.section-title-row{align-items:flex-start;flex-direction:column}.community-strip{width:calc(100% - 32px)}footer{flex-direction:column;text-align:center}}
 @media(max-width:420px){.hero h1{letter-spacing:-2px}.games-section{padding-left:16px;padding-right:16px}.controls{padding:11px}.filter-btn{padding:10px 12px}.game-grid{grid-template-columns:1fr}.game-image{height:180px}.community-strip{width:calc(100% - 24px)}}
+/* On phones, keep the whole site in a landscape-shaped layout even when held upright. */
+@media(max-width:768px) and (orientation:portrait){
+  html{overflow-x:hidden}
+  body{
+    width:100dvh;
+    min-height:100vw;
+    position:absolute;
+    top:0;
+    left:100vw;
+    transform:rotate(90deg);
+    transform-origin:top left;
+    overflow-x:hidden;
+  }
+}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}}
