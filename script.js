@@ -44,7 +44,8 @@ function showGames(list){
 }
 function applyFilters(){const filtered=games.filter(game=>{const categoryMatches=selectedCategory==="all"||game.category===selectedCategory;const haystack=(game.title+" "+game.desc+" "+game.category).toLowerCase();return categoryMatches&&haystack.includes(searchTerm)});showGames(filtered)}
 function filterGames(category){selectedCategory=category;document.querySelectorAll(".category[data-category]").forEach(button=>{const active=button.dataset.category===category;button.classList.toggle("active",active);button.setAttribute("aria-pressed",String(active))});applyFilters()}
-function openGame(path){if(!path)return;gameFrame.src=path;gameOverlay.classList.add("open");document.body.style.overflow="hidden";gameCloseBtn.focus()}
+function requestLandscape(){try{if(screen.orientation&&typeof screen.orientation.lock==="function"){screen.orientation.lock("landscape").catch(()=>{});}}catch(error){}}
+function openGame(path){if(!path)return;requestLandscape();gameFrame.src=path;gameOverlay.classList.add("open");document.body.style.overflow="hidden";gameCloseBtn.focus()}
 function closeGame(){gameOverlay.classList.remove("open");gameFrame.src="";confirmBackdrop.classList.remove("open");document.body.style.overflow="";logoBtn.focus()}
 function showConfirm(){confirmBackdrop.classList.add("open");confirmYesBtn.focus()}
 function hideConfirm(){confirmBackdrop.classList.remove("open");gameCloseBtn.focus()}
