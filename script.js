@@ -50,7 +50,7 @@ function openGame(path){if(!path)return;requestLandscape();gameFrame.src=path;ga
 function closeGame(){gameOverlay.classList.remove("open");gameFrame.src="";confirmBackdrop.classList.remove("open");document.body.style.overflow="";logoBtn.focus()}
 function showConfirm(){confirmBackdrop.classList.add("open");confirmYesBtn.focus()}
 function hideConfirm(){confirmBackdrop.classList.remove("open");gameCloseBtn.focus()}
-logoBtn.addEventListener("click",()=>{if(isGameOpen())showConfirm();else window.scrollTo({top:0,behavior:"smooth"})});gameCloseBtn.addEventListener("click",showConfirm);confirmYesBtn.addEventListener("click",closeGame);confirmNoBtn.addEventListener("click",hideConfirm);confirmCloseBtn.addEventListener("click",hideConfirm);confirmBackdrop.addEventListener("click",event=>{if(event.target===confirmBackdrop)hideConfirm()});
+logoBtn.addEventListener("click",event=>{event.preventDefault();if(isGameOpen())showConfirm();else window.scrollTo({top:0,behavior:"smooth"})});gameCloseBtn.addEventListener("click",showConfirm);confirmYesBtn.addEventListener("click",closeGame);confirmNoBtn.addEventListener("click",hideConfirm);confirmCloseBtn.addEventListener("click",hideConfirm);confirmBackdrop.addEventListener("click",event=>{if(event.target===confirmBackdrop)hideConfirm()});
 document.addEventListener("keydown",event=>{if(event.key==="Escape"&&confirmBackdrop.classList.contains("open"))hideConfirm();else if(event.key==="Escape"&&isGameOpen())showConfirm()});
 gameSearch.addEventListener("input",()=>{searchTerm=gameSearch.value.trim().toLowerCase();clearSearch.hidden=!gameSearch.value;applyFilters()});
 clearSearch.addEventListener("click",()=>{gameSearch.value="";searchTerm="";clearSearch.hidden=true;applyFilters();gameSearch.focus()});
