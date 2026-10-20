@@ -1,18 +1,24 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Balo Games | Free Online Games</title>
+
   <meta name="description" content="Balo Games — play free browser games online with a clean, fast gaming experience. No downloads required.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#100b24">
+
   <link rel="canonical" href="https://blablugamerz012-lang.github.io/Balo-Games/">
+
   <meta property="og:type" content="website">
   <meta property="og:title" content="Balo Games | Free Online Games">
   <meta property="og:description" content="Play free browser games online on Balo Games. Fast, simple and no downloads required.">
   <meta property="og:url" content="https://blablugamerz012-lang.github.io/Balo-Games/">
   <meta property="og:site_name" content="Balo Games">
+
   <link rel="icon" type="image/png" sizes="512x512" href="./icon/icon.png?v=3">
   <link rel="stylesheet" href="style.css">
 
@@ -28,13 +34,25 @@
     }
   </style>
 </head>
+
 <body>
   <div class="topline"></div>
 
   <header id="home">
     <div class="header-inner">
-      <a class="logo" id="logoBtn" href="./index.html" aria-label="Balo Games home" title="Balo Games" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;flex-wrap:nowrap;cursor:pointer;text-decoration:none;">
-        <img src="./icon/icon.png" alt="Balo Games icon" draggable="false" style="display:block;flex:0 0 35px;width:35px;height:35px;object-fit:contain;margin:0;pointer-events:none;">
+      <a class="logo"
+         id="logoBtn"
+         href="./index.html"
+         aria-label="Balo Games home"
+         title="Balo Games"
+         style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;flex-wrap:nowrap;cursor:pointer;text-decoration:none;">
+
+        <img
+          src="./icon/icon.png"
+          alt="Balo Games icon"
+          draggable="false"
+          style="display:block;flex:0 0 35px;width:35px;height:35px;object-fit:contain;margin:0;pointer-events:none;">
+
         <span style="display:flex;align-items:center;gap:6px;width:auto;font-size:16px;font-weight:1000;letter-spacing:1px;color:#f8f7ff;white-space:nowrap;line-height:1.2;">
           <span aria-hidden="true" style="color:#ff4fd8;font-size:22px;font-weight:1000;">[</span>
           <span>BALO GAMES</span>
@@ -43,6 +61,8 @@
       </a>
     </div>
   </header>
+
+  <main>
     <section class="games-section" id="browseGames" aria-label="Browse games">
       <div class="section-title-row">
         <div>
@@ -50,21 +70,52 @@
           <h2 class="section-title"><span>Balo Games</span></h2>
           <p class="section-sub">Just pick a game and play.</p>
         </div>
-        <p id="gameCount" class="game-count" aria-live="polite">Loading games…</p>
+
+        <p id="gameCount" class="game-count" aria-live="polite">
+          Loading games…
+        </p>
       </div>
 
       <div class="controls">
         <label class="search-box">
           <span class="sr-only">Search games</span>
-          <input id="gameSearch" type="search" placeholder="Search games..." autocomplete="off">
-          <button id="clearSearch" type="button" aria-label="Clear search" hidden>✕</button>
+          <input
+            id="gameSearch"
+            type="search"
+            placeholder="Search games..."
+            autocomplete="off">
+
+          <button
+            id="clearSearch"
+            type="button"
+            aria-label="Clear search"
+            hidden>✕</button>
         </label>
 
         <div class="filters" role="group" aria-label="Filter games by category">
-          <button class="filter-btn category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)">✦ All Games</button>
-          <button class="filter-btn category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)">⚔ Action</button>
-          <button class="filter-btn category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)">▲ Adventure</button>
-          <button class="filter-btn category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)">🎮 Arcade</button>
+          <button
+            class="filter-btn category active"
+            data-category="all"
+            aria-pressed="true"
+            onclick="filterGames(this.dataset.category)">✦ All Games</button>
+
+          <button
+            class="filter-btn category"
+            data-category="action"
+            aria-pressed="false"
+            onclick="filterGames(this.dataset.category)">⚔ Action</button>
+
+          <button
+            class="filter-btn category"
+            data-category="adventure"
+            aria-pressed="false"
+            onclick="filterGames(this.dataset.category)">▲ Adventure</button>
+
+          <button
+            class="filter-btn category"
+            data-category="arcade"
+            aria-pressed="false"
+            onclick="filterGames(this.dataset.category)">🎮 Arcade</button>
         </div>
       </div>
 
@@ -74,7 +125,9 @@
         <span aria-hidden="true">🎯</span>
         <h3>No games found</h3>
         <p>Try another search or category.</p>
-        <button type="button" class="reset-filters" id="resetFilters">Show all games</button>
+        <button type="button" class="reset-filters" id="resetFilters">
+          Show all games
+        </button>
       </div>
     </section>
 
@@ -89,6 +142,7 @@
 
   <footer>
     <div>© 2026 Balo Games</div>
+
     <nav aria-label="Footer navigation">
       <a href="#home">Home</a>
       <a href="about.html">About</a>
@@ -105,25 +159,17 @@
   <div id="confirmBackdrop">
     <div class="confirm-box">
       <button class="confirm-close" id="confirmCloseBtn" aria-label="Close">✕</button>
+
       <p>Do you want to quit the game and go to the home page?</p>
+
       <div class="confirm-actions">
         <button class="btn-yes" id="confirmYesBtn">YES</button>
         <button class="btn-no" id="confirmNoBtn">NO</button>
       </div>
     </div>
   </div>
+
   <script src="script.js"></script>
-  <!-- Tumhara existing game code yahan rahega -->
-
-<!-- Music files yahan add karo -->
-<audio id="startSound" src="start1.mp3" preload="auto"></audio>
-<audio id="matchSound1" src="match1.mp3" preload="auto"></audio>
-<audio id="matchSound2" src="match2.mp3" preload="auto"></audio>
-<audio id="wrongSound" src="wrong1.mp3" preload="auto"></audio>
-
-<!-- Baqi lose aur win files bhi yahan add hongi -->
-
 </body>
 </html>
-</body>
-</html>
+```
