@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Balo Games | Free Online Games</title>
-
   <meta name="description" content="Balo Games — play free browser games online with a clean, fast gaming experience. No downloads required.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#100b24">
@@ -69,52 +68,21 @@
           <h2 class="section-title"><span>Balo Games</span></h2>
           <p class="section-sub">Just pick a game and play.</p>
         </div>
-
-        <p id="gameCount" class="game-count" aria-live="polite">
-          Loading games…
-        </p>
+        <p id="gameCount" class="game-count" aria-live="polite">Loading games…</p>
       </div>
 
       <div class="controls">
         <label class="search-box">
           <span class="sr-only">Search games</span>
-          <input
-            id="gameSearch"
-            type="search"
-            placeholder="Search games..."
-            autocomplete="off">
-
-          <button
-            id="clearSearch"
-            type="button"
-            aria-label="Clear search"
-            hidden>✕</button>
+          <input id="gameSearch" type="search" placeholder="Search games..." autocomplete="off">
+          <button id="clearSearch" type="button" aria-label="Clear search" hidden>✕</button>
         </label>
 
         <div class="filters" role="group" aria-label="Filter games by category">
-          <button
-            class="filter-btn category active"
-            data-category="all"
-            aria-pressed="true"
-            onclick="filterGames(this.dataset.category)">✦ All Games</button>
-
-          <button
-            class="filter-btn category"
-            data-category="action"
-            aria-pressed="false"
-            onclick="filterGames(this.dataset.category)">⚔ Action</button>
-
-          <button
-            class="filter-btn category"
-            data-category="adventure"
-            aria-pressed="false"
-            onclick="filterGames(this.dataset.category)">▲ Adventure</button>
-
-          <button
-            class="filter-btn category"
-            data-category="arcade"
-            aria-pressed="false"
-            onclick="filterGames(this.dataset.category)">🎮 Arcade</button>
+          <button class="filter-btn category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)">✦ All Games</button>
+          <button class="filter-btn category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)">⚔ Action</button>
+          <button class="filter-btn category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)">▲ Adventure</button>
+          <button class="filter-btn category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)">🎮 Arcade</button>
         </div>
       </div>
 
@@ -124,9 +92,7 @@
         <span aria-hidden="true">🎯</span>
         <h3>No games found</h3>
         <p>Try another search or category.</p>
-        <button type="button" class="reset-filters" id="resetFilters">
-          Show all games
-        </button>
+        <button type="button" class="reset-filters" id="resetFilters">Show all games</button>
       </div>
     </section>
 
@@ -141,7 +107,6 @@
 
   <footer>
     <div>© 2026 Balo Games</div>
-
     <nav aria-label="Footer navigation">
       <a href="#home">Home</a>
       <a href="about.html">About</a>
@@ -158,9 +123,7 @@
   <div id="confirmBackdrop">
     <div class="confirm-box">
       <button class="confirm-close" id="confirmCloseBtn" aria-label="Close">✕</button>
-
       <p>Do you want to quit the game and go to the home page?</p>
-
       <div class="confirm-actions">
         <button class="btn-yes" id="confirmYesBtn">YES</button>
         <button class="btn-no" id="confirmNoBtn">NO</button>
@@ -171,4 +134,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-```
