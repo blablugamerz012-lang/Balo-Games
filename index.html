@@ -1,148 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Balo Games | Free Online Games</title>
-  <meta name="description" content="Balo Games is a free online gaming website where you can play browser games including action, adventure and arcade games. Play games online with no download required.">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="theme-color" content="#100b24">
-
-  <link rel="canonical" href="https://blablugamerz012-lang.github.io/Balo-Games/">
-
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Balo Games | Free Online Games">
-  <meta property="og:description" content="Play free browser games online on Balo Games. Explore action, adventure and arcade games with no download required.">
-  <meta property="og:url" content="https://blablugamerz012-lang.github.io/Balo-Games/">
-  <meta property="og:site_name" content="Balo Games">
-  <meta property="og:image" content="https://blablugamerz012-lang.github.io/Balo-Games/icon/icon.png">
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Balo Games | Free Online Games">
-  <meta name="twitter:description" content="Play free browser games online on Balo Games. Explore action, adventure and arcade games with no download required.">
-
-  <link rel="icon" type="image/png" sizes="512x512" href="./icon/icon.png?v=3">
-  <link rel="stylesheet" href="style.css">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Balo Games",
-    "url": "https://blablugamerz012-lang.github.io/Balo-Games/",
-    "description": "Balo Games is a free online gaming website for playing browser games including action, adventure and arcade games.",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://blablugamerz012-lang.github.io/Balo-Games/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balo Games</title>
+<meta name="description" content="Play free online games at Balo Games. Discover fun action, adventure and arcade games directly in your browser.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://blablugamerz012-lang.github.io/Balo-Games/">
+<link rel="icon" href="./icon/icon.png">
+<meta name="theme-color" content="#ffffff">
+<style>
+:root{--ink:#25252d;--muted:#777984;--purple:#7048e8;--line:#ededf2}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#fff;line-height:1.5}
+a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}
+.container{width:min(1240px,94%);margin:auto}
+.header{position:sticky;top:0;z-index:100;background:#ffffffed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.header-inner{min-height:72px;display:flex;align-items:center;gap:25px}
+.logo{display:flex;align-items:center;gap:9px;font-size:23px;font-weight:900;letter-spacing:-.8px;white-space:nowrap}
+.logo-mark{width:39px;height:39px;border-radius:12px;background:var(--purple);color:#fff;display:grid;place-items:center;font-size:21px}
+.logo b{color:var(--purple)}
+.search{position:relative;flex:1;max-width:600px;margin:auto}
+.search input{height:46px;width:100%;border:1px solid #e7e7ee;border-radius:14px;background:#f7f7f9;padding:0 50px 0 16px;outline:none;font-size:14px}
+.search input:focus{background:#fff;border-color:var(--purple);box-shadow:0 0 0 3px #7048e818}
+.search button{position:absolute;right:5px;top:5px;width:36px;height:36px;border:0;border-radius:10px;background:var(--purple);color:#fff;font-size:20px}
+.header-cta{background:#f0eaff;color:#6035d5;border-radius:12px;padding:11px 15px;font-size:13px;font-weight:800;white-space:nowrap}
+.categories{border-bottom:1px solid var(--line)}.category-inner{display:flex;gap:8px;overflow-x:auto;padding:12px 0;scrollbar-width:none}
+.category{border:1px solid transparent;border-radius:11px;background:transparent;color:#666873;padding:9px 14px;font-size:13px;font-weight:750;white-space:nowrap}
+.category:hover,.category.active{color:#6035d5;background:#f1edff;border-color:#e5dcff}
+.welcome{padding:28px 0 24px}.welcome-box{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:28px 32px;border:1px solid #f0eaff;border-radius:22px;background:linear-gradient(110deg,#f0ecff,#faf8ff 58%,#fff0f5)}
+.eyebrow{display:inline-block;color:#7048e8;font-size:11px;font-weight:900;letter-spacing:1.3px;margin-bottom:9px}
+.welcome h1{font-size:clamp(28px,4vw,42px);line-height:1.13;letter-spacing:-1.5px;margin-bottom:10px}.welcome h1 span{color:var(--purple)}
+.welcome p{max-width:650px;color:#70707d;font-size:15px}
+.games-section{padding:18px 0 60px}.section-title-row{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}
+.section-kicker{font-size:10px;font-weight:900;letter-spacing:1.2px;color:var(--purple)}.section-title{font-size:27px;letter-spacing:-.7px;margin-top:3px}
+.section-sub{max-width:720px;color:var(--muted);font-size:14px;margin-top:8px}.game-count{font-size:12px;color:var(--muted);white-space:nowrap}
+.controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:23px}.filters{display:flex;gap:7px;flex-wrap:wrap}
+.filter-btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 12px;color:#62636d;font-size:12px;font-weight:800}
+.filter-btn:hover,.filter-btn.active{color:#6035d5;background:#f1edff;border-color:#e5dcff}
+.game-grid,.games-grid,#gameGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 15px}
+.game-card{display:block;min-width:0;overflow:hidden;border:1px solid #ededf2;border-radius:15px;background:#fff;transition:transform .2s,box-shadow .2s}
+.game-card:hover{transform:translateY(-4px);box-shadow:0 10px 26px #25223b12}
+.game-image{position:relative;aspect-ratio:1.18/1;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,#e9e5ff,#f7eaff);isolation:isolate}
+.game-image:before,.game-image:after{content:"";position:absolute;border-radius:50%;z-index:-1}
+.game-image:before{width:150px;height:150px;background:#ffffff6b;top:-55px;right:-25px}.game-image:after{width:110px;height:110px;background:#8d70ef24;bottom:-45px;left:-20px}
+.game-icon{font-size:clamp(42px,5vw,62px);filter:drop-shadow(0 7px 6px #25223b18);transition:transform .2s}
+.game-card:hover .game-icon{transform:scale(1.09) rotate(-3deg)}
+.game-category-tag{position:absolute;left:9px;top:9px;padding:4px 7px;border-radius:7px;background:#ffffffd9;color:#5f42c6;font-size:9px;font-weight:900;text-transform:uppercase}
+.game-info{padding:11px 11px 13px}.game-info h3{font-size:14px;line-height:1.35;margin-bottom:5px}
+.game-info p{font-size:11px;line-height:1.45;color:var(--muted);min-height:32px}.game-action{display:inline-block;margin-top:10px;color:var(--purple);font-size:11px;font-weight:900}
+.coming-soon-card{cursor:default;background:#fcfcff}.coming-soon-label{color:#8c8c99}
+.game-image-snake-king{background:linear-gradient(135deg,#d9fbe9,#effff5)}.game-image-memory-match{background:linear-gradient(135deg,#dceeff,#f1f8ff)}
+.game-image-my-gun-life{background:linear-gradient(135deg,#ffe3e8,#fff1f3)}.game-image-tik-tak-toe{background:linear-gradient(135deg,#fff0d5,#fff9e9)}
+.game-image-evo-eater{background:linear-gradient(135deg,#e0e4ff,#f2eaff)}.game-image-coming-soon-adventure{background:linear-gradient(135deg,#dcf7f0,#effcf9)}
+.game-image-coming-soon-arcade{background:linear-gradient(135deg,#ffe4d7,#fff3e9)}
+.empty-games{padding:38px 15px;text-align:center;border:1px dashed #dedee8;border-radius:16px;margin-top:20px}
+.empty-games[hidden],#emptyGames[hidden]{display:none}.empty-games>span{font-size:30px}.empty-games h3{margin:8px 0}.empty-games p{color:var(--muted);font-size:13px}
+.reset-filters{margin-top:14px;border:0;background:#f0eaff;color:#6035d5;padding:10px 14px;border-radius:10px;font-weight:800}
+.community-strip{width:min(1240px,94%);margin:0 auto 48px;display:flex;gap:16px;align-items:center;padding:25px 27px;background:#faf9ff;border:1px solid var(--line);border-radius:17px}
+.community-icon{width:45px;height:45px;flex-shrink:0;display:grid;place-items:center;background:#eee8ff;border-radius:13px;font-size:22px}
+.community-strip h2{font-size:19px;margin-bottom:4px}.community-strip p{font-size:13px;color:var(--muted);max-width:850px}
+footer{border-top:1px solid var(--line);padding:23px 3%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+footer>div{font-size:13px;color:#777984}footer nav{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:#666873}
+#gameOverlay{display:none;position:fixed;inset:0;z-index:1000;background:#191725d9;padding:18px;align-items:center;justify-content:center}
+#gameOverlay.open{display:flex}#gameFrame{width:min(1200px,100%);height:min(780px,90vh);border:0;border-radius:14px;background:#fff}
+#gameCloseBtn{position:absolute;top:14px;right:20px;z-index:2;background:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:800}
+#confirmBackdrop{display:none;position:fixed;inset:0;z-index:1100;background:#191725b8;padding:20px;align-items:center;justify-content:center}
+#confirmBackdrop.open{display:flex}.confirm-box{position:relative;width:min(420px,100%);padding:28px;background:#fff;border-radius:18px}
+.confirm-box p{padding:18px 0;color:#62636d}.confirm-close{position:absolute;right:13px;top:12px;border:0;background:#f1f1f6;border-radius:8px;padding:6px 9px}
+.confirm-actions{display:flex;gap:10px;justify-content:flex-end}.confirm-actions button{border:0;border-radius:9px;padding:10px 15px;font-weight:800}
+.btn-yes{background:var(--purple);color:#fff}.btn-no{background:#f0f0f5;color:#333}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:1050px){.game-grid,.games-grid,#gameGrid{grid-template-columns:repeat(4,minmax(0,1fr))}.header-inner{gap:14px}}
+@media(max-width:700px){.header-inner{min-height:64px;gap:10px;flex-wrap:wrap;padding:10px 0}.logo{font-size:20px}.logo-mark{width:34px;height:34px}.header-cta{margin-left:auto;padding:9px 11px;font-size:12px}.search{order:3;flex-basis:100%;max-width:none}.welcome{padding-top:19px}.welcome-box{padding:23px 20px;align-items:flex-start;flex-direction:column;gap:16px}.welcome h1{font-size:31px}.section-title-row{align-items:flex-start;flex-direction:column;gap:8px}.game-grid,.games-grid,#gameGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:13px 10px}.game-info{padding:9px}.game-info h3{font-size:12px}.game-info p{font-size:10px;min-height:44px}.game-action{font-size:10px}.community-strip{padding:20px;align-items:flex-start}}
+@media(max-width:430px){.container{width:93%}.game-grid,.games-grid,#gameGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.welcome h1{font-size:28px}.filter-btn{padding:8px 10px;font-size:11px}.community-strip{width:93%}footer{align-items:flex-start;flex-direction:column}}
+</style>
 </head>
-
 <body>
-  <div class="topline"></div>
-
-  <header id="home">
-    <div class="header-inner">
-      <a class="logo"
-         id="logoBtn"
-         href="./index.html"
-         aria-label="Balo Games home"
-         title="Balo Games"
-         style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;flex-wrap:nowrap;cursor:pointer;text-decoration:none;">
-
-        <img
-          src="./icon/icon.png"
-          alt="Balo Games icon"
-          draggable="false"
-          style="display:block;flex:0 0 35px;width:35px;height:35px;object-fit:contain;margin:0;pointer-events:none;">
-
-        <span style="display:flex;align-items:center;gap:6px;width:auto;font-size:16px;font-weight:1000;letter-spacing:1px;color:#f8f7ff;white-space:nowrap;line-height:1.2;">
-          <span aria-hidden="true" style="color:#ff4fd8;font-size:22px;font-weight:1000;">[</span>
-          <span>BALO GAMES</span>
-          <span aria-hidden="true" style="color:#35e7ff;font-size:22px;font-weight:1000;">]</span>
-        </span>
-      </a>
-    </div>
-  </header>
-
-  <main>
-    <section class="games-section" id="browseGames" aria-label="Browse free online games">
-      <div class="section-title-row">
-        <div>
-          <span class="section-kicker">CHOOSE YOUR NEXT ADVENTURE</span>
-          <h1 class="section-title"><span>Balo Games</span></h1>
-          <p class="section-sub">Play free online games directly in your browser. Explore action, adventure and arcade games on Balo Games with no download required.</p>
-        </div>
-        <p id="gameCount" class="game-count" aria-live="polite">Loading games…</p>
-      </div>
-
-      <div class="controls">
-        <label class="search-box">
-          <span class="sr-only">Search games</span>
-          <input id="gameSearch" type="search" placeholder="Search games..." autocomplete="off">
-          <button id="clearSearch" type="button" aria-label="Clear search" hidden>✕</button>
-        </label>
-
-        <div class="filters" role="group" aria-label="Filter games by category">
-          <button class="filter-btn category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)">✦ All Games</button>
-          <button class="filter-btn category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)">⚔ Action</button>
-          <button class="filter-btn category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)">▲ Adventure</button>
-          <button class="filter-btn category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)">🎮 Arcade</button>
-        </div>
-      </div>
-
-      <div class="game-grid games-grid" id="gameGrid"></div>
-
-      <noscript>
-        <p class="section-sub">Please enable JavaScript to browse and play games on Balo Games.</p>
-      </noscript>
-
-      <div class="empty-games" id="emptyGames" hidden>
-        <span aria-hidden="true">🎯</span>
-        <h3>No games found</h3>
-        <p>Try another search or category.</p>
-        <button type="button" class="reset-filters" id="resetFilters">Show all games</button>
-      </div>
-    </section>
-
-    <section class="community-strip" aria-label="About Balo Games">
-      <span class="community-icon" aria-hidden="true">⚡</span>
-      <div>
-        <h2>Welcome to Balo Games</h2>
-        <p>Balo Games is a free online gaming portal for playing browser games. Browse action, adventure and arcade games, choose a game and start playing without a download.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div>© 2026 Balo Games</div>
-    <nav aria-label="Footer navigation">
-      <a href="#home">Home</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="privacy-policy.html">Privacy Policy</a>
-    </nav>
-  </footer>
-
-  <div id="gameOverlay">
-    <button id="gameCloseBtn" aria-label="Close Game">✕</button>
-    <iframe id="gameFrame" src="" title="Game" allowfullscreen></iframe>
-  </div>
-
-  <div id="confirmBackdrop">
-    <div class="confirm-box">
-      <button class="confirm-close" id="confirmCloseBtn" aria-label="Close">✕</button>
-      <p>Do you want to quit the game and go to the home page?</p>
-      <div class="confirm-actions">
-        <button class="btn-yes" id="confirmYesBtn">YES</button>
-        <button class="btn-no" id="confirmNoBtn">NO</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
+<header class="header" id="home"><div class="container header-inner">
+<a class="logo" id="logoBtn" href="./index.html" aria-label="Balo Games home"><span class="logo-mark">🎮</span><span>Balo <b>Games</b></span></a>
+<form class="search" id="siteSearchForm" role="search"><label class="sr-only" for="gameSearch">Search games</label><input id="gameSearch" type="search" placeholder="Search games..." autocomplete="off"><button type="submit" aria-label="Search">⌕</button></form>
+<a class="header-cta" href="#games">▶ Play Games</a>
+</div></header>
+<nav class="categories" aria-label="Game categories"><div class="container category-inner">
+<button class="category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)" type="button">✦ All Games</button>
+<button class="category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">⚡ Action</button>
+<button class="category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">🗺️ Adventure</button>
+<button class="category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">👾 Arcade</button>
+</div></nav>
+<main>
+<section class="welcome"><div class="container"><div class="welcome-box">
+<div><span class="eyebrow">CHOOSE YOUR NEXT ADVENTURE</span><h1>Play Something <span>Fun!</span> 🎉</h1><p>Welcome to Balo Games. Discover free online games, enjoy different challenges and find your next favorite game.</p></div>
+</div></div></section>
+<section class="games-section container" id="games" aria-label="Browse free online games">
+<div class="section-title-row"><div><span class="section-kicker">PICK A GAME AND JUMP IN</span><h2 class="section-title">Popular Games</h2><p class="section-sub">Quick fun, new challenges and exciting games.</p></div><p id="gameCount" class="game-count" aria-live="polite">Loading games…</p></div>
+<div class="controls"><div class="filters" role="group" aria-label="Filter games by category">
+<button class="filter-btn category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)" type="button">✦ All Games</button>
+<button class="filter-btn category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">⚔ Action</button>
+<button class="filter-btn category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">▲ Adventure</button>
+<button class="filter-btn category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">🎮 Arcade</button>
+</div></div>
+<div class="game-grid games-grid" id="gameGrid"></div>
+<noscript><p class="section-sub">Please enable JavaScript to browse and play games on Balo Games.</p></noscript>
+<div class="empty-games" id="emptyGames" hidden><span aria-hidden="true">🎯</span><h3>No games found</h3><p>Try another search or category.</p><button type="button" class="reset-filters" id="resetFilters">Show all games</button></div>
+<div style="text-align:center;margin-top:16px"><button id="clearSearch" type="button" hidden>Clear search</button></div>
+</section>
+<section class="community-strip" aria-label="About Balo Games"><span class="community-icon" aria-hidden="true">⚡</span><div><h2>Welcome to Balo Games</h2><p>Balo Games is a free online gaming portal for browser games. Browse the collection, choose a game you like and start playing.</p></div></section>
+</main>
+<footer><div>© 2026 Balo Games</div><nav aria-label="Footer navigation"><a href="#home">Home</a><a href="#games">Games</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy-policy.html">Privacy Policy</a></nav></footer>
+<div id="gameOverlay" role="dialog" aria-modal="true" aria-label="Game player"><button id="gameCloseBtn" type="button" aria-label="Close game">✕ Close</button><iframe id="gameFrame" src="" title="Game" allowfullscreen></iframe></div>
+<div id="confirmBackdrop" role="dialog" aria-modal="true" aria-label="Confirm leaving game"><div class="confirm-box"><button class="confirm-close" id="confirmCloseBtn" type="button" aria-label="Close">✕</button><p>Do you want to quit the game and go to the home page?</p><div class="confirm-actions"><button class="btn-yes" id="confirmYesBtn" type="button">YES</button><button class="btn-no" id="confirmNoBtn" type="button">NO</button></div></div></div>
+<script>document.getElementById("siteSearchForm").addEventListener("submit",function(event){event.preventDefault();document.getElementById("games").scrollIntoView({behavior:"smooth"});});</script>
+<script src="script.js"></script>
+</body></html>
