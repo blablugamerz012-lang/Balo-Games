@@ -1,117 +1,647 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Balo Games | Free Online Games</title>
-<meta name="description" content="Play free online games at Balo Games. Discover fun action, adventure and arcade games directly in your browser.">
-<meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="canonical" href="https://blablugamerz012-lang.github.io/Balo-Games/">
-<link rel="icon" href="./icon/icon.png">
-<meta name="theme-color" content="#ffffff">
-<style>
-:root{--ink:#25252d;--muted:#777984;--purple:#7048e8;--line:#ededf2}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:100px}
-body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#fff;line-height:1.5}
-a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}
-.container{width:min(1240px,94%);margin:auto}
-.header{position:sticky;top:0;z-index:100;background:#ffffffed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.header-inner{min-height:72px;display:flex;align-items:center;gap:25px}
-.logo{display:flex;align-items:center;gap:9px;font-size:23px;font-weight:900;letter-spacing:-.8px;white-space:nowrap}
-.logo-mark{width:39px;height:39px;border-radius:12px;background:var(--purple);color:#fff;display:grid;place-items:center;font-size:21px}
-.logo b{color:var(--purple)}
-.search{position:relative;flex:1;max-width:600px;margin:auto}
-.search input{height:46px;width:100%;border:1px solid #e7e7ee;border-radius:14px;background:#f7f7f9;padding:0 50px 0 16px;outline:none;font-size:14px}
-.search input:focus{background:#fff;border-color:var(--purple);box-shadow:0 0 0 3px #7048e818}
-.search button{position:absolute;right:5px;top:5px;width:36px;height:36px;border:0;border-radius:10px;background:var(--purple);color:#fff;font-size:20px}
-.header-cta{background:#f0eaff;color:#6035d5;border-radius:12px;padding:11px 15px;font-size:13px;font-weight:800;white-space:nowrap}
-.categories{border-bottom:1px solid var(--line)}.category-inner{display:flex;gap:8px;overflow-x:auto;padding:12px 0;scrollbar-width:none}
-.category{border:1px solid transparent;border-radius:11px;background:transparent;color:#666873;padding:9px 14px;font-size:13px;font-weight:750;white-space:nowrap}
-.category:hover,.category.active{color:#6035d5;background:#f1edff;border-color:#e5dcff}
-.welcome{padding:28px 0 24px}.welcome-box{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:28px 32px;border:1px solid #f0eaff;border-radius:22px;background:linear-gradient(110deg,#f0ecff,#faf8ff 58%,#fff0f5)}
-.eyebrow{display:inline-block;color:#7048e8;font-size:11px;font-weight:900;letter-spacing:1.3px;margin-bottom:9px}
-.welcome h1{font-size:clamp(28px,4vw,42px);line-height:1.13;letter-spacing:-1.5px;margin-bottom:10px}.welcome h1 span{color:var(--purple)}
-.welcome p{max-width:650px;color:#70707d;font-size:15px}.welcome-button{flex-shrink:0;background:var(--purple);color:#fff;padding:13px 18px;border-radius:12px;font-size:14px;font-weight:800}
-.games-section{padding:18px 0 60px}.section-title-row{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}
-.section-kicker{font-size:10px;font-weight:900;letter-spacing:1.2px;color:var(--purple)}.section-title{font-size:27px;letter-spacing:-.7px;margin-top:3px}
-.section-sub{max-width:720px;color:var(--muted);font-size:14px;margin-top:8px}.game-count{font-size:12px;color:var(--muted);white-space:nowrap}
-.controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:23px}.filters{display:flex;gap:7px;flex-wrap:wrap}
-.filter-btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 12px;color:#62636d;font-size:12px;font-weight:800}
-.filter-btn:hover,.filter-btn.active{color:#6035d5;background:#f1edff;border-color:#e5dcff}
-.game-grid,.games-grid,#gameGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 15px}
-.game-card{display:block;min-width:0;overflow:hidden;border:1px solid #ededf2;border-radius:15px;background:#fff;transition:transform .2s,box-shadow .2s}
-.game-card:hover{transform:translateY(-4px);box-shadow:0 10px 26px #25223b12}
-.game-image{position:relative;aspect-ratio:1.18/1;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,#e9e5ff,#f7eaff);isolation:isolate}
-.game-image:before,.game-image:after{content:"";position:absolute;border-radius:50%;z-index:-1}
-.game-image:before{width:150px;height:150px;background:#ffffff6b;top:-55px;right:-25px}.game-image:after{width:110px;height:110px;background:#8d70ef24;bottom:-45px;left:-20px}
-.game-icon{font-size:clamp(42px,5vw,62px);filter:drop-shadow(0 7px 6px #25223b18);transition:transform .2s}
-.game-card:hover .game-icon{transform:scale(1.09) rotate(-3deg)}
-.game-category-tag{position:absolute;left:9px;top:9px;padding:4px 7px;border-radius:7px;background:#ffffffd9;color:#5f42c6;font-size:9px;font-weight:900;text-transform:uppercase}
-.game-info{padding:11px 11px 13px}.game-info h3{font-size:14px;line-height:1.35;margin-bottom:5px}
-.game-info p{font-size:11px;line-height:1.45;color:var(--muted);min-height:32px}.game-action{display:inline-block;margin-top:10px;color:var(--purple);font-size:11px;font-weight:900}
-.coming-soon-card{cursor:default;background:#fcfcff}.coming-soon-label{color:#8c8c99}
-.game-image-snake-king{background:linear-gradient(135deg,#d9fbe9,#effff5)}.game-image-memory-match{background:linear-gradient(135deg,#dceeff,#f1f8ff)}
-.game-image-my-gun-life{background:linear-gradient(135deg,#ffe3e8,#fff1f3)}.game-image-tik-tak-toe{background:linear-gradient(135deg,#fff0d5,#fff9e9)}
-.game-image-evo-eater{background:linear-gradient(135deg,#e0e4ff,#f2eaff)}.game-image-coming-soon-adventure{background:linear-gradient(135deg,#dcf7f0,#effcf9)}
-.game-image-coming-soon-arcade{background:linear-gradient(135deg,#ffe4d7,#fff3e9)}
-.empty-games{padding:38px 15px;text-align:center;border:1px dashed #dedee8;border-radius:16px;margin-top:20px}
-.empty-games[hidden],#emptyGames[hidden]{display:none}.empty-games>span{font-size:30px}.empty-games h3{margin:8px 0}.empty-games p{color:var(--muted);font-size:13px}
-.reset-filters{margin-top:14px;border:0;background:#f0eaff;color:#6035d5;padding:10px 14px;border-radius:10px;font-weight:800}
-.community-strip{width:min(1240px,94%);margin:0 auto 48px;display:flex;gap:16px;align-items:center;padding:25px 27px;background:#faf9ff;border:1px solid var(--line);border-radius:17px}
-.community-icon{width:45px;height:45px;flex-shrink:0;display:grid;place-items:center;background:#eee8ff;border-radius:13px;font-size:22px}
-.community-strip h2{font-size:19px;margin-bottom:4px}.community-strip p{font-size:13px;color:var(--muted);max-width:850px}
-footer{border-top:1px solid var(--line);padding:23px 3%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
-footer>div{font-size:13px;color:#777984}footer nav{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:#666873}
-#gameOverlay{display:none;position:fixed;inset:0;z-index:1000;background:#191725d9;padding:18px;align-items:center;justify-content:center}
-#gameOverlay.open{display:flex}#gameFrame{width:min(1200px,100%);height:min(780px,90vh);border:0;border-radius:14px;background:#fff}
-#gameCloseBtn{position:absolute;top:14px;right:20px;z-index:2;background:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:800}
-#confirmBackdrop{display:none;position:fixed;inset:0;z-index:1100;background:#191725b8;padding:20px;align-items:center;justify-content:center}
-#confirmBackdrop.open{display:flex}.confirm-box{position:relative;width:min(420px,100%);padding:28px;background:#fff;border-radius:18px}
-.confirm-box p{padding:18px 0;color:#62636d}.confirm-close{position:absolute;right:13px;top:12px;border:0;background:#f1f1f6;border-radius:8px;padding:6px 9px}
-.confirm-actions{display:flex;gap:10px;justify-content:flex-end}.confirm-actions button{border:0;border-radius:9px;padding:10px 15px;font-weight:800}
-.btn-yes{background:var(--purple);color:#fff}.btn-no{background:#f0f0f5;color:#333}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@media(max-width:1050px){.game-grid,.games-grid,#gameGrid{grid-template-columns:repeat(4,minmax(0,1fr))}.header-inner{gap:14px}}
-@media(max-width:700px){.header-inner{min-height:64px;gap:10px;flex-wrap:wrap;padding:10px 0}.logo{font-size:20px}.logo-mark{width:34px;height:34px}.header-cta{margin-left:auto;padding:9px 11px;font-size:12px}.search{order:3;flex-basis:100%;max-width:none}.welcome{padding-top:19px}.welcome-box{padding:23px 20px;align-items:flex-start;flex-direction:column;gap:16px}.welcome h1{font-size:31px}.section-title-row{align-items:flex-start;flex-direction:column;gap:8px}.game-grid,.games-grid,#gameGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:13px 10px}.game-info{padding:9px}.game-info h3{font-size:12px}.game-info p{font-size:10px;min-height:44px}.game-action{font-size:10px}.community-strip{padding:20px;align-items:flex-start}}
-@media(max-width:430px){.container{width:93%}.game-grid,.games-grid,#gameGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.welcome h1{font-size:28px}.filter-btn{padding:8px 10px;font-size:11px}.community-strip{width:93%}footer{align-items:flex-start;flex-direction:column}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Balo Games</title>
+  <meta name="description" content="Welcome to Balo Games! Discover fun games across action, adventure and arcade categories. Find a game you like and enjoy exploring our collection.">
+  <meta name="keywords" content="Balo Games, online games, action games, adventure games, arcade games">
+  <meta name="theme-color" content="#ff1493">
+
+  <link rel="icon" type="image/png" href="icon.png">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fff;
+      color: #222;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+      color: #fff;
+      padding: 10px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 25px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .logo {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      width: min(280px, 100%);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 11px 15px;
+      border: none;
+      border-radius: 25px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    /* BLUE HERO AND CATEGORIES */
+    .top-area {
+      background: linear-gradient(135deg, #0868e8, #0754c9);
+      color: #fff;
+      text-align: center;
+      padding: 12px 10px;
+    }
+
+    .hero h1 {
+      font-size: 27px;
+      margin-bottom: 5px;
+    }
+
+    .hero p {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .categories {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .category-btn {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      background: #fff;
+      color: #0754c9;
+    }
+
+    /* POPULAR GAMES */
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 28px 5%;
+      min-height: 250px;
+    }
+
+    .section-title {
+      font-size: 25px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .game-card {
+      border: 1px solid #e8e8e8;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .game-image {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 47px;
+      background: linear-gradient(135deg, #e9f4ff, #fce7f3);
+    }
+
+    .game-info {
+      padding: 13px;
+      text-align: center;
+    }
+
+    .game-info h3 {
+      font-size: 16px;
+      margin-bottom: 7px;
+    }
+
+    .game-info p {
+      color: #777;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .play-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+      color: #fff;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .play-btn:hover {
+      opacity: 0.88;
+    }
+
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 30px 10px;
+      color: #666;
+      grid-column: 1 / -1;
+    }
+
+    /* ABOUT BALO GAMES - NO LOGO */
+    .about {
+      background: #080808;
+      color: #fff;
+      padding: 28px 5%;
+      text-align: center;
+    }
+
+    .about-inner {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .about h2 {
+      font-size: 23px;
+      margin-bottom: 9px;
+    }
+
+    .about p {
+      color: #e1e1e1;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* COLOURFUL FOOTER */
+    footer {
+      background: linear-gradient(
+        110deg,
+        #ffcf33,
+        #ff8c42,
+        #ff5ca8,
+        #a855f7,
+        #4287ff
+      );
+      color: #111;
+      text-align: center;
+      padding: 12px 10px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 21px;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .footer-brand .logo {
+      width: 30px;
+      height: 30px;
+    }
+
+    footer p {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* DEMO MESSAGE */
+    .message {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #171717;
+      color: #fff;
+      padding: 13px 18px;
+      border-radius: 10px;
+      width: max-content;
+      max-width: 90%;
+      text-align: center;
+      font-size: 14px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+      display: none;
+      z-index: 10;
+    }
+
+    /* TABLETS */
+    @media (max-width: 900px) {
+      .games-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      header {
+        padding: 10px 4%;
+        gap: 10px;
+      }
+
+      .brand {
+        font-size: 21px;
+        gap: 7px;
+      }
+
+      .brand .logo {
+        width: 38px;
+        height: 38px;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .search-box input {
+        padding: 10px 13px;
+      }
+
+      .top-area {
+        padding: 10px 8px;
+      }
+
+      .hero h1 {
+        font-size: 22px;
+      }
+
+      .hero p {
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .categories {
+        gap: 6px;
+      }
+
+      .category-btn {
+        padding: 6px 11px;
+        font-size: 12px;
+      }
+
+      main {
+        padding: 23px 4%;
+      }
+
+      .section-title {
+        font-size: 22px;
+        margin-bottom: 15px;
+      }
+
+      .games-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .game-image {
+        height: 115px;
+        font-size: 39px;
+      }
+
+      .game-info {
+        padding: 10px 6px;
+      }
+
+      .game-info h3 {
+        font-size: 14px;
+      }
+
+      .play-btn {
+        padding: 8px 13px;
+        font-size: 12px;
+      }
+
+      .about {
+        padding: 23px 5%;
+      }
+
+      .about h2 {
+        font-size: 21px;
+      }
+
+      .about p {
+        font-size: 13px;
+      }
+
+      footer {
+        padding: 10px;
+      }
+
+      .footer-brand {
+        font-size: 19px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header class="header" id="home"><div class="container header-inner">
-<a class="logo" id="logoBtn" href="./index.html" aria-label="Balo Games home"><span class="logo-mark">🎮</span><span>Balo <b>Games</b></span></a>
-<form class="search" id="siteSearchForm" role="search"><label class="sr-only" for="gameSearch">Search games</label><input id="gameSearch" type="search" placeholder="Search games..." autocomplete="off"><button type="submit" aria-label="Search">⌕</button></form>
-<a class="header-cta" href="#games">▶ Play Games</a>
-</div></header>
-<nav class="categories" aria-label="Game categories"><div class="container category-inner">
-<button class="category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)" type="button">✦ All Games</button>
-<button class="category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">⚡ Action</button>
-<button class="category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">🗺️ Adventure</button>
-<button class="category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">👾 Arcade</button>
-</div></nav>
-<main>
 
-<section class="games-section container" id="games" aria-label="Browse free online games">
-<div class="section-title-row"><div><span class="section-kicker">PICK A GAME AND JUMP IN</span><h2 class="section-title">Popular Games</h2><p class="section-sub">Quick fun, new challenges and exciting games.</p></div><p id="gameCount" class="game-count" aria-live="polite">Loading games…</p></div>
-<div class="controls"><div class="filters" role="group" aria-label="Filter games by category">
-<button class="filter-btn category active" data-category="all" aria-pressed="true" onclick="filterGames(this.dataset.category)" type="button">✦ All Games</button>
-<button class="filter-btn category" data-category="action" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">⚔ Action</button>
-<button class="filter-btn category" data-category="adventure" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">▲ Adventure</button>
-<button class="filter-btn category" data-category="arcade" aria-pressed="false" onclick="filterGames(this.dataset.category)" type="button">🎮 Arcade</button>
-</div></div>
-<div class="game-grid games-grid" id="gameGrid"></div>
-<noscript><p class="section-sub">Please enable JavaScript to browse and play games on Balo Games.</p></noscript>
-<div class="empty-games" id="emptyGames" hidden><span aria-hidden="true">🎯</span><h3>No games found</h3><p>Try another search or category.</p><button type="button" class="reset-filters" id="resetFilters">Show all games</button></div>
-<div style="text-align:center;margin-top:16px"><button id="clearSearch" type="button" hidden>Clear search</button></div>
-</section>
-<section class="welcome"><div class="container"><div class="welcome-box">
-<div><span class="eyebrow">CHOOSE YOUR NEXT ADVENTURE</span><h1>Play Something <span>Fun!</span> 🎉</h1><p>Welcome to Balo Games. Discover free online games, enjoy different challenges and find your next favorite game.</p></div>
+  <!-- HEADER -->
+  <header>
+    <a class="brand" href="#" aria-label="Balo Games home">
+      <img class="logo" src="icon.png" alt="Balo Games logo">
+      <span>Balo Games</span>
+    </a>
 
-</div></div></section>
-<section class="community-strip" aria-label="About Balo Games"><span class="community-icon" aria-hidden="true">⚡</span><div><h2>Welcome to Balo Games</h2><p>Balo Games is a free online gaming portal for browser games. Browse the collection, choose a game you like and start playing.</p></div></section>
-</main>
-<footer><div>© 2026 Balo Games</div><nav aria-label="Footer navigation"><a href="#home">Home</a><a href="#games">Games</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy-policy.html">Privacy Policy</a></nav></footer>
-<div id="gameOverlay" role="dialog" aria-modal="true" aria-label="Game player"><button id="gameCloseBtn" type="button" aria-label="Close game">✕ Close</button><iframe id="gameFrame" src="" title="Game" allowfullscreen></iframe></div>
-<div id="confirmBackdrop" role="dialog" aria-modal="true" aria-label="Confirm leaving game"><div class="confirm-box"><button class="confirm-close" id="confirmCloseBtn" type="button" aria-label="Close">✕</button><p>Do you want to quit the game and go to the home page?</p><div class="confirm-actions"><button class="btn-yes" id="confirmYesBtn" type="button">YES</button><button class="btn-no" id="confirmNoBtn" type="button">NO</button></div></div></div>
-<script>document.getElementById("siteSearchForm").addEventListener("submit",function(event){event.preventDefault();document.getElementById("games").scrollIntoView({behavior:"smooth"});});</script>
-<script src="script.js"></script>
-</body></html>
+    <div class="search-box">
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search games..."
+        aria-label="Search games"
+      >
+    </div>
+  </header>
+
+  <!-- BLUE HERO AND CATEGORIES -->
+  <section class="top-area">
+    <div class="hero">
+      <h1>Best Gaming Site</h1>
+      <p>Play and Enjoy</p>
+    </div>
+
+    <nav class="categories" aria-label="Game categories">
+      <button class="category-btn active" data-category="All Games">
+        All Games
+      </button>
+      <button class="category-btn" data-category="Action">
+        Action
+      </button>
+      <button class="category-btn" data-category="Adventure">
+        Adventure
+      </button>
+      <button class="category-btn" data-category="Arcade">
+        Arcade
+      </button>
+    </nav>
+  </section>
+
+  <!-- POPULAR GAMES -->
+  <main>
+    <h2 class="section-title">Popular Games</h2>
+
+    <div class="games-grid" id="gamesGrid">
+
+      <article class="game-card" data-name="Space Adventure" data-category="Adventure">
+        <div class="game-image">🚀</div>
+        <div class="game-info">
+          <h3>Space Adventure</h3>
+          <p>Adventure</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Speed Racer" data-category="Action">
+        <div class="game-image">🏎️</div>
+        <div class="game-info">
+          <h3>Speed Racer</h3>
+          <p>Action</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Fruit Match" data-category="Arcade">
+        <div class="game-image">🍉</div>
+        <div class="game-info">
+          <h3>Fruit Match</h3>
+          <p>Arcade</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Battle Arena" data-category="Action">
+        <div class="game-image">⚔️</div>
+        <div class="game-info">
+          <h3>Battle Arena</h3>
+          <p>Action</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Jungle Quest" data-category="Adventure">
+        <div class="game-image">🌴</div>
+        <div class="game-info">
+          <h3>Jungle Quest</h3>
+          <p>Adventure</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Bubble Pop" data-category="Arcade">
+        <div class="game-image">🫧</div>
+        <div class="game-info">
+          <h3>Bubble Pop</h3>
+          <p>Arcade</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Ninja Run" data-category="Action">
+        <div class="game-image">🥷</div>
+        <div class="game-info">
+          <h3>Ninja Run</h3>
+          <p>Action</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Treasure Island" data-category="Adventure">
+        <div class="game-image">🏝️</div>
+        <div class="game-info">
+          <h3>Treasure Island</h3>
+          <p>Adventure</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Block Puzzle" data-category="Arcade">
+        <div class="game-image">🧩</div>
+        <div class="game-info">
+          <h3>Block Puzzle</h3>
+          <p>Arcade</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Zombie Attack" data-category="Action">
+        <div class="game-image">🧟</div>
+        <div class="game-info">
+          <h3>Zombie Attack</h3>
+          <p>Action</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Magic Forest" data-category="Adventure">
+        <div class="game-image">🌳</div>
+        <div class="game-info">
+          <h3>Magic Forest</h3>
+          <p>Adventure</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-name="Color Dash" data-category="Arcade">
+        <div class="game-image">🎮</div>
+        <div class="game-info">
+          <h3>Color Dash</h3>
+          <p>Arcade</p>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </article>
+
+      <p class="no-results" id="noResults">
+        No games found. Try another search.
+      </p>
+
+    </div>
+  </main>
+
+  <!-- ABOUT: NO LOGO OR LOGO BACKGROUND -->
+  <section class="about" id="about">
+    <div class="about-inner">
+      <h2>About Balo Games</h2>
+      <p>
+        Welcome to Balo Games! Discover fun games across action,
+        adventure and arcade categories. Find a game you like and
+        enjoy exploring our collection.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <img class="logo" src="icon.png" alt="">
+      <span>Balo Games</span>
+    </div>
+
+    <p>Play and Enjoy</p>
+    <p>© 2026 Balo Games. All rights reserved.</p>
+  </footer>
+
+  <!-- DEMO MESSAGE -->
+  <div class="message" id="message" role="status"></div>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const categoryButtons = document.querySelectorAll(".category-btn");
+    const gameCards = document.querySelectorAll(".game-card");
+    const noResults = document.getElementById("noResults");
+    const message = document.getElementById("message");
+
+    let selectedCategory = "All Games";
+    let messageTimeout;
+
+    function filterGames() {
+      const searchText = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      gameCards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        const category = card.dataset.category;
+
+        const matchesSearch = name.includes(searchText);
+        const matchesCategory =
+          selectedCategory === "All Games" ||
+          category === selectedCategory;
+
+        const visible = matchesSearch && matchesCategory;
+
+        card.style.display = visible ? "" : "none";
+
+        if (visible) {
+          visibleCount++;
+        }
+      });
+
+      noResults.style.display =
+        visibleCount === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", filterGames);
+
+    categoryButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        categoryButtons.forEach(item => {
+          item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        selectedCategory = button.dataset.category;
+
+        filterGames();
+      });
+    });
+
+    document.querySelectorAll(".play-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        message.textContent =
+          "This is a demo game card. Add a real game link to enable gameplay.";
+
+        message.style.display = "block";
+
+        clearTimeout(messageTimeout);
+
+        messageTimeout = setTimeout(() => {
+          message.style.display = "none";
+        }, 3000);
+      });
+    });
+  </script>
+
+</body>
+</html>
