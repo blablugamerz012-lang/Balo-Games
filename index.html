@@ -9,7 +9,7 @@
   <meta name="keywords" content="Balo Games, online games, action games, adventure games, arcade games">
   <meta name="theme-color" content="#ff1493">
 
-  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="icon" type="image/png" href="./icon/icon.png">
 
   <style>
     * {
@@ -259,6 +259,26 @@
       line-height: 1.5;
     }
 
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 17px;
+      margin: 10px 0;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .footer-links a {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
     /* DEMO MESSAGE */
     .message {
       position: fixed;
@@ -391,8 +411,8 @@
 
   <!-- HEADER -->
   <header>
-    <a class="brand" href="#" aria-label="Balo Games home">
-      <img class="logo" src="icon.png" alt="Balo Games logo">
+    <a class="brand" href="./index.html" aria-label="Balo Games home">
+      <img class="logo" src="./icon/icon.png" alt="Balo Games logo">
       <span>Balo Games</span>
     </a>
 
@@ -550,26 +570,21 @@
     </div>
   </main>
 
-  <!-- ABOUT: NO LOGO OR LOGO BACKGROUND -->
-  <section class="about" id="about">
-    <div class="about-inner">
-      <h2>About Balo Games</h2>
-      <p>
-        Welcome to Balo Games! Discover fun games across action,
-        adventure and arcade categories. Find a game you like and
-        enjoy exploring our collection.
-      </p>
-    </div>
-  </section>
-
   <!-- FOOTER -->
   <footer>
     <div class="footer-brand">
-      <img class="logo" src="icon.png" alt="">
+      <img class="logo" src="./icon/icon.png" alt="">
       <span>Balo Games</span>
     </div>
 
     <p>Play and Enjoy</p>
+
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="./about.html">About</a>
+      <a href="./contact.html">Contact</a>
+      <a href="./privacy-policy.html">Privacy Policy</a>
+    </nav>
+
     <p>© 2026 Balo Games. All rights reserved.</p>
   </footer>
 
