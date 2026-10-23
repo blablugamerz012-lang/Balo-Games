@@ -193,12 +193,113 @@
     }
 
     .no-results {
-      display: none;
       text-align: center;
       padding: 30px 10px;
       color: #666;
       grid-column: 1 / -1;
     }
+
+    .game-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-icon {
+      font-size: clamp(38px, 5vw, 58px);
+      filter: drop-shadow(0 5px 5px rgba(0,0,0,.12));
+    }
+
+    .game-category-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      padding: 4px 7px;
+      border-radius: 7px;
+      background: rgba(255,255,255,.9);
+      color: #0754c9;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .game-action {
+      display: inline-block;
+      margin-top: 8px;
+      color: #ff1493;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .coming-soon-card {
+      cursor: default;
+      opacity: .9;
+    }
+
+    .game-image-snake-king { background: linear-gradient(135deg,#d9fbe9,#effff5); }
+    .game-image-memory-match { background: linear-gradient(135deg,#dceeff,#f1f8ff); }
+    .game-image-my-gun-life { background: linear-gradient(135deg,#ffe3e8,#fff1f3); }
+    .game-image-tik-tak-toe { background: linear-gradient(135deg,#fff0d5,#fff9e9); }
+    .game-image-evo-eater { background: linear-gradient(135deg,#e0e4ff,#f2eaff); }
+    .game-image-coming-soon-adventure { background: linear-gradient(135deg,#dcf7f0,#effcf9); }
+    .game-image-coming-soon-arcade { background: linear-gradient(135deg,#ffe4d7,#fff3e9); }
+
+    #gameOverlay, #confirmBackdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(15,12,25,.86);
+      padding: 18px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #gameOverlay.open, #confirmBackdrop.open { display: flex; }
+
+    #gameFrame {
+      width: min(1200px,100%);
+      height: min(780px,90vh);
+      border: 0;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    #gameCloseBtn {
+      position: absolute;
+      top: 14px;
+      right: 20px;
+      z-index: 2;
+      background: #fff;
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 800;
+    }
+
+    .confirm-box {
+      position: relative;
+      width: min(420px,100%);
+      padding: 28px;
+      background: #fff;
+      border-radius: 18px;
+    }
+
+    .confirm-box p { padding: 18px 0; color: #62636d; }
+
+    .confirm-close {
+      position: absolute;
+      right: 13px;
+      top: 12px;
+      border: 0;
+      background: #f1f1f6;
+      border-radius: 8px;
+      padding: 6px 9px;
+    }
+
+    .confirm-actions { display:flex; gap:10px; justify-content:flex-end; }
+    .confirm-actions button { border:0; border-radius:9px; padding:10px 15px; font-weight:800; }
+    .btn-yes { background:#ff1493; color:#fff; }
+    .btn-no { background:#f0f0f5; color:#333; }
 
     /* ABOUT BALO GAMES - NO LOGO */
     .about {
@@ -411,7 +512,7 @@
 
   <!-- HEADER -->
   <header>
-    <a class="brand" href="./index.html" aria-label="Balo Games home">
+    <a class="brand" id="logoBtn" href="./index.html" aria-label="Balo Games home">
       <img class="logo" src="./icon/icon.png" alt="Balo Games logo">
       <span>Balo Games</span>
     </a>
@@ -419,7 +520,7 @@
     <div class="search-box">
       <input
         type="search"
-        id="searchInput"
+        id="gameSearch"
         placeholder="Search games..."
         aria-label="Search games"
       >
@@ -434,140 +535,35 @@
     </div>
 
     <nav class="categories" aria-label="Game categories">
-      <button class="category-btn active" data-category="All Games">
+      <button class="category-btn category active" data-category="all" aria-pressed="true" type="button">
         All Games
       </button>
-      <button class="category-btn" data-category="Action">
+      <button class="category-btn category" data-category="action" aria-pressed="false" type="button">
         Action
       </button>
-      <button class="category-btn" data-category="Adventure">
+      <button class="category-btn category" data-category="adventure" aria-pressed="false" type="button">
         Adventure
       </button>
-      <button class="category-btn" data-category="Arcade">
+      <button class="category-btn category" data-category="arcade" aria-pressed="false" type="button">
         Arcade
       </button>
     </nav>
   </section>
 
-  <!-- POPULAR GAMES -->
-  <main>
+  <!-- POPULAR GAMES: YOUR REAL GAME LIBRARY LOADS FROM script.js -->
+  <main id="games">
     <h2 class="section-title">Popular Games</h2>
+    <p id="gameCount" style="text-align:center;color:#777;font-size:13px;margin:-10px 0 18px">Loading games…</p>
 
-    <div class="games-grid" id="gamesGrid">
+    <div class="games-grid" id="gameGrid"></div>
 
-      <article class="game-card" data-name="Space Adventure" data-category="Adventure">
-        <div class="game-image">🚀</div>
-        <div class="game-info">
-          <h3>Space Adventure</h3>
-          <p>Adventure</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Speed Racer" data-category="Action">
-        <div class="game-image">🏎️</div>
-        <div class="game-info">
-          <h3>Speed Racer</h3>
-          <p>Action</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Fruit Match" data-category="Arcade">
-        <div class="game-image">🍉</div>
-        <div class="game-info">
-          <h3>Fruit Match</h3>
-          <p>Arcade</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Battle Arena" data-category="Action">
-        <div class="game-image">⚔️</div>
-        <div class="game-info">
-          <h3>Battle Arena</h3>
-          <p>Action</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Jungle Quest" data-category="Adventure">
-        <div class="game-image">🌴</div>
-        <div class="game-info">
-          <h3>Jungle Quest</h3>
-          <p>Adventure</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Bubble Pop" data-category="Arcade">
-        <div class="game-image">🫧</div>
-        <div class="game-info">
-          <h3>Bubble Pop</h3>
-          <p>Arcade</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Ninja Run" data-category="Action">
-        <div class="game-image">🥷</div>
-        <div class="game-info">
-          <h3>Ninja Run</h3>
-          <p>Action</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Treasure Island" data-category="Adventure">
-        <div class="game-image">🏝️</div>
-        <div class="game-info">
-          <h3>Treasure Island</h3>
-          <p>Adventure</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Block Puzzle" data-category="Arcade">
-        <div class="game-image">🧩</div>
-        <div class="game-info">
-          <h3>Block Puzzle</h3>
-          <p>Arcade</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Zombie Attack" data-category="Action">
-        <div class="game-image">🧟</div>
-        <div class="game-info">
-          <h3>Zombie Attack</h3>
-          <p>Action</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Magic Forest" data-category="Adventure">
-        <div class="game-image">🌳</div>
-        <div class="game-info">
-          <h3>Magic Forest</h3>
-          <p>Adventure</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-name="Color Dash" data-category="Arcade">
-        <div class="game-image">🎮</div>
-        <div class="game-info">
-          <h3>Color Dash</h3>
-          <p>Arcade</p>
-          <button class="play-btn">Play Now</button>
-        </div>
-      </article>
-
-      <p class="no-results" id="noResults">
-        No games found. Try another search.
-      </p>
-
+    <div class="no-results" id="emptyGames" hidden>
+      <h3>No games found</h3>
+      <p>Try another search or category.</p>
+      <button class="play-btn" id="resetFilters" type="button">Show all games</button>
     </div>
+
+    <button id="clearSearch" type="button" hidden style="display:block;margin:15px auto;padding:8px 14px;border:0;border-radius:20px;background:#fce7f3;color:#a00057">Clear search</button>
   </main>
 
   <!-- FOOTER -->
@@ -588,75 +584,24 @@
     <p>© 2026 Balo Games. All rights reserved.</p>
   </footer>
 
-  <!-- DEMO MESSAGE -->
-  <div class="message" id="message" role="status"></div>
 
-  <script>
-    const searchInput = document.getElementById("searchInput");
-    const categoryButtons = document.querySelectorAll(".category-btn");
-    const gameCards = document.querySelectorAll(".game-card");
-    const noResults = document.getElementById("noResults");
-    const message = document.getElementById("message");
+  <!-- GAME PLAYER -->
+  <div id="gameOverlay" role="dialog" aria-modal="true" aria-label="Game player">
+    <button id="gameCloseBtn" type="button" aria-label="Close game">✕ Close</button>
+    <iframe id="gameFrame" src="" title="Game" allowfullscreen></iframe>
+  </div>
 
-    let selectedCategory = "All Games";
-    let messageTimeout;
+  <div id="confirmBackdrop" role="dialog" aria-modal="true" aria-label="Confirm leaving game">
+    <div class="confirm-box">
+      <button class="confirm-close" id="confirmCloseBtn" type="button" aria-label="Close">✕</button>
+      <p>Do you want to quit the game and go to the home page?</p>
+      <div class="confirm-actions">
+        <button class="btn-yes" id="confirmYesBtn" type="button">YES</button>
+        <button class="btn-no" id="confirmNoBtn" type="button">NO</button>
+      </div>
+    </div>
+  </div>
 
-    function filterGames() {
-      const searchText = searchInput.value.trim().toLowerCase();
-      let visibleCount = 0;
-
-      gameCards.forEach(card => {
-        const name = card.dataset.name.toLowerCase();
-        const category = card.dataset.category;
-
-        const matchesSearch = name.includes(searchText);
-        const matchesCategory =
-          selectedCategory === "All Games" ||
-          category === selectedCategory;
-
-        const visible = matchesSearch && matchesCategory;
-
-        card.style.display = visible ? "" : "none";
-
-        if (visible) {
-          visibleCount++;
-        }
-      });
-
-      noResults.style.display =
-        visibleCount === 0 ? "block" : "none";
-    }
-
-    searchInput.addEventListener("input", filterGames);
-
-    categoryButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        categoryButtons.forEach(item => {
-          item.classList.remove("active");
-        });
-
-        button.classList.add("active");
-        selectedCategory = button.dataset.category;
-
-        filterGames();
-      });
-    });
-
-    document.querySelectorAll(".play-btn").forEach(button => {
-      button.addEventListener("click", () => {
-        message.textContent =
-          "This is a demo game card. Add a real game link to enable gameplay.";
-
-        message.style.display = "block";
-
-        clearTimeout(messageTimeout);
-
-        messageTimeout = setTimeout(() => {
-          message.style.display = "none";
-        }, 3000);
-      });
-    });
-  </script>
-
+  <script src="./script.js"></script>
 </body>
 </html>
