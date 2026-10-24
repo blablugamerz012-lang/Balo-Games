@@ -2,20 +2,47 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="screen-orientation" content="landscape">
 <title>Snake King - Balo Games</title>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;font-family:Arial,Helvetica,sans-serif;background:#06130b;color:#fff}
-body{display:flex;justify-content:center;align-items:center;padding:0;min-height:100vh;width:100vw;height:100vh;overflow:hidden;overscroll-behavior:none;touch-action:pan-y}
-.app{margin:0 auto;width:90vw;height:90vh;max-width:90vw;max-height:90vh;min-width:0;min-height:0}
+body{display:flex;justify-content:center;align-items:center;padding:0;min-height:100vh;width:100vw;height:100vh;overflow:hidden;overscroll-behavior:none;touch-action:manipulation}
+/* Landscape-first 16:9 frame */
+.app{
+  margin:0 auto;
+  width:min(96vw, calc(96vh * 16 / 9));
+  height:min(96vh, calc(96vw * 9 / 16));
+  max-width:100vw;max-height:100vh;
+  min-width:0;min-height:0;
+  border:2px solid #1aff72;border-radius:16px;
+  overflow:hidden;background:#07170d;
+  box-shadow:0 0 35px #00ff6640;
+  position:relative;
+  transition:width .25s ease,height .25s ease,max-width .25s ease,max-height .25s ease,border-radius .25s ease;
+}
 button,select{font:inherit}
-.app{width:90vw;min-height:0;border:2px solid #1aff72;border-radius:24px;overflow:hidden;background:#07170d;box-shadow:0 0 35px #00ff6640}
+.app.playing{
+  width:100vw;height:100vh;
+  max-width:100vw;max-height:100vh;
+  border:0;border-radius:0;
+  box-shadow:none;
+}
+@media screen and (orientation: portrait) and (max-width:900px){
+  body::before{
+    content:"↻ Please rotate to landscape";
+    position:fixed;inset:0;z-index:9999;background:#06130bf5;color:#9dffb5;
+    display:flex;align-items:center;justify-content:center;font:800 18px Arial;
+    letter-spacing:.04em;text-align:center;padding:24px;pointer-events:none;
+  }
+}
 .screen{display:none;width:100%;height:100%;min-height:0;overflow:auto;overscroll-behavior:contain;scroll-behavior:auto}
 .screen.active{display:flex}
+#game.screen,#game.screen.active{overflow:hidden} /* play screen — no scrollbar, buttons always visible */
 
 /* HOME */
-#home{position:relative;overflow:hidden;background:#020904;aspect-ratio:1705/922;min-height:0;height:auto}.screen#home:not(.active){display:none}.screen#home.active{display:block}
+#home{position:relative;overflow:hidden;background:#020904;width:100%;height:100%;min-height:0}.screen#home:not(.active){display:none}.screen#home.active{display:block}
 .home-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block;user-select:none;-webkit-user-drag:none}
 .home-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.04),rgba(0,0,0,.02));pointer-events:none}
 .hotspot{position:absolute;z-index:10;border:0;background:transparent;cursor:pointer;border-radius:12px}
@@ -24,7 +51,7 @@ button,select{font:inherit}
 .custom-hotspot{left:77.2%;top:45.5%;width:20.6%;height:11.5%}
 .settings-hotspot{left:77.2%;top:58.5%;width:20.6%;height:11.5%}
 .quit-hotspot{left:77.2%;top:71.5%;width:20.6%;height:11.5%}
-/* Live values over existing Coins / High Score on home art */
+/* Live values over existing Frogs / High Score on home art */
 .home-hud{
   position:absolute;z-index:12;top:12px;left:12px;
   display:flex;gap:12px;align-items:stretch;pointer-events:none
@@ -97,21 +124,213 @@ button,select{font:inherit}
   color:#ffe566;
   text-shadow:0 0 14px #ffd24a90, 0 1px 2px #000
 }
+/* Left stack: Gift Pack + Special Offer above My Snake (under frog art) */
+.home-left-stack{
+  position:absolute;z-index:12;bottom:10px;left:14px;
+  display:flex;flex-direction:column;gap:8px;align-items:stretch;
+  width:min(168px,42vw);
+}
 .my-snake-box{
-  position:absolute;z-index:12;bottom:14px;left:14px;
-  background:#071b0eee;border:2px solid #37ff7c;border-radius:16px;
-  padding:10px 12px 12px;box-shadow:0 0 22px #00ff6645;backdrop-filter:blur(6px);
-  min-width:132px;cursor:pointer;user-select:none;
+  background:#071b0eee;border:2px solid #37ff7c;border-radius:14px;
+  padding:8px 10px 10px;box-shadow:0 0 20px #00ff6650;backdrop-filter:blur(6px);
+  width:100%;cursor:pointer;user-select:none;
   font:inherit;color:inherit;text-align:center;
-  transition:transform .12s ease,box-shadow .15s ease,background .15s ease
+  transition:transform .12s ease,box-shadow .15s ease,background .15s ease;
 }
-.my-snake-box:hover{background:#0d2918;box-shadow:0 0 28px #42ff4860;transform:translateY(-1px)}
+.my-snake-box:hover{background:#0d2918;box-shadow:0 0 24px #42ff4860}
 .my-snake-box:active{transform:translateY(1px)}
-.my-snake-box .ms-label{text-align:center;font-weight:800;font-size:12px;color:#75ff9c;letter-spacing:.06em;margin-bottom:8px;pointer-events:none}
+.my-snake-box .ms-label{text-align:center;font-weight:800;font-size:11px;color:#75ff9c;letter-spacing:.06em;margin-bottom:4px;pointer-events:none}
 .my-snake-brackets{
-  position:relative;height:52px;display:flex;align-items:center;justify-content:center;
-  border:2px dashed #2c9349;border-radius:12px;background:#0a1f12aa;overflow:hidden;pointer-events:none
+  position:relative;height:36px;display:flex;align-items:center;justify-content:center;
+  border:2px dashed #2c9349;border-radius:10px;background:#0a1f12aa;overflow:hidden;pointer-events:none
 }
+/* Gift Pack + Special Offer — polished card buttons */
+.home-panel-btn{
+  display:flex;align-items:center;gap:10px;
+  width:100%;box-sizing:border-box;
+  background:linear-gradient(145deg,#0c2a18,#061810);
+  border:2px solid #3dff8a;border-radius:14px;
+  padding:9px 11px;box-shadow:0 4px 0 #0a3d20,0 0 18px #00ff6650,inset 0 1px 0 rgba(255,255,255,.08);
+  color:#d9ffe1;font:inherit;cursor:pointer;text-align:left;
+  transition:transform .12s ease,filter .15s ease,box-shadow .15s ease;
+}
+.home-panel-btn:hover{
+  filter:brightness(1.08);transform:translateY(-2px);
+  box-shadow:0 6px 0 #0a3d20,0 0 24px #42ff4880,inset 0 1px 0 rgba(255,255,255,.1);
+}
+.home-panel-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #0a3d20}
+.home-panel-btn .hp-icon{
+  width:36px;height:36px;flex-shrink:0;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  background:linear-gradient(180deg,#1a4a2e,#0d2818);
+  border:1px solid #3b7650;box-shadow:inset 0 0 10px #00ff6630;
+}
+.home-panel-btn .hp-text{flex:1;min-width:0}
+.home-panel-btn .hp-title{font-weight:900;font-size:12px;color:#9dffb5;letter-spacing:.04em;text-transform:uppercase}
+.home-panel-btn .hp-sub{font-size:10px;color:#9ed8b8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home-panel-btn .hp-timer{font-size:10px;color:#ffe566;margin-top:2px;font-weight:800}
+.home-panel-btn.offer{
+  border-color:#f5c542;
+  background:linear-gradient(145deg,#2a2208,#141008);
+  box-shadow:0 4px 0 #5c4a10,0 0 18px #ffd24a50,inset 0 1px 0 rgba(255,255,255,.08);
+}
+.home-panel-btn.offer:hover{
+  box-shadow:0 6px 0 #5c4a10,0 0 26px #ffd24a70,inset 0 1px 0 rgba(255,255,255,.1);
+}
+.home-panel-btn.offer .hp-icon{
+  background:linear-gradient(180deg,#5c4a12,#2a2008);border-color:#c9a227;
+}
+.home-panel-btn.offer .hp-title{color:#ffe566}
+.home-panel-btn:disabled{opacity:.55;cursor:default;transform:none;filter:none}
+.gift-overlay{
+  position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.72);
+  display:none;align-items:center;justify-content:center;padding:16px;
+  backdrop-filter:blur(4px);
+}
+.gift-overlay.show{display:flex}
+.gift-modal{
+  width:min(420px,96vw);background:#07190e;border:2px solid #50ff7e;
+  border-radius:20px;padding:20px 18px 18px;box-shadow:0 0 40px #00ff6655;
+  text-align:center;position:relative;
+}
+.gift-modal h2{margin:0 0 6px;color:#75ff9c;font-size:22px}
+.gift-modal .gift-desc{color:#b7d8c1;font-size:13px;margin:0 0 14px}
+.day-blocks{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px}
+.day-block{
+  background:#0a2214;border:2px solid #2c9349;border-radius:10px;
+  padding:8px 4px;font-size:10px;font-weight:800;color:#9ed8b8;
+  min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.day-block .db-day{color:#75ff9c;font-size:9px;letter-spacing:.04em}
+.day-block .db-amt{color:#ffe566;font-size:11px;margin-top:3px;font-weight:900;line-height:1.2}
+.day-block.current{border-color:#ffd700;box-shadow:0 0 12px #ffd24a60;background:#132a18}
+.day-block.locked{opacity:.45}
+.day-block.done{border-color:#42ff48;opacity:.85}
+.gift-box{
+  width:90px;height:90px;margin:8px auto 12px;position:relative;
+  cursor:pointer;transition:transform .2s ease;
+}
+.gift-box:hover{transform:scale(1.06)}
+.gift-box .lid{
+  position:absolute;left:8px;right:8px;top:8px;height:28px;
+  background:linear-gradient(180deg,#fbbf24,#d97706);border-radius:8px 8px 2px 2px;
+  box-shadow:0 2px 8px #0006;z-index:2;transition:transform .35s ease;
+}
+.gift-box.open .lid{transform:translateY(-18px) rotate(-12deg)}
+.gift-box .body{
+  position:absolute;left:12px;right:12px;top:32px;bottom:8px;
+  background:linear-gradient(180deg,#ef4444,#b91c1c);border-radius:6px;
+  box-shadow:inset 0 0 0 3px #fca5a5,0 4px 12px #0005;
+}
+.gift-box .ribbon{
+  position:absolute;left:50%;top:10px;bottom:10px;width:12px;margin-left:-6px;
+  background:#fde047;z-index:3;border-radius:2px;
+}
+.gift-frogs-pop{
+  position:absolute;left:50%;top:20px;transform:translateX(-50%);
+  font-size:28px;opacity:0;pointer-events:none;
+  transition:opacity .3s, transform .5s ease;
+}
+.gift-frogs-pop.show{opacity:1;transform:translateX(-50%) translateY(-40px)}
+.gift-status{font-size:13px;color:#ffe566;font-weight:700;min-height:20px;margin-bottom:10px}
+.gift-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.gift-actions .btn{flex:1;min-width:110px}
+/* Special Offer showcase modal */
+.special-overlay{
+  position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.78);
+  display:none;align-items:center;justify-content:center;padding:16px;
+  backdrop-filter:blur(5px);
+}
+.special-overlay.show{display:flex}
+.special-stage{
+  position:relative;width:min(480px,94vw);max-height:min(92vh,640px);
+  background:radial-gradient(ellipse at 50% 20%,#1f4528 0%,#0a1a10 45%,#061208 100%);
+  border:2px solid #f5c542;border-radius:20px;
+  box-shadow:0 0 40px #ffd24a35,inset 0 0 50px #00ff6618;
+  overflow:auto;padding:22px 36px 20px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  box-sizing:border-box;
+}
+/* Side bracket lighting */
+.special-stage .brack-l,.special-stage .brack-r{
+  position:absolute;top:24px;bottom:24px;width:18px;pointer-events:none;
+}
+.special-stage .brack-l{left:12px}
+.special-stage .brack-r{right:12px}
+.special-stage .brack-l::before,.special-stage .brack-l::after,
+.special-stage .brack-r::before,.special-stage .brack-r::after{
+  content:"";position:absolute;width:16px;height:16px;border-style:solid;border-color:#ffd700;
+  animation:brackPulse 1.6s ease-in-out infinite;
+}
+.special-stage .brack-l::before{top:0;left:0;border-width:3px 0 0 3px;border-radius:4px 0 0 0}
+.special-stage .brack-l::after{bottom:0;left:0;border-width:0 0 3px 3px;border-radius:0 0 0 4px}
+.special-stage .brack-r::before{top:0;right:0;border-width:3px 3px 0 0;border-radius:0 4px 0 0}
+.special-stage .brack-r::after{bottom:0;right:0;border-width:0 3px 3px 0;border-radius:0 0 4px 0}
+.special-stage .brack-l .beam,.special-stage .brack-r .beam{
+  position:absolute;top:18px;bottom:18px;width:4px;border-radius:2px;
+  background:linear-gradient(180deg,transparent,#42ff48,#ffd700,#42ff48,transparent);
+  box-shadow:0 0 14px #42ff48,0 0 28px #ffd24a80;
+  animation:beamGlow 2s ease-in-out infinite;
+}
+.special-stage .brack-l .beam{left:6px}
+.special-stage .brack-r .beam{right:6px}
+@keyframes brackPulse{
+  0%,100%{border-color:#ffd700;opacity:.7;filter:drop-shadow(0 0 4px #ffd700)}
+  50%{border-color:#42ff48;opacity:1;filter:drop-shadow(0 0 12px #42ff48)}
+}
+@keyframes beamGlow{
+  0%,100%{opacity:.55}
+  50%{opacity:1}
+}
+.special-stage h2{
+  margin:0 0 4px;font-size:clamp(22px,5vw,28px);color:#ffe566;
+  text-shadow:0 0 20px #ffd24a80;letter-spacing:.04em;
+}
+.special-stage .sp-tag{
+  font-size:12px;font-weight:800;color:#9dffb5;letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.special-snake-wrap{
+  position:relative;width:min(280px,80%);height:90px;margin:8px 0 14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.special-snake-wrap canvas{width:100%;height:100%;display:block}
+.special-snake-wrap .glow-ring{
+  position:absolute;inset:-8px;border-radius:50%;
+  border:2px solid transparent;
+  background:linear-gradient(#061208,#061208) padding-box,
+    linear-gradient(90deg,#42ff48,#ffd700,#42ff48) border-box;
+  opacity:.5;pointer-events:none;animation:ringSpin 4s linear infinite;
+  border-radius:20px;
+}
+@keyframes ringSpin{to{filter:hue-rotate(360deg)}}
+.special-lines{
+  list-style:none;margin:4px 0 12px;padding:0;text-align:left;width:100%;max-width:300px;
+}
+.special-lines li{
+  font-size:12px;color:#c8ecd4;padding:5px 0 5px 26px;position:relative;line-height:1.35;
+  border-bottom:1px solid rgba(66,255,72,.1);
+}
+.special-lines li:last-child{border-bottom:0}
+.special-lines li::before{
+  content:"✓";position:absolute;left:2px;top:5px;font-size:12px;color:#42ff48;font-weight:900;
+}
+.special-price-box{
+  width:100%;max-width:300px;margin:0 0 14px;
+  background:linear-gradient(145deg,rgba(20,40,18,.9),rgba(8,20,12,.95));
+  border:1.5px solid #f5c54266;border-radius:14px;
+  padding:12px 14px;box-sizing:border-box;
+  box-shadow:0 0 18px #ffd24a25,inset 0 1px 0 rgba(255,255,255,.06);
+}
+.special-price{
+  font-size:15px;font-weight:900;color:#ffe566;margin:0 0 4px;
+  text-shadow:0 0 12px #ffd24a60;line-height:1.3;word-break:break-word;
+}
+.special-balance{
+  font-size:12px;font-weight:700;color:#9dffb5;opacity:.95;
+}
+.special-actions{display:flex;gap:10px;width:100%;max-width:300px}
+.special-actions .btn{flex:1;min-height:46px;font-size:14px}
 .my-snake-brackets::before,.my-snake-brackets::after{
   content:"";position:absolute;top:6px;bottom:6px;width:10px;border:2px solid #42ff48;border-radius:4px;opacity:.85
 }
@@ -124,17 +343,195 @@ button,select{font:inherit}
 .my-snake-brackets .corner-tr{top:4px;right:4px;border-width:2px 2px 0 0;border-radius:0 3px 0 0}
 .my-snake-brackets .corner-bl{bottom:4px;left:4px;border-width:0 0 2px 2px;border-radius:0 0 0 3px}
 .my-snake-brackets .corner-br{bottom:4px;right:4px;border-width:0 2px 2px 0;border-radius:0 0 3px 0}
-#mySnakePreview{width:120px;height:40px;display:block}
+#mySnakePreview{width:120px;height:28px;display:block}
 
 /* MY SNAKE OWNER */
-.owner-slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:12px}
-.owner-slot{min-height:150px;border:2px dashed #2c9349;border-radius:16px;background:#07190e;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;box-sizing:border-box}
-.owner-slot.empty{color:#4f8b61;font-weight:800;letter-spacing:.08em}
-.owner-slot.saved{border-style:solid;border-color:#42ff48;box-shadow:0 0 18px #00ff6630}
-.owner-preview{width:150px;height:58px;display:block;margin-bottom:8px}
-.owner-name{font-weight:900;color:#9dffb5;font-size:13px;margin-bottom:8px}
-.owner-use{width:100%;padding:9px 12px;border:0;border-radius:9px;background:#42ff48;color:#06200a;font-weight:900;cursor:pointer}
+.owner-panel{
+  width:min(608px,80vw);max-width:80%;position:relative;
+  background:linear-gradient(165deg,#0a2214ee 0%,#06150cef 55%,#04100aef 100%);
+  border:1.5px solid #37ff7c;border-radius:18px;
+  padding:22px 20px 18px;box-shadow:0 0 32px #00ff6640,inset 0 1px 0 rgba(255,255,255,.06);
+  transform-origin:center center;
+}
+#mySnake.panel-screen{
+  justify-content:center;align-items:center;
+}
+#mySnake .ms-header h1{font-size:clamp(22px,4vw,36px)}
+#mySnake .ms-header .sub{font-size:13px;margin:0 0 12px}
+#mySnake .owner-slots{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:10px}
+#mySnake .owner-slot{min-height:128px;padding:10px;border-radius:12px}
+#mySnake .owner-preview{max-width:120px;height:46px}
+#mySnake .owner-name{font-size:11px;margin-bottom:6px}
+#mySnake .owner-use{padding:7px 8px;font-size:11px;border-radius:8px}
+#mySnake .my-snake-active-bar{padding:10px 12px;gap:10px;margin:0 0 12px;border-radius:12px}
+#mySnake .my-snake-active-bar canvas{width:120px;height:30px}
+#mySnake .msa-name{font-size:14px}
+#mySnake .msa-label{font-size:9px}
+#mySnake .ms-footer-actions{margin-top:14px;gap:10px}
+#mySnake .ms-footer-actions .btn{padding:11px 14px;font-size:13px}
+.ms-close-btn{
+  position:absolute;top:14px;right:14px;left:auto;z-index:5;
+  width:40px;height:40px;border-radius:12px;border:1.5px solid #3b7650;
+  background:linear-gradient(145deg,#123020,#0a1a12);color:#9dffb5;
+  font-size:18px;font-weight:900;cursor:pointer;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);
+  transition:transform .12s ease,filter .15s ease,border-color .15s ease,box-shadow .15s ease;
+}
+.ms-close-btn:hover{
+  filter:brightness(1.15);border-color:#42ff48;color:#42ff48;
+  box-shadow:0 0 16px #00ff6650,inset 0 1px 0 rgba(255,255,255,.1);
+  transform:scale(1.05);
+}
+.ms-close-btn:active{transform:scale(.96)}
+.ms-header{text-align:center;padding:0 44px 0 44px;margin-bottom:4px}
+.ms-header h1{margin:0 0 6px}
+.ms-header .sub{margin:0 0 16px}
+.ms-footer-actions{margin-top:18px}
+.owner-slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-top:14px;width:100%}
+.owner-slot{min-height:148px;border:2px dashed #2c9349;border-radius:14px;background:linear-gradient(160deg,#0a1f12,#06150c);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;box-sizing:border-box;transition:border-color .15s,box-shadow .15s}
+.owner-slot.empty{color:#4f8b61;font-weight:800;letter-spacing:.06em;font-size:12px;text-align:center}
+.owner-slot.saved{border-style:solid;border-color:#42ff48;box-shadow:0 0 16px #00ff6630}
+.owner-slot.saved:hover{box-shadow:0 0 22px #00ff6650}
+.owner-slot.saved.is-active{border-color:#ffe566;box-shadow:0 0 20px #ffd24a40}
+.owner-preview{width:100%;max-width:140px;height:52px;display:block;margin-bottom:8px;border-radius:8px}
+.owner-name{font-weight:900;color:#9dffb5;font-size:12px;margin-bottom:8px;text-align:center;line-height:1.25;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.owner-use{width:100%;padding:8px 10px;border:0;border-radius:9px;background:#42ff48;color:#06200a;font-weight:900;cursor:pointer;font-size:12px}
+.owner-use:hover{filter:brightness(1.08)}
 .owner-use.active{background:#183326;color:#d9ffe1;border:1px solid #3b7650}
+.audio-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.audio-toggle{
+  min-width:64px;padding:8px 14px;border:0;border-radius:10px;font-weight:900;font-size:13px;cursor:pointer;
+  background:#183326;color:#7ab892;box-shadow:0 2px 0 #0a1f12;
+}
+.audio-toggle.on{background:linear-gradient(180deg,#42ff48,#1ecf3a);color:#06200a;box-shadow:0 2px 0 #0a7a20}
+.audio-toggle.off{background:#2a1515;color:#ff8a8a;box-shadow:0 2px 0 #1a0808}
+.vol-label{font-size:12px;color:#9ed8b8;font-weight:700}
+.vol-slider{
+  width:100%;height:8px;border-radius:999px;outline:none;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  background:linear-gradient(90deg,#1a3a22,#2c9349);
+}
+.vol-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:#ffe566;border:2px solid #42ff48;box-shadow:0 0 8px #00ff6640;cursor:pointer;
+}
+.vol-slider::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;background:#ffe566;border:2px solid #42ff48;cursor:pointer;
+}
+
+.owner-slot{position:relative}
+.owner-sell{
+  position:absolute;top:8px;right:8px;z-index:3;
+  width:auto;min-width:52px;margin:0;padding:5px 9px;border:0;border-radius:8px;
+  background:linear-gradient(180deg,#ff9a45,#e55a00);color:#1a0800;
+  font-weight:900;cursor:pointer;font-size:10px;letter-spacing:.04em;
+  box-shadow:0 2px 0 #9a3a00,0 0 12px #ff8a3c50;
+  line-height:1.2;
+}
+.owner-sell:hover{filter:brightness(1.12);box-shadow:0 2px 0 #9a3a00,0 0 16px #ff8a3c80}
+.owner-sell:active{transform:translateY(1px);box-shadow:0 1px 0 #9a3a00}
+.my-snake-active-bar{position:relative}
+.active-sell-btn{
+  position:absolute;top:50%;right:12px;transform:translateY(-50%);
+  padding:7px 12px;font-size:11px;min-width:58px;
+  border-radius:10px;display:block;
+}
+.active-sell-btn:hover{filter:brightness(1.12)}
+.active-sell-btn:active{transform:translateY(calc(-50% + 1px))}
+.active-sell-btn.sell-mode-on{
+  background:linear-gradient(180deg,#ffd24a,#e5a000);box-shadow:0 2px 0 #9a7000,0 0 14px #ffd24a60;
+}
+.sell-mode-hint{
+  width:100%;margin:0 0 10px;padding:8px 12px;border-radius:10px;
+  background:linear-gradient(90deg,#3a2208,#1a1508);border:1px solid #f5c542;
+  color:#ffe566;font-size:12px;font-weight:800;text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+}
+.sell-mode-cancel{
+  border:0;border-radius:8px;padding:5px 12px;cursor:pointer;font-weight:900;font-size:11px;
+  background:#183326;color:#9dffb5;
+}
+.sell-mode-cancel:hover{background:#243e2c;color:#fff}
+.owner-slot.sell-pickable{
+  cursor:pointer;border-color:#3b9eff !important;box-shadow:0 0 16px #3b9eff50;
+  outline:2px solid #5eb0ff;outline-offset:2px;
+  position:relative;
+}
+.owner-slot.sell-pickable::after{
+  content:"SELECT";position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  font-size:9px;font-weight:900;letter-spacing:.08em;color:#9ed8ff;
+  background:#0a1a2e;border:1px solid #3b9eff;border-radius:6px;padding:2px 8px;
+  pointer-events:none;
+}
+.owner-slot.sell-pickable:hover{
+  border-color:#7ec8ff !important;box-shadow:0 0 24px #3b9eff70;
+  outline-color:#7ec8ff;transform:scale(1.02);
+}
+.owner-slot.sell-pickable:hover::after{background:#123050;color:#fff}
+.owner-slot.sell-blocked{
+  opacity:.4;pointer-events:none;filter:grayscale(.3);
+}
+.active-sell-btn:disabled{
+  opacity:.4;cursor:default;filter:grayscale(.4);pointer-events:none;
+  box-shadow:none;
+}
+/* Sell confirm modal */
+.sell-overlay{
+  position:fixed;inset:0;z-index:10000;background:rgba(0,8,4,.9);
+  display:none;align-items:center;justify-content:center;padding:16px;
+  backdrop-filter:blur(8px);
+}
+.sell-overlay.show{display:flex}
+.sell-modal{
+  position:relative;width:min(380px,94vw);
+  background:linear-gradient(165deg,#122a18,#07150c);
+  border:2px solid #ff9a45;border-radius:20px;padding:22px 18px 18px;
+  box-shadow:0 0 36px #ff8a3c40,0 14px 40px #000c;text-align:center;
+}
+.sell-close-x{
+  position:absolute;top:10px;right:12px;width:34px;height:34px;border:0;border-radius:10px;
+  background:#1a2e20;color:#9ed8b8;font-size:18px;font-weight:900;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+}
+.sell-close-x:hover{background:#243e2c;color:#fff}
+.sell-modal h2{margin:0 28px 6px 0;color:#ffb36a;font-size:clamp(18px,4.5vw,22px)}
+.sell-modal .sell-desc{color:#b7d8c1;font-size:13px;margin:0 0 14px;line-height:1.45}
+.sell-preview-wrap{
+  display:flex;justify-content:center;margin:0 auto 14px;
+  padding:12px;border-radius:14px;background:#06150c;border:1px solid #2c9349;
+  max-width:220px;
+}
+.sell-preview-wrap canvas{width:180px;height:52px;display:block}
+.sell-name{color:#ffe566;font-weight:900;font-size:14px;margin-bottom:4px}
+.sell-price{color:#9dffb5;font-size:15px;font-weight:900;margin-bottom:16px}
+.sell-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.sell-actions .btn{flex:1;min-width:110px}
+.sell-actions .btn.sell-confirm{
+  background:linear-gradient(180deg,#ff9a45,#e55a00);color:#1a0800;
+  box-shadow:0 4px 0 #9a3a00;border:0;font-weight:900;
+}
+.sell-actions .btn.sell-confirm:hover{filter:brightness(1.08)}
+.sell-actions .btn.sell-confirm:active{transform:translateY(2px);box-shadow:0 2px 0 #9a3a00}
+.owner-badge{
+  font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 8px;border-radius:999px;margin-bottom:6px;
+  background:#183326;color:#9dffb5;border:1px solid #3b7650;
+}
+.owner-badge.perm{background:#1a3a12;color:#42ff48;border-color:#42ff48;box-shadow:0 0 10px #00ff6640}
+.owner-badge.temp{background:#3a2a08;color:#ffe566;border-color:#f5c542}
+.owner-badge.classic{background:#122018;color:#7ab892;border-color:#2c9349}
+.my-snake-active-bar{
+  display:flex;align-items:center;gap:14px;width:100%;
+  background:linear-gradient(145deg,rgba(8,40,24,.95),rgba(4,18,12,.98));
+  border:1.5px solid #42ff4860;border-radius:14px;padding:12px 16px;
+  margin:0 0 16px;box-sizing:border-box;
+  box-shadow:0 0 20px #00ff6630,inset 0 1px 0 rgba(255,255,255,.06);
+}
+.my-snake-active-bar canvas{width:140px;height:36px;display:block;flex-shrink:0}
+.msa-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.msa-label{font-size:10px;font-weight:800;color:#7dffc0;letter-spacing:.14em}
+.msa-name{font-size:16px;font-weight:900;color:#e8ffe8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* PANELS */
 .panel-screen{padding:32px;flex-direction:column;align-items:center;justify-content:flex-start;background:radial-gradient(circle at top,#154d2a,#06130b 65%)}
 .panel{width:min(720px,100%);background:#081b10ef;border:1px solid #37ff7c;border-radius:22px;padding:28px;box-shadow:0 0 35px #00ff6640}
@@ -142,6 +539,22 @@ h1{margin:0 0 8px;font-size:clamp(28px,5vw,48px);text-align:center;color:#75ff9c
 .sub{text-align:center;color:#b7d8c1;margin:0 0 25px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .card{background:#0d2918;border:1px solid #286e3f;border-radius:16px;padding:16px}
+.char-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.char-card{
+  background:linear-gradient(160deg,#0a1f14,#06150c);border:1.5px solid #2c9349;
+  border-radius:14px;padding:12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.char-card canvas{width:100%;max-width:140px;height:48px;display:block;border-radius:8px}
+.char-name{font-weight:900;color:#9dffb5;font-size:13px}
+.char-tag{font-size:10px;font-weight:800;color:#7ab892;letter-spacing:.04em}
+.char-btn{width:100%;padding:9px 10px;font-size:12px;margin-top:4px}
+.char-card.owned{border-color:#42ff48;box-shadow:0 0 14px #00ff6630}
+.char-card.active-char{border-color:#ffe566;box-shadow:0 0 16px #ffd24a40}
+@media(max-width:700px){
+ .char-grid{grid-template-columns:1fr 1fr;gap:8px}
+ .char-name{font-size:12px}
+ .char-btn{padding:8px;font-size:11px}
+}
 .card h3{margin:0 0 12px;color:#7dff9d}
 select{width:100%;padding:13px;border-radius:10px;border:1px solid #48c970;background:#07150c;color:#fff}
 .actions{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
@@ -149,20 +562,83 @@ select{width:100%;padding:13px;border-radius:10px;border:1px solid #48c970;backg
 .btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
 .btn:active{transform:translateY(1px)}
 .primary{background:#42ff48;color:#06200a;box-shadow:0 0 18px #42ff4860}
+.unlock-orange{
+  background:linear-gradient(180deg,#ff9a3c 0%,#ff6b00 55%,#e85a00 100%);
+  color:#1a0c00;font-weight:900;
+  box-shadow:0 0 18px #ff7a2040,0 4px 0 #b34700;
+  border:0;
+}
+.unlock-orange:hover{filter:brightness(1.1);box-shadow:0 0 24px #ff8a3080,0 4px 0 #b34700}
+.unlock-orange:active{transform:translateY(2px);box-shadow:0 0 14px #ff7a2040,0 1px 0 #b34700}
+.unlock-orange:disabled{opacity:.5;filter:grayscale(.2);cursor:default;transform:none}
 .secondary{background:#183326;color:#d9ffe1;border:1px solid #3b7650}
 .back{margin-top:18px}
 .locked-overlay{opacity:.55;pointer-events:none}
 
 /* GAME */
-#game{position:relative;flex-direction:column;align-items:center;padding:18px;background:radial-gradient(circle,#164a25,#031008)}
-.hud{width:min(900px,100%);display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.stat{background:#071b0e;border:1px solid #2c9349;border-radius:10px;padding:8px 13px;font-weight:700}
-.game-wrap{position:relative;width:min(900px,calc(90vw - 36px),calc(90vh - 190px));aspect-ratio:1;max-width:100%;max-height:calc(100% - 92px)}
+#game{
+  position:relative;flex-direction:column;align-items:center;justify-content:center;
+  padding:12px 16px 14px;background:radial-gradient(circle,#164a25,#031008);
+  overflow:hidden;
+  height:100%;min-height:0;box-sizing:border-box;
+}
+.hud{
+  width:min(900px,calc(100vw - 32px),100%);
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  margin-bottom:10px;flex-wrap:wrap;flex-shrink:0;
+}
+.stat{background:#071b0e;border:1px solid #2c9349;border-radius:10px;padding:7px 12px;font-weight:700;font-size:14px}
+.game-column{
+  display:flex;flex-direction:column;align-items:stretch;
+  width:min(900px,calc(100vw - 32px),calc(100vh - 160px));
+  max-width:100%;
+  flex:1 1 auto;min-height:0;
+}
+.game-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:1;
+  max-height:calc(100% - 70px);
+  flex:1 1 auto;min-height:0;
+}
 canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid #36ff70;background:#153d18;box-shadow:0 0 25px #00ff5540}
-.game-buttons{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.small{padding:9px 13px;border-radius:9px;background:#10291a;color:#fff;border:1px solid #3d8e51;cursor:pointer;transition:background .15s}
-.small:hover{background:#1a3d28}
-.dpad{display:none;grid-template-columns:repeat(3,58px);grid-template-rows:repeat(2,52px);gap:6px;margin-top:12px}
+.game-buttons{
+  display:flex;flex-wrap:nowrap;
+  justify-content:space-between;align-items:center;
+  width:100%;
+  margin-top:12px;padding:10px 12px;flex-shrink:0;
+  background:linear-gradient(145deg,rgba(6,32,22,.95),rgba(4,18,12,.98));
+  border:2px solid #36ff7c88;border-radius:16px;
+  box-shadow:0 6px 24px rgba(0,0,0,.4),0 0 22px #00ff6655,inset 0 1px 0 rgba(255,255,255,.1);
+  box-sizing:border-box;
+}
+/* LEFT: Pause + Restart */
+.gb-left{display:flex;gap:10px;align-items:center;justify-content:flex-start}
+/* RIGHT: Home */
+.gb-right{display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-left:auto}
+.small{
+  min-width:115px;padding:12px 18px;border-radius:12px;
+  font-weight:900;font-size:14px;letter-spacing:.04em;text-transform:uppercase;
+  background:linear-gradient(180deg,#22c55e,#15803d);
+  color:#06200a;border:0;cursor:pointer;
+  box-shadow:0 4px 0 #0a3d20,0 0 14px #42ff4860;
+  transition:transform .12s ease,filter .15s ease,box-shadow .15s;
+  white-space:nowrap;
+}
+.small:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 6px 0 #0a3d20,0 0 20px #42ff4880}
+.small:active{transform:translateY(2px);box-shadow:0 1px 0 #0a3d20}
+#pauseBtn{
+  background:linear-gradient(180deg,#fbbf24,#d97706);
+  color:#1a1000;box-shadow:0 4px 0 #7c4a00,0 0 14px #ffd24a60;
+}
+#pauseBtn:hover{box-shadow:0 6px 0 #7c4a00,0 0 20px #ffd24a80}
+#homeBtn{
+  background:linear-gradient(180deg,#38bdf8,#0284c7);
+  color:#041018;box-shadow:0 4px 0 #0c4a6e,0 0 14px #38bdf860;
+}
+#homeBtn:hover{box-shadow:0 6px 0 #0c4a6e,0 0 20px #38bdf880}
+
+.dpad{display:none;grid-template-columns:repeat(3,58px);grid-template-rows:repeat(2,52px);gap:6px;margin-top:10px;flex-shrink:0}
 .dpad button{background:#123b20;border:1px solid #50cf6c;color:white;border-radius:10px;font-size:22px}
 .up{grid-column:2}.left{grid-column:1;grid-row:2}.down{grid-column:2;grid-row:2}.right{grid-column:3;grid-row:2}
 
@@ -175,7 +651,10 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
 .big-score{font-size:clamp(36px,8vw,64px);color:#42ff48;font-weight:900;text-align:center;margin:12px 0;text-shadow:0 0 24px #42ff4860}
 
 @media(max-width:700px){
- body{padding:0;min-height:100dvh;height:100dvh;width:100vw;align-items:center;overflow:hidden}.app{border-radius:18px;width:90vw;height:90dvh;max-width:90vw;max-height:90dvh;min-height:0}.screen{height:100%;min-height:0}
+ body{padding:0;min-height:100dvh;height:100dvh;width:100vw;align-items:center;justify-content:center;overflow:hidden}
+ .app{width:min(96vw, calc(96dvh * 16 / 9));height:min(96dvh, calc(96vw * 9 / 16));max-width:100vw;max-height:100dvh;min-height:0}
+ .app.playing{width:100vw;height:100dvh;max-width:100vw;max-height:100dvh;border-radius:0}
+ .screen{height:100%;min-height:0}
  .grid{grid-template-columns:1fr}
  .panel-screen{padding:18px}.panel{padding:20px}
  .home-hud{top:8px;left:8px;gap:8px}
@@ -183,10 +662,41 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
  .home-hud-icon-wrap{width:36px;height:36px;font-size:18px;border-radius:10px}
  .home-hud-val{font-size:15px}
  .home-hud-label{font-size:9px}
- .my-snake-box{bottom:10px;left:10px;min-width:110px;padding:8px 10px}
- .my-snake-brackets{height:44px}
- #mySnakePreview{width:100px;height:34px}
+ .home-left-stack{bottom:8px;left:8px;width:min(150px,46vw);gap:6px}
+ .my-snake-brackets{height:32px}
+ #mySnakePreview{width:100px;height:24px}
+ .home-panel-btn{padding:7px 8px;gap:8px}
+ .home-panel-btn .hp-icon{width:30px;height:30px;font-size:16px;border-radius:8px}
+ .home-panel-btn .hp-title{font-size:11px}
+ .home-panel-btn .hp-sub,.home-panel-btn .hp-timer{font-size:9px}
+ .day-blocks{grid-template-columns:repeat(4,1fr)}
+ .special-stage{padding:16px 18px 14px;width:min(96vw,420px);border-radius:16px}
+ .special-stage h2{font-size:clamp(18px,4.5vw,24px)}
+ .special-snake-wrap{height:72px;margin:4px 0 8px}
+ .special-lines{max-width:100%;margin:2px 0 8px}
+ .special-lines li{font-size:11px;padding:4px 0 4px 22px}
+ .special-price-box{max-width:100%;padding:10px 12px;margin-bottom:10px}
+ .special-price{font-size:13px}
+ .special-actions{max-width:100%;gap:8px}
+ .special-actions .btn{min-height:42px;padding:10px 12px;font-size:13px}
+ .owner-slots{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+ .owner-slot{min-height:130px;padding:10px}
+ .ms-close-btn{width:34px;height:34px;top:8px;right:8px;left:auto;font-size:15px;border-radius:10px}
+ .ms-header{padding:0 32px}
+ .owner-panel{width:min(96vw,80%);max-width:80%;padding:18px 12px 14px;border-radius:14px}
+ #mySnake .owner-slots{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+ #mySnake .owner-slot{min-height:118px;padding:8px}
+ .my-snake-active-bar{padding:10px 12px;gap:10px}
+ .my-snake-active-bar canvas{width:110px;height:30px}
+ .msa-name{font-size:14px}
  .dpad{display:grid}
+ /* Play screen: buttons LEFT + RIGHT, same width as canvas */
+ #game{padding:6px 8px 8px}
+ .game-column{width:min(100%,calc(100vw - 16px))}
+ .game-wrap{max-height:calc(100% - 120px)}
+ .game-buttons{padding:8px 10px}
+ .small{min-width:90px;padding:10px 12px;font-size:13px}
+ .gb-left{gap:8px}
 }
 </style>
 </head>
@@ -201,7 +711,7 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
       <div class="home-hud-icon-wrap"><img src="data:image/png;base64,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" alt="Frog" style="width:28px;height:28px;object-fit:contain;display:block"></div>
       <div class="home-hud-meta">
         <span class="home-hud-label">Frogs</span>
-        <span class="home-hud-val" id="homeCoins">0</span>
+        <span class="home-hud-val" id="homeFrogs">0</span>
       </div>
     </div>
     <button type="button" class="home-hud-card hs-card" onclick="showHighScore()" aria-label="High Score" title="High Score">
@@ -216,31 +726,123 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
   <button class="hotspot custom-hotspot" aria-label="Customize" onclick="openCustomize()"></button>
   <button class="hotspot settings-hotspot" aria-label="Settings" onclick="showSettings()"></button>
   <button class="hotspot quit-hotspot" aria-label="Quit" onclick="quitGame()"></button>
-  <button type="button" class="my-snake-box" aria-label="My Snake" onclick="openMySnake()">
-    <div class="ms-label">🐍 MY SNAKE</div>
-    <div class="my-snake-brackets">
-      <span class="corner-tl"></span><span class="corner-tr"></span>
-      <span class="corner-bl"></span><span class="corner-br"></span>
-      <canvas id="mySnakePreview" width="120" height="40"></canvas>
+  <div class="home-left-stack">
+    <button type="button" class="home-panel-btn" id="dailyRewardBtn" onclick="openGiftPack()">
+      <div class="hp-icon">🎁</div>
+      <div class="hp-text">
+        <div class="hp-title">Gift Pack</div>
+        <div class="hp-sub" id="dailyRewardSub">Day 1 — 5 Frogs</div>
+        <div class="hp-timer" id="dailyRewardTimer">Ready!</div>
+      </div>
+    </button>
+    <button type="button" class="home-panel-btn offer" id="specialOfferBtn" onclick="openSpecialOffer()">
+      <div class="hp-icon">⚡</div>
+      <div class="hp-text">
+        <div class="hp-title">Special Offer</div>
+        <div class="hp-sub" id="specialOfferSub">Special Skin — Flash 50 Frogs</div>
+        <div class="hp-timer" id="specialOfferTimer">⏱ 10m 0s left</div>
+      </div>
+    </button>
+    <button type="button" class="my-snake-box" aria-label="My Snake" onclick="openMySnake()">
+      <div class="ms-label">🐍 MY SNAKE</div>
+      <div class="my-snake-brackets">
+        <span class="corner-tl"></span><span class="corner-tr"></span>
+        <span class="corner-bl"></span><span class="corner-br"></span>
+        <canvas id="mySnakePreview" width="120" height="28"></canvas>
+      </div>
+    </button>
+  </div>
+  <div class="gift-overlay" id="giftOverlay" onclick="if(event.target===this)closeGiftPack()">
+    <div class="gift-modal">
+      <h2>🎁 Daily Gift Pack</h2>
+      <p class="gift-desc">Claim once per day. Day rewards: 5 → 7 → 10 → 13 → 15 → 17 → 20 Frogs. Real 24h timer.</p>
+      <div class="day-blocks" id="dayBlocks"></div>
+      <div class="gift-box" id="giftBox" onclick="claimDailyReward()">
+        <div class="lid"></div>
+        <div class="ribbon"></div>
+        <div class="body"></div>
+        <div class="gift-frogs-pop" id="giftFrogsPop">🐸🐸🐸</div>
+      </div>
+      <div class="gift-status" id="giftStatus">Tap the gift to open</div>
+      <div class="gift-actions">
+        <button class="btn secondary" onclick="closeGiftPack()">Close</button>
+        <button class="btn primary" id="giftClaimBtn" onclick="claimDailyReward()">Open Gift</button>
+      </div>
     </div>
-  </button>
-</section>
-
-<section id="mySnake" class="screen panel-screen">
-  <div class="panel owner-panel">
-    <h1>🐍 My Snake</h1>
-    <p class="sub">Yahan sirf woh skins hain jo aap ne Customize mein save ki hain.</p>
-    <div id="ownedSkins" class="owned-slots"></div>
-    <div class="actions">
-      <button class="btn secondary" onclick="showHome()">← Home</button>
+  </div>
+  <div class="special-overlay" id="specialOverlay" onclick="if(event.target===this)closeSpecialOffer()">
+    <div class="special-stage">
+      <div class="brack-l"><div class="beam"></div></div>
+      <div class="brack-r"><div class="beam"></div></div>
+      <div class="sp-tag" id="specialTagLabel">One-Time Flash · 10 Minutes</div>
+      <h2>⚡ Special Offer Skin</h2>
+      <div class="special-snake-wrap">
+        <div class="glow-ring"></div>
+        <canvas id="specialSnakePreview" width="280" height="90"></canvas>
+      </div>
+      <ul class="special-lines">
+        <li>Rainbow full-color body + glow trail</li>
+        <li>50 Frogs → 10 min trial skin</li>
+        <li>999 Frogs → Permanent forever</li>
+        <li>Shows in My Snake after unlock</li>
+      </ul>
+      <div class="special-price-box">
+        <div class="special-price" id="specialPriceLabel">Flash: 50 Frogs</div>
+        <div class="special-balance" id="specialBalanceLabel">You have: 0 Frogs</div>
+      </div>
+      <div class="special-actions">
+        <button class="btn secondary" onclick="closeSpecialOffer()">Close</button>
+        <button class="btn primary" id="specialBuyBtn" onclick="buySpecialOffer()">Buy Skin</button>
+      </div>
     </div>
   </div>
 </section>
 
+<section id="mySnake" class="screen panel-screen">
+  <div class="panel owner-panel">
+    <button type="button" class="ms-close-btn" onclick="showHome()" aria-label="Close">✕</button>
+    <div class="ms-header">
+      <h1>🐍 My Snake</h1>
+
+    </div>
+    <div class="my-snake-active-bar" id="mySnakeActiveBar">
+      <canvas id="mySnakeActivePreview" width="160" height="40"></canvas>
+      <div class="msa-meta">
+        <div class="msa-label">ACTIVE</div>
+        <div class="msa-name" id="mySnakeActiveName">My Snake</div>
+      </div>
+      <button type="button" class="owner-sell active-sell-btn" id="activeSellBtn" title="Sell a snake for 100 Frogs" onclick="startSellMode()">SELL</button>
+    </div>
+    <div id="sellModeHint" class="sell-mode-hint" style="display:none">Select a snake below to sell · <button type="button" class="sell-mode-cancel" onclick="cancelSellMode()">Cancel</button></div>
+    <div id="ownedSkins" class="owner-slots"></div>
+    <div class="actions ms-footer-actions">
+      <button class="btn secondary" onclick="showHome()">← Home</button>
+      <button class="btn primary" onclick="openSpecialOffer()">⚡ Special Offer</button>
+    </div>
+  </div>
+</section>
+
+<div class="sell-overlay" id="sellOverlay" onclick="if(event.target===this)closeSellConfirm()">
+  <div class="sell-modal">
+    <button type="button" class="sell-close-x" onclick="closeSellConfirm()" aria-label="Close">✕</button>
+    <h2>💸 Sell Snake</h2>
+    <p class="sell-desc">Is snake ko sell karne se yeh My Snake se remove ho jayega.</p>
+    <div class="sell-preview-wrap">
+      <canvas id="sellPreviewCanvas" width="180" height="52"></canvas>
+    </div>
+    <div class="sell-name" id="sellSnakeName">Saved Skin</div>
+    <div class="sell-price">Sell price: <b style="color:#ffe566">+100 Frogs</b> 🐸</div>
+    <div class="sell-actions">
+      <button class="btn secondary" type="button" onclick="closeSellConfirm()">Cancel</button>
+      <button class="btn sell-confirm" type="button" id="sellConfirmBtn" onclick="confirmSellSnake()">Confirm Sell</button>
+    </div>
+  </div>
+</div>
+
 <section id="setup" class="screen panel-screen">
   <div class="panel">
     <h1>🐍 Game Setup</h1>
-    <p class="sub">Speed aur map choose karo. High Score: <b id="setupBest">0</b></p>
+    <p class="sub">Choose speed and map. High Score: <b id="setupBest">0</b></p>
     <div class="grid">
       <div class="card">
         <h3>⚡ Speed</h3>
@@ -255,9 +857,9 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
         <h3>🗺️ Difficulty</h3>
         <select id="difficulty">
           <option value="easy">Easy — Wrap Edges</option>
-          <option value="normal" selected>Normal — Walls</option>
-          <option value="hard">Hard — 12 Obstacles</option>
-          <option value="extreme">Extreme — 25 Obstacles</option>
+          <option value="normal" selected>Normal — 6 Hawks</option>
+          <option value="hard">Hard — 12 Hawks</option>
+          <option value="extreme">Extreme — Random Walls</option>
         </select>
       </div>
     </div>
@@ -273,7 +875,7 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
     <h1>🏆 High Score</h1>
     <p class="sub">Your best run on Snake King</p>
     <div class="big-score" id="highScoreBig">0</div>
-    <p class="sub">Frogs Collected: <b id="highScoreCoins">0</b></p>
+    <p class="sub">Frogs Collected: <b id="highScoreFrogs">0</b></p>
     <div class="actions">
       <button class="btn secondary" onclick="showHome()">← Home</button>
       <button class="btn primary" onclick="showSetup()">PLAY NOW</button>
@@ -284,8 +886,24 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
 <section id="settings" class="screen panel-screen">
   <div class="panel">
     <h1>⚙️ Settings</h1>
-    <p class="sub">Default speed & difficulty for new games</p>
+    <p class="sub">Sound, music & game defaults</p>
     <div class="grid">
+      <div class="card">
+        <h3>🔊 Sound (SFX)</h3>
+        <div class="audio-row">
+          <button type="button" class="audio-toggle on" id="soundToggleBtn" onclick="toggleSoundSetting()">ON</button>
+          <label class="vol-label">Volume <span id="sfxVolLabel">80%</span></label>
+        </div>
+        <input type="range" id="sfxVolume" min="0" max="100" value="80" class="vol-slider" oninput="onSfxVolumeInput(this.value)">
+      </div>
+      <div class="card">
+        <h3>🎵 Music</h3>
+        <div class="audio-row">
+          <button type="button" class="audio-toggle on" id="musicToggleBtn" onclick="toggleMusicSetting()">ON</button>
+          <label class="vol-label">Volume <span id="musicVolLabel">50%</span></label>
+        </div>
+        <input type="range" id="musicVolume" min="0" max="100" value="50" class="vol-slider" oninput="onMusicVolumeInput(this.value)">
+      </div>
       <div class="card">
         <h3>⚡ Default Speed</h3>
         <select id="setSpeed">
@@ -315,12 +933,23 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
 <section id="customize" class="screen panel-screen">
   <div class="panel">
     <h1>🎨 Customize Snake</h1>
-    <p class="sub">Frogs: <b id="customCoins">0</b> • Har frog = +1 collect</p>
+    <p class="sub">Frogs: <b id="customFrogs">0</b> • Each frog = +1 collect</p>
     <div id="unlockBanner" class="card" style="margin-bottom:16px;text-align:center;display:none">
       <h3>🔒 Customization Locked</h3>
-      <p style="color:#b7d8c1;margin:8px 0 16px">Unlock permanently for <b style="color:#42ff48">150 frogs</b> (one-time only)</p>
-      <p id="needCoinsMsg" style="color:#ff8a8a;margin:0 0 14px;display:none">You need 150 frogs to unlock Customization.</p>
-      <button class="btn primary" id="unlockBtn" onclick="unlockCustomize()">UNLOCK FOR 150 FROGS</button>
+      <p style="color:#b7d8c1;margin:8px 0 16px">Buy / unlock for <b style="color:#ff9a3c">170 Frogs</b> — save 1 custom snake, then locks again</p>
+      <p id="needFrogsMsg" style="color:#ff8a8a;margin:0 0 14px;display:none">You need 170 frogs to unlock Customization.</p>
+      <button class="btn unlock-orange" id="unlockBtn" onclick="unlockCustomize()">BUY · 170 FROGS</button>
+    </div>
+    <div id="charPanel" class="card" style="margin-bottom:16px">
+      <h3>🐉 Characters</h3>
+      <div class="char-grid">
+        <div class="char-card" id="charClassic">
+          <canvas id="charClassicPreview" width="140" height="48"></canvas>
+          <div class="char-name">My Snake</div>
+          <div class="char-tag">Default</div>
+          <button class="btn secondary char-btn" type="button" onclick="equipClassicSkin()">USE</button>
+        </div>
+      </div>
     </div>
     <div id="customPanel" class="card" style="margin-bottom:16px">
       <h3>🐍 Snake Color & Glow</h3>
@@ -351,30 +980,36 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
 <section id="game" class="screen">
   <div class="hud">
     <div class="stat">🏆 Score: <span id="score">0</span></div>
-    <div class="stat"><img src="data:image/png;base64,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" alt="" style="width:18px;height:18px;vertical-align:middle;margin-right:4px"> Frogs: <span id="coins">0</span></div>
+    <div class="stat"><img src="data:image/png;base64,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" alt="" style="width:18px;height:18px;vertical-align:middle;margin-right:4px"> Frogs: <span id="sessionFrogs">0</span></div>
     <div class="stat">⭐ Best: <span id="hudHigh">0</span></div>
     <div class="stat">⚡ <span id="speedLabel">Normal</span></div>
     <div class="stat">🗺️ <span id="diffLabel">Normal</span></div>
   </div>
-  <div class="game-wrap">
-    <canvas id="canvas" width="900" height="900"></canvas>
-    <div id="gameover" class="gameover">
-      <div class="over-box">
-        <h2>GAME OVER</h2>
-        <p>Score: <b id="finalScore">0</b></p>
-        <p>High Score: <b id="bestScore">0</b></p>
-        <p>Frogs this run: <b id="finalCoins">0</b></p>
-        <div class="actions">
-          <button class="btn secondary" onclick="showHome()">HOME</button>
-          <button class="btn primary" onclick="restartGame()">RESTART</button>
+  <div class="game-column">
+    <div class="game-wrap">
+      <canvas id="canvas" width="900" height="900"></canvas>
+      <div id="gameover" class="gameover">
+        <div class="over-box">
+          <h2>GAME OVER</h2>
+          <p>Score: <b id="finalScore">0</b></p>
+          <p>High Score: <b id="bestScore">0</b></p>
+          <p>Frogs this run: <b id="finalFrogs">0</b></p>
+          <div class="actions">
+            <button class="btn secondary" onclick="showHome()">HOME</button>
+            <button class="btn primary" onclick="restartGame()">RESTART</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="game-buttons">
-    <button class="small" onclick="pauseGame()" id="pauseBtn">⏸ Pause</button>
-    <button class="small" onclick="restartGame()">↻ Restart</button>
-    <button class="small" onclick="showHome()">⌂ Home</button>
+    <div class="game-buttons">
+      <div class="gb-left">
+        <button class="small" onclick="pauseGame()" id="pauseBtn">⏸ Pause</button>
+        <button class="small" onclick="restartGame()" id="restartBtn">↻ Restart</button>
+      </div>
+      <div class="gb-right">
+        <button class="small" onclick="showHome()" id="homeBtn">⌂ Home</button>
+      </div>
+    </div>
   </div>
   <div class="dpad">
     <button class="up" onclick="setDir(0,-1)">▲</button>
@@ -406,10 +1041,17 @@ function savePersistentState(){
  const data={
   version:2,
   highScore:Number(high)||0,
-  frogs:Number(coins)||0,
-  customUnlocked:!!customUnlocked,
+  frogs:Number(frogs)||0,
+  customUnlocked:!!customUnlocked, customUnlockedV2:!!customUnlocked,
+  extraUnlocked:!!extraUnlocked,
   ownedSkins:Array.isArray(ownedSkins)?ownedSkins:[],
   activeSkinIndex:Number(activeSkinIndex)||0,
+  dailyDay:Number(dailyDay)||1,
+  dailyLastClaim:Number(dailyLastClaim)||0,
+  specialUnlocked:!!specialUnlocked,
+  specialTempUntil:Number(specialTempUntil)||0,
+  specialOfferStart:Number(specialOfferStart)||0,
+  specialOfferWave:Number(specialOfferWave)||0,
   settings:{
    speed:localStorage.getItem("snakeDefSpeed")||"135",
    difficulty:localStorage.getItem("snakeDefDiff")||"normal"
@@ -424,26 +1066,333 @@ let snake=[],food={x:0,y:0},dir={x:1,y:0},nextDir={x:1,y:0},obstacles=[];
 let score=0,sessionFrogs=0,paused=false,gameRunning=false,speed=135,difficulty="normal";
 const savedState=readJSON("snakeKingSaveV2",null);
 let high=Number(savedState?.highScore ?? localStorage.getItem("snakeHighScore") ?? 0)||0;
-let coins=Number(savedState?.frogs ?? localStorage.getItem("snakeCoins") ?? 0)||0;
-let customUnlocked= savedState ? !!savedState.customUnlocked : localStorage.getItem("snakeCustomUnlocked")==="1";
+let frogs=Number(savedState?.frogs ?? localStorage.getItem("snakeFrogs") ?? localStorage.getItem("snakeCoins") ?? 0)||0;
+let customUnlocked= savedState ? !!savedState.customUnlockedV2 : localStorage.getItem("snakeCustomUnlockedV2")==="1";
+let extraUnlocked= savedState ? !!savedState.extraUnlocked : localStorage.getItem("snakeExtraUnlocked")==="1";
+let dailyDay=Number(savedState?.dailyDay ?? localStorage.getItem("snakeDailyDay") ?? 1)||1;
+if(dailyDay<1||dailyDay>7) dailyDay=1;
+let dailyLastClaim=Number(savedState?.dailyLastClaim ?? localStorage.getItem("snakeDailyLast") ?? 0)||0;
+let specialUnlocked= savedState ? !!savedState.specialUnlocked : localStorage.getItem("snakeSpecialUnlocked")==="1";
+let specialTempUntil=Number(savedState?.specialTempUntil ?? localStorage.getItem("snakeSpecialTempUntil") ?? 0)||0;
+let specialOfferStart=Number(savedState?.specialOfferStart ?? localStorage.getItem("snakeSpecialOfferStart") ?? 0)||0;
+let specialOfferWave=Number(savedState?.specialOfferWave ?? localStorage.getItem("snakeSpecialOfferWave") ?? 0)||0;
+const SPECIAL_OFFER_MS=10*60*1000; // real 10 minutes — flash buy OR temp skin duration
+const SPECIAL_FLASH_PRICES=[50,50,50,50,50,50]; // 1st..6th flash buy (10 min skin each) — 50 frogs / 10 min
+const SPECIAL_SKIN={body:"#e11d48",glow:"#22d3ee",name:"Special Offer",fullColor:true};
+const CLASSIC_SKIN={body:"#111111",glow:"#f5c542",name:"My Snake"}; // simple default
+const EXTRA_SKIN={body:"#0ea5e9",glow:"#a3e635",name:"Aqua King",fullColor:false};
+const EXTRA_SKIN_COST=170; // one-time unlock for second custom character (Aqua removed from UI)
+const DAILY_REWARDS=[5,7,10,13,15,17,20]; // Day 1..7 frogs
+const CUSTOM_UNLOCK_COST=170; // unlock for one customization; locks again after SAVE SNAKE
+const DAY_MS=24*60*60*1000;
 let ownedSkins=Array.isArray(savedState?.ownedSkins) ? savedState.ownedSkins : readJSON("snakeOwnedSkins",[]);
 if(!Array.isArray(ownedSkins)) ownedSkins=[];
-// Migrate the old single saved skin into the permanent My Snake owner inventory.
-if(ownedSkins.length===0 && localStorage.getItem("snakeCustomBody")){
- ownedSkins.push({body:localStorage.getItem("snakeCustomBody")||"#111111",glow:localStorage.getItem("snakeCustomGlow")||"#f5c542",name:"My Saved Skin"});
+// Only one default "My Snake" — remove duplicate Saved Skin that matches classic
+ownedSkins=ownedSkins.filter(s=>{
+ if(!s) return false;
+ if(s.name==="Saved Skin" && s.body==="#111111" && (s.glow==="#f5c542"||s.glow==="#F5C542")) return false;
+ return true;
+});
+if(!ownedSkins.some(s=>s && s.name==="My Snake")){
+ ownedSkins.unshift({body:CLASSIC_SKIN.body,glow:CLASSIC_SKIN.glow,name:CLASSIC_SKIN.name});
+}
+// Restore fullColor flag on special skin if already owned
+ownedSkins.forEach(s=>{ if(s && s.name==="Special Offer") s.fullColor=true; });
+if(extraUnlocked && !ownedSkins.some(s=>s && s.name==="Aqua King")){
+ ownedSkins.push({body:EXTRA_SKIN.body,glow:EXTRA_SKIN.glow,name:EXTRA_SKIN.name,fullColor:!!EXTRA_SKIN.fullColor,permanent:true});
 }
 let activeSkinIndex=Number(savedState?.activeSkinIndex ?? localStorage.getItem("snakeActiveSkin") ?? 0)||0;
 if(activeSkinIndex<0 || activeSkinIndex>=ownedSkins.length) activeSkinIndex=0;
+function expireTempSpecialIfNeeded(){
+ // Flash buy = 10 min only. When time ends, remove temporary skin.
+ if(specialUnlocked){ specialTempUntil=0; return; }
+ if(specialTempUntil && Date.now()>=specialTempUntil){
+  specialTempUntil=0;
+  localStorage.setItem("snakeSpecialTempUntil","0");
+  const idx=ownedSkins.findIndex(s=>s && s.name==="Special Offer");
+  if(idx>=0){
+   ownedSkins.splice(idx,1);
+   if(activeSkinIndex>=ownedSkins.length) activeSkinIndex=0;
+   else if(activeSkinIndex>idx) activeSkinIndex--;
+   localStorage.setItem("snakeOwnedSkins",JSON.stringify(ownedSkins));
+   localStorage.setItem("snakeActiveSkin",String(activeSkinIndex));
+  }
+  savePersistentState();
+  try{ drawMySnakePreview(); }catch(e){}
+ }
+}
+function hasPermanentSpecial(){
+ return !!specialUnlocked || ownedSkins.some(s=>s && s.name==="Special Offer" && s.permanent);
+}
+function hasTempSpecial(){
+ expireTempSpecialIfNeeded();
+ return !hasPermanentSpecial() && specialTempUntil>Date.now() && ownedSkins.some(s=>s && s.name==="Special Offer");
+}
+function hasSpecialSkin(){
+ if(hasPermanentSpecial()) return true;
+ return hasTempSpecial();
+}
+// Permanent ONLY via 999 buy — never from flash/temp
+if(specialUnlocked){
+ const permSkin=ownedSkins.find(s=>s && s.name==="Special Offer" && s.permanent);
+ if(!permSkin && !ownedSkins.some(s=>s && s.name==="Special Offer" && s.permanent)){
+  // Old save may have wrongly set specialUnlocked on flash buy — fix unless marked permanent
+  // Keep specialUnlocked if explicitly true AND no temp-only skin
+  if(ownedSkins.some(s=>s && s.name==="Special Offer" && s.permanent===false)){
+   specialUnlocked=false;
+   localStorage.setItem("snakeSpecialUnlocked","0");
+  }
+ }
+}
+if(hasPermanentSpecial()) specialUnlocked=true;
+function advanceSpecialWaveIfNeeded(){
+ expireTempSpecialIfNeeded();
+ if(hasPermanentSpecial()) return;
+ if(specialOfferWave>=SPECIAL_FLASH_PRICES.length) return;
+ if(!specialOfferStart) return;
+ if(Date.now()-specialOfferStart>=SPECIAL_OFFER_MS){
+  specialOfferWave++;
+  if(specialOfferWave<SPECIAL_FLASH_PRICES.length){
+   specialOfferStart=Date.now();
+  }else{
+   specialOfferStart=0;
+  }
+  localStorage.setItem("snakeSpecialOfferWave",String(specialOfferWave));
+  localStorage.setItem("snakeSpecialOfferStart",String(specialOfferStart));
+  savePersistentState();
+ }
+}
+function getSpecialPrice(){
+ advanceSpecialWaveIfNeeded();
+ expireTempSpecialIfNeeded();
+ // Permanent already owned
+ if(hasPermanentSpecial()) return null;
+ // Temp active: only permanent upgrade (999) available
+ if(hasTempSpecial()) return 999;
+ // Flash window still open → flash price (10-min skin)
+ if(specialOfferWave<SPECIAL_FLASH_PRICES.length){
+  if(!specialOfferStart) return SPECIAL_FLASH_PRICES[specialOfferWave];
+  const left=SPECIAL_OFFER_MS-(Date.now()-specialOfferStart);
+  if(left>0) return SPECIAL_FLASH_PRICES[specialOfferWave];
+ }
+ return 999; // permanent only
+}
+function getSpecialFlashLeft(){
+ advanceSpecialWaveIfNeeded();
+ expireTempSpecialIfNeeded();
+ // While temp skin active, show remaining use time
+ if(hasTempSpecial()) return Math.max(0, specialTempUntil-Date.now());
+ if(hasPermanentSpecial()) return 0;
+ if(specialOfferWave>=SPECIAL_FLASH_PRICES.length) return 0;
+ if(!specialOfferStart) return SPECIAL_OFFER_MS;
+ return Math.max(0, SPECIAL_OFFER_MS-(Date.now()-specialOfferStart));
+}
+function isSpecialFlashActive(){
+ expireTempSpecialIfNeeded();
+ return !hasPermanentSpecial() && !hasTempSpecial() && specialOfferWave<SPECIAL_FLASH_PRICES.length && getSpecialPrice()!==999;
+}
 // Normalize all persistent keys once so old and new save formats stay compatible.
 localStorage.setItem("snakeHighScore",String(high));
-localStorage.setItem("snakeCoins",String(coins));
-localStorage.setItem("snakeCustomUnlocked",customUnlocked?"1":"0");
+localStorage.setItem("snakeFrogs",String(frogs)); localStorage.setItem("snakeCoins",String(frogs));
+localStorage.setItem("snakeCustomUnlockedV2",customUnlocked?"1":"0"); localStorage.setItem("snakeCustomUnlocked",customUnlocked?"1":"0");
+localStorage.setItem("snakeExtraUnlocked",extraUnlocked?"1":"0");
 localStorage.setItem("snakeOwnedSkins",JSON.stringify(ownedSkins));
 localStorage.setItem("snakeActiveSkin",String(activeSkinIndex));
 savePersistentState();
 
 let moveProgress=0,stepMs=135,lastTs=0,animId=null;
 let particles=[],floatTexts=[],eatPulse=0,deathFlash=0,frogBob=0;
+// Crazy mode state (snake colour NEVER changes — only map lighting border)
+let combo=0, comboTimer=0, shake=0, borderLightT=0, frenzyT=0, foodGolden=false, foodBigT=0;
+const frogSounds=[new Audio('frog1.mp3'),new Audio('frog2.mp3'),new Audio('frog3.mp3'),new Audio('frog4.mp3')];
+frogSounds.forEach(a=>{a.preload='auto';a.volume=0.75;});
+
+// —— Sound system (Web Audio SFX + frog mp3s) ——
+let audioCtx=null;
+// Settings: sound/music on-off + volume (0..1)
+let soundEnabled = localStorage.getItem("snakeSoundOn")!=="0";
+let musicEnabled = localStorage.getItem("snakeMusicOn")!=="0";
+let sfxVolume = Math.min(1, Math.max(0, (Number(localStorage.getItem("snakeSfxVol")??80)||80)/100));
+let musicVolume = Math.min(1, Math.max(0, (Number(localStorage.getItem("snakeMusicVol")??50)||50)/100));
+function ensureAudio(){
+  if(!audioCtx){
+    try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; }
+  }
+  if(audioCtx.state==="suspended") audioCtx.resume().catch(function(){});
+  return audioCtx;
+}
+function playTone(freq, dur, type, vol, slideTo){
+  if(!soundEnabled) return;
+  const ctx=ensureAudio(); if(!ctx) return;
+  try{
+    const t0=ctx.currentTime;
+    const osc=ctx.createOscillator();
+    const g=ctx.createGain();
+    const v=(vol||0.12)*sfxVolume;
+    osc.type=type||"square";
+    osc.frequency.setValueAtTime(freq, t0);
+    if(slideTo!=null) osc.frequency.exponentialRampToValueAtTime(Math.max(20,slideTo), t0+dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(Math.max(0.0001,v), t0+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(t0); osc.stop(t0+dur+0.02);
+  }catch(e){}
+}
+function playNoise(dur, vol){
+  if(!soundEnabled) return;
+  const ctx=ensureAudio(); if(!ctx) return;
+  try{
+    const n=Math.floor(ctx.sampleRate*(dur||0.12));
+    const buf=ctx.createBuffer(1,n,ctx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<n;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/n,1.5);
+    const src=ctx.createBufferSource();
+    const g=ctx.createGain();
+    src.buffer=buf;
+    g.gain.value=(vol||0.15)*sfxVolume;
+    src.connect(g); g.connect(ctx.destination);
+    src.start();
+  }catch(e){}
+}
+// Sharp, punchy click — louder & snappier
+function playClick(){
+  if(!soundEnabled) return;
+  playTone(1200, 0.035, "square", 0.22);
+  playTone(1800, 0.028, "square", 0.16);
+  playTone(2400, 0.018, "square", 0.10);
+}
+function playPause(){ playTone(420, 0.1, "triangle", 0.12); playTone(280, 0.12, "triangle", 0.1, 180); }
+function playResume(){ playTone(320, 0.08, "triangle", 0.12); playTone(480, 0.1, "triangle", 0.1); }
+function playStart(){ playTone(260, 0.08, "sawtooth", 0.1); playTone(390, 0.1, "sawtooth", 0.11); playTone(520, 0.12, "sawtooth", 0.09); }
+function playDie(){
+  playNoise(0.18, 0.2);
+  playTone(220, 0.35, "sawtooth", 0.16, 60);
+  setTimeout(function(){ playTone(140, 0.4, "triangle", 0.12, 40); }, 80);
+}
+function playFrogEat(){
+  if(!soundEnabled) return;
+  try{
+    const a=frogSounds[Math.floor(Math.random()*frogSounds.length)].cloneNode();
+    a.volume=Math.min(1, 0.9*sfxVolume);
+    a.play().catch(function(){});
+  }catch(e){
+    playTone(600, 0.08, "square", 0.12);
+    playTone(900, 0.1, "square", 0.1);
+  }
+}
+
+// —— Background music (procedural jungle / arcade loop) ——
+let bgmNodes=null; // { master, interval, running }
+const BGM_VOL_BASE=0.045;
+function getBgmVol(){ return musicEnabled ? BGM_VOL_BASE * musicVolume * 2.2 : 0; }
+function stopBGM(){
+  if(!bgmNodes) return;
+  try{
+    if(bgmNodes.interval) clearInterval(bgmNodes.interval);
+    if(bgmNodes.padOscs){
+      bgmNodes.padOscs.forEach(function(o){ try{ o.stop(); }catch(e){} });
+    }
+    if(bgmNodes.master){
+      const g=bgmNodes.master;
+      const ctx=ensureAudio();
+      if(ctx){
+        g.gain.cancelScheduledValues(ctx.currentTime);
+        g.gain.setValueAtTime(g.gain.value, ctx.currentTime);
+        g.gain.linearRampToValueAtTime(0.0001, ctx.currentTime+0.35);
+        setTimeout(function(){ try{ g.disconnect(); }catch(e){} }, 400);
+      }
+    }
+  }catch(e){}
+  bgmNodes=null;
+}
+function pauseBGM(){
+  if(!bgmNodes||!bgmNodes.master) return;
+  const ctx=ensureAudio(); if(!ctx) return;
+  try{
+    bgmNodes.master.gain.cancelScheduledValues(ctx.currentTime);
+    bgmNodes.master.gain.setValueAtTime(bgmNodes.master.gain.value, ctx.currentTime);
+    bgmNodes.master.gain.linearRampToValueAtTime(0.0001, ctx.currentTime+0.2);
+    bgmNodes.paused=true;
+  }catch(e){}
+}
+function resumeBGM(){
+  if(!bgmNodes||!bgmNodes.master){ startBGM(); return; }
+  const ctx=ensureAudio(); if(!ctx) return;
+  try{
+    bgmNodes.master.gain.cancelScheduledValues(ctx.currentTime);
+    bgmNodes.master.gain.setValueAtTime(bgmNodes.master.gain.value, ctx.currentTime);
+    bgmNodes.master.gain.linearRampToValueAtTime(getBgmVol(), ctx.currentTime+0.25);
+    bgmNodes.paused=false;
+  }catch(e){}
+}
+function startBGM(){
+  stopBGM();
+  const ctx=ensureAudio(); if(!ctx) return;
+  try{
+    const master=ctx.createGain();
+    master.gain.value=0.0001;
+    master.connect(ctx.destination);
+    master.gain.linearRampToValueAtTime(getBgmVol(), ctx.currentTime+0.6);
+
+    // soft chord pad (C minor-ish jungle feel)
+    const padFreqs=[130.81, 164.81, 196.00, 261.63]; // C3 E3 G3 C4
+    const padOscs=[];
+    padFreqs.forEach(function(f,i){
+      const o=ctx.createOscillator();
+      const g=ctx.createGain();
+      o.type=i%2===0?"sine":"triangle";
+      o.frequency.value=f;
+      g.gain.value=0.22/(i+1);
+      o.connect(g); g.connect(master);
+      o.start();
+      padOscs.push(o);
+    });
+
+    // simple looping melody (pentatonic-ish)
+    const melody=[392, 440, 523.25, 587.33, 523.25, 440, 392, 349.23,
+                  392, 523.25, 587.33, 659.25, 587.33, 523.25, 440, 392];
+    let step=0;
+    const beatMs=320;
+    const interval=setInterval(function(){
+      if(!bgmNodes||bgmNodes.paused) return;
+      const ctx2=ensureAudio(); if(!ctx2) return;
+      try{
+        const f=melody[step%melody.length];
+        const o=ctx2.createOscillator();
+        const g=ctx2.createGain();
+        o.type="triangle";
+        o.frequency.value=f;
+        const t0=ctx2.currentTime;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(0.35, t0+0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0+0.28);
+        o.connect(g); g.connect(master);
+        o.start(t0); o.stop(t0+0.3);
+        // light bass every 4 steps
+        if(step%4===0){
+          const b=ctx2.createOscillator();
+          const bg=ctx2.createGain();
+          b.type="sine";
+          b.frequency.value=f/4;
+          bg.gain.setValueAtTime(0.0001, t0);
+          bg.gain.exponentialRampToValueAtTime(0.4, t0+0.03);
+          bg.gain.exponentialRampToValueAtTime(0.0001, t0+0.4);
+          b.connect(bg); bg.connect(master);
+          b.start(t0); b.stop(t0+0.42);
+        }
+      }catch(e){}
+      step++;
+    }, beatMs);
+
+    bgmNodes={ master, interval, padOscs, running:true, paused:false };
+  }catch(e){ bgmNodes=null; }
+}
+// Unlock audio on first user gesture
+["pointerdown","keydown","touchstart"].forEach(ev=>{
+  window.addEventListener(ev, function once(){ ensureAudio(); }, {once:true, passive:true});
+});
+
 let prevSnake=[],growing=false,turnLocked=false;
 
 function show(id){
@@ -453,45 +1402,431 @@ function show(id){
  target.classList.add("active");
  target.scrollTop=0;
  target.scrollLeft=0;
+ const app=document.querySelector(".app");
+ if(app){
+  if(id==="game") app.classList.add("playing");
+  else app.classList.remove("playing");
+ }
 }
 function updateHomeStats(){
- const hc=document.getElementById("homeCoins");
+ const hc=document.getElementById("homeFrogs");
  const hs=document.getElementById("homeHighScore");
- if(hc) hc.textContent = Number(coins||0).toLocaleString();
+ if(hc) hc.textContent = Number(frogs||0).toLocaleString();
  if(hs) hs.textContent = Number(high||0).toLocaleString();
  const hud=document.getElementById("hudHigh");
  if(hud) hud.textContent = Number(high||0).toLocaleString();
+ updateDailyUI();
+ updateSpecialUI();
+}
+function formatCountdown(ms){
+ if(ms<=0) return "Ready!";
+ const s=Math.floor(ms/1000);
+ const h=Math.floor(s/3600);
+ const m=Math.floor((s%3600)/60);
+ const sec=s%60;
+ return (h>0?h+"h ":"")+m+"m "+sec+"s";
+}
+function updateDailyUI(){
+ const sub=document.getElementById("dailyRewardSub");
+ const timer=document.getElementById("dailyRewardTimer");
+ const btn=document.getElementById("dailyRewardBtn");
+ if(!sub||!timer||!btn) return;
+ const reward=DAILY_REWARDS[dailyDay-1]||5;
+ sub.textContent="Day "+dailyDay+" — "+reward+" Frogs";
+ const now=Date.now();
+ const left=DAY_MS-(now-dailyLastClaim);
+ const ready=!dailyLastClaim || left<=0;
+ if(ready){
+  timer.textContent="Ready · Real time";
+  btn.disabled=false;
+ }else{
+  timer.textContent=formatCountdown(left)+" left";
+  btn.disabled=false;
+ }
+ renderDayBlocks();
+ const gs=document.getElementById("giftStatus");
+ const gcb=document.getElementById("giftClaimBtn");
+ const box=document.getElementById("giftBox");
+ if(gs){
+  if(ready) gs.textContent="Tap the gift pack to get frogs!";
+  else gs.textContent="Come back in "+formatCountdown(left);
+ }
+ if(gcb) gcb.disabled=!ready;
+ if(box) box.style.pointerEvents=ready?"auto":"none";
+}
+function renderDayBlocks(){
+ const wrap=document.getElementById("dayBlocks");
+ if(!wrap) return;
+ wrap.innerHTML="";
+ const now=Date.now();
+ const ready=!dailyLastClaim || (now-dailyLastClaim)>=DAY_MS;
+ for(let i=1;i<=7;i++){
+  const d=document.createElement("div");
+  d.className="day-block";
+  if(i===dailyDay && ready) d.classList.add("current");
+  else if(i<dailyDay) d.classList.add("done");
+  else if(i>dailyDay) d.classList.add("locked");
+  d.innerHTML='<span class="db-day">DAY '+i+'</span><span class="db-amt">🐸 '+DAILY_REWARDS[i-1]+'</span>';
+  wrap.appendChild(d);
+ }
+}
+function openGiftPack(){
+ playClick();
+ const ov=document.getElementById("giftOverlay");
+ if(ov) ov.classList.add("show");
+ const box=document.getElementById("giftBox");
+ if(box) box.classList.remove("open");
+ const pop=document.getElementById("giftFrogsPop");
+ if(pop) pop.classList.remove("show");
+ updateDailyUI();
+}
+function closeGiftPack(){
+ playClick();
+ const ov=document.getElementById("giftOverlay");
+ if(ov) ov.classList.remove("show");
+}
+function claimDailyReward(){
+ playClick();
+ const now=Date.now();
+ if(dailyLastClaim && (now-dailyLastClaim)<DAY_MS){
+  updateDailyUI();
+  return;
+ }
+ const reward=DAILY_REWARDS[dailyDay-1]||5;
+ const box=document.getElementById("giftBox");
+ const pop=document.getElementById("giftFrogsPop");
+ if(box) box.classList.add("open");
+ if(pop){
+  pop.textContent="🐸".repeat(Math.min(5,reward));
+  pop.classList.add("show");
+ }
+ frogs+=reward;
+ dailyLastClaim=now;
+ dailyDay = dailyDay>=7 ? 1 : dailyDay+1;
+ localStorage.setItem("snakeFrogs",String(frogs)); localStorage.setItem("snakeCoins",String(frogs));
+ localStorage.setItem("snakeDailyDay",String(dailyDay));
+ localStorage.setItem("snakeDailyLast",String(dailyLastClaim));
+ savePersistentState();
+ updateHomeStats();
+ playTone(520,0.1,"triangle",0.1);
+ playTone(780,0.15,"triangle",0.08);
+ const gs=document.getElementById("giftStatus");
+ if(gs) gs.textContent="+"+reward+" Frogs collected!";
+ setTimeout(function(){
+  if(pop) pop.classList.remove("show");
+  updateDailyUI();
+ },1800);
+}
+function updateSpecialUI(){
+ const sub=document.getElementById("specialOfferSub");
+ const btn=document.getElementById("specialOfferBtn");
+ const price=document.getElementById("specialPriceLabel");
+ const buy=document.getElementById("specialBuyBtn");
+ const tag=document.getElementById("specialTagLabel");
+ const homeTimer=document.getElementById("specialOfferTimer");
+ expireTempSpecialIfNeeded();
+ const permanent=hasPermanentSpecial();
+ const temp=hasTempSpecial();
+ const p=getSpecialPrice();
+ const flashLeft=getSpecialFlashLeft();
+ const flashOn=p!=null && p!==999 && !temp;
+ const waveNum=Math.min(specialOfferWave+1, SPECIAL_FLASH_PRICES.length);
+ // Start real timer if flash wave available but not started
+ if(!permanent && !temp && specialOfferWave<SPECIAL_FLASH_PRICES.length && !specialOfferStart){
+  specialOfferStart=Date.now();
+  localStorage.setItem("snakeSpecialOfferStart",String(specialOfferStart));
+  savePersistentState();
+ }
+ if(sub){
+  if(permanent) sub.textContent="Permanent — In My Snake";
+  else if(temp) sub.textContent="Temp active · "+formatCountdown(flashLeft)+" left";
+  else if(flashOn) sub.textContent="Flash #"+waveNum+": "+p+" Frogs (10 min)";
+  else sub.textContent="Permanent: 999 Frogs";
+ }
+ if(homeTimer){
+  if(permanent) homeTimer.textContent="✓ Permanent";
+  else if(temp) homeTimer.textContent="⏱ "+formatCountdown(flashLeft)+" left";
+  else if(flashOn) homeTimer.textContent="⏱ "+formatCountdown(flashLeft||SPECIAL_OFFER_MS)+" deal left";
+  else homeTimer.textContent="999 · Permanent";
+ }
+ if(btn) btn.disabled=false;
+ if(tag){
+  if(permanent) tag.textContent="Permanent Owner";
+  else if(temp) tag.textContent="⏱ Skin active · "+formatCountdown(flashLeft)+" remaining (then expires)";
+  else if(flashOn) tag.textContent="Flash buy = 10 min skin · Deal #"+waveNum+"/6 · "+formatCountdown(flashLeft||SPECIAL_OFFER_MS);
+  else tag.textContent="999 Frogs = Permanent forever";
+ }
+ if(price){
+  if(permanent) price.textContent="✓ Permanent — unlocked forever";
+  else if(temp) price.textContent="Temp active · "+formatCountdown(flashLeft)+" left → Upgrade 999";
+  else if(flashOn) price.textContent="Flash: "+p+" Frogs = 10 min skin";
+  else price.textContent="Permanent unlock: 999 Frogs";
+ }
+ const bal=document.getElementById("specialBalanceLabel");
+ if(bal){
+  if(permanent) bal.textContent="Owned in My Snake";
+  else if(temp) bal.textContent="You have: "+frogs+" Frogs · Upgrade anytime";
+  else bal.textContent="You have: "+frogs+" Frogs";
+ }
+ if(buy){
+  if(permanent){
+   buy.disabled=true;
+   buy.textContent="Already Permanent";
+  }else if(temp){
+   buy.disabled=false;
+   buy.textContent="Make Permanent — 999 Frogs";
+  }else{
+   buy.disabled=false;
+   buy.textContent="Buy for "+(p||999)+" Frogs"+(p===999?"":" (10 min)");
+  }
+ }
+}
+let specialSnakeAnim=null;
+function drawSpecialSnakeFrame(){
+ const cv=document.getElementById("specialSnakePreview");
+ if(!cv) return;
+ const c=cv.getContext("2d");
+ const W=cv.width,H=cv.height;
+ c.clearRect(0,0,W,H);
+ const t=performance.now()/700;
+ // full-color floor glow
+ const g=c.createRadialGradient(W/2,H*0.7,8,W/2,H*0.7,W*0.5);
+ g.addColorStop(0,"rgba(34,211,238,0.35)");
+ g.addColorStop(0.5,"rgba(225,29,72,0.2)");
+ g.addColorStop(1,"rgba(0,0,0,0)");
+ c.fillStyle=g; c.fillRect(0,0,W,H);
+ const pts=[];
+ const n=16;
+ for(let i=0;i<n;i++){
+  const x=28+i*((W-48)/(n-1));
+  const y=H/2+Math.sin(t*2.2+i*0.5)*14;
+  pts.push({x,y});
+ }
+ c.lineJoin="round"; c.lineCap="round";
+ // cyan outer glow
+ c.shadowColor=SPECIAL_SKIN.glow; c.shadowBlur=22;
+ c.strokeStyle=SPECIAL_SKIN.glow; c.lineWidth=20;
+ c.beginPath(); c.moveTo(pts[0].x,pts[0].y);
+ for(let i=1;i<pts.length;i++) c.lineTo(pts[i].x,pts[i].y);
+ c.stroke();
+ c.shadowBlur=0;
+ // full-color body segments (rainbow band)
+ for(let i=0;i<pts.length-1;i++){
+  const hue=(performance.now()/15+i*22)%360;
+  c.strokeStyle=`hsl(${hue},95%,55%)`;
+  c.lineWidth=13;
+  c.beginPath(); c.moveTo(pts[i].x,pts[i].y); c.lineTo(pts[i+1].x,pts[i+1].y); c.stroke();
+ }
+ // core body in special skin color
+ c.strokeStyle=SPECIAL_SKIN.body; c.lineWidth=8;
+ c.beginPath(); c.moveTo(pts[0].x,pts[0].y);
+ for(let i=1;i<pts.length;i++) c.lineTo(pts[i].x,pts[i].y);
+ c.stroke();
+ // big colorful head + mouth
+ const h=pts[pts.length-1];
+ const hh=(performance.now()/12)%360;
+ c.shadowColor=`hsl(${(hh+40)%360},100%,60%)`; c.shadowBlur=18;
+ c.fillStyle=`hsl(${hh},95%,52%)`;
+ c.beginPath(); c.arc(h.x+6,h.y,14,0,Math.PI*2); c.fill();
+ c.strokeStyle="rgba(255,255,255,0.5)"; c.lineWidth=2.5; c.stroke();
+ c.shadowBlur=0;
+ // eyes
+ c.fillStyle="#fff";
+ c.beginPath(); c.arc(h.x+10,h.y-5,3.4,0,Math.PI*2); c.fill();
+ c.beginPath(); c.arc(h.x+10,h.y+5,3.4,0,Math.PI*2); c.fill();
+ c.fillStyle="#111";
+ c.beginPath(); c.arc(h.x+11.2,h.y-5,1.6,0,Math.PI*2); c.fill();
+ c.beginPath(); c.arc(h.x+11.2,h.y+5,1.6,0,Math.PI*2); c.fill();
+ // big tongue / mouth
+ c.fillStyle="#ff2d55";
+ c.beginPath();
+ c.moveTo(h.x+18,h.y-3.5); c.lineTo(h.x+32,h.y); c.lineTo(h.x+18,h.y+3.5);
+ c.fill();
+}
+function openSpecialOffer(){
+ playClick();
+ advanceSpecialWaveIfNeeded();
+ // Start current wave's real 10-minute timer if needed
+ if(!hasSpecialSkin() && specialOfferWave<SPECIAL_FLASH_PRICES.length && !specialOfferStart){
+  specialOfferStart=Date.now();
+  localStorage.setItem("snakeSpecialOfferStart",String(specialOfferStart));
+  localStorage.setItem("snakeSpecialOfferWave",String(specialOfferWave));
+  savePersistentState();
+ }
+ updateSpecialUI();
+ const ov=document.getElementById("specialOverlay");
+ if(ov) ov.classList.add("show");
+ if(specialSnakeAnim) cancelAnimationFrame(specialSnakeAnim);
+ (function loop(){
+  drawSpecialSnakeFrame();
+  updateSpecialUI();
+  if(document.getElementById("specialOverlay")?.classList.contains("show"))
+   specialSnakeAnim=requestAnimationFrame(loop);
+ })();
+}
+function closeSpecialOffer(){
+ playClick();
+ const ov=document.getElementById("specialOverlay");
+ if(ov) ov.classList.remove("show");
+ if(specialSnakeAnim){ cancelAnimationFrame(specialSnakeAnim); specialSnakeAnim=null; }
+}
+function buySpecialOffer(){
+ playClick();
+ expireTempSpecialIfNeeded();
+ // Already permanent — nothing to buy
+ if(hasPermanentSpecial()){ updateSpecialUI(); return; }
+ const price=getSpecialPrice();
+ if(price==null) return;
+ if(frogs<price){
+  alert("You need "+price+" Frogs. You have: "+frogs);
+  return;
+ }
+ frogs-=price;
+ localStorage.setItem("snakeFrogs",String(frogs)); localStorage.setItem("snakeCoins",String(frogs));
+
+ if(price===999){
+  // PERMANENT unlock forever
+  specialUnlocked=true;
+  specialTempUntil=0;
+  localStorage.setItem("snakeSpecialUnlocked","1");
+  localStorage.setItem("snakeSpecialTempUntil","0");
+  // Ensure skin in My Snake as permanent
+  const idx=ownedSkins.findIndex(s=>s && s.name==="Special Offer");
+  if(idx>=0){
+   ownedSkins[idx].permanent=true;
+   ownedSkins[idx].fullColor=true;
+   activeSkinIndex=idx;
+  }else{
+   ownedSkins.push({body:SPECIAL_SKIN.body,glow:SPECIAL_SKIN.glow,name:SPECIAL_SKIN.name,fullColor:true,permanent:true});
+   activeSkinIndex=ownedSkins.length-1;
+  }
+  localStorage.setItem("snakeOwnedSkins",JSON.stringify(ownedSkins));
+  localStorage.setItem("snakeActiveSkin",String(activeSkinIndex));
+  savePersistentState();
+  updateHomeStats();
+  updateSpecialUI();
+  drawMySnakePreview();
+  playTone(400,0.1,"sawtooth",0.1);
+  playTone(600,0.12,"sawtooth",0.09);
+  playTone(900,0.18,"triangle",0.08);
+  const pl=document.getElementById("specialPriceLabel");
+  if(pl) pl.textContent="Permanent unlock! Skin is yours forever in My Snake.";
+ }else{
+  // FLASH buy = skin for 10 REAL minutes only
+  specialTempUntil=Date.now()+SPECIAL_OFFER_MS; // 10 minutes from now
+  specialUnlocked=false;
+  localStorage.setItem("snakeSpecialUnlocked","0");
+  localStorage.setItem("snakeSpecialTempUntil",String(specialTempUntil));
+  // Add or refresh temp skin (not permanent)
+  const idx=ownedSkins.findIndex(s=>s && s.name==="Special Offer");
+  if(idx>=0){
+   ownedSkins[idx].permanent=false;
+   ownedSkins[idx].fullColor=true;
+   activeSkinIndex=idx;
+  }else{
+   ownedSkins.push({body:SPECIAL_SKIN.body,glow:SPECIAL_SKIN.glow,name:SPECIAL_SKIN.name,fullColor:true,permanent:false});
+   activeSkinIndex=ownedSkins.length-1;
+  }
+  // Advance wave after a flash purchase so next flash price is next tier
+  specialOfferWave=Math.min(specialOfferWave+1, SPECIAL_FLASH_PRICES.length);
+  specialOfferStart=specialOfferWave<SPECIAL_FLASH_PRICES.length?Date.now():0;
+  localStorage.setItem("snakeSpecialOfferWave",String(specialOfferWave));
+  localStorage.setItem("snakeSpecialOfferStart",String(specialOfferStart));
+  localStorage.setItem("snakeOwnedSkins",JSON.stringify(ownedSkins));
+  localStorage.setItem("snakeActiveSkin",String(activeSkinIndex));
+  savePersistentState();
+  updateHomeStats();
+  updateSpecialUI();
+  drawMySnakePreview();
+  playTone(520,0.1,"triangle",0.1);
+  playTone(780,0.12,"triangle",0.08);
+  const pl=document.getElementById("specialPriceLabel");
+  if(pl) pl.textContent="Active for 10 minutes! Buy 999 Frogs anytime for permanent.";
+ }
 }
 function showHome(){
+ playClick();
  stopGame();
  updateHomeStats();
  show("home");
  drawMySnakePreview();
 }
 function openMySnake(){
+ expireTempSpecialIfNeeded();
+ window._sellMode=false;
+ const hint=document.getElementById("sellModeHint");
+ if(hint) hint.style.display="none";
+ const btn=document.getElementById("activeSellBtn");
+ if(btn) btn.classList.remove("sell-mode-on");
  renderOwnedSkins();
  show("mySnake");
+}
+function skinStatusBadge(skin){
+ if(!skin) return null;
+ if(skin.name==="Special Offer"){
+  if(skin.permanent || specialUnlocked) return {cls:"perm", text:"Permanent"};
+  if(hasTempSpecial()) return {cls:"temp", text:"Temp 10 min"};
+  return {cls:"temp", text:"Special"};
+ }
+ if(skin.name==="Aqua King") return {cls:"perm", text:"Character"};
+ if(skin.name==="My Snake") return {cls:"classic", text:"Default"};
+ return {cls:"classic", text:"Saved"};
 }
 function renderOwnedSkins(){
  const wrap=document.getElementById("ownedSkins");
  if(!wrap)return;
  wrap.innerHTML="";
+ const countEl=document.getElementById("ownedCountLabel");
+ if(countEl) countEl.textContent=(ownedSkins.length||0)+" skin"+(ownedSkins.length===1?"":"s");
+ // Active bar
+ const active=ownedSkins[activeSkinIndex]||CLASSIC_SKIN;
+ const an=document.getElementById("mySnakeActiveName");
+ if(an) an.textContent=active.name||"My Snake";
+ const acv=document.getElementById("mySnakeActivePreview");
+ if(acv) drawSkinPreview(acv, active.body||"#111111", active.glow||"#f5c542", !!(active.fullColor||active.name==="Special Offer"));
+ updateSellBtnState();
+ // If no sellable left, force exit sell mode + hide hint
+ if(!hasSellableSnake()){
+  window._sellMode=false;
+  const hint=document.getElementById("sellModeHint");
+  if(hint) hint.style.display="none";
+  const sbtn=document.getElementById("activeSellBtn");
+  if(sbtn) sbtn.classList.remove("sell-mode-on");
+ }
  if(!ownedSkins.length){
   const empty=document.createElement("div");
   empty.className="owner-slot empty";
-  empty.textContent="[  EMPTY  ]";
+  empty.innerHTML="No skins yet<br><span style=\"font-size:11px;opacity:.8\">Design or Special Offer se add karo</span>";
   wrap.appendChild(empty);
   return;
  }
  ownedSkins.forEach((skin,i)=>{
   const slot=document.createElement("div");
-  slot.className="owner-slot saved";
+  slot.className="owner-slot saved"+(i===activeSkinIndex?" is-active":"");
+  const badgeInfo=skinStatusBadge(skin);
+  if(badgeInfo){
+   const badge=document.createElement("div");
+   badge.className="owner-badge "+badgeInfo.cls;
+   badge.textContent=badgeInfo.text;
+   slot.appendChild(badge);
+  }
   const cv=document.createElement("canvas"); cv.className="owner-preview"; cv.width=150; cv.height=58;
-  drawSkinPreview(cv,skin.body,skin.glow);
+  drawSkinPreview(cv,skin.body,skin.glow, !!(skin.fullColor||skin.name==="Special Offer"));
   const name=document.createElement("div"); name.className="owner-name"; name.textContent=skin.name||("Saved Skin "+(i+1));
   const btn=document.createElement("button"); btn.className="owner-use"+(i===activeSkinIndex?" active":""); btn.textContent=i===activeSkinIndex?"✓ USING":"USE SNAKE";
-  btn.onclick=()=>useOwnedSkin(i);
-  slot.append(cv,name,btn); wrap.appendChild(slot);
+  btn.onclick=(e)=>{ e.stopPropagation(); if(!window._sellMode) useOwnedSkin(i); };
+  slot.append(cv,name,btn);
+  // Sell-select mode: highlight sellable snakes
+  if(window._sellMode){
+   const canSell=skin && skin.name!=="My Snake" && skin.name!=="Special Offer" && skin.name!=="Aqua King";
+   if(canSell){
+    slot.classList.add("sell-pickable");
+    slot.onclick=(e)=>{ e.stopPropagation(); pickSnakeToSell(i); };
+   }else{
+    slot.classList.add("sell-blocked");
+   }
+  }
+  wrap.appendChild(slot);
  });
 }
 function useOwnedSkin(i){
@@ -505,16 +1840,141 @@ function useOwnedSkin(i){
  drawMySnakePreview();
  renderOwnedSkins();
 }
-function drawSkinPreview(cv,body,glow){
+function hasSellableSnake(){
+ return (ownedSkins||[]).some(s=>s && s.name!=="My Snake" && s.name!=="Special Offer" && s.name!=="Aqua King");
+}
+function updateSellBtnState(){
+ const btn=document.getElementById("activeSellBtn");
+ if(!btn)return;
+ const ok=hasSellableSnake();
+ btn.disabled=!ok;
+ btn.style.opacity=ok?"1":"0.4";
+ btn.title=ok?"Sell a snake for 100 Frogs":"No custom snake to sell";
+ if(!ok){ btn.classList.remove("sell-mode-on"); }
+}
+function startSellMode(){
+ if(!hasSellableSnake()){
+  // only simple + special (or none sellable) — no sell mode
+  cancelSellMode();
+  updateSellBtnState();
+  return;
+ }
+ window._sellMode=true;
+ const hint=document.getElementById("sellModeHint");
+ if(hint) hint.style.display="flex";
+ const btn=document.getElementById("activeSellBtn");
+ if(btn) btn.classList.add("sell-mode-on");
+ renderOwnedSkins();
+ playClick();
+}
+function cancelSellMode(){
+ window._sellMode=false;
+ const hint=document.getElementById("sellModeHint");
+ if(hint) hint.style.display="none";
+ const btn=document.getElementById("activeSellBtn");
+ if(btn) btn.classList.remove("sell-mode-on");
+ renderOwnedSkins();
+}
+function pickSnakeToSell(i){
+ if(!window._sellMode)return;
+ if(!ownedSkins[i])return;
+ const skin=ownedSkins[i];
+ if(skin.name==="My Snake" || skin.name==="Special Offer" || skin.name==="Aqua King"){
+  alert("This snake cannot be sold.");
+  return;
+ }
+ // keep sell mode off when confirm opens, restore cancel cleans up
+ openSellConfirm(i);
+}
+function openSellConfirm(i){
+ if(!ownedSkins[i])return;
+ const skin=ownedSkins[i];
+ if(skin.name==="My Snake" || skin.name==="Special Offer" || skin.name==="Aqua King"){
+  alert("This snake cannot be sold.");
+  return;
+ }
+ window._pendingSellIndex=i;
+ const nameEl=document.getElementById("sellSnakeName");
+ if(nameEl) nameEl.textContent=skin.name||("Saved Skin "+(i+1));
+ const cv=document.getElementById("sellPreviewCanvas");
+ if(cv) drawSkinPreview(cv, skin.body||"#111111", skin.glow||"#f5c542", !!(skin.fullColor||skin.name==="Special Offer"));
+ const ov=document.getElementById("sellOverlay");
+ if(ov) ov.classList.add("show");
+ playClick();
+}
+function closeSellConfirm(){
+ const ov=document.getElementById("sellOverlay");
+ if(ov) ov.classList.remove("show");
+ window._pendingSellIndex=null;
+ cancelSellMode();
+}
+function confirmSellSnake(){
+ const i=window._pendingSellIndex;
+ if(i==null || !ownedSkins[i]){ closeSellConfirm(); return; }
+ const skin=ownedSkins[i];
+ if(skin.name==="My Snake" || skin.name==="Special Offer" || skin.name==="Aqua King"){
+  closeSellConfirm();
+  return;
+ }
+ // Remove skin
+ ownedSkins.splice(i,1);
+ if(ownedSkins.length===0){
+  if(!ownedSkins.some(s=>s && s.name==="My Snake")){
+   ownedSkins.unshift({body:CLASSIC_SKIN.body,glow:CLASSIC_SKIN.glow,name:CLASSIC_SKIN.name});
+  }
+  activeSkinIndex=0;
+ }else if(activeSkinIndex===i){
+  activeSkinIndex=0;
+ }else if(activeSkinIndex>i){
+  activeSkinIndex--;
+ }
+ frogs = (Number(frogs)||0) + 100;
+ localStorage.setItem("snakeFrogs",String(frogs));
+ localStorage.setItem("snakeCoins",String(frogs));
+ localStorage.setItem("snakeOwnedSkins",JSON.stringify(ownedSkins));
+ localStorage.setItem("snakeActiveSkin",String(activeSkinIndex));
+ if(ownedSkins[activeSkinIndex]){
+  localStorage.setItem("snakeCustomBody",ownedSkins[activeSkinIndex].body||"#111111");
+  localStorage.setItem("snakeCustomGlow",ownedSkins[activeSkinIndex].glow||"#f5c542");
+ }
+ savePersistentState();
+ updateHomeStats();
+ drawMySnakePreview();
+ closeSellConfirm();
+ renderOwnedSkins();
+ playTone(520,0.08,"triangle",0.1);
+ playTone(380,0.1,"triangle",0.08);
+}
+
+function drawSkinPreview(cv,body,glow,fullColor){
  const c=cv.getContext("2d"); c.clearRect(0,0,cv.width,cv.height); const y=cv.height/2;
- c.lineJoin="round"; c.lineCap="round"; c.shadowColor=glow; c.shadowBlur=10; c.strokeStyle=glow; c.lineWidth=16;
- c.beginPath(); c.moveTo(18,y); for(let x=38;x<=118;x+=20)c.lineTo(x,y); c.stroke(); c.shadowBlur=0;
- c.strokeStyle=body; c.lineWidth=12; c.beginPath(); c.moveTo(18,y); for(let x=38;x<=118;x+=20)c.lineTo(x,y); c.stroke();
- c.fillStyle=body; c.beginPath(); c.arc(124,y,8,0,Math.PI*2); c.fill();
- c.fillStyle="#fff"; c.beginPath(); c.arc(127,y-3,2,0,Math.PI*2); c.fill(); c.beginPath(); c.arc(127,y+3,2,0,Math.PI*2); c.fill();
+ const pts=[];
+ for(let i=0;i<8;i++){ pts.push({x:16+i*15, y:y+Math.sin(i*0.7)*4}); }
+ c.lineJoin="round"; c.lineCap="round";
+ if(fullColor){
+  c.shadowColor="#22d3ee"; c.shadowBlur=12;
+  for(let i=0;i<pts.length-1;i++){
+   const hue=(i*40)%360;
+   c.strokeStyle=`hsl(${hue},95%,55%)`; c.lineWidth=14;
+   c.beginPath(); c.moveTo(pts[i].x,pts[i].y); c.lineTo(pts[i+1].x,pts[i+1].y); c.stroke();
+  }
+  c.shadowBlur=0;
+  const h=pts[pts.length-1];
+  c.fillStyle=`hsl(${(performance.now()/20)%360},95%,55%)`;
+  c.beginPath(); c.arc(h.x+6,h.y,8,0,Math.PI*2); c.fill();
+  c.fillStyle="#fff"; c.beginPath(); c.arc(h.x+9,h.y-3,2,0,Math.PI*2); c.fill(); c.beginPath(); c.arc(h.x+9,h.y+3,2,0,Math.PI*2); c.fill();
+ }else{
+  c.shadowColor=glow; c.shadowBlur=10; c.strokeStyle=glow; c.lineWidth=16;
+  c.beginPath(); c.moveTo(pts[0].x,pts[0].y); for(let i=1;i<pts.length;i++)c.lineTo(pts[i].x,pts[i].y); c.stroke(); c.shadowBlur=0;
+  c.strokeStyle=body; c.lineWidth=12;
+  c.beginPath(); c.moveTo(pts[0].x,pts[0].y); for(let i=1;i<pts.length;i++)c.lineTo(pts[i].x,pts[i].y); c.stroke();
+  c.fillStyle=body; c.beginPath(); c.arc(pts[pts.length-1].x+6,y,8,0,Math.PI*2); c.fill();
+  c.fillStyle="#fff"; c.beginPath(); c.arc(pts[pts.length-1].x+9,y-3,2,0,Math.PI*2); c.fill(); c.beginPath(); c.arc(pts[pts.length-1].x+9,y+3,2,0,Math.PI*2); c.fill();
+ }
 }
 
 function showSetup(){
+ playClick();
  document.getElementById("setupBest").textContent=high;
  // apply saved settings defaults
  const ss=localStorage.getItem("snakeDefSpeed");
@@ -524,20 +1984,96 @@ function showSetup(){
  show("setup");
 }
 function showHighScore(){
+ playClick();
  document.getElementById("highScoreBig").textContent=high.toLocaleString();
- document.getElementById("highScoreCoins").textContent=coins.toLocaleString();
+ document.getElementById("highScoreFrogs").textContent=frogs.toLocaleString();
  show("highScoreScreen");
 }
+function syncAudioSettingsUI(){
+ const st=document.getElementById("soundToggleBtn");
+ if(st){
+  st.textContent=soundEnabled?"ON":"OFF";
+  st.className="audio-toggle "+(soundEnabled?"on":"off");
+ }
+ const mt=document.getElementById("musicToggleBtn");
+ if(mt){
+  mt.textContent=musicEnabled?"ON":"OFF";
+  mt.className="audio-toggle "+(musicEnabled?"on":"off");
+ }
+ const sv=document.getElementById("sfxVolume");
+ if(sv) sv.value=String(Math.round(sfxVolume*100));
+ const mv=document.getElementById("musicVolume");
+ if(mv) mv.value=String(Math.round(musicVolume*100));
+ const sl=document.getElementById("sfxVolLabel");
+ if(sl) sl.textContent=Math.round(sfxVolume*100)+"%";
+ const ml=document.getElementById("musicVolLabel");
+ if(ml) ml.textContent=Math.round(musicVolume*100)+"%";
+}
+function persistAudioSettings(){
+ localStorage.setItem("snakeSoundOn", soundEnabled?"1":"0");
+ localStorage.setItem("snakeMusicOn", musicEnabled?"1":"0");
+ localStorage.setItem("snakeSfxVol", String(Math.round(sfxVolume*100)));
+ localStorage.setItem("snakeMusicVol", String(Math.round(musicVolume*100)));
+}
+function applyBgmVolumeNow(){
+ if(bgmNodes && bgmNodes.master){
+  try{
+   const ctx=ensureAudio();
+   if(!ctx) return;
+   bgmNodes.master.gain.cancelScheduledValues(ctx.currentTime);
+   bgmNodes.master.gain.setValueAtTime(bgmNodes.master.gain.value, ctx.currentTime);
+   bgmNodes.master.gain.linearRampToValueAtTime(getBgmVol(), ctx.currentTime+0.15);
+  }catch(e){}
+ }
+}
+function toggleSoundSetting(){
+ soundEnabled=!soundEnabled;
+ persistAudioSettings();
+ syncAudioSettingsUI();
+ if(soundEnabled) playClick();
+}
+function toggleMusicSetting(){
+ musicEnabled=!musicEnabled;
+ persistAudioSettings();
+ syncAudioSettingsUI();
+ applyBgmVolumeNow();
+ if(!musicEnabled){
+  // mute running bgm
+  applyBgmVolumeNow();
+ }else{
+  // if game running, ensure bgm
+  try{ if(typeof gameRunning!=="undefined" && gameRunning && !paused) startBGM(); }catch(e){}
+  applyBgmVolumeNow();
+ }
+ if(soundEnabled) playClick();
+}
+function onSfxVolumeInput(v){
+ sfxVolume=Math.min(1,Math.max(0,(Number(v)||0)/100));
+ persistAudioSettings();
+ const sl=document.getElementById("sfxVolLabel");
+ if(sl) sl.textContent=Math.round(sfxVolume*100)+"%";
+}
+function onMusicVolumeInput(v){
+ musicVolume=Math.min(1,Math.max(0,(Number(v)||0)/100));
+ persistAudioSettings();
+ const ml=document.getElementById("musicVolLabel");
+ if(ml) ml.textContent=Math.round(musicVolume*100)+"%";
+ applyBgmVolumeNow();
+}
 function showSettings(){
+ playClick();
  const ss=localStorage.getItem("snakeDefSpeed")||"135";
  const sd=localStorage.getItem("snakeDefDiff")||"normal";
  document.getElementById("setSpeed").value=ss;
  document.getElementById("setDifficulty").value=sd;
+ syncAudioSettingsUI();
  show("settings");
 }
 function saveSettings(){
+ playClick();
  localStorage.setItem("snakeDefSpeed",document.getElementById("setSpeed").value);
  localStorage.setItem("snakeDefDiff",document.getElementById("setDifficulty").value);
+ persistAudioSettings();
  savePersistentState();
  document.getElementById("speed").value=document.getElementById("setSpeed").value;
  document.getElementById("difficulty").value=document.getElementById("setDifficulty").value;
@@ -546,10 +2082,10 @@ function saveSettings(){
 function quitGame(){ stopGame(); show("quitScreen"); }
 
 function openCustomize(){
- document.getElementById("customCoins").textContent=coins;
+ document.getElementById("customFrogs").textContent=frogs;
  const banner=document.getElementById("unlockBanner");
  const panel=document.getElementById("customPanel");
- const needMsg=document.getElementById("needCoinsMsg");
+ const needMsg=document.getElementById("needFrogsMsg");
  const unlockBtn=document.getElementById("unlockBtn");
  if(customUnlocked){
   banner.style.display="none";
@@ -557,31 +2093,41 @@ function openCustomize(){
   panel.style.pointerEvents=""; panel.style.opacity="";
   document.getElementById("customColor").value=localStorage.getItem("snakeCustomBody")||"#111111";
   document.getElementById("customGlow").value=localStorage.getItem("snakeCustomGlow")||"#f5c542";
+  const charPanel=document.getElementById("charPanel");
+  if(charPanel){ charPanel.style.pointerEvents=""; charPanel.style.opacity=""; }
+  updateCharCardsUI();
  }else{
   banner.style.display="block";
   panel.classList.add("locked-overlay");
   panel.style.pointerEvents="none"; panel.style.opacity="0.55";
-  if(coins<150){
+  const charPanel=document.getElementById("charPanel");
+  if(charPanel){ charPanel.style.pointerEvents="none"; charPanel.style.opacity="0.55"; }
+  if(frogs<CUSTOM_UNLOCK_COST){
    needMsg.style.display="block";
+   needMsg.textContent="You need "+CUSTOM_UNLOCK_COST+" frogs to unlock Customization. You have: "+frogs;
    unlockBtn.disabled=true; unlockBtn.style.opacity="0.5";
   }else{
    needMsg.style.display="none";
    unlockBtn.disabled=false; unlockBtn.style.opacity="1";
   }
+  unlockBtn.textContent="BUY · "+CUSTOM_UNLOCK_COST+" FROGS";
  }
  show("customize");
 }
 function unlockCustomize(){
  if(customUnlocked){openCustomize();return;}
- if(coins<150){
-  document.getElementById("needCoinsMsg").style.display="block";
+ if(frogs<CUSTOM_UNLOCK_COST){
+  const needMsg=document.getElementById("needFrogsMsg");
+  if(needMsg){
+   needMsg.style.display="block";
+   needMsg.textContent="You need "+CUSTOM_UNLOCK_COST+" frogs to unlock Customization. You have: "+frogs;
+  }
   return;
  }
- coins-=150;
+ frogs-=CUSTOM_UNLOCK_COST;
  customUnlocked=true;
- localStorage.setItem("snakeCoins",coins);
- localStorage.setItem("snakeCustomUnlocked","1");
- savePersistentState();
+ localStorage.setItem("snakeFrogs",String(frogs)); localStorage.setItem("snakeCoins",String(frogs));
+ localStorage.setItem("snakeCustomUnlockedV2","1"); localStorage.setItem("snakeCustomUnlocked","1");
  // default black + gold glow like art
  if(!localStorage.getItem("snakeCustomBody")){
   localStorage.setItem("snakeCustomBody","#111111");
@@ -590,10 +2136,13 @@ function unlockCustomize(){
  savePersistentState();
  updateHomeStats();
  drawMySnakePreview();
+ playTone(400,0.1,"triangle",0.1);
+ playTone(600,0.12,"triangle",0.09);
  openCustomize();
 }
 
 function startGame(){
+ playClick(); playStart();
  speed=+document.getElementById("speed").value;
  difficulty=document.getElementById("difficulty").value;
  stepMs=speed;
@@ -611,29 +2160,35 @@ function newGame(){
  sessionFrogs=0;
  document.getElementById("score").textContent="0";
  document.getElementById("finalScore").textContent="0";
- document.getElementById("coins").textContent="0";
+ document.getElementById("sessionFrogs").textContent="0";
  document.getElementById("hudHigh").textContent=high;
  snake=[{x:15,y:15},{x:14,y:15},{x:13,y:15},{x:12,y:15}];
  prevSnake=snake.map(s=>({x:s.x,y:s.y}));
  dir={x:1,y:0}; nextDir={x:1,y:0}; turnLocked=false;
  moveProgress=0; particles=[]; floatTexts=[]; eatPulse=0; deathFlash=0; growing=false;
+ combo=0; comboTimer=0; shake=0; borderLightT=0; frenzyT=0; foodGolden=false; foodBigT=0;
  makeObstacles(); placeFood();
+ startBGM();
  lastTs=performance.now();
  animId=requestAnimationFrame(loop);
 }
 function restartGame(){
- if(document.getElementById("game").classList.contains("active")) newGame();
+ playClick();
+ if(document.getElementById("game").classList.contains("active")){ playStart(); newGame(); }
  else startGame();
 }
 function stopGame(){
  gameRunning=false;
  if(animId){cancelAnimationFrame(animId);animId=null;}
+ stopBGM();
 }
 function pauseGame(){
  if(!document.getElementById("game").classList.contains("active")) return;
  if(!gameRunning && !paused) return;
  paused=!paused;
  document.getElementById("pauseBtn").textContent=paused?"▶ Resume":"⏸ Pause";
+ if(paused){ playPause(); pauseBGM(); }
+ else{ playResume(); resumeBGM(); }
  if(!paused && gameRunning){
   lastTs=performance.now();
   if(!animId) animId=requestAnimationFrame(loop);
@@ -641,16 +2196,49 @@ function pauseGame(){
 }
 function makeObstacles(){
  obstacles=[];
- let count=difficulty==="hard"?12:difficulty==="extreme"?25:0;
- while(obstacles.length<count){
-  let p={x:Math.floor(Math.random()*N),y:Math.floor(Math.random()*N)};
-  if(Math.abs(p.x-15)+Math.abs(p.y-15)<7) continue;
-  if(!obstacles.some(o=>o.x===p.x&&o.y===p.y)) obstacles.push(p);
+ if(difficulty==="normal" || difficulty==="hard"){
+  const count=difficulty==="hard"?12:6;
+  while(obstacles.length<count){
+   let p={x:Math.floor(Math.random()*N),y:Math.floor(Math.random()*N),kind:"hawk"};
+   if(Math.abs(p.x-15)+Math.abs(p.y-15)<7) continue;
+   if(!obstacles.some(o=>o.x===p.x&&o.y===p.y)) obstacles.push(p);
+  }
+ }else if(difficulty==="extreme"){
+  // Solid wall segments (horizontal + vertical) that properly BLOCK the snake.
+  // Keep a clear spawn zone around the center (15,15). Longer blocks = real obstacles.
+  let walls=0, tries=0;
+  while(walls<12 && tries<140){
+   tries++;
+   const horiz=Math.random()<0.5;
+   const len=4+Math.floor(Math.random()*6); // 4–9 cells — solid continuous blocks
+   let x,y;
+   if(horiz){
+    x=Math.floor(Math.random()*(N-len));
+    y=Math.floor(Math.random()*N);
+   }else{
+    x=Math.floor(Math.random()*N);
+    y=Math.floor(Math.random()*(N-len));
+   }
+   let ok=true;
+   const cells=[];
+   for(let i=0;i<len;i++){
+    const cx=horiz?x+i:x, cy=horiz?y:y+i;
+    // keep center clear for spawn
+    if(Math.abs(cx-15)+Math.abs(cy-15)<7){ok=false;break;}
+    if(obstacles.some(o=>o.x===cx&&o.y===cy)){ok=false;break;}
+    cells.push({x:cx,y:cy,kind:"wall"});
+   }
+   if(!ok) continue;
+   cells.forEach(c=>obstacles.push(c));
+   walls++;
+  }
  }
 }
 function placeFood(){
  do{ food={x:Math.floor(Math.random()*N),y:Math.floor(Math.random()*N)}; }
  while(snake.some(s=>s.x===food.x&&s.y===food.y)||obstacles.some(o=>o.x===food.x&&o.y===food.y));
+ // ~18% chance golden crazy frog
+ foodGolden = Math.random() < 0.18;
 }
 function setDir(x,y){
  if(!gameRunning || paused) return;
@@ -687,11 +2275,20 @@ function loop(ts){
  if(!gameRunning){animId=null;return;}
  const dt=Math.min(40, ts-lastTs);
  lastTs=ts;
- frogBob+=dt*0.005;
- if(eatPulse>0) eatPulse=Math.max(0,eatPulse-dt*0.004);
- if(deathFlash>0) deathFlash=Math.max(0,deathFlash-dt*0.003);
- updateFX(dt);
+ // Full pause: freeze movement, timers, FX, big-frog clock
  if(!paused){
+  frogBob+=dt*0.005;
+  if(eatPulse>0) eatPulse=Math.max(0,eatPulse-dt*0.004);
+  if(deathFlash>0) deathFlash=Math.max(0,deathFlash-dt*0.003);
+  if(shake>0) shake=Math.max(0,shake-dt*0.012);
+  if(borderLightT>0) borderLightT=Math.max(0,borderLightT-dt);
+  if(frenzyT>0) frenzyT=Math.max(0,frenzyT-dt);
+  if(foodBigT>0) foodBigT=Math.max(0,foodBigT-dt);
+  if(comboTimer>0){
+   comboTimer=Math.max(0,comboTimer-dt);
+   if(comboTimer<=0) combo=0;
+  }
+  updateFX(dt);
   moveProgress += dt/stepMs;
   while(moveProgress>=1){
    moveProgress-=1;
@@ -719,26 +2316,73 @@ function stepLogic(){
  prevSnake=snake.map(s=>({x:s.x,y:s.y}));
  snake.unshift(head);
  if(head.x===food.x && head.y===food.y){
-  score+=10; coins+=1; sessionFrogs+=1;
-  localStorage.setItem("snakeCoins",coins);
+  const wasGolden=foodGolden;
+  const wasBig=foodBigT>0;
+  combo++;
+  comboTimer=2800;
+  const mult=Math.min(5, 1+Math.floor((combo-1)/2));
+  let add=10*mult;
+  let frogAdd=1;
+  let extraGrow=0;
+  if(wasGolden){
+   add=50*mult;
+   frogAdd=3;
+   borderLightT=3500;
+   frenzyT=2200;
+   shake=1;
+   extraGrow=1;
+   playTone(520,0.08,"square",0.1);
+   playTone(780,0.12,"square",0.09);
+   playTone(1040,0.15,"sawtooth",0.07);
+  }
+  // Combo 4+ big frog: +5 frogs, higher score, snake grows faster
+  if(wasBig){
+   add=Math.max(add, 40*mult);
+   frogAdd=Math.max(frogAdd, 5);
+   extraGrow+=2;
+   borderLightT=Math.max(borderLightT, 2500);
+   shake=Math.max(shake, 0.8);
+   playTone(660,0.1,"square",0.1);
+   playTone(990,0.12,"triangle",0.08);
+  }
+  if(combo>=4){ borderLightT=Math.max(borderLightT, 2200); shake=Math.max(shake,0.5); }
+  if(combo>=8){ frenzyT=Math.max(frenzyT,2800); borderLightT=Math.max(borderLightT,3000); shake=1; }
+  score+=add; frogs+=frogAdd; sessionFrogs+=frogAdd;
+  localStorage.setItem("snakeFrogs",String(frogs)); localStorage.setItem("snakeCoins",String(frogs));
   savePersistentState();
   document.getElementById("score").textContent=score;
-  document.getElementById("coins").textContent=sessionFrogs;
-  spawnEatFX(head.x, head.y);
+  document.getElementById("sessionFrogs").textContent=sessionFrogs;
+  spawnEatFX(head.x, head.y, wasGolden||wasBig, mult, combo, wasBig);
+  playFrogEat();
   eatPulse=1; growing=true;
+  for(let g=0;g<extraGrow;g++) snake.unshift({x:head.x,y:head.y});
   placeFood();
+  // After combo 4+, next frog is BIG for 2 seconds
+  if(combo>=4) foodBigT=5500; // 5–6 seconds big frog
+  else foodBigT=0;
  }else{
   snake.pop(); growing=false;
  }
  return true;
 }
-function spawnEatFX(gx,gy){
+function spawnEatFX(gx,gy,golden,mult,cmb,wasBig){
  const cx=gx*cell+cell/2, cy=gy*cell+cell/2;
- for(let i=0;i<14;i++){
-  const a=Math.random()*Math.PI*2, sp=1.5+Math.random()*3.5;
-  particles.push({x:cx,y:cy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,decay:0.012+Math.random()*0.01,r:2+Math.random()*3,color:Math.random()>0.4?"#6ff36a":"#c8ff9a"});
+ const special=golden||wasBig;
+ const n=special?36:14+Math.min(20,cmb*2);
+ const colors=special
+  ?["#ffe566","#ffd700","#ff9f1a","#fff7b0","#ff6b00"]
+  :["#6ff36a","#c8ff9a","#42ff48","#a8ff80","#ffff66"];
+ for(let i=0;i<n;i++){
+  const a=Math.random()*Math.PI*2, sp=(special?3:1.5)+Math.random()*(special?6:3.5);
+  particles.push({x:cx,y:cy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,decay:0.01+Math.random()*0.012,r:2+Math.random()*(special?5:3),color:colors[i%colors.length]});
  }
- floatTexts.push({x:cx,y:cy-8,text:"+1 Frog",life:1,vy:-0.6});
+ let label="+1 Frog";
+ if(wasBig) label="+5 BIG FROG!";
+ else if(golden) label="+50 GOLD!";
+ else if(mult>1) label="+"+(10*mult)+" x"+mult;
+ if(cmb>=5 && !wasBig) label="COMBO x"+cmb+"!";
+ if(cmb>=8) label="🔥 FRENZY x"+cmb;
+ floatTexts.push({x:cx,y:cy-10,text:label,life:1.2,vy:special||cmb>=5?-0.9:-0.6,crazy:!!(special||cmb>=5)});
 }
 function updateFX(dt){
  for(let i=particles.length-1;i>=0;i--){
@@ -754,6 +2398,8 @@ function updateFX(dt){
 }
 function endGame(){
  gameRunning=false; deathFlash=1;
+ playDie();
+ stopBGM();
  if(animId){cancelAnimationFrame(animId);animId=null;}
  const runScore = score;
  const runFrogs = sessionFrogs;
@@ -761,9 +2407,9 @@ function endGame(){
  savePersistentState();
  document.getElementById("finalScore").textContent=runScore;
  document.getElementById("bestScore").textContent=high;
- document.getElementById("finalCoins").textContent=runFrogs;
+ document.getElementById("finalFrogs").textContent=runFrogs;
  document.getElementById("score").textContent=runScore;
- document.getElementById("coins").textContent=runFrogs;
+ document.getElementById("sessionFrogs").textContent=runFrogs;
  document.getElementById("hudHigh").textContent=high;
  updateHomeStats();
  requestAnimationFrame(()=>{
@@ -773,8 +2419,14 @@ function endGame(){
 }
 function getColors(){
  const skin=ownedSkins[activeSkinIndex];
- if(customUnlocked && skin) return {body:skin.body||"#111111",glow:skin.glow||"#f5c542"};
- return {body:"#111111",glow:"#f5c542"};
+ if(skin){
+  return {
+   body:skin.body||"#111111",
+   glow:skin.glow||"#f5c542",
+   fullColor:!!skin.fullColor || skin.name==="Special Offer"
+  };
+ }
+ return {body:"#111111",glow:"#f5c542",fullColor:false};
 }
 function buildRenderSnake(t){
  const tt=Math.min(1,Math.max(0,t));
@@ -810,6 +2462,12 @@ function buildRenderSnake(t){
 
 function draw(t){
  const W=canvas.width,H=canvas.height;
+ ctx.save();
+ // Screen shake when crazy things happen
+ if(shake>0){
+  const mag=shake*10;
+  ctx.translate((Math.random()-0.5)*mag,(Math.random()-0.5)*mag);
+ }
  ctx.fillStyle="#143a16"; ctx.fillRect(0,0,W,H);
  for(let y=0;y<N;y++)for(let x=0;x<N;x++){
   if((x+y)%2===0){ctx.fillStyle="rgba(255,255,255,0.03)";ctx.fillRect(x*cell,y*cell,cell,cell);}
@@ -818,17 +2476,67 @@ function draw(t){
   ctx.fillStyle="rgba(80,170,70,0.08)";
   ctx.fillRect((i*83)%900,(i*137)%900,2,5);
  }
+ // Lighting border on map SIDES (not snake colour change)
+ const lightOn = borderLightT>0 || frenzyT>0 || specialUnlocked;
+ if(lightOn){
+  const t=performance.now()/200;
+  const pulse=0.45+0.35*Math.sin(t);
+  const intensity = specialUnlocked && borderLightT<=0 && frenzyT<=0 ? 0.35 : pulse;
+  // left + right side beams
+  const gradL=ctx.createLinearGradient(0,0,28,0);
+  gradL.addColorStop(0,`rgba(80,255,160,${intensity})`);
+  gradL.addColorStop(1,"rgba(80,255,160,0)");
+  ctx.fillStyle=gradL; ctx.fillRect(0,0,28,H);
+  const gradR=ctx.createLinearGradient(W,0,W-28,0);
+  gradR.addColorStop(0,`rgba(255,210,60,${intensity})`);
+  gradR.addColorStop(1,"rgba(255,210,60,0)");
+  ctx.fillStyle=gradR; ctx.fillRect(W-28,0,28,H);
+  // top + bottom thin glow
+  const gradT=ctx.createLinearGradient(0,0,0,18);
+  gradT.addColorStop(0,`rgba(100,255,200,${intensity*0.7})`);
+  gradT.addColorStop(1,"rgba(100,255,200,0)");
+  ctx.fillStyle=gradT; ctx.fillRect(0,0,W,18);
+  const gradB=ctx.createLinearGradient(0,H,0,H-18);
+  gradB.addColorStop(0,`rgba(255,180,40,${intensity*0.7})`);
+  gradB.addColorStop(1,"rgba(255,180,40,0)");
+  ctx.fillStyle=gradB; ctx.fillRect(0,H-18,W,18);
+  if(frenzyT>0){
+   ctx.strokeStyle=`rgba(255,200,40,${0.2+0.2*Math.sin(performance.now()/80)})`;
+   ctx.lineWidth=6;
+   ctx.strokeRect(6,6,W-12,H-12);
+  }
+ }
  obstacles.forEach(o=>{
-  const ox=o.x*cell,oy=o.y*cell;
-  ctx.fillStyle="#1e2e22";
-  roundRect(ox+4,oy+4,cell-8,cell-8,8); ctx.fill();
-  ctx.fillStyle="#3a5240"; ctx.fillRect(ox+10,oy+10,cell-20,4);
+  if(o.kind==="wall"){
+   drawWall(o.x*cell, o.y*cell);
+  }else{
+   drawHawk(o.x*cell+cell/2, o.y*cell+cell/2, 1);
+  }
  });
  const bob=Math.sin(frogBob)*3;
- drawFrog(food.x*cell+cell/2, food.y*cell+cell/2+bob, 1+eatPulse*0.15);
+ const fx=food.x*cell+cell/2, fy=food.y*cell+cell/2+bob;
+ const isBig=foodBigT>0;
+ if(foodGolden || isBig){
+  ctx.save();
+  ctx.shadowBlur=isBig?32:28; ctx.shadowColor=foodGolden?"#ffd700":"#7cff9a";
+  drawFrog(fx, fy, (isBig?1.55:1.15)+eatPulse*0.2);
+  ctx.restore();
+  ctx.strokeStyle=foodGolden
+   ?`hsla(${(performance.now()/5)%360},100%,60%,0.75)`
+   :`rgba(120,255,160,0.8)`;
+  ctx.lineWidth=2.5;
+  ctx.beginPath(); ctx.arc(fx,fy,cell*(isBig?1.05:0.7)+Math.sin(frogBob*3)*4,0,Math.PI*2); ctx.stroke();
+  if(isBig){
+   ctx.fillStyle="rgba(180,255,200,0.9)";
+   ctx.font="bold 11px Arial"; ctx.textAlign="center";
+   ctx.fillText("BIG 2s", fx, fy-cell*0.95);
+  }
+ }else{
+  drawFrog(fx, fy, 1+eatPulse*0.15);
+ }
  const pts=buildRenderSnake(t);
- const {body,glow}=getColors();
- drawSmoothSnake(pts, body, glow);
+ const {body,glow,fullColor}=getColors();
+ drawSmoothSnake(pts, body, glow, fullColor);
  particles.forEach(p=>{
   ctx.globalAlpha=Math.max(0,p.life);
   ctx.fillStyle=p.color;
@@ -837,17 +2545,100 @@ function draw(t){
  ctx.globalAlpha=1;
  floatTexts.forEach(f=>{
   ctx.globalAlpha=Math.max(0,f.life);
-  ctx.fillStyle="#b8ff9a"; ctx.font="bold 18px Arial"; ctx.textAlign="center";
-  ctx.shadowColor="#42ff48"; ctx.shadowBlur=8;
+  if(f.crazy){
+   ctx.fillStyle=`hsl(${(performance.now()/6)%360},100%,65%)`;
+   ctx.font="bold 22px Arial";
+   ctx.shadowColor="#ffd700"; ctx.shadowBlur=14;
+  }else{
+   ctx.fillStyle="#b8ff9a"; ctx.font="bold 18px Arial";
+   ctx.shadowColor="#42ff48"; ctx.shadowBlur=8;
+  }
+  ctx.textAlign="center";
   ctx.fillText(f.text,f.x,f.y); ctx.shadowBlur=0;
  });
  ctx.globalAlpha=1;
+ // Combo badge
+ if(combo>=2 && gameRunning && !paused){
+  ctx.fillStyle="rgba(0,0,0,0.45)";
+  ctx.fillRect(W/2-70, 12, 140, 28);
+  ctx.fillStyle=combo>=5?"#ffd700":"#b8ff9a";
+  ctx.font="bold 16px Arial"; ctx.textAlign="center";
+  ctx.fillText(combo>=8?"🔥 FRENZY x"+combo:"COMBO x"+combo, W/2, 32);
+ }
  if(deathFlash>0){ ctx.fillStyle=`rgba(255,40,40,${deathFlash*0.25})`; ctx.fillRect(0,0,W,H); }
  if(paused && gameRunning){
-  ctx.fillStyle="rgba(0,0,0,0.35)"; ctx.fillRect(0,0,W,H);
-  ctx.fillStyle="#d9ffe1"; ctx.font="bold 36px Arial"; ctx.textAlign="center";
-  ctx.fillText("PAUSED", W/2, H/2);
+  ctx.fillStyle="rgba(0,0,0,0.55)"; ctx.fillRect(0,0,W,H);
+  // Full-color side lights
+  const t=performance.now()/400;
+  for(let i=0;i<8;i++){
+   const a=0.25+0.2*Math.sin(t+i);
+   const hue=(t*40+i*45)%360;
+   ctx.fillStyle=`hsla(${hue},100%,55%,${a})`;
+   ctx.fillRect(0, i*(H/8), 18, H/8);
+   ctx.fillStyle=`hsla(${(hue+180)%360},100%,55%,${a})`;
+   ctx.fillRect(W-18, i*(H/8), 18, H/8);
+  }
+  // Decorative snakes on LEFT and RIGHT sides (not center)
+  drawPauseSideSnake(ctx, 50, H*0.22, 1, t);
+  drawPauseSideSnake(ctx, 50, H*0.55, -1, t+1.5);
+  drawPauseSideSnake(ctx, W-50, H*0.28, -1, t+0.7);
+  drawPauseSideSnake(ctx, W-50, H*0.62, 1, t+2.1);
+  // Soft center label only
+  ctx.fillStyle="rgba(0,0,0,0.45)";
+  ctx.fillRect(W/2-90, H/2-28, 180, 56);
+  ctx.strokeStyle=`hsla(${(t*60)%360},100%,60%,0.8)`;
+  ctx.lineWidth=2; ctx.strokeRect(W/2-90, H/2-28, 180, 56);
+  ctx.fillStyle="#fff"; ctx.font="bold 32px Arial"; ctx.textAlign="center";
+  ctx.fillText("PAUSED", W/2, H/2+10);
  }
+ ctx.restore();
+}
+function drawPauseSideSnake(ctx, cx, cy, dir, t){
+ // Realistic vertical decorative snakes on pause sides
+ const segs=14;
+ ctx.lineJoin="round"; ctx.lineCap="round";
+ for(let i=0;i<segs-1;i++){
+  const y1=cy+(i-segs/2)*15;
+  const y2=cy+(i+1-segs/2)*15;
+  const x1=cx+Math.sin(t*1.6+i*0.45)*9*dir;
+  const x2=cx+Math.sin(t*1.6+(i+1)*0.45)*9*dir;
+  const taper=1-(i/segs)*0.3;
+  const hue=(t*35+i*22)%360;
+  // shadow
+  ctx.strokeStyle="rgba(0,0,0,0.25)";
+  ctx.lineWidth=13*taper;
+  ctx.beginPath(); ctx.moveTo(x1+2,y1+2); ctx.lineTo(x2+2,y2+2); ctx.stroke();
+  ctx.shadowColor=`hsl(${hue},80%,50%)`;
+  ctx.shadowBlur=10;
+  ctx.strokeStyle=`hsl(${hue},75%,48%)`;
+  ctx.lineWidth=12*taper;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  ctx.shadowBlur=0;
+  ctx.strokeStyle="rgba(255,255,255,0.15)";
+  ctx.lineWidth=3*taper;
+  ctx.beginPath(); ctx.moveTo(x1-2,y1-1); ctx.lineTo(x2-2,y2-1); ctx.stroke();
+ }
+ const hx=cx+Math.sin(t*1.6+(segs-1)*0.45)*9*dir;
+ const hy=cy+(segs-1-segs/2)*15;
+ const hh=(t*35+segs*22)%360;
+ ctx.save();
+ ctx.translate(hx,hy);
+ ctx.rotate(dir>0?0:Math.PI);
+ ctx.shadowColor=`hsl(${(hh+30)%360},85%,55%)`; ctx.shadowBlur=14;
+ ctx.fillStyle=`hsl(${hh},78%,48%)`;
+ ctx.beginPath(); ctx.ellipse(3,0,13,10,0,0,Math.PI*2); ctx.fill();
+ ctx.shadowBlur=0;
+ ctx.fillStyle="#f0f0e8";
+ ctx.beginPath(); ctx.arc(2,-5,3.2,0,Math.PI*2); ctx.fill();
+ ctx.beginPath(); ctx.arc(2, 5,3.2,0,Math.PI*2); ctx.fill();
+ ctx.fillStyle="#1a1a12";
+ ctx.beginPath(); ctx.arc(3.2,-5,1.5,0,Math.PI*2); ctx.fill();
+ ctx.beginPath(); ctx.arc(3.2, 5,1.5,0,Math.PI*2); ctx.fill();
+ // forked tongue
+ ctx.strokeStyle="#e11d48"; ctx.lineWidth=1.8; ctx.lineCap="round";
+ ctx.beginPath(); ctx.moveTo(12,0); ctx.lineTo(20,0); ctx.stroke();
+ ctx.beginPath(); ctx.moveTo(18,0); ctx.lineTo(24,-4); ctx.moveTo(18,0); ctx.lineTo(24,4); ctx.stroke();
+ ctx.restore();
 }
 function roundRect(x,y,w,h,r){
  ctx.beginPath();
@@ -858,146 +2649,290 @@ function roundRect(x,y,w,h,r){
  ctx.arcTo(x,y,x+w,y,r);
  ctx.closePath();
 }
-function drawSmoothSnake(pts, bodyColor, glowColor){
+function drawSmoothSnake(pts, bodyColor, glowColor, fullColor){
  if(!pts || pts.length<1) return;
  const px = pts.map(p=>({x:p.x*cell+cell/2, y:p.y*cell+cell/2}));
-
- // Build runs so wrap-around does not streak across the board
  const runs = [];
- let run = [0]; // indices into px
+ let run = [0];
  for(let i=1;i<pts.length;i++){
   const dx=Math.abs(pts[i].x-pts[i-1].x), dy=Math.abs(pts[i].y-pts[i-1].y);
   if(dx>1.5 || dy>1.5){ runs.push(run); run=[i]; }
   else run.push(i);
  }
  runs.push(run);
+ ctx.lineJoin="round"; ctx.lineCap="round";
 
- ctx.lineJoin = "round";
- ctx.lineCap = "round";
+ // Soft ground shadow under body
+ runs.forEach(idxs=>{
+  if(idxs.length<1) return;
+  ctx.strokeStyle="rgba(0,0,0,0.22)";
+  ctx.lineWidth=cell*0.55;
+  ctx.beginPath();
+  ctx.moveTo(px[idxs[0]].x+2, px[idxs[0]].y+3);
+  for(let k=1;k<idxs.length;k++) ctx.lineTo(px[idxs[k]].x+2, px[idxs[k]].y+3);
+  if(idxs.length===1){ ctx.beginPath(); ctx.arc(px[idxs[0]].x+2,px[idxs[0]].y+3,cell*0.28,0,Math.PI*2); ctx.fillStyle="rgba(0,0,0,0.2)"; ctx.fill(); }
+  else ctx.stroke();
+ });
 
- // Glow pass
+ // Outer glow
  runs.forEach(idxs=>{
   if(idxs.length===0) return;
-  ctx.shadowColor = glowColor;
-  ctx.shadowBlur = 16;
-  ctx.strokeStyle = glowColor;
-  ctx.lineWidth = cell * 0.74;
+  const gCol = fullColor ? `hsl(${(performance.now()/25)%360},85%,55%)` : glowColor;
+  ctx.shadowColor=gCol; ctx.shadowBlur=fullColor?18:12;
+  ctx.strokeStyle=gCol;
+  ctx.lineWidth=cell*(fullColor?0.78:0.70);
   ctx.beginPath();
   ctx.moveTo(px[idxs[0]].x, px[idxs[0]].y);
   for(let k=1;k<idxs.length;k++) ctx.lineTo(px[idxs[k]].x, px[idxs[k]].y);
-  if(idxs.length===1){
-   ctx.fillStyle = glowColor;
-   ctx.beginPath();
-   ctx.arc(px[idxs[0]].x, px[idxs[0]].y, cell*0.37, 0, Math.PI*2);
-   ctx.fill();
-  } else ctx.stroke();
+  if(idxs.length===1){ ctx.fillStyle=gCol; ctx.beginPath(); ctx.arc(px[idxs[0]].x,px[idxs[0]].y,cell*0.35,0,Math.PI*2); ctx.fill(); }
+  else ctx.stroke();
  });
- ctx.shadowBlur = 0;
+ ctx.shadowBlur=0;
 
- // Body core
+ // Tapered body segments (thicker near head → thinner tail) for realism
  runs.forEach(idxs=>{
   if(idxs.length===0) return;
-  ctx.strokeStyle = bodyColor;
-  ctx.fillStyle = bodyColor;
-  ctx.lineWidth = cell * 0.62;
-  ctx.beginPath();
-  ctx.moveTo(px[idxs[0]].x, px[idxs[0]].y);
-  for(let k=1;k<idxs.length;k++) ctx.lineTo(px[idxs[k]].x, px[idxs[k]].y);
-  if(idxs.length===1){
-   ctx.beginPath();
-   ctx.arc(px[idxs[0]].x, px[idxs[0]].y, cell*0.31, 0, Math.PI*2);
-   ctx.fill();
-  } else ctx.stroke();
+  const total=Math.max(1, pts.length-1);
+  for(let k=0;k<idxs.length;k++){
+   const segIdx=idxs[k];
+   const taper=1 - (segIdx/Math.max(1,total))*0.35; // head thick, tail thin
+   const w=cell*(fullColor?0.58:0.54)*taper;
+   let col=bodyColor;
+   if(fullColor){
+    const hue=(performance.now()/18 + segIdx*16)%360;
+    col=`hsl(${hue},80%,48%)`;
+   }
+   // dark underside band
+   if(k<idxs.length-1){
+    const a=px[idxs[k]], b=px[idxs[k+1]];
+    ctx.strokeStyle=fullColor?col:bodyColor;
+    ctx.lineWidth=w;
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    // belly highlight
+    ctx.strokeStyle=fullColor?"rgba(255,255,255,0.22)":"rgba(255,255,255,0.12)";
+    ctx.lineWidth=w*0.28;
+    ctx.beginPath(); ctx.moveTo(a.x-w*0.08,a.y-w*0.08); ctx.lineTo(b.x-w*0.08,b.y-w*0.08); ctx.stroke();
+    // scale ridge every other segment
+    if(segIdx%2===0){
+     ctx.strokeStyle=fullColor?"rgba(0,0,0,0.18)":"rgba(255,255,255,0.08)";
+     ctx.lineWidth=1.2;
+     const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+     const nx=-(b.y-a.y), ny=(b.x-a.x);
+     const nl=Math.hypot(nx,ny)||1;
+     ctx.beginPath();
+     ctx.moveTo(mx-nx/nl*w*0.35, my-ny/nl*w*0.35);
+     ctx.lineTo(mx+nx/nl*w*0.35, my+ny/nl*w*0.35);
+     ctx.stroke();
+    }
+   }else if(idxs.length===1){
+    ctx.fillStyle=col;
+    ctx.beginPath(); ctx.arc(px[idxs[0]].x,px[idxs[0]].y,w*0.55,0,Math.PI*2); ctx.fill();
+   }
+  }
  });
 
- // Subtle highlight
- runs.forEach(idxs=>{
-  if(idxs.length<2) return;
-  ctx.strokeStyle = "rgba(255,255,255,0.14)";
-  ctx.lineWidth = cell * 0.18;
-  ctx.beginPath();
-  ctx.moveTo(px[idxs[0]].x - cell*0.06, px[idxs[0]].y - cell*0.06);
-  for(let k=1;k<idxs.length;k++)
-   ctx.lineTo(px[idxs[k]].x - cell*0.05, px[idxs[k]].y - cell*0.05);
-  ctx.stroke();
- });
+ // Realistic head — oval, oriented to direction
+ const h=px[0];
+ const hr=cell*(fullColor?0.48:0.42);
+ const ang=Math.atan2(dir.y, dir.x);
+ const headHue=(performance.now()/12)%360;
+ const headCol=fullColor?`hsl(${headHue},82%,50%)`:bodyColor;
+ const headGlow=fullColor?`hsl(${(headHue+30)%360},90%,58%)`:glowColor;
 
- // Head
- const h = px[0];
- const hr = cell * 0.40;
- ctx.shadowColor = glowColor;
- ctx.shadowBlur = 14;
- ctx.fillStyle = bodyColor;
+ ctx.save();
+ ctx.translate(h.x, h.y);
+ ctx.rotate(ang);
+ ctx.shadowColor=headGlow; ctx.shadowBlur=fullColor?20:12;
+ // head ellipse (longer in facing direction)
+ ctx.fillStyle=headCol;
+ ctx.beginPath(); ctx.ellipse(2, 0, hr*1.15, hr*0.88, 0, 0, Math.PI*2); ctx.fill();
+ ctx.shadowBlur=0;
+ // snout shade
+ ctx.fillStyle="rgba(0,0,0,0.18)";
+ ctx.beginPath(); ctx.ellipse(hr*0.45, 0, hr*0.45, hr*0.55, 0, 0, Math.PI*2); ctx.fill();
+ // top highlight
+ ctx.fillStyle="rgba(255,255,255,0.16)";
+ ctx.beginPath(); ctx.ellipse(0, -hr*0.25, hr*0.7, hr*0.35, 0, 0, Math.PI*2); ctx.fill();
+ // eyes — slightly on top sides
+ const eyeR=fullColor?5.2:4.2, pupilR=fullColor?2.4:1.9;
+ ctx.fillStyle="#f5f5f0";
+ ctx.beginPath(); ctx.arc(hr*0.15, -hr*0.42, eyeR, 0, Math.PI*2); ctx.fill();
+ ctx.beginPath(); ctx.arc(hr*0.15,  hr*0.42, eyeR, 0, Math.PI*2); ctx.fill();
+ ctx.fillStyle="#1a1a12";
+ ctx.beginPath(); ctx.arc(hr*0.28, -hr*0.42, pupilR, 0, Math.PI*2); ctx.fill();
+ ctx.beginPath(); ctx.arc(hr*0.28,  hr*0.42, pupilR, 0, Math.PI*2); ctx.fill();
+ // eye shine
+ ctx.fillStyle="rgba(255,255,255,0.7)";
+ ctx.beginPath(); ctx.arc(hr*0.22, -hr*0.48, 1.2, 0, Math.PI*2); ctx.fill();
+ ctx.beginPath(); ctx.arc(hr*0.22,  hr*0.36, 1.2, 0, Math.PI*2); ctx.fill();
+ // forked tongue
+ ctx.strokeStyle=fullColor?"#e11d48":"#d63031";
+ ctx.lineWidth=fullColor?2.4:1.8;
+ ctx.lineCap="round";
+ const tongueLen=fullColor?hr*1.35:hr*0.95;
  ctx.beginPath();
- ctx.arc(h.x, h.y, hr, 0, Math.PI*2);
- ctx.fill();
- ctx.shadowBlur = 0;
- ctx.strokeStyle = "rgba(255,255,255,0.28)";
- ctx.lineWidth = 2;
+ ctx.moveTo(hr*0.9, 0);
+ ctx.lineTo(hr*0.9+tongueLen*0.55, 0);
  ctx.stroke();
-
- // Eyes oriented by direction
- const ex = h.x + dir.x * hr * 0.18;
- const ey = h.y + dir.y * hr * 0.18;
- const ox = -dir.y, oy = dir.x;
- ctx.fillStyle = "#fff";
- ctx.beginPath(); ctx.arc(ex + ox*hr*0.32, ey + oy*hr*0.32, 4.4, 0, Math.PI*2); ctx.fill();
- ctx.beginPath(); ctx.arc(ex - ox*hr*0.32, ey - oy*hr*0.32, 4.4, 0, Math.PI*2); ctx.fill();
- ctx.fillStyle = "#111";
- ctx.beginPath(); ctx.arc(ex + ox*hr*0.32 + dir.x*1.3, ey + oy*hr*0.32 + dir.y*1.3, 2.2, 0, Math.PI*2); ctx.fill();
- ctx.beginPath(); ctx.arc(ex - ox*hr*0.32 + dir.x*1.3, ey - oy*hr*0.32 + dir.y*1.3, 2.2, 0, Math.PI*2); ctx.fill();
-
- // Tongue
- ctx.fillStyle = "#ff4050";
- const tx = h.x + dir.x*(hr+5), ty = h.y + dir.y*(hr+5);
  ctx.beginPath();
- if(dir.x !== 0){
-  ctx.moveTo(tx, ty-2.5); ctx.lineTo(tx + dir.x*8, ty); ctx.lineTo(tx, ty+2.5);
- }else{
-  ctx.moveTo(tx-2.5, ty); ctx.lineTo(tx, ty + dir.y*8); ctx.lineTo(tx+2.5, ty);
- }
- ctx.fill();
+ ctx.moveTo(hr*0.9+tongueLen*0.45, 0);
+ ctx.lineTo(hr*0.9+tongueLen, -tongueLen*0.28);
+ ctx.moveTo(hr*0.9+tongueLen*0.45, 0);
+ ctx.lineTo(hr*0.9+tongueLen,  tongueLen*0.28);
+ ctx.stroke();
+ ctx.restore();
 }
 function drawFrog(x,y,scale){
  const s=scale||1;
- const sz = cell * 1.05 * s;
+ const sz = cell * 1.55 * s; // bigger frog
  ctx.save();
- ctx.shadowBlur=16; ctx.shadowColor="#71ff70";
+ ctx.shadowBlur=18; ctx.shadowColor="#71ff70";
  if(FROG_IMG.complete && FROG_IMG.naturalWidth){
   ctx.drawImage(FROG_IMG, x - sz/2, y - sz/2, sz, sz);
  }else{
-  // fallback vector while loading
   ctx.fillStyle="#55d64f";
-  ctx.beginPath(); ctx.arc(x,y,cell*.28*s,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x,y,cell*.42*s,0,Math.PI*2); ctx.fill();
  }
  ctx.shadowBlur=0;
+ ctx.restore();
+}
+function drawWall(ox,oy){
+ // Solid stone / brick wall tile — fills almost the full cell so it truly BLOCKS visually
+ const pad=1;
+ const x=ox+pad, y=oy+pad, w=cell-pad*2, h=cell-pad*2;
+ const g=ctx.createLinearGradient(x,y,x+w,y+h);
+ g.addColorStop(0,"#6a7a6e");
+ g.addColorStop(0.45,"#3d4a42");
+ g.addColorStop(1,"#1e2620");
+ ctx.fillStyle=g;
+ ctx.beginPath();
+ if(ctx.roundRect) ctx.roundRect(x,y,w,h,3); else ctx.rect(x,y,w,h);
+ ctx.fill();
+ // brick lines
+ ctx.strokeStyle="rgba(0,0,0,.4)";
+ ctx.lineWidth=1.2;
+ ctx.strokeRect(x+0.5,y+0.5,w-1,h-1);
+ ctx.beginPath();
+ ctx.moveTo(x,y+h/2); ctx.lineTo(x+w,y+h/2);
+ ctx.moveTo(x+w/2,y); ctx.lineTo(x+w/2,y+h/2);
+ ctx.stroke();
+ // highlight
+ ctx.fillStyle="rgba(255,255,255,.12)";
+ ctx.fillRect(x+2,y+2,w*0.4,2.5);
+ // moss
+ ctx.fillStyle="rgba(60,140,70,.28)";
+ ctx.fillRect(x+w*0.55,y+h*0.6,w*0.35,h*0.25);
+}
+function drawHawk(cx,cy,scale){
+ // Front-facing hawk (aage se)
+ const s=(scale||1)*1.4;
+ const r=cell*0.55*s;
+ ctx.save();
+ ctx.translate(cx,cy);
+ // shadow
+ ctx.fillStyle="rgba(0,0,0,.28)";
+ ctx.beginPath(); ctx.ellipse(0,r*0.9,r*0.7,r*0.2,0,0,Math.PI*2); ctx.fill();
+ // head
+ const hg=ctx.createRadialGradient(-r*0.15,-r*0.2,r*0.15,0,0,r);
+ hg.addColorStop(0,"#b8895c");
+ hg.addColorStop(0.5,"#7a4e2d");
+ hg.addColorStop(1,"#3d2414");
+ ctx.fillStyle=hg;
+ ctx.beginPath(); ctx.ellipse(0,0,r*0.92,r,0,0,Math.PI*2); ctx.fill();
+ // forehead highlight
+ ctx.fillStyle="rgba(220,180,120,.22)";
+ ctx.beginPath(); ctx.ellipse(0,-r*0.4,r*0.5,r*0.32,0,0,Math.PI*2); ctx.fill();
+ // LEFT eye
+ function eye(ex,ey,er){
+  ctx.fillStyle="#1a1008";
+  ctx.beginPath(); ctx.ellipse(ex,ey,er*1.1,er,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="#f5f0e0";
+  ctx.beginPath(); ctx.ellipse(ex,ey,er*0.95,er*0.85,0,0,Math.PI*2); ctx.fill();
+  const ig=ctx.createRadialGradient(ex,ey,er*0.1,ex,ey,er*0.65);
+  ig.addColorStop(0,"#ffe566"); ig.addColorStop(0.55,"#d4a017"); ig.addColorStop(1,"#6b4e0a");
+  ctx.fillStyle=ig;
+  ctx.beginPath(); ctx.ellipse(ex,ey+er*0.05,er*0.5,er*0.45,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="#0a0804";
+  ctx.beginPath(); ctx.ellipse(ex,ey+er*0.08,er*0.2,er*0.18,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="rgba(255,255,255,.75)";
+  ctx.beginPath(); ctx.arc(ex-er*0.2,ey-er*0.15,er*0.12,0,Math.PI*2); ctx.fill();
+ }
+ eye(-r*0.32,-r*0.18,r*0.2);
+ eye(r*0.32,-r*0.18,r*0.2);
+ // brows (angry front)
+ ctx.strokeStyle="#2a1808"; ctx.lineWidth=Math.max(2,r*0.1); ctx.lineCap="round";
+ ctx.beginPath(); ctx.moveTo(-r*0.55,-r*0.4); ctx.quadraticCurveTo(-r*0.32,-r*0.52,-r*0.1,-r*0.38); ctx.stroke();
+ ctx.beginPath(); ctx.moveTo(r*0.55,-r*0.4); ctx.quadraticCurveTo(r*0.32,-r*0.52,r*0.1,-r*0.38); ctx.stroke();
+ // OPEN BEAK front — upper
+ const bg=ctx.createLinearGradient(0,-r*0.05,0,r*0.55);
+ bg.addColorStop(0,"#f5d060"); bg.addColorStop(0.5,"#e8a018"); bg.addColorStop(1,"#a86808");
+ ctx.fillStyle=bg;
+ ctx.beginPath();
+ ctx.moveTo(-r*0.18,r*0.05);
+ ctx.quadraticCurveTo(0,-r*0.08,r*0.18,r*0.05);
+ ctx.lineTo(r*0.12,r*0.22);
+ ctx.quadraticCurveTo(0,r*0.12,-r*0.12,r*0.22);
+ ctx.closePath(); ctx.fill();
+ // lower beak open downward
+ ctx.fillStyle="#c98a12";
+ ctx.beginPath();
+ ctx.moveTo(-r*0.14,r*0.28);
+ ctx.quadraticCurveTo(0,r*0.22,r*0.14,r*0.28);
+ ctx.lineTo(r*0.1,r*0.55);
+ ctx.quadraticCurveTo(0,r*0.62,-r*0.1,r*0.55);
+ ctx.closePath(); ctx.fill();
+ // mouth dark gap (front)
+ ctx.fillStyle="#1a0804";
+ ctx.beginPath();
+ ctx.moveTo(-r*0.1,r*0.2);
+ ctx.quadraticCurveTo(0,r*0.16,r*0.1,r*0.2);
+ ctx.lineTo(r*0.08,r*0.32);
+ ctx.quadraticCurveTo(0,r*0.28,-r*0.08,r*0.32);
+ ctx.closePath(); ctx.fill();
+ // nostrils front
+ ctx.fillStyle="#4a3008";
+ ctx.beginPath(); ctx.ellipse(-r*0.06,r*0.08,r*0.035,r*0.025,0,0,Math.PI*2); ctx.fill();
+ ctx.beginPath(); ctx.ellipse(r*0.06,r*0.08,r*0.035,r*0.025,0,0,Math.PI*2); ctx.fill();
+ // cheek feathers
+ ctx.strokeStyle="rgba(40,25,12,.3)"; ctx.lineWidth=1;
+ for(let i=-2;i<=2;i++){
+  if(i===0) continue;
+  ctx.beginPath();
+  ctx.moveTo(i*r*0.15,r*0.35);
+  ctx.quadraticCurveTo(i*r*0.35,r*0.55,i*r*0.25,r*0.75);
+  ctx.stroke();
+ }
  ctx.restore();
 }
 function drawMySnakePreview(){
  const cv=document.getElementById("mySnakePreview");
  if(!cv)return;
- const skin=ownedSkins[activeSkinIndex];
+ const skin=ownedSkins[activeSkinIndex]||CLASSIC_SKIN;
  const c=cv.getContext("2d"); c.clearRect(0,0,cv.width,cv.height);
- if(!skin)return;
- drawSkinPreview(cv,skin.body||"#111111",skin.glow||"#f5c542");
+ drawSkinPreview(cv,skin.body||"#111111",skin.glow||"#f5c542", !!(skin.fullColor||skin.name==="Special Offer"));
 }
 function applyCustomSnake(){
  if(!customUnlocked)return;
  const body=document.getElementById("customColor").value;
  const glow=document.getElementById("customGlow").value;
- const existing=ownedSkins.findIndex(s=>s.body===body && s.glow===glow);
+ const existing=ownedSkins.findIndex(s=>s.body===body && s.glow===glow && s.name!=="Aqua King" && s.name!=="Special Offer");
  if(existing>=0){
   activeSkinIndex=existing;
  }else{
   ownedSkins.push({body,glow,name:"Saved Skin "+(ownedSkins.length+1)});
   activeSkinIndex=ownedSkins.length-1;
  }
+ // After saving a custom snake, lock Customize again (need 170 frogs next time)
+ customUnlocked=false;
+ localStorage.setItem("snakeCustomUnlockedV2","0");
+ localStorage.setItem("snakeCustomUnlocked","0");
  localStorage.setItem("snakeOwnedSkins",JSON.stringify(ownedSkins));
  localStorage.setItem("snakeActiveSkin",String(activeSkinIndex));
  localStorage.setItem("snakeCustomBody",body);
  localStorage.setItem("snakeCustomGlow",glow);
  savePersistentState();
  drawMySnakePreview();
+ updateCharCardsUI();
  openMySnake();
 }
 function resetCustomSnake(){
@@ -1005,10 +2940,107 @@ function resetCustomSnake(){
  document.getElementById("customColor").value="#111111";
  document.getElementById("customGlow").value="#f5c542";
 }
+function updateCharCardsUI(){
+ const cv1=document.getElementById("charClassicPreview");
+ const cv2=document.getElementById("charAquaPreview");
+ if(cv1) drawSkinPreview(cv1, CLASSIC_SKIN.body, CLASSIC_SKIN.glow, false);
+ if(cv2) drawSkinPreview(cv2, EXTRA_SKIN.body, EXTRA_SKIN.glow, !!EXTRA_SKIN.fullColor);
+ const aquaBtn=document.getElementById("charAquaBtn");
+ const aquaTag=document.getElementById("charAquaTag");
+ const aquaCard=document.getElementById("charAqua");
+ const classicCard=document.getElementById("charClassic");
+ const active=ownedSkins[activeSkinIndex];
+ if(classicCard){
+  classicCard.classList.toggle("active-char", !!(active && active.name==="My Snake"));
+  classicCard.classList.add("owned");
+ }
+ if(aquaCard){
+  aquaCard.classList.toggle("owned", !!extraUnlocked);
+  aquaCard.classList.toggle("active-char", !!(active && active.name==="Aqua King"));
+ }
+ if(extraUnlocked){
+  if(aquaTag) aquaTag.textContent="Owned · Permanent";
+  if(aquaBtn){ aquaBtn.textContent="USE"; aquaBtn.className="btn secondary char-btn"; aquaBtn.disabled=false; aquaBtn.style.opacity="1"; }
+ }else{
+  if(aquaTag) aquaTag.textContent=EXTRA_SKIN_COST+" Frogs · 1 time";
+  if(aquaBtn){
+   aquaBtn.textContent="UNLOCK "+EXTRA_SKIN_COST;
+   aquaBtn.className="btn primary char-btn";
+   const can=frogs>=EXTRA_SKIN_COST;
+   aquaBtn.disabled=!can;
+   aquaBtn.style.opacity=can?"1":"0.5";
+  }
+ }
+}
+function equipClassicSkin(){
+ if(!customUnlocked)return;
+ let idx=ownedSkins.findIndex(s=>s && s.name==="My Snake");
+ if(idx<0){
+  ownedSkins.unshift({body:CLASSIC_SKIN.body,glow:CLASSIC_SKIN.glow,name:CLASSIC_SKIN.name});
+  idx=0;
+ }
+ activeSkinIndex=idx;
+ localStorage.setItem("snakeActiveSkin",String(idx));
+ localStorage.setItem("snakeCustomBody",CLASSIC_SKIN.body);
+ localStorage.setItem("snakeCustomGlow",CLASSIC_SKIN.glow);
+ savePersistentState();
+ drawMySnakePreview();
+ updateCharCardsUI();
+ playClick();
+}
+function unlockOrEquipExtraSkin(){
+ if(!customUnlocked)return;
+ if(extraUnlocked){
+  let idx=ownedSkins.findIndex(s=>s && s.name==="Aqua King");
+  if(idx<0){
+   ownedSkins.push({body:EXTRA_SKIN.body,glow:EXTRA_SKIN.glow,name:EXTRA_SKIN.name,fullColor:!!EXTRA_SKIN.fullColor,permanent:true});
+   idx=ownedSkins.length-1;
+  }
+  activeSkinIndex=idx;
+  localStorage.setItem("snakeActiveSkin",String(idx));
+  localStorage.setItem("snakeCustomBody",EXTRA_SKIN.body);
+  localStorage.setItem("snakeCustomGlow",EXTRA_SKIN.glow);
+  savePersistentState();
+  drawMySnakePreview();
+  updateCharCardsUI();
+  playClick();
+  return;
+ }
+ if(frogs<EXTRA_SKIN_COST){
+  alert("You need "+EXTRA_SKIN_COST+" Frogs. You have: "+frogs);
+  return;
+ }
+ frogs-=EXTRA_SKIN_COST;
+ extraUnlocked=true;
+ localStorage.setItem("snakeFrogs",String(frogs)); localStorage.setItem("snakeCoins",String(frogs));
+ localStorage.setItem("snakeExtraUnlocked","1");
+ if(!ownedSkins.some(s=>s && s.name==="Aqua King")){
+  ownedSkins.push({body:EXTRA_SKIN.body,glow:EXTRA_SKIN.glow,name:EXTRA_SKIN.name,fullColor:!!EXTRA_SKIN.fullColor,permanent:true});
+ }
+ activeSkinIndex=ownedSkins.findIndex(s=>s && s.name==="Aqua King");
+ localStorage.setItem("snakeOwnedSkins",JSON.stringify(ownedSkins));
+ localStorage.setItem("snakeActiveSkin",String(activeSkinIndex));
+ localStorage.setItem("snakeCustomBody",EXTRA_SKIN.body);
+ localStorage.setItem("snakeCustomGlow",EXTRA_SKIN.glow);
+ savePersistentState();
+ updateHomeStats();
+ drawMySnakePreview();
+ updateCharCardsUI();
+ playTone(420,0.1,"triangle",0.1);
+ playTone(640,0.12,"triangle",0.09);
+ playClick();
+}
 updateHomeStats();
 drawMySnakePreview();
 renderOwnedSkins();
 savePersistentState();
+// Real-time daily reward countdown (1s tick)
+setInterval(function(){
+  if(document.getElementById("home")?.classList.contains("active")){
+    updateDailyUI();
+    updateSpecialUI();
+  }
+},1000);
 </script>
 </body>
 </html>
