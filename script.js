@@ -1,4 +1,4 @@
-/* Balo Games — library, filters, and Poki-style game player */
+/* Balo Games — library, filters, player, search, favorites and profile */
 const games = [
   { id:"snake-king", title:"Snake King", icon:"🐍", desc:"Classic snake action with mobile and keyboard controls.", category:"arcade", path:"games/snake-king/index.html" },
   { id:"memory-match", title:"Memory Match", icon:"🧠", desc:"Find matching cards and test your memory.", category:"arcade", path:"games/MATCH%20GAME/memory-match.html" },
@@ -83,155 +83,56 @@ if(resetFilters)resetFilters.addEventListener("click",()=>{
 
 /* Saved player data. This persists on the visitor's browser/device. */
 const STORAGE_KEY="baloGamesPlayerData_v1";
+const PROFILE_KEY="baloGamesProfile_v1";
 function readData(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");}catch(e){return {};}}
 function writeData(data){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}catch(e){}}
-function getGameData(id){
-  const data=readData();
-  if(!data[id])data[id]={like:false,unlike:false,favorite:false,comments:[]};
-  return data[id];
+function getGameData(id){const data=readData();if(!data[id])data[id]={like:false,unlike:false,favorite:false,comments:[]};return data[id];}
+function saveGameData(id,patch){const data=readData();data[id]=Object.assign({like:false,unlike:false,favorite:false,comments:[]},data[id]||{},patch);writeData(data);return data[id];}
+function getProfile(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||"null");}catch(e){return null;}}
+function saveProfile(profile){try{localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));}catch(e){}}
+
+function injectHomeTools(){
+  if(document.getElementById("balo-home-tools"))return;
+  const style=document.createElement("style");style.id="balo-home-tools";style.textContent=`
+#balo-home-tools{max-width:720px;margin:12px auto 0;padding:0 14px}.balo-home-search{display:flex;gap:8px;align-items:center}.balo-home-search input{flex:1;min-width:0;border:0;border-radius:25px;padding:12px 16px;font-size:14px;outline:none;box-shadow:0 5px 18px rgba(0,0,0,.14)}.balo-home-search button{border:0;border-radius:25px;padding:11px 17px;background:#fff;color:#0754c9;font-weight:800;cursor:pointer}.balo-home-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:9px}.balo-home-link{border:0;border-radius:20px;padding:8px 14px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.8);font-weight:800;cursor:pointer}.balo-home-link:hover{background:#fff;color:#0754c9}#baloFavoritesSection{max-width:1200px;margin:0 auto;padding:0 5% 22px;display:none}#baloFavoritesSection.open{display:block}.balo-fav-title{font-size:20px;font-weight:800;margin:8px 0 12px;text-align:center}.balo-fav-list{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}.balo-fav-item{border:1px solid #eee;background:#fff;border-radius:12px;padding:9px 13px;cursor:pointer;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.06)}#baloProfileModal{position:fixed;inset:0;z-index:2100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.62)}#baloProfileModal.open{display:flex}.balo-profile-box{width:min(390px,100%);background:#fff;border-radius:18px;padding:22px;color:#222}.balo-profile-box h3{margin-bottom:6px}.balo-profile-box p{color:#666;font-size:13px;margin-bottom:13px}.balo-profile-box input{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin-bottom:9px;outline:none}.balo-profile-actions{display:flex;gap:8px;justify-content:flex-end}.balo-profile-actions button{border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}.balo-profile-primary{background:#ff1493;color:#fff}.balo-profile-secondary{background:#eee}#gameSearch,.search-box{display:none!important}
+`;
+  document.head.appendChild(style);
+  const header=document.querySelector("header");
+  if(header){const tools=document.createElement("div");tools.id="balo-home-tools";tools.innerHTML=`<div class="balo-home-search"><input id="baloHomeSearch" type="search" placeholder="Search games..." aria-label="Search games"><button id="baloSearchBtn" type="button">🔎 Search</button></div><div class="balo-home-links"><button class="balo-home-link" id="baloFavoritesBtn" type="button">⭐ My Favourite Games</button><button class="balo-home-link" id="baloProfileBtn" type="button">👤 Profile / Login</button></div>`;header.insertAdjacentElement("afterend",tools);}
+  const modal=document.createElement("div");modal.id="baloProfileModal";modal.setAttribute("role","dialog");modal.setAttribute("aria-modal","true");modal.innerHTML=`<div class="balo-profile-box"><h3>Player Profile</h3><p>Enter a player name. Your profile and game preferences are saved on this device.</p><input id="baloProfileName" maxlength="30" placeholder="Player name"><div class="balo-profile-actions"><button class="balo-profile-secondary" id="baloProfileClose" type="button">Close</button><button class="balo-profile-primary" id="baloProfileSave" type="button">Login / Save</button></div></div>`;document.body.appendChild(modal);
+  const homeInput=document.getElementById("baloHomeSearch");
+  const runSearch=()=>{if(gameSearch){gameSearch.value=homeInput.value;searchTerm=homeInput.value.trim().toLowerCase();if(clearSearch)clearSearch.hidden=!homeInput.value;}applyFilters();document.querySelector("main")?.scrollIntoView({behavior:"smooth",block:"start"});};
+  document.getElementById("baloSearchBtn").addEventListener("click",runSearch);homeInput.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch();});document.getElementById("baloFavoritesBtn").addEventListener("click",showFavorites);document.getElementById("baloProfileBtn").addEventListener("click",openProfile);document.getElementById("baloProfileClose").addEventListener("click",closeProfile);document.getElementById("baloProfileSave").addEventListener("click",saveProfileFromUI);
+  const profile=getProfile();if(profile)document.getElementById("baloProfileBtn").textContent="👤 "+profile.name;
 }
-function saveGameData(id,patch){
-  const data=readData();
-  data[id]=Object.assign({like:false,unlike:false,favorite:false,comments:[]},data[id]||{},patch);
-  writeData(data);return data[id];
+function showFavorites(){
+  let section=document.getElementById("baloFavoritesSection");
+  if(!section){section=document.createElement("section");section.id="baloFavoritesSection";section.setAttribute("aria-label","My Favourite Games");section.innerHTML=`<div class="balo-fav-title">⭐ My Favourite Games</div><div class="balo-fav-list" id="baloFavList"></div>`;const main=document.querySelector("main");if(main)main.insertAdjacentElement("afterend",section);}
+  const list=document.getElementById("baloFavList");list.innerHTML="";const favs=games.filter(g=>getGameData(g.id).favorite&&!g.comingSoon);if(!favs.length)list.innerHTML=`<div style="color:#777;text-align:center;padding:8px">No favourite games yet. Open a game and tap ⭐ Favorite.</div>`;favs.forEach(game=>{const b=document.createElement("button");b.className="balo-fav-item";b.type="button";b.textContent=game.icon+" "+game.title;b.addEventListener("click",()=>openGame(game));list.appendChild(b);});section.classList.add("open");section.scrollIntoView({behavior:"smooth",block:"start"});
 }
+function openProfile(){const modal=document.getElementById("baloProfileModal"),input=document.getElementById("baloProfileName"),profile=getProfile();if(profile)input.value=profile.name;modal.classList.add("open");setTimeout(()=>input.focus(),50);}
+function closeProfile(){document.getElementById("baloProfileModal")?.classList.remove("open");}
+function saveProfileFromUI(){const input=document.getElementById("baloProfileName"),name=input.value.trim();if(!name){input.focus();return;}saveProfile({name,createdAt:getProfile()?.createdAt||new Date().toISOString()});document.getElementById("baloProfileBtn").textContent="👤 "+name;closeProfile();toast("Profile saved! 👤");}
 
 function injectPlayerStyles(){
   if(document.getElementById("balo-player-styles"))return;
-  const style=document.createElement("style");style.id="balo-player-styles";
-  style.textContent=`
-#gameOverlay{padding:0!important;background:#101114!important;align-items:stretch!important;justify-content:center!important}
-#gameOverlay.open{display:flex!important}
-.balo-player{width:100%;height:100%;display:grid;grid-template-columns:190px minmax(0,900px) minmax(80px,1fr);gap:18px;align-items:center;padding:26px 22px}
-.balo-side{background:#191b21;border:1px solid #2c2f38;border-radius:16px;padding:14px;color:#fff;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.22)}
-.balo-title{font-weight:800;font-size:15px;margin:3px 5px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.balo-btn{width:100%;border:0;border-radius:11px;padding:11px 9px;background:#272a32;color:#fff;font-weight:700;cursor:pointer;font-size:13px;transition:.15s}
-.balo-btn:hover{background:#343844}.balo-btn.active{background:linear-gradient(135deg,#ff69b4,#ff1493)}
-.balo-btn .count{opacity:.8;margin-left:4px}
-.balo-game-wrap{min-width:0;display:flex;flex-direction:column;gap:9px;align-items:center}
-.balo-game-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#fff;padding:0 3px}
-.balo-game-name{font-size:18px;font-weight:800}.balo-close{border:0;border-radius:10px;padding:9px 13px;background:#fff;color:#222;font-weight:800;cursor:pointer}
-.balo-frame-shell{width:100%;background:#000;border-radius:14px;overflow:hidden;box-shadow:0 12px 45px rgba(0,0,0,.42)}
-#gameOverlay #gameFrame{display:block;width:100%;height:min(78vh,720px);border:0;border-radius:0;background:#fff}
-.balo-empty-right{min-width:0}
-#baloToast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);z-index:2000;background:#191b21;color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,.35);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.2s}
-#baloToast.show{opacity:1}
-#baloCommentModal{position:fixed;inset:0;z-index:1800;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.65)}
-#baloCommentModal.open{display:flex}
-#baloCommentBox{width:min(430px,100%);background:#fff;color:#222;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
-#baloCommentBox h3{margin-bottom:8px}#baloCommentBox p{color:#666;font-size:13px;margin-bottom:12px}
-#baloCommentInput{width:100%;min-height:90px;resize:vertical;border:1px solid #ddd;border-radius:12px;padding:11px;font:inherit;outline:none}
-#baloCommentInput:focus{border-color:#ff1493}.balo-comment-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:12px}
-.balo-comment-actions button{border:0;border-radius:10px;padding:10px 15px;font-weight:800;cursor:pointer}#baloCommentCancel{background:#eee}#baloCommentSend{background:#ff1493;color:#fff}
-@media(max-width:850px){.balo-player{grid-template-columns:72px minmax(0,1fr);gap:8px;padding:10px}.balo-side{padding:7px;gap:6px}.balo-title{display:none}.balo-btn{padding:10px 5px;font-size:11px}.balo-empty-right{display:none}#gameOverlay #gameFrame{height:78vh}}
-@media(max-width:560px){.balo-player{grid-template-columns:1fr;grid-template-rows:auto 1fr}.balo-side{flex-direction:row;overflow-x:auto;align-items:center}.balo-title{display:block;margin:0;min-width:max-content}.balo-btn{width:auto;min-width:74px}#gameOverlay #gameFrame{height:70vh}}
-`;
-  document.head.appendChild(style);
+  const style=document.createElement("style");style.id="balo-player-styles";style.textContent=`
+#gameOverlay{padding:0!important;background:#101114!important;align-items:stretch!important;justify-content:center!important}#gameOverlay.open{display:flex!important}.balo-player{width:100%;height:100%;display:grid;grid-template-columns:190px minmax(0,900px) minmax(80px,1fr);gap:18px;align-items:center;padding:20px 22px}.balo-side{background:#191b21;border:1px solid #2c2f38;border-radius:16px;padding:14px;color:#fff;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.22)}.balo-title{font-weight:800;font-size:15px;margin:3px 5px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.balo-btn{width:100%;border:0;border-radius:11px;padding:11px 9px;background:#272a32;color:#fff;font-weight:700;cursor:pointer;font-size:13px;transition:.15s}.balo-btn:hover{background:#343844}.balo-btn.active{background:linear-gradient(135deg,#ff69b4,#ff1493)}.balo-btn .count{opacity:.8;margin-left:4px}.balo-game-wrap{min-width:0;display:flex;flex-direction:column;gap:9px;align-items:center}.balo-game-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#fff;padding:0 3px}.balo-game-name{font-size:18px;font-weight:800}.balo-close{border:0;border-radius:10px;padding:9px 13px;background:#fff;color:#222;font-weight:800;cursor:pointer}.balo-frame-shell{width:100%;background:#000;border-radius:14px;overflow:hidden;box-shadow:0 12px 45px rgba(0,0,0,.42)}#gameOverlay #gameFrame{display:block;width:100%;height:min(82vh,760px);border:0;border-radius:0;background:#fff}.balo-frame-shell:fullscreen{width:100vw;height:100vh;border-radius:0}.balo-frame-shell:fullscreen #gameFrame{width:100vw;height:100vh}.balo-empty-right{min-width:0}#baloToast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);z-index:2200;background:#191b21;color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,.35);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.2s}#baloToast.show{opacity:1}#baloCommentModal{position:fixed;inset:0;z-index:1800;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.65)}#baloCommentModal.open{display:flex}#baloCommentBox{width:min(430px,100%);background:#fff;color:#222;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.4)}#baloCommentBox h3{margin-bottom:8px}#baloCommentBox p{color:#666;font-size:13px;margin-bottom:12px}#baloCommentInput{width:100%;min-height:90px;resize:vertical;border:1px solid #ddd;border-radius:12px;padding:11px;font:inherit;outline:none}#baloCommentInput:focus{border-color:#ff1493}.balo-comment-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:12px}.balo-comment-actions button{border:0;border-radius:10px;padding:10px 15px;font-weight:800;cursor:pointer}#baloCommentCancel{background:#eee}#baloCommentSend{background:#ff1493;color:#fff}@media(max-width:850px){.balo-player{grid-template-columns:72px minmax(0,1fr);gap:8px;padding:10px}.balo-side{padding:7px;gap:6px}.balo-title{display:none}.balo-btn{padding:10px 5px;font-size:11px}.balo-empty-right{display:none}#gameOverlay #gameFrame{height:82vh}}@media(max-width:560px){.balo-player{grid-template-columns:1fr;grid-template-rows:auto 1fr}.balo-side{flex-direction:row;overflow-x:auto;align-items:center}.balo-title{display:block;margin:0;min-width:max-content}.balo-btn{width:auto;min-width:74px}#gameOverlay #gameFrame{height:72vh}}
+`;document.head.appendChild(style);
 }
-
-function buildPlayer(){
-  injectPlayerStyles();
-  gameOverlay.innerHTML=`
-    <div class="balo-player">
-      <aside class="balo-side" aria-label="Game options">
-        <div class="balo-title" id="baloPlayerTitle">Game</div>
-        <button class="balo-btn" id="baloLikeBtn" type="button">👍 Like <span class="count" id="baloLikeCount"></span></button>
-        <button class="balo-btn" id="baloUnlikeBtn" type="button">👎 Unlike <span class="count" id="baloUnlikeCount"></span></button>
-        <button class="balo-btn" id="baloFavoriteBtn" type="button">⭐ Favorite</button>
-        <button class="balo-btn" id="baloShareBtn" type="button">↗ Share</button>
-        <button class="balo-btn" id="baloFullscreenBtn" type="button">⛶ Full Screen</button>
-        <button class="balo-btn" id="baloExitBtn" type="button">✕ Close Game</button>
-      </aside>
-      <section class="balo-game-wrap">
-        <div class="balo-game-head"><div class="balo-game-name" id="baloGameName">Balo Games</div><button class="balo-close" id="baloTopClose" type="button">✕</button></div>
-        <div class="balo-frame-shell"><iframe id="gameFrame" src="" title="Game" allowfullscreen></iframe></div>
-      </section>
-      <div class="balo-empty-right" aria-hidden="true"></div>
-    </div>
-    <div id="baloCommentModal" role="dialog" aria-modal="true" aria-label="Write a comment">
-      <div id="baloCommentBox"><h3 id="baloCommentTitle">Tell us what you think</h3><p>Your comment is saved on this device for this game.</p><textarea id="baloCommentInput" maxlength="500" placeholder="Write your comment..."></textarea><div class="balo-comment-actions"><button id="baloCommentCancel" type="button">Cancel</button><button id="baloCommentSend" type="button">Send Comment</button></div></div>
-    </div>
-    <div id="baloToast" role="status" aria-live="polite"></div>`;
-
-  document.getElementById("baloLikeBtn").addEventListener("click",toggleLike);
-  document.getElementById("baloUnlikeBtn").addEventListener("click",toggleUnlike);
-  document.getElementById("baloFavoriteBtn").addEventListener("click",toggleFavorite);
-  document.getElementById("baloShareBtn").addEventListener("click",shareGame);
-  document.getElementById("baloFullscreenBtn").addEventListener("click",fullscreenGame);
-  document.getElementById("baloExitBtn").addEventListener("click",closeGame);
-  document.getElementById("baloTopClose").addEventListener("click",closeGame);
-  document.getElementById("baloCommentCancel").addEventListener("click",closeComment);
-  document.getElementById("baloCommentSend").addEventListener("click",submitComment);
-}
-
-function updatePlayerState(){
-  if(!currentGame)return;
-  const d=getGameData(currentGame.id);
-  const like=document.getElementById("baloLikeBtn"),unlike=document.getElementById("baloUnlikeBtn"),fav=document.getElementById("baloFavoriteBtn");
-  if(!like)return;
-  like.classList.toggle("active",d.like);unlike.classList.toggle("active",d.unlike);fav.classList.toggle("active",d.favorite);
-  document.getElementById("baloLikeCount").textContent=d.like?"✓":"";
-  document.getElementById("baloUnlikeCount").textContent=d.unlike?"✓":"";
-  fav.innerHTML=d.favorite?"⭐ Favorited":"⭐ Favorite";
-}
-
-function openGame(game){
-  if(!game||!game.path)return;
-  currentGame=game;buildPlayer();
-  document.getElementById("baloPlayerTitle").textContent=game.title;
-  document.getElementById("baloGameName").textContent=game.title;
-  document.getElementById("gameFrame").src=game.path;
-  gameOverlay.classList.add("open");document.body.style.overflow="hidden";updatePlayerState();
-}
-function closeGame(){
-  gameOverlay.classList.remove("open");const frame=document.getElementById("gameFrame");if(frame)frame.src="";document.body.style.overflow="";currentGame=null;
-}
+function buildPlayer(){injectPlayerStyles();gameOverlay.innerHTML=`<div class="balo-player"><aside class="balo-side" aria-label="Game options"><div class="balo-title" id="baloPlayerTitle">Game</div><button class="balo-btn" id="baloLikeBtn" type="button">👍 Like <span class="count" id="baloLikeCount"></span></button><button class="balo-btn" id="baloUnlikeBtn" type="button">👎 Unlike <span class="count" id="baloUnlikeCount"></span></button><button class="balo-btn" id="baloFavoriteBtn" type="button">⭐ Favorite</button><button class="balo-btn" id="baloShareBtn" type="button">↗ Share</button><button class="balo-btn" id="baloFullscreenBtn" type="button">⛶ Full Screen</button><button class="balo-btn" id="baloExitBtn" type="button">✕ Close Game</button></aside><section class="balo-game-wrap"><div class="balo-game-head"><div class="balo-game-name" id="baloGameName">Balo Games</div><button class="balo-close" id="baloTopClose" type="button">✕</button></div><div class="balo-frame-shell"><iframe id="gameFrame" src="" title="Game" allowfullscreen></iframe></div></section><div class="balo-empty-right" aria-hidden="true"></div></div><div id="baloCommentModal" role="dialog" aria-modal="true" aria-label="Write a comment"><div id="baloCommentBox"><h3 id="baloCommentTitle">Tell us what you think</h3><p>Your comment is saved on this device for this game.</p><textarea id="baloCommentInput" maxlength="500" placeholder="Write your comment..."></textarea><div class="balo-comment-actions"><button id="baloCommentCancel" type="button">Cancel</button><button id="baloCommentSend" type="button">Send Comment</button></div></div></div><div id="baloToast" role="status" aria-live="polite"></div>`;document.getElementById("baloLikeBtn").addEventListener("click",toggleLike);document.getElementById("baloUnlikeBtn").addEventListener("click",toggleUnlike);document.getElementById("baloFavoriteBtn").addEventListener("click",toggleFavorite);document.getElementById("baloShareBtn").addEventListener("click",shareGame);document.getElementById("baloFullscreenBtn").addEventListener("click",fullscreenGame);document.getElementById("baloExitBtn").addEventListener("click",closeGame);document.getElementById("baloTopClose").addEventListener("click",closeGame);document.getElementById("baloCommentCancel").addEventListener("click",closeComment);document.getElementById("baloCommentSend").addEventListener("click",submitComment);}
+function updatePlayerState(){if(!currentGame)return;const d=getGameData(currentGame.id);const like=document.getElementById("baloLikeBtn"),unlike=document.getElementById("baloUnlikeBtn"),fav=document.getElementById("baloFavoriteBtn");if(!like)return;like.classList.toggle("active",d.like);unlike.classList.toggle("active",d.unlike);fav.classList.toggle("active",d.favorite);document.getElementById("baloLikeCount").textContent=d.like?"✓":"";document.getElementById("baloUnlikeCount").textContent=d.unlike?"✓":"";fav.innerHTML=d.favorite?"⭐ Favorited":"⭐ Favorite";}
+function openGame(game){if(!game||!game.path)return;currentGame=game;buildPlayer();document.getElementById("baloPlayerTitle").textContent=game.title;document.getElementById("baloGameName").textContent=game.title;document.getElementById("gameFrame").src=game.path;gameOverlay.classList.add("open");document.body.style.overflow="hidden";updatePlayerState();}
+function closeGame(){if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});gameOverlay.classList.remove("open");const frame=document.getElementById("gameFrame");if(frame)frame.src="";document.body.style.overflow="";currentGame=null;}
 function toast(message){const el=document.getElementById("baloToast");if(!el)return;el.textContent=message;el.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove("show"),2200);}
-function toggleLike(){
-  if(!currentGame)return;const d=getGameData(currentGame.id);if(d.like){saveGameData(currentGame.id,{like:false});updatePlayerState();return;}
-  saveGameData(currentGame.id,{like:true,unlike:false});updatePlayerState();openComment("Thanks for the Like! 😊","Tell us what you liked about this game.");
-}
-function toggleUnlike(){
-  if(!currentGame)return;const d=getGameData(currentGame.id);if(d.unlike){saveGameData(currentGame.id,{unlike:false});updatePlayerState();return;}
-  saveGameData(currentGame.id,{unlike:true,like:false});updatePlayerState();toast("Thanks for your feedback 😔");
-}
-function toggleFavorite(){
-  if(!currentGame)return;const d=getGameData(currentGame.id);saveGameData(currentGame.id,{favorite:!d.favorite});updatePlayerState();toast(d.favorite?"Removed from Favorites":"Added to Favorites ⭐");
-}
-function openComment(title,placeholder){
-  const modal=document.getElementById("baloCommentModal"),input=document.getElementById("baloCommentInput");
-  document.getElementById("baloCommentTitle").textContent=title;input.placeholder=placeholder||"Write your comment...";input.value="";modal.classList.add("open");setTimeout(()=>input.focus(),50);
-}
+function toggleLike(){if(!currentGame)return;const d=getGameData(currentGame.id);if(d.like){saveGameData(currentGame.id,{like:false});updatePlayerState();return;}saveGameData(currentGame.id,{like:true,unlike:false});updatePlayerState();openComment("Thanks for the Like! 😊","Tell us what you liked about this game.");}
+function toggleUnlike(){if(!currentGame)return;const d=getGameData(currentGame.id);if(d.unlike){saveGameData(currentGame.id,{unlike:false});updatePlayerState();return;}saveGameData(currentGame.id,{unlike:true,like:false});updatePlayerState();toast("Thanks for your feedback 😔");}
+function toggleFavorite(){if(!currentGame)return;const d=getGameData(currentGame.id);saveGameData(currentGame.id,{favorite:!d.favorite});updatePlayerState();toast(d.favorite?"Removed from Favorites":"Added to Favorites ⭐");}
+function openComment(title,placeholder){const modal=document.getElementById("baloCommentModal"),input=document.getElementById("baloCommentInput");document.getElementById("baloCommentTitle").textContent=title;input.placeholder=placeholder||"Write your comment...";input.value="";modal.classList.add("open");setTimeout(()=>input.focus(),50);}
 function closeComment(){const modal=document.getElementById("baloCommentModal");if(modal)modal.classList.remove("open");}
-function submitComment(){
-  if(!currentGame)return;const input=document.getElementById("baloCommentInput"),text=input.value.trim();if(!text){input.focus();return;}
-  const d=getGameData(currentGame.id);d.comments=Array.isArray(d.comments)?d.comments:[];d.comments.push({text,time:new Date().toISOString()});saveGameData(currentGame.id,{comments:d.comments});closeComment();toast("Thanks for your comment! 😊");
-}
-async function shareGame(){
-  if(!currentGame)return;const url=new URL(currentGame.path,window.location.href).href;
-  try{
-    if(navigator.share){await navigator.share({title:currentGame.title+" - Balo Games",text:"Play "+currentGame.title+" on Balo Games",url});toast("Shared successfully! ❤️");}
-    else if(navigator.clipboard){await navigator.clipboard.writeText(url);toast("Game link copied! 🔗");}
-    else window.prompt("Copy this game link:",url);
-  }catch(e){if(e&&e.name!=="AbortError")toast("Share cancelled");}
-}
-async function fullscreenGame(){
-  try{
-    if(document.fullscreenElement){await document.exitFullscreen();return;}
-    const shell=document.querySelector(".balo-frame-shell"),frame=document.getElementById("gameFrame");
-    if(shell&&shell.requestFullscreen)await shell.requestFullscreen();else if(frame&&frame.requestFullscreen)await frame.requestFullscreen();
-  }catch(e){toast("Full screen is not available here");}
-}
-
-if(logoBtn)logoBtn.addEventListener("click",event=>{
-  if(gameOverlay.classList.contains("open")){event.preventDefault();closeGame();}
-});
-
-document.addEventListener("keydown",event=>{
-  if(event.key==="Escape"){
-    const modal=document.getElementById("baloCommentModal");
-    if(modal&&modal.classList.contains("open"))closeComment();
-  }
-});
-
-filterGames("all");
+function submitComment(){if(!currentGame)return;const input=document.getElementById("baloCommentInput"),text=input.value.trim();if(!text){input.focus();return;}const d=getGameData(currentGame.id);d.comments=Array.isArray(d.comments)?d.comments:[];d.comments.push({text,time:new Date().toISOString()});saveGameData(currentGame.id,{comments:d.comments});closeComment();toast("Thanks for your comment! 😊");}
+async function shareGame(){if(!currentGame)return;const url=new URL(currentGame.path,window.location.href).href;try{if(navigator.share){await navigator.share({title:currentGame.title+" - Balo Games",text:"Play "+currentGame.title+" on Balo Games",url});toast("Shared successfully! ❤️");}else if(navigator.clipboard){await navigator.clipboard.writeText(url);toast("Game link copied! 🔗");}else window.prompt("Copy this game link:",url);}catch(e){if(e&&e.name!=="AbortError")toast("Share cancelled");}}
+async function fullscreenGame(){try{if(document.fullscreenElement){await document.exitFullscreen();return;}const shell=document.querySelector(".balo-frame-shell"),frame=document.getElementById("gameFrame");if(shell&&shell.requestFullscreen){await shell.requestFullscreen();}else if(frame&&frame.requestFullscreen){await frame.requestFullscreen();}else if(frame){window.open(frame.src,"_blank","noopener,noreferrer");}}catch(e){toast("Full screen is not available here");}}
+if(logoBtn)logoBtn.addEventListener("click",event=>{if(gameOverlay.classList.contains("open")){event.preventDefault();closeGame();}});
+document.addEventListener("keydown",event=>{if(event.key==="Escape"){const modal=document.getElementById("baloCommentModal"),profile=document.getElementById("baloProfileModal");if(modal&&modal.classList.contains("open")){closeComment();return;}if(profile&&profile.classList.contains("open"))closeProfile();}});
+injectHomeTools();filterGames("all");
