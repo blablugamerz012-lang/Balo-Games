@@ -80,6 +80,33 @@
 
     .brand .logo { display: none; }
 
+    /* EVEN NEON BLOCK UNDER THE TOP-LEFT BRAND */
+    .brand-area {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 9px;
+      flex: 0 0 auto;
+    }
+
+    .logo-neon-block {
+      width: 180px;
+      height: 42px;
+      border: 2px solid transparent;
+      border-radius: 9px;
+      background:
+        linear-gradient(rgba(8, 24, 48, .08), rgba(8, 24, 48, .08)) padding-box,
+        linear-gradient(90deg, #00e5ff, #ffffff, #ff1493, #00e5ff) border-box;
+      background-size: 100% 100%, 300% 100%;
+      animation: neonBorderFlow 5s linear infinite;
+      box-shadow: 0 0 8px rgba(0, 229, 255, .3), inset 0 0 8px rgba(0, 229, 255, .08);
+    }
+
+    @keyframes neonBorderFlow {
+      0% { background-position: 0 0, 0% 50%; }
+      100% { background-position: 0 0, 300% 50%; }
+    }
+
     .header-search-toggle {
       width: 46px;
       height: 46px;
@@ -537,6 +564,8 @@
       }
 
       .brand { font-size: 27px; }
+      .logo-neon-block { width: 150px; height: 35px; }
+      .brand-area { gap: 7px; }
       .header-search-toggle { width: 40px; height: 40px; border-radius: 11px; }
       .search-box {
         position: absolute;
@@ -637,7 +666,10 @@
 
   <!-- POKI-INSPIRED BALO GAMES HEADER -->
   <header class="site-header">
-    <a class="brand" id="logoBtn" href="./index.html" aria-label="Balo Games home">BALO</a>
+    <div class="brand-area">
+      <a class="brand" id="logoBtn" href="./index.html" aria-label="Balo Games home">BALO</a>
+      <div class="logo-neon-block" aria-hidden="true"></div>
+    </div>
 
     <button class="header-search-toggle" id="searchToggle" type="button"
             aria-label="Open game search" aria-expanded="false" aria-controls="gameSearch">
