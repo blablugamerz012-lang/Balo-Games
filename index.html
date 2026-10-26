@@ -126,6 +126,8 @@
       transition: 0.2s;
     }
 
+    .category-btn.latest-category { border-color: #ffb6df; font-weight: 800; }
+
     .category-btn:hover,
     .category-btn.active {
       background: #fff;
@@ -562,12 +564,15 @@
       <button class="category-btn category" data-category="arcade" aria-pressed="false" type="button">
         Arcade
       </button>
+      <button class="category-btn category latest-category" data-category="latest" aria-pressed="false" type="button">
+        Latest Games
+      </button>
     </nav>
   </section>
 
   <!-- POPULAR GAMES: YOUR REAL GAME LIBRARY LOADS FROM script.js -->
   <main id="games">
-    <h2 class="section-title">Popular Games</h2>
+    <h2 class="section-title" id="sectionTitle">All Games</h2>
     <p id="gameCount" style="text-align:center;color:#777;font-size:13px;margin:-10px 0 18px">Loading games…</p>
 
     <div class="games-grid" id="gameGrid"></div>
