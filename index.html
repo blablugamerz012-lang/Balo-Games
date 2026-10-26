@@ -522,51 +522,109 @@
         font-size: 19px;
       }
     }
+
+    /* Balo Games refreshed design */
+    * { box-sizing:border-box; }
+    body { font-family:Arial,Helvetica,sans-serif; background:#071a48; color:#fff; }
+    .site-header { min-height:82px; padding:14px 24px; background:linear-gradient(120deg,#ff1493,#ff69b4); display:flex; align-items:center; gap:16px; border-bottom:4px solid #ffb6df; }
+    .site-header .brand { display:flex; align-items:center; gap:12px; font-size:clamp(22px,4vw,32px); font-weight:900; }
+    .site-header .logo { width:46px; height:46px; object-fit:contain; }
+    .top-area { background:linear-gradient(135deg,#0878ff,#0648b8); color:white; text-align:left; padding:22px 24px 0; border-bottom:4px solid #36a9ff; }
+    .hero-top-row { display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; }
+    .profile-box { display:flex; align-items:center; gap:12px; min-height:92px; padding:9px 12px; border:2px solid rgba(255,255,255,.75); border-radius:18px; background:rgba(0,31,120,.28); box-shadow:0 6px 18px rgba(0,0,0,.16); }
+    .avatar-wrap { position:relative; }
+    .avatar { width:70px;height:70px;border:3px solid white;border-radius:50%;background:linear-gradient(145deg,#dff3ff,#6fbaff);display:grid;place-items:center;color:#0754c9;font-size:32px; }
+    .avatar-edit { position:absolute;right:-5px;bottom:-5px;width:28px;height:28px;border:2px solid white;border-radius:50%;background:#ff1493;color:white;cursor:pointer; }
+    .login-btn { border:2px solid white;border-radius:14px;padding:11px 18px;background:linear-gradient(135deg,#0878ff,#0648b8);color:white;font-weight:900;font-size:15px;cursor:pointer; }
+    .hero-bottom { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-top:20px;padding-bottom:20px; }
+    .hero-copy h1 { font-size:clamp(24px,4vw,34px);font-weight:900;margin:0 0 5px; }
+    .hero-copy p { font-size:14px;margin:0;color:#e8f3ff; }
+    .search-box { display:flex;align-items:center;width:min(100%,330px);background:white;border:3px solid #a8d8ff;border-radius:18px;overflow:hidden; }
+    .search-box input { width:100%;min-width:0;padding:13px;border:0;outline:none;font-size:16px;color:#123; }
+    .search-box button { border:0;padding:12px 15px;background:#ff1493;color:white;font-size:20px;cursor:pointer; }
+    .categories { display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:9px;padding:14px 0;background:transparent;border:0; }
+    .category-btn { border:2px solid rgba(255,255,255,.85);border-radius:12px;padding:9px 15px;background:rgba(0,0,80,.2);color:white;font-weight:800;cursor:pointer;font-size:13px;transition:background .2s; }
+    .category-btn:hover,.category-btn.active { background:#ff1493;color:white;border-color:white; }
+    main#games { width:100%;max-width:1500px;margin:0 auto;padding:26px 24px 40px;min-height:250px; }
+    .section-title { text-align:center;font-size:27px;margin-bottom:18px;color:white; }
+    #gameCount { text-align:center;color:#c5d8ff!important;font-size:13px;margin:-7px 0 20px!important; }
+    .games-grid { display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:17px;width:100%; }
+    .game-card { min-width:0;border:3px solid #43b7ff;border-radius:17px;background:linear-gradient(145deg,#102d69,#0b1e4b);box-shadow:0 5px 0 #031236,0 0 12px rgba(0,145,255,.22);overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;color:white;display:flex;flex-direction:column; }
+    .game-card:hover { transform:translateY(-4px);border-color:#ff69b4;box-shadow:0 5px 0 #031236,0 0 18px rgba(255,20,147,.3); }
+    .game-image { height:auto;min-height:120px;flex:1;display:grid;place-items:center;font-size:clamp(30px,4vw,54px);background:linear-gradient(135deg,#123c86,#10204d); }
+    .game-icon { font-size:clamp(38px,4vw,54px); }
+    .game-info { padding:10px;text-align:center;background:#0b1e4b; }
+    .game-info h3 { font-size:14px;font-weight:800;margin:0 0 7px;color:#fff;overflow-wrap:anywhere; }
+    .game-info p { color:#b8d8ff;font-size:11px;line-height:1.45;margin:0 0 8px; }
+    .game-category-tag { background:#ff1493;color:white; }
+    .game-action { color:#73c8ff;font-size:12px;font-weight:800; }
+    .coming-soon-card { cursor:default; }
+    .no-results { text-align:center;padding:35px 15px;color:#d9e7ff; }
+    .no-results h3 { margin-bottom:9px; }
+    .play-btn { display:inline-block;margin-top:9px;padding:8px 13px;border:0;border-radius:8px;background:#0878ff;color:white;font-weight:bold;cursor:pointer; }
+    .play-btn:hover { background:#ff1493; }
+    .about { background:linear-gradient(120deg,#ff1493,#ff69b4);color:white;padding:28px 5%;text-align:center; }
+    .about p { color:white; }
+    footer { background:linear-gradient(120deg,#ff1493,#ff69b4);color:white;text-align:center;padding:12px 10px; }
+    footer .footer-links a:hover { color:#0754c9; }
+    .message { z-index:2000; }
+    [hidden] { display:none!important; }
+    @media(max-width:1100px) { .games-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+    @media(max-width:650px) {
+      .site-header { padding:14px; }
+      .top-area { padding:17px 17px 0; }
+      main#games { padding:22px 17px 32px; }
+      .avatar { width:60px;height:60px; }
+      .games-grid { grid-template-columns:repeat(3,minmax(0,1fr));gap:10px; }
+      .game-card { border-width:2px;border-radius:12px; }
+      .game-info { padding:8px 5px; }
+      .game-info h3 { font-size:12px; }
+      .categories { padding:12px 0; }
+      .hero-bottom { align-items:stretch; }
+      .search-box { width:100%; }
+      .game-image { min-height:95px; }
+    }
+    @media(max-width:380px) { .games-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+
   </style>
 </head>
 
 <body>
 
   <!-- HEADER -->
-  <header>
+  <header class="site-header">
     <a class="brand" id="logoBtn" href="./index.html" aria-label="Balo Games home">
       <img class="logo" src="./icon/icon.png" alt="Balo Games logo">
       <span>Balo Games</span>
     </a>
-
-    <div class="search-box">
-      <input
-        type="search"
-        id="gameSearch"
-        placeholder="Search games..."
-        aria-label="Search games"
-      >
-    </div>
   </header>
 
-  <!-- BLUE HERO AND CATEGORIES -->
+  <!-- HERO, PROFILE AND SEARCH -->
   <section class="top-area">
-    <div class="hero">
-      <h1>Balo Games</h1>
-      <p>Discover and play browser games on Balo Games.</p>
+    <div class="hero-top-row">
+      <div class="profile-box" aria-label="Player avatar">
+        <div class="avatar-wrap">
+          <div class="avatar" aria-label="Avatar placeholder">👤</div>
+          <button class="avatar-edit" id="avatarEdit" type="button" aria-label="Edit avatar" title="Edit avatar">✎</button>
+        </div>
+      </div>
+      <button class="login-btn" id="loginButton" type="button">Login</button>
     </div>
-
+    <div class="hero-bottom">
+      <div class="hero-copy">
+        <h1>Balo Games</h1>
+        <p>Discover and play browser games on Balo Games.</p>
+      </div>
+      <form class="search-box" id="searchForm">
+        <input type="search" id="gameSearch" placeholder="Search games..." aria-label="Search games">
+        <button type="submit" id="searchSubmit" aria-label="Search">⌕</button>
+      </form>
+    </div>
     <nav class="categories" aria-label="Game categories">
-      <button class="category-btn category active" data-category="all" aria-pressed="true" type="button">
-        All Games
-      </button>
-      <button class="category-btn category" data-category="action" aria-pressed="false" type="button">
-        Action
-      </button>
-      <button class="category-btn category" data-category="adventure" aria-pressed="false" type="button">
-        Adventure
-      </button>
-      <button class="category-btn category" data-category="arcade" aria-pressed="false" type="button">
-        Arcade
-      </button>
-      <button class="category-btn category latest-category" data-category="latest" aria-pressed="false" type="button">
-        Latest Games
-      </button>
+      <button class="category-btn category active" data-category="all" aria-pressed="true" type="button">All Games</button>
+      <button class="category-btn category" data-category="action" aria-pressed="false" type="button">Action</button>
+      <button class="category-btn category" data-category="adventure" aria-pressed="false" type="button">Adventure</button>
+      <button class="category-btn category" data-category="arcade" aria-pressed="false" type="button">Arcade</button>
     </nav>
   </section>
 
@@ -622,6 +680,16 @@
     </div>
   </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("searchForm");
+      if (form) form.addEventListener("submit", function (event) { event.preventDefault(); });
+      const login = document.getElementById("loginButton");
+      if (login) login.addEventListener("click", function () { alert("Login feature coming soon!"); });
+      const edit = document.getElementById("avatarEdit");
+      if (edit) edit.addEventListener("click", function () { alert("Avatar customization coming soon!"); });
+    });
+  </script>
   <script src="./script.js"></script>
 </body>
 </html>
