@@ -18,7 +18,7 @@ const gameCount=document.getElementById("gameCount");
 const emptyGames=document.getElementById("emptyGames");
 const categoryButtons=document.querySelectorAll(".category[data-category]");
 const sectionTitle=document.getElementById("sectionTitle");
-const categoryLabels={all:"All Games",action:"Action",adventure:"Adventure",arcade:"Arcade",latest:"Latest Games"};
+const categoryLabels={all:"All Games",action:"Action",adventure:"Adventure",arcade:"Arcade"};
 let selectedCategory="all";
 let searchTerm="";
 let currentGame=null;
@@ -51,13 +51,10 @@ function showGames(list){
 
 function applyFilters(){
   let filtered=games.filter(game=>{
-    const categoryMatches=selectedCategory==="all"||selectedCategory==="latest"||game.category===selectedCategory;
+    const categoryMatches=selectedCategory==="all"||game.category===selectedCategory;
     const haystack=(game.title+" "+game.desc+" "+game.category).toLowerCase();
     return categoryMatches&&haystack.includes(searchTerm);
   });
-  if(selectedCategory==="latest"){
-    filtered.sort((a,b)=>(b.order||0)-(a.order||0));
-  }
   if(sectionTitle) sectionTitle.textContent=categoryLabels[selectedCategory]||"All Games";
   showGames(filtered);
 }
