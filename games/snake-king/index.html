@@ -51,6 +51,241 @@ button,select{font:inherit}
 .custom-hotspot{left:77.2%;top:45.5%;width:20.6%;height:11.5%}
 .settings-hotspot{left:77.2%;top:58.5%;width:20.6%;height:11.5%}
 .quit-hotspot{left:77.2%;top:71.5%;width:20.6%;height:11.5%}
+/* Bonus Code button — below Quit, premium design */
+.bonus-code-btn{
+  position:absolute;z-index:12;left:77.2%;top:84.2%;width:20.6%;height:11%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:linear-gradient(145deg,#2a1050 0%,#1a0a30 50%,#0d0620 100%);
+  border:2px solid #c084fc;border-radius:14px;
+  box-shadow:0 4px 0 #4c1d95,0 0 20px #a855f780,inset 0 1px 0 rgba(255,255,255,.15);
+  color:#f0e6ff;font:inherit;cursor:pointer;text-align:center;
+  transition:transform .12s ease,filter .15s ease,box-shadow .15s ease;
+  padding:4px 6px;box-sizing:border-box;
+}
+.bonus-code-btn:hover{
+  filter:brightness(1.12);transform:translateY(-2px);
+  box-shadow:0 6px 0 #4c1d95,0 0 28px #c084fc90,inset 0 1px 0 rgba(255,255,255,.2);
+}
+.bonus-code-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #4c1d95}
+.bonus-code-btn .bc-icon{font-size:18px;line-height:1;filter:drop-shadow(0 0 6px #e879f9)}
+.bonus-code-btn .bc-title{font-weight:900;font-size:10px;letter-spacing:.06em;color:#e9d5ff;text-transform:uppercase;line-height:1.1}
+.bonus-code-btn .bc-sub{font-size:8px;color:#c4b5fd;opacity:.9;line-height:1}
+/* Bonus Code modal */
+.bonus-overlay{
+  position:fixed;inset:0;z-index:110;background:rgba(0,0,0,.82);
+  display:none;align-items:center;justify-content:center;padding:16px;
+  backdrop-filter:blur(6px);
+}
+.bonus-overlay.show{display:flex}
+.bonus-modal{
+  width:min(360px,92vw);background:radial-gradient(ellipse at 50% 0%,#2e1065 0%,#1a0a30 40%,#0c0618 100%);
+  border:2px solid #c084fc;border-radius:20px;
+  box-shadow:0 0 40px #a855f750,inset 0 0 40px #7c3aed20;
+  padding:24px 22px 20px;text-align:center;position:relative;
+}
+.bonus-modal h2{margin:0 0 6px;font-size:22px;color:#e9d5ff;text-shadow:0 0 16px #c084fc80}
+.bonus-modal .bonus-desc{font-size:13px;color:#c4b5fd;margin:0 0 16px;line-height:1.4}
+.bonus-modal .bonus-input-wrap{
+  display:flex;gap:8px;margin-bottom:14px;
+}
+.bonus-modal input#bonusCodeInput{
+  flex:1;background:#1a0a30;border:2px solid #7c3aed;border-radius:12px;
+  padding:12px 14px;font-size:16px;font-weight:700;color:#f5f3ff;letter-spacing:.12em;
+  text-align:center;outline:none;box-shadow:inset 0 0 12px #0006;
+}
+.bonus-modal input#bonusCodeInput:focus{border-color:#e879f9;box-shadow:0 0 0 3px #c084fc40,inset 0 0 12px #0006}
+.bonus-modal input#bonusCodeInput::placeholder{color:#7c6a9e;letter-spacing:normal;font-weight:500}
+.bonus-status{font-size:13px;font-weight:700;min-height:22px;margin-bottom:12px;color:#fde68a}
+.bonus-status.ok{color:#4ade80}
+.bonus-status.err{color:#f87171}
+.bonus-actions{display:flex;gap:10px;justify-content:center}
+.bonus-actions .btn{flex:1;min-width:100px}
+
+
+/* When Special Offer is permanent — hide button, grow remaining left-stack cards */
+.home-left-stack.special-owned .home-panel-btn.offer{display:none !important}
+.home-left-stack.special-owned .home-panel-btn,
+.home-left-stack.special-owned .my-snake-box{
+  flex:1 1 auto;
+  min-height:52px;
+}
+.home-left-stack.special-owned .home-panel-btn .hp-title{font-size:13px}
+.home-left-stack.special-owned .home-panel-btn .hp-icon{width:40px;height:40px;font-size:22px}
+.home-left-stack.special-owned .my-snake-box .ms-label{font-size:12px}
+
+/* Lucky Spin button + modal */
+.home-panel-btn.spin-btn{
+  border-color:#fbbf24;
+  background:linear-gradient(145deg,#3a2a0a,#1a1205);
+  box-shadow:0 4px 0 #7c5a10,0 0 18px #fbbf2450,inset 0 1px 0 rgba(255,255,255,.08);
+}
+.home-panel-btn.spin-btn:hover{
+  box-shadow:0 6px 0 #7c5a10,0 0 26px #fbbf2480,inset 0 1px 0 rgba(255,255,255,.12);
+}
+.home-panel-btn.spin-btn .hp-icon{
+  background:linear-gradient(180deg,#5a4010,#2a1a05);
+  border-color:#d4a017;
+  box-shadow:inset 0 0 10px #fbbf2430;
+}
+.home-panel-btn.spin-btn .hp-title{color:#fde68a}
+.home-panel-btn.spin-btn .hp-sub{color:#fcd34d}
+.spin-overlay{
+  position:fixed;inset:0;z-index:120;
+  background:radial-gradient(ellipse at 50% 20%,#2a1c08 0%,#0c0804 55%,#050302 100%);
+  display:none;align-items:stretch;justify-content:center;
+  padding:0;backdrop-filter:blur(8px);
+}
+.spin-overlay.show{display:flex}
+.spin-modal{
+  width:100%;height:100%;max-width:100vw;max-height:100dvh;
+  background:transparent;border:0;border-radius:0;
+  box-shadow:none;
+  text-align:center;position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(4px,1.2vh,12px);
+  box-sizing:border-box;
+  padding:max(8px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom));
+  overflow:hidden;
+}
+.spin-modal .spin-top{width:100%;max-width:520px;margin:0 auto;flex-shrink:0}
+.spin-modal h2{
+  margin:0 0 4px;font-size:clamp(22px,6.5vw,36px);font-weight:900;
+  color:#fde68a;letter-spacing:.04em;
+  text-shadow:0 0 24px #fbbf24a0,0 2px 8px #000;
+  line-height:1.1;
+}
+.spin-modal .spin-desc{
+  font-size:clamp(12px,3.2vw,16px);color:#fcd34d;margin:0 auto 6px;
+  line-height:1.35;max-width:34em;font-weight:600;
+  text-shadow:0 1px 4px #0008;
+}
+.spin-cost{
+  display:inline-block;
+  font-size:clamp(13px,3.5vw,18px);font-weight:900;
+  color:#fff7c2;margin:4px auto 6px;padding:8px 18px;
+  border-radius:999px;
+  background:linear-gradient(145deg,#3a2a0c,#1a1206);
+  border:2px solid #fbbf24;
+  box-shadow:0 0 20px #fbbf2450,inset 0 1px 0 #fff3;
+  letter-spacing:.03em;
+  text-shadow:0 0 12px #fbbf2480;
+}
+.spin-cost.empty{
+  color:#fecaca;border-color:#f87171;
+  background:linear-gradient(145deg,#3a1515,#1a0808);
+  box-shadow:0 0 20px #f8717150,inset 0 1px 0 #fff2;
+  text-shadow:0 0 10px #f8717180;
+}
+.spin-wheel-wrap{
+  position:relative;
+  width:min(72vw,52vh,300px);height:min(72vw,52vh,300px);
+  margin:4px auto;flex-shrink:0;
+}
+.spin-pointer{
+  position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+  z-index:8;width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  filter:drop-shadow(0 3px 6px #000a);
+  pointer-events:none;
+}
+.spin-pointer svg{width:36px;height:36px;display:block}
+.spin-wheel{
+  width:100%;height:100%;border-radius:50%;
+  border:6px solid #fbbf24;
+  box-shadow:0 0 36px #fbbf2470,0 0 0 4px #7c5a1040,inset 0 0 24px #0008;
+  transition:transform 4.5s cubic-bezier(0.12,0.7,0.1,1);
+  position:relative;overflow:hidden;background:#1a1206;
+}
+.spin-wheel svg.spin-svg{
+  width:100%;height:100%;display:block;
+  transform:rotate(-90deg);
+}
+.spin-center{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(145deg,#fbbf24,#b45309);
+  border:3px solid #fde68a;
+  box-shadow:0 0 20px #fbbf2480;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;z-index:6;pointer-events:none;
+}
+.spin-result{
+  font-size:clamp(15px,4.2vw,22px);font-weight:900;
+  min-height:1.2em;margin:4px 10px;color:#fde68a;
+  text-shadow:0 0 16px #fbbf2460,0 2px 6px #000;
+  letter-spacing:.02em;line-height:1.25;flex-shrink:0;
+}
+.spin-result.win{
+  color:#4ade80;
+  text-shadow:0 0 20px #4ade8080,0 2px 6px #000;
+  animation:spinPop .45s ease;
+}
+@keyframes spinPop{
+  0%{transform:scale(.85);opacity:.5}
+  60%{transform:scale(1.08)}
+  100%{transform:scale(1);opacity:1}
+}
+.spin-actions{
+  display:flex;gap:12px;justify-content:center;flex-wrap:nowrap;
+  width:100%;max-width:400px;margin:0 auto;padding:4px 0 0;
+  flex-shrink:0;
+}
+.spin-actions .btn{
+  flex:1;min-width:120px;min-height:46px;
+  font-size:clamp(14px,3.8vw,18px);font-weight:900;
+  border-radius:14px;letter-spacing:.04em;
+}
+.spin-actions .btn.primary{
+  background:linear-gradient(180deg,#fbbf24,#d97706);
+  color:#1a1000;border:2px solid #fde68a;
+  box-shadow:0 4px 0 #7c4a00,0 0 24px #fbbf2460;
+}
+.spin-actions .btn.primary:active{transform:translateY(2px);box-shadow:0 1px 0 #7c4a00}
+.spin-actions .btn.secondary{
+  background:linear-gradient(180deg,#2a2210,#151008);
+  color:#fde68a;border:2px solid #a16207;
+}
+.spin-close-x{
+  position:absolute;top:max(10px,env(safe-area-inset-top));right:14px;
+  width:44px;height:44px;border-radius:12px;
+  background:#1a1206cc;border:2px solid #fbbf2460;color:#fde68a;
+  font-size:22px;font-weight:900;cursor:pointer;z-index:10;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 12px #0006;
+}
+.spin-close-x:hover{background:#3a2a0c;border-color:#fbbf24}
+@media (max-height:700px){
+  .spin-wheel-wrap{width:min(58vw,42vh,220px);height:min(58vw,42vh,220px)}
+  .spin-modal h2{font-size:clamp(20px,5.5vw,28px);margin:2px 0}
+  .spin-modal .spin-desc{font-size:12px;margin-bottom:4px}
+  .spin-cost{font-size:13px;padding:6px 14px;margin:2px auto 4px}
+  .spin-result{font-size:14px;margin:2px 8px}
+  .spin-actions .btn{min-height:42px;font-size:14px}
+  .spin-center{width:44px;height:44px;font-size:22px}
+}
+@media (max-height:560px){
+  .spin-wheel-wrap{width:min(48vw,36vh,180px);height:min(48vw,36vh,180px)}
+  .spin-modal .spin-desc{display:none}
+  .spin-modal h2{font-size:18px}
+}
+/* floating +frogs toast */
+.frog-toast{
+  position:fixed;z-index:200;left:50%;top:28%;
+  transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(145deg,#0c2a18,#061810);
+  border:2px solid #42ff48;border-radius:16px;
+  padding:12px 22px;font-weight:900;font-size:18px;color:#9dffb5;
+  box-shadow:0 0 30px #00ff6650;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s, transform .45s ease;
+}
+.frog-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:420px){
+  .bonus-code-btn{left:76%;width:22%;top:84%;height:10.5%}
+  .bonus-code-btn .bc-title{font-size:9px}
+  .bonus-code-btn .bc-icon{font-size:16px}
+}
 /* Live values over existing Frogs / High Score on home art */
 .home-hud{
   position:absolute;z-index:12;top:12px;left:12px;
@@ -243,11 +478,12 @@ button,select{font:inherit}
 }
 .special-overlay.show{display:flex}
 .special-stage{
-  position:relative;width:min(480px,94vw);max-height:min(92vh,640px);
+  position:relative;width:min(480px,94vw);max-height:min(92dvh,640px);
   background:radial-gradient(ellipse at 50% 20%,#1f4528 0%,#0a1a10 45%,#061208 100%);
   border:2px solid #f5c542;border-radius:20px;
   box-shadow:0 0 40px #ffd24a35,inset 0 0 50px #00ff6618;
-  overflow:auto;padding:22px 36px 20px;
+  overflow:auto;padding:16px 24px 14px;
+  box-sizing:border-box;
   display:flex;flex-direction:column;align-items:center;text-align:center;
   box-sizing:border-box;
 }
@@ -396,9 +632,43 @@ button,select{font:inherit}
 .owner-slot.saved.is-active{border-color:#ffe566;box-shadow:0 0 20px #ffd24a40}
 .owner-preview{width:100%;max-width:140px;height:52px;display:block;margin-bottom:8px;border-radius:8px}
 .owner-name{font-weight:900;color:#9dffb5;font-size:12px;margin-bottom:8px;text-align:center;line-height:1.25;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.owner-use{width:100%;padding:8px 10px;border:0;border-radius:9px;background:#42ff48;color:#06200a;font-weight:900;cursor:pointer;font-size:12px}
+.owner-use{display:none !important}
 .owner-use:hover{filter:brightness(1.08)}
 .owner-use.active{background:#183326;color:#d9ffe1;border:1px solid #3b7650}
+
+/* Snake select — blue radio circles only (no full USE button) */
+.select-radio{
+  width:22px;height:22px;border-radius:50%;
+  border:2.5px solid #3b82f6;
+  background:transparent;
+  box-sizing:border-box;
+  flex-shrink:0;
+  display:inline-block;
+  box-shadow:0 0 0 0 #3b82f640;
+  transition:background .15s, box-shadow .15s, border-color .15s;
+  pointer-events:none;
+}
+.select-radio.on{
+  background:#3b82f6;
+  box-shadow:0 0 10px #3b82f680, inset 0 0 0 3px #0a1628;
+  border-color:#60a5fa;
+}
+.owner-slot .select-radio{margin-top:6px}
+.owner-slot.saved{cursor:pointer}
+.owner-slot.saved.is-active{border-color:#3b82f6;box-shadow:0 0 16px #3b82f640}
+.char-card{position:relative;cursor:pointer}
+.char-card .select-radio{
+  position:absolute;top:8px;right:8px;z-index:2;
+}
+#customize.panel-screen .char-card .select-radio{
+  top:6px;right:6px;width:18px;height:18px;border-width:2px;
+}
+#customize.panel-screen .char-card .select-radio.on{
+  inset:auto; /* keep */
+  box-shadow:0 0 8px #3b82f680, inset 0 0 0 2px #0a1628;
+}
+#customize.panel-screen .char-btn{display:none !important}
+
 .audio-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
 .audio-toggle{
   min-width:64px;padding:8px 14px;border:0;border-radius:10px;font-weight:900;font-size:13px;cursor:pointer;
@@ -469,6 +739,15 @@ button,select{font:inherit}
   outline-color:#7ec8ff;transform:scale(1.02);
 }
 .owner-slot.sell-pickable:hover::after{background:#123050;color:#fff}
+
+.owner-slot.sell-picked{
+  border-color:#3b82f6 !important;
+  box-shadow:0 0 18px #3b82f660 !important;
+}
+.owner-slot.sell-pickable .select-radio{
+  margin-top:8px;
+}
+
 .owner-slot.sell-blocked{
   opacity:.4;pointer-events:none;filter:grayscale(.3);
 }
@@ -533,8 +812,88 @@ button,select{font:inherit}
 .msa-label{font-size:10px;font-weight:800;color:#7dffc0;letter-spacing:.14em}
 .msa-name{font-size:16px;font-weight:900;color:#e8ffe8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* PANELS */
-.panel-screen{padding:32px;flex-direction:column;align-items:center;justify-content:flex-start;background:radial-gradient(circle at top,#154d2a,#06130b 65%)}
-.panel{width:min(720px,100%);background:#081b10ef;border:1px solid #37ff7c;border-radius:22px;padding:28px;box-shadow:0 0 35px #00ff6640}
+.panel-screen{
+  padding:12px;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(circle at top,#154d2a,#06130b 65%);
+  overflow:hidden;height:100%;min-height:0;box-sizing:border-box;
+}
+.panel{
+  width:min(720px,100%);max-height:100%;
+  background:#081b10ef;border:1px solid #37ff7c;border-radius:18px;
+  padding:16px 18px;box-shadow:0 0 35px #00ff6640;
+  overflow:auto;box-sizing:border-box;
+  -webkit-overflow-scrolling:touch;
+}
+#customize.panel-screen{
+  padding:8px;
+  justify-content:center;
+}
+#customize.panel-screen .panel{
+  overflow:hidden;
+  display:flex;flex-direction:column;gap:6px;
+  width:min(420px,100%);
+  max-height:calc(100dvh - 16px);
+  padding:10px 12px;
+  border-radius:14px;
+}
+#customize.panel-screen h1{
+  margin:0;font-size:clamp(16px,4.5vw,22px);line-height:1.2;
+}
+#customize.panel-screen .sub{
+  margin:0;font-size:11px;line-height:1.3;
+}
+#customize.panel-screen .card{
+  margin-bottom:0 !important;padding:8px 10px;border-radius:12px;
+}
+#customize.panel-screen .card h3{
+  margin:0 0 6px;font-size:12px;line-height:1.2;
+}
+#customize.panel-screen .char-grid{
+  gap:6px;margin-top:2px;grid-template-columns:1fr;
+}
+#customize.panel-screen .char-card{
+  padding:6px 8px;gap:3px;border-radius:10px;flex-direction:row;
+  flex-wrap:wrap;justify-content:center;
+}
+#customize.panel-screen .char-card canvas{
+  max-width:110px;height:36px;
+}
+#customize.panel-screen .char-name{font-size:11px}
+#customize.panel-screen .char-tag{font-size:9px}
+#customize.panel-screen .char-btn{
+  padding:6px 8px;font-size:11px;margin-top:0;width:auto;min-width:72px;
+}
+#customize.panel-screen .actions{
+  margin-top:6px;gap:6px;flex-wrap:nowrap;
+}
+#customize.panel-screen .btn{
+  padding:9px 10px;font-size:12px;border-radius:10px;
+}
+#customize.panel-screen .back{
+  margin-top:2px;padding:9px 10px;font-size:12px;
+}
+#customize.panel-screen label{font-size:11px}
+#customize.panel-screen input[type=color]{
+  height:32px !important;margin-top:3px !important;border-radius:7px !important;
+}
+#customize.panel-screen #unlockBanner p{margin:4px 0 8px !important;font-size:11px}
+#customize.panel-screen #unlockBanner h3{font-size:13px}
+#customize.panel-screen .color-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+}
+@media (max-height:640px){
+  #customize.panel-screen .panel{gap:4px;padding:8px 10px}
+  #customize.panel-screen .card{padding:6px 8px}
+  #customize.panel-screen .char-card canvas{height:28px;max-width:90px}
+  #customize.panel-screen input[type=color]{height:28px !important}
+  #customize.panel-screen .btn,#customize.panel-screen .back{padding:7px 8px;font-size:11px}
+}
+#setup.panel-screen .panel,
+#settings.panel-screen .panel,
+#highScoreScreen.panel-screen .panel,
+#quitScreen.panel-screen .panel{
+  max-height:calc(100dvh - 24px);
+}
 h1{margin:0 0 8px;font-size:clamp(28px,5vw,48px);text-align:center;color:#75ff9c}
 .sub{text-align:center;color:#b7d8c1;margin:0 0 25px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -656,7 +1015,7 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
  .app.playing{width:100vw;height:100dvh;max-width:100vw;max-height:100dvh;border-radius:0}
  .screen{height:100%;min-height:0}
  .grid{grid-template-columns:1fr}
- .panel-screen{padding:18px}.panel{padding:20px}
+ .panel-screen{padding:10px}.panel{padding:14px}
  .home-hud{top:8px;left:8px;gap:8px}
  .home-hud-card{padding:6px 12px 6px 6px;min-width:110px;border-radius:14px}
  .home-hud-icon-wrap{width:36px;height:36px;font-size:18px;border-radius:10px}
@@ -726,7 +1085,20 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
   <button class="hotspot custom-hotspot" aria-label="Customize" onclick="openCustomize()"></button>
   <button class="hotspot settings-hotspot" aria-label="Settings" onclick="showSettings()"></button>
   <button class="hotspot quit-hotspot" aria-label="Quit" onclick="quitGame()"></button>
+  <button type="button" class="bonus-code-btn" aria-label="Bonus Code" onclick="openBonusCode()">
+    <span class="bc-icon">🔑</span>
+    <span class="bc-title">Bonus Code</span>
+    <span class="bc-sub">Enter &amp; Claim</span>
+  </button>
   <div class="home-left-stack">
+    <button type="button" class="home-panel-btn spin-btn" id="luckySpinBtn" onclick="openLuckySpin()">
+      <div class="hp-icon">🎰</div>
+      <div class="hp-text">
+        <div class="hp-title">Lucky Spin</div>
+        <div class="hp-sub" id="spinSub">3 free / day</div>
+        <div class="hp-timer" id="spinTimer">Spin now!</div>
+      </div>
+    </button>
     <button type="button" class="home-panel-btn" id="dailyRewardBtn" onclick="openGiftPack()">
       <div class="hp-icon">🎁</div>
       <div class="hp-text">
@@ -755,7 +1127,7 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
   <div class="gift-overlay" id="giftOverlay" onclick="if(event.target===this)closeGiftPack()">
     <div class="gift-modal">
       <h2>🎁 Daily Gift Pack</h2>
-      <p class="gift-desc">Claim once per day. Day rewards: 5 → 7 → 10 → 13 → 15 → 17 → 20 Frogs. Real 24h timer.</p>
+      <p class="gift-desc">Claim once per day. Day rewards: 5 → 7 → 10 → 13 → 15 → 17 → 20 Frogs. Day 7 gets +30 streak bonus! Real 24h timer.</p>
       <div class="day-blocks" id="dayBlocks"></div>
       <div class="gift-box" id="giftBox" onclick="claimDailyReward()">
         <div class="lid"></div>
@@ -796,6 +1168,50 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
       </div>
     </div>
   </div>
+
+
+  <div class="spin-overlay" id="spinOverlay">
+    <div class="spin-modal">
+      <button type="button" class="spin-close-x" onclick="closeLuckySpin()" aria-label="Close">✕</button>
+      <div class="spin-top">
+        <h2>🎰 Lucky Spin</h2>
+        <p class="spin-desc">Win snakes on the wheel! <b>3 free spins</b> daily — resets every 24h.</p>
+        <div class="spin-cost" id="spinCostLabel">Today: 3 free spins left</div>
+      </div>
+      <div class="spin-wheel-wrap">
+        <div class="spin-pointer" aria-hidden="true">
+          <svg viewBox="0 0 28 28"><polygon points="14,28 2,4 26,4" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/></svg>
+        </div>
+        <div class="spin-wheel" id="spinWheel">
+          <svg class="spin-svg" id="spinSvg" viewBox="0 0 200 200"></svg>
+        </div>
+        <div class="spin-center">🐍</div>
+      </div>
+      <div class="spin-result" id="spinResult">Tap SPIN to play</div>
+      <div class="spin-actions">
+        <button class="btn secondary" onclick="closeLuckySpin()">CLOSE</button>
+        <button class="btn primary" id="spinGoBtn" onclick="doLuckySpin()">SPIN</button>
+      </div>
+    </div>
+  </div>
+  <div class="frog-toast" id="frogToast">+0 Frogs</div>
+
+  <div class="bonus-overlay" id="bonusOverlay" onclick="if(event.target===this)closeBonusCode()">
+    <div class="bonus-modal">
+      <div style="font-size:48px;line-height:1;margin-bottom:6px;filter:drop-shadow(0 0 16px #c084fc)">🔑</div>
+      <h2>Bonus Code</h2>
+      <p class="bonus-desc">Enter a secret code to claim free Frogs. Each code works only once!</p>
+      <div class="bonus-input-wrap">
+        <input type="text" id="bonusCodeInput" placeholder="Enter code..." maxlength="20" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter'){event.preventDefault();redeemBonusCode();}" />
+      </div>
+      <div class="bonus-status" id="bonusStatus"></div>
+      <div class="bonus-actions">
+        <button class="btn secondary" onclick="closeBonusCode()">Close</button>
+        <button class="btn primary" id="bonusClaimBtn" onclick="redeemBonusCode()">Claim</button>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <section id="mySnake" class="screen panel-screen">
@@ -813,7 +1229,7 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
       </div>
       <button type="button" class="owner-sell active-sell-btn" id="activeSellBtn" title="Sell a snake for 100 Frogs" onclick="startSellMode()">SELL</button>
     </div>
-    <div id="sellModeHint" class="sell-mode-hint" style="display:none">Select a snake below to sell · <button type="button" class="sell-mode-cancel" onclick="cancelSellMode()">Cancel</button></div>
+    <div id="sellModeHint" class="sell-mode-hint" style="display:none">Pick a custom snake below, then press SELL · <button type="button" class="sell-mode-cancel" onclick="cancelSellMode()">Cancel</button></div>
     <div id="ownedSkins" class="owner-slots"></div>
     <div class="actions ms-footer-actions">
       <button class="btn secondary" onclick="showHome()">← Home</button>
@@ -826,7 +1242,7 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
   <div class="sell-modal">
     <button type="button" class="sell-close-x" onclick="closeSellConfirm()" aria-label="Close">✕</button>
     <h2>💸 Sell Snake</h2>
-    <p class="sell-desc">Is snake ko sell karne se yeh My Snake se remove ho jayega.</p>
+    <p class="sell-desc">Selling this snake will remove it from My Snake.</p>
     <div class="sell-preview-wrap">
       <canvas id="sellPreviewCanvas" width="180" height="52"></canvas>
     </div>
@@ -934,28 +1350,27 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
   <div class="panel">
     <h1>🎨 Customize Snake</h1>
     <p class="sub">Frogs: <b id="customFrogs">0</b> • Each frog = +1 collect</p>
-    <div id="unlockBanner" class="card" style="margin-bottom:16px;text-align:center;display:none">
+    <div id="unlockBanner" class="card" style="text-align:center;display:none">
       <h3>🔒 Customization Locked</h3>
-      <p style="color:#b7d8c1;margin:8px 0 16px">Buy / unlock for <b style="color:#ff9a3c">170 Frogs</b> — save 1 custom snake, then locks again</p>
-      <p id="needFrogsMsg" style="color:#ff8a8a;margin:0 0 14px;display:none">You need 170 frogs to unlock Customization.</p>
+      <p style="color:#b7d8c1">Buy for <b style="color:#ff9a3c">170 Frogs</b> — 1 custom save, then locks again</p>
+      <p id="needFrogsMsg" style="color:#ff8a8a;display:none">You need 170 frogs to unlock.</p>
       <button class="btn unlock-orange" id="unlockBtn" onclick="unlockCustomize()">BUY · 170 FROGS</button>
     </div>
-    <div id="charPanel" class="card" style="margin-bottom:16px">
+    <div id="charPanel" class="card">
       <h3>🐉 Characters</h3>
       <div class="char-grid">
-        <div class="char-card" id="charClassic">
+        <div class="char-card" id="charClassic" onclick="equipClassicSkin()">
           <canvas id="charClassicPreview" width="140" height="48"></canvas>
           <div class="char-name">My Snake</div>
           <div class="char-tag">Default</div>
-          <button class="btn secondary char-btn" type="button" onclick="equipClassicSkin()">USE</button>
         </div>
       </div>
     </div>
-    <div id="customPanel" class="card" style="margin-bottom:16px">
+    <div id="customPanel" class="card">
       <h3>🐍 Snake Color & Glow</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <label>Snake Color<input id="customColor" type="color" value="#111111" style="display:block;width:100%;height:46px;margin-top:6px;border:0;border-radius:9px;background:#07150c"></label>
-        <label>Glow Color<input id="customGlow" type="color" value="#f5c542" style="display:block;width:100%;height:46px;margin-top:6px;border:0;border-radius:9px;background:#07150c"></label>
+      <div class="color-row">
+        <label>Snake Color<input id="customColor" type="color" value="#111111" style="display:block;width:100%;border:0;background:#07150c"></label>
+        <label>Glow Color<input id="customGlow" type="color" value="#f5c542" style="display:block;width:100%;border:0;background:#07150c"></label>
       </div>
       <div class="actions">
         <button class="btn primary" type="button" onclick="applyCustomSnake()">SAVE SNAKE</button>
@@ -1417,6 +1832,7 @@ function updateHomeStats(){
  if(hud) hud.textContent = Number(high||0).toLocaleString();
  updateDailyUI();
  updateSpecialUI();
+ if(typeof updateSpinHomeUI==="function") updateSpinHomeUI();
 }
 function formatCountdown(ms){
  if(ms<=0) return "Ready!";
@@ -1492,12 +1908,14 @@ function claimDailyReward(){
   updateDailyUI();
   return;
  }
- const reward=DAILY_REWARDS[dailyDay-1]||5;
+ let reward=DAILY_REWARDS[dailyDay-1]||5;
+ const isDay7 = dailyDay===7;
+ if(isDay7) reward += 30; // Day 7 streak bonus
  const box=document.getElementById("giftBox");
  const pop=document.getElementById("giftFrogsPop");
  if(box) box.classList.add("open");
  if(pop){
-  pop.textContent="🐸".repeat(Math.min(5,reward));
+  pop.textContent="🐸".repeat(Math.min(5, Math.ceil(reward/4)));
   pop.classList.add("show");
  }
  frogs+=reward;
@@ -1510,8 +1928,10 @@ function claimDailyReward(){
  updateHomeStats();
  playTone(520,0.1,"triangle",0.1);
  playTone(780,0.15,"triangle",0.08);
+ if(isDay7){ playTone(990,0.2,"triangle",0.1); }
  const gs=document.getElementById("giftStatus");
- if(gs) gs.textContent="+"+reward+" Frogs collected!";
+ if(gs) gs.textContent=(isDay7?"🔥 Day 7 Bonus! ":"")+"+"+reward+" Frogs collected!";
+ if(typeof showFrogToast==="function") showFrogToast("+"+reward+" Frogs!");
  setTimeout(function(){
   if(pop) pop.classList.remove("show");
   updateDailyUI();
@@ -1549,7 +1969,12 @@ function updateSpecialUI(){
   else if(flashOn) homeTimer.textContent="⏱ "+formatCountdown(flashLeft||SPECIAL_OFFER_MS)+" deal left";
   else homeTimer.textContent="999 · Permanent";
  }
- if(btn) btn.disabled=false;
+ if(btn){
+  btn.disabled=false;
+  btn.style.display = permanent ? "none" : "";
+ }
+ const leftStack=document.querySelector(".home-left-stack");
+ if(leftStack) leftStack.classList.toggle("special-owned", !!permanent);
  if(tag){
   if(permanent) tag.textContent="Permanent Owner";
   else if(temp) tag.textContent="⏱ Skin active · "+formatCountdown(flashLeft)+" remaining (then expires)";
@@ -1664,12 +2089,373 @@ function openSpecialOffer(){
    specialSnakeAnim=requestAnimationFrame(loop);
  })();
 }
+
 function closeSpecialOffer(){
  playClick();
  const ov=document.getElementById("specialOverlay");
  if(ov) ov.classList.remove("show");
  if(specialSnakeAnim){ cancelAnimationFrame(specialSnakeAnim); specialSnakeAnim=null; }
 }
+/* ===== Bonus Codes (multiple one-time codes) ===== */
+const BONUS_CODES={
+ "000111222":{frogs:100000, label:"Mega Jackpot"},
+ "SNAKEKING":{frogs:5000, label:"Snake King"},
+ "FROG2026":{frogs:2500, label:"Frog Year"},
+ "BALOGAMES":{frogs:1000, label:"Balo Games"}
+};
+function getUsedBonusCodes(){
+ try{ return JSON.parse(localStorage.getItem("snakeBonusCodesUsed")||"[]"); }catch(e){ return []; }
+}
+function markBonusUsed(code){
+ const used=getUsedBonusCodes();
+ if(!used.includes(code)) used.push(code);
+ localStorage.setItem("snakeBonusCodesUsed",JSON.stringify(used));
+ // legacy flag for old single code
+ if(code==="000111222") localStorage.setItem("snakeBonusCodeUsed","1");
+}
+function openBonusCode(){
+ playClick();
+ const ov=document.getElementById("bonusOverlay");
+ const inp=document.getElementById("bonusCodeInput");
+ const st=document.getElementById("bonusStatus");
+ const btn=document.getElementById("bonusClaimBtn");
+ if(st){ st.textContent=""; st.className="bonus-status"; }
+ if(inp){ inp.value=""; inp.disabled=false; }
+ if(btn) btn.disabled=false;
+ if(ov) ov.classList.add("show");
+ setTimeout(function(){ if(inp) inp.focus(); }, 120);
+}
+function closeBonusCode(){
+ playClick();
+ const ov=document.getElementById("bonusOverlay");
+ if(ov) ov.classList.remove("show");
+}
+function redeemBonusCode(){
+ playClick();
+ const inp=document.getElementById("bonusCodeInput");
+ const st=document.getElementById("bonusStatus");
+ const code=(inp?.value||"").trim().toUpperCase();
+ if(!code){
+  if(st){ st.textContent="Please enter a code."; st.className="bonus-status err"; }
+  return;
+ }
+ const used=getUsedBonusCodes();
+ // also accept lowercase keys
+ const entry=BONUS_CODES[code] || BONUS_CODES[code.toLowerCase()] || Object.entries(BONUS_CODES).find(([k])=>k.toUpperCase()===code)?.[1];
+ const key=Object.keys(BONUS_CODES).find(k=>k.toUpperCase()===code);
+ if(!entry || !key){
+  if(st){ st.textContent="Invalid code. Try again."; st.className="bonus-status err"; }
+  return;
+ }
+ if(used.includes(key) || (key==="000111222" && localStorage.getItem("snakeBonusCodeUsed")==="1")){
+  if(st){ st.textContent="This code was already claimed!"; st.className="bonus-status err"; }
+  return;
+ }
+ const amount=entry.frogs;
+ frogs = (Number(frogs)||0) + amount;
+ localStorage.setItem("snakeFrogs",String(frogs));
+ localStorage.setItem("snakeCoins",String(frogs));
+ markBonusUsed(key);
+ if(typeof savePersistentState==="function") savePersistentState();
+ updateHomeStats();
+ showFrogToast("+"+amount.toLocaleString()+" Frogs!");
+ if(st){ st.textContent="🎉 "+entry.label+"! +"+amount.toLocaleString()+" Frogs"; st.className="bonus-status ok"; }
+ if(inp) inp.value="";
+ setTimeout(()=>{ closeBonusCode(); }, 1600);
+}
+
+/* ===== Lucky Spin (daily 3 free — snake prizes) ===== */
+/* 8 equal segments. Index 0 is at TOP under the pointer when rotation=0.
+   Prizes: 10,10,10, 20,20, 30, 40, 50  */
+const SPIN_PRIZES=[10,10,10,20,20,30,40,50];
+const SPIN_COLORS=["#ef4444","#f59e0b","#22c55e","#3b82f6","#a855f7","#ec4899","#14b8a6","#eab308"];
+const SPIN_SEG=360/SPIN_PRIZES.length; // 45
+const SPIN_DAY_KEY="snakeSpinDayV3";
+const SPIN_LEFT_KEY="snakeSpinLeftV3";
+const SPIN_DAILY_FREE=3;
+let spinBusy=false;
+let spinRot=0; // current wheel rotation in degrees (clockwise)
+
+function todayKey(){
+  const d=new Date();
+  return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+}
+function ensureSpinDay(){
+  const today=todayKey();
+  const stored=Number(localStorage.getItem(SPIN_DAY_KEY)||0)||0;
+  if(stored!==today){
+    localStorage.setItem(SPIN_DAY_KEY,String(today));
+    localStorage.setItem(SPIN_LEFT_KEY,String(SPIN_DAILY_FREE));
+    return SPIN_DAILY_FREE;
+  }
+  let left=Number(localStorage.getItem(SPIN_LEFT_KEY));
+  if(isNaN(left)||left<0) left=SPIN_DAILY_FREE;
+  return left;
+}
+function getSpinsLeft(){ return ensureSpinDay(); }
+function useOneSpin(){
+  const left=Math.max(0,getSpinsLeft()-1);
+  localStorage.setItem(SPIN_LEFT_KEY,String(left));
+  localStorage.setItem(SPIN_DAY_KEY,String(todayKey()));
+  return left;
+}
+function msUntilMidnight(){
+  const n=new Date(); const m=new Date(n); m.setHours(24,0,0,0);
+  return Math.max(0,m-n);
+}
+function formatSpinReset(ms){
+  const s=Math.max(0,Math.floor(ms/1000));
+  const h=Math.floor(s/3600);
+  const m=Math.floor((s%3600)/60);
+  const sec=s%60;
+  return h+"h "+m+"m "+sec+"s";
+}
+let spinTimerInterval=null;
+function refreshSpinCountdownLabels(){
+  const left=getSpinsLeft();
+  const resetTxt=formatSpinReset(msUntilMidnight());
+  // Home button
+  const sub=document.getElementById("spinSub");
+  const tim=document.getElementById("spinTimer");
+  if(sub){
+    if(left>0){
+      sub.textContent=left+" free left";
+      if(tim) tim.textContent="Spin now!";
+    }else{
+      sub.textContent="Next in "+resetTxt;
+      if(tim) tim.textContent="Daily reset";
+    }
+  }
+  // Fullscreen modal cost label (only when empty / no spins)
+  const cost=document.getElementById("spinCostLabel");
+  const ov=document.getElementById("spinOverlay");
+  const modalOpen=ov && ov.classList.contains("show");
+  if(cost && modalOpen){
+    if(left>0){
+      cost.textContent="Today: "+left+" free spin"+(left===1?"":"s")+" left";
+      cost.classList.remove("empty");
+    }else{
+      cost.textContent="Resets in "+resetTxt;
+      cost.classList.add("empty");
+    }
+  }
+  // When day rolls over and spins refill, unlock button
+  if(left>0){
+    const btn=document.getElementById("spinGoBtn");
+    if(btn && modalOpen) btn.disabled=false;
+    const res=document.getElementById("spinResult");
+    if(res && modalOpen && /No spins left/i.test(res.textContent||"")){
+      res.textContent="▶ Tap SPIN — win the snakes under the pointer!";
+      res.className="spin-result";
+    }
+  }
+}
+function startSpinCountdownTicker(){
+  if(spinTimerInterval) return;
+  spinTimerInterval=setInterval(refreshSpinCountdownLabels, 1000);
+}
+function stopSpinCountdownTicker(){
+  // keep running on home too so button shows live seconds — never stop
+}
+function updateSpinHomeUI(){
+  refreshSpinCountdownLabels();
+  startSpinCountdownTicker();
+}
+
+/** Build SVG pie: segment 0 starts at top (thanks to svg rotate -90deg). */
+function buildSpinWheel(){
+  const svg=document.getElementById("spinSvg");
+  if(!svg) return;
+  const cx=100, cy=100, R=98;
+  const n=SPIN_PRIZES.length;
+  const seg=360/n;
+  const emojiFont='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Android Emoji",sans-serif';
+  let html="";
+  for(let i=0;i<n;i++){
+    const a0=i*seg;
+    const a1=(i+1)*seg;
+    const x0=cx+R*Math.cos(a0*Math.PI/180);
+    const y0=cy+R*Math.sin(a0*Math.PI/180);
+    const x1=cx+R*Math.cos(a1*Math.PI/180);
+    const y1=cy+R*Math.sin(a1*Math.PI/180);
+    const large=seg>180?1:0;
+    html+='<path d="M'+cx+' '+cy+' L'+x0.toFixed(2)+' '+y0.toFixed(2)+' A'+R+' '+R+' 0 '+large+' 1 '+x1.toFixed(2)+' '+y1.toFixed(2)+' Z" fill="'+SPIN_COLORS[i]+'" stroke="#0c0804" stroke-width="1.5"/>';
+    // Label group at mid-angle of slice
+    const mid=a0+seg/2;
+    const rEmoji=62;
+    const rNum=42;
+    const ex=cx+rEmoji*Math.cos(mid*Math.PI/180);
+    const ey=cy+rEmoji*Math.sin(mid*Math.PI/180);
+    const nx=cx+rNum*Math.cos(mid*Math.PI/180);
+    const ny=cy+rNum*Math.sin(mid*Math.PI/180);
+    const textRot=mid+90; // upright along radius after parent -90deg
+    // Snake emoji (outer)
+    html+='<g transform="translate('+ex.toFixed(2)+','+ey.toFixed(2)+') rotate('+textRot.toFixed(1)+')">';
+    html+='<text text-anchor="middle" dominant-baseline="middle" font-size="20" style="font-family:'+emojiFont+'">🐍</text>';
+    html+='</g>';
+    // Number under emoji (inner)
+    html+='<g transform="translate('+nx.toFixed(2)+','+ny.toFixed(2)+') rotate('+textRot.toFixed(1)+')">';
+    html+='<text text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="900" style="paint-order:stroke;stroke:#000;stroke-width:3.5px;font-family:system-ui,sans-serif">'+SPIN_PRIZES[i]+'</text>';
+    html+='</g>';
+  }
+  html+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(R-1)+'" fill="none" stroke="#fbbf24" stroke-width="2" opacity=".35"/>';
+  svg.innerHTML=html;
+}
+
+/**
+ * Wheel CSS rotate is clockwise.
+ * SVG inside is rotated -90deg so segment 0 (0..45 in SVG space starting at 3 o'clock)
+ * appears at TOP when CSS rotate = 0.
+ * After CSS clockwise rotation R, the segment under the TOP pointer is:
+ *   idx = floor( (R mod 360) / seg )   because rotating clockwise brings later segments up…
+ *
+ * Wait carefully:
+ * At R=0, top shows segment 0.
+ * Clockwise rotation moves the wheel so content that was to the LEFT moves up…
+ * Actually clockwise: a point at top moves toward the right. So the content that arrives at top
+ * came from the left (counter-clockwise side) = higher angles in our SVG layout after -90.
+ *
+ * Visual mapping with svg rotate(-90deg):
+ * SVG angle 0 (3 o'clock) → screen right
+ * SVG angle 90 (6 o'clock) → screen bottom  
+ * After parent -90: SVG 0 → screen TOP. Segment 0 occupies SVG 0..45 → screen top area.
+ *
+ * Clockwise CSS rotate by R: screen-top now shows what was at screen angle -R
+ * (i.e. content that was R degrees counter-clockwise from top).
+ * In segment index terms: idx = floor( (R % 360) / seg )
+ * Example: R=0 → idx 0; R=45 → idx 1; R=90 → idx 2. Yes.
+ */
+function prizeIndexFromRotation(deg){
+  // Clockwise CSS rotate R: content under TOP pointer was previously at (360-R) from top.
+  // Segment i occupies [i*SEG, (i+1)*SEG) measured clockwise from top at R=0.
+  const r=((deg%360)+360)%360;
+  const local=((360-r)%360);
+  const idx=Math.floor((local+0.0001)/SPIN_SEG) % SPIN_PRIZES.length;
+  return idx;
+}
+
+function openLuckySpin(){
+  playClick();
+  buildSpinWheel();
+  spinBusy=false;
+  const ov=document.getElementById("spinOverlay");
+  const res=document.getElementById("spinResult");
+  const cost=document.getElementById("spinCostLabel");
+  const btn=document.getElementById("spinGoBtn");
+  const wheel=document.getElementById("spinWheel");
+  if(wheel){
+    wheel.style.transition="none";
+    wheel.style.transform="rotate("+spinRot+"deg)";
+    void wheel.offsetWidth;
+    wheel.style.transition="";
+  }
+  const left=getSpinsLeft();
+  if(res){
+    res.textContent=left>0?"▶ Tap SPIN — win the snakes under the pointer!":"No spins left today";
+    res.className="spin-result";
+  }
+  if(cost){
+    if(left>0){
+      cost.textContent="Today: "+left+" free spin"+(left===1?"":"s")+" left";
+      cost.classList.remove("empty");
+    }else{
+      cost.textContent="Resets in "+formatSpinReset(msUntilMidnight());
+      cost.classList.add("empty");
+    }
+  }
+  if(btn) btn.disabled=left<=0;
+  if(ov) ov.classList.add("show");
+  updateSpinHomeUI();
+}
+function closeLuckySpin(){
+  playClick();
+  const ov=document.getElementById("spinOverlay");
+  if(ov) ov.classList.remove("show");
+}
+function doLuckySpin(){
+  if(spinBusy) return;
+  playClick();
+  const left=getSpinsLeft();
+  if(left<=0){
+    const res=document.getElementById("spinResult");
+    const costEl=document.getElementById("spinCostLabel");
+    if(res){ res.textContent="No spins left today"; res.className="spin-result"; }
+    if(costEl){ costEl.textContent="Resets in "+formatSpinReset(msUntilMidnight()); costEl.classList.add("empty"); }
+    refreshSpinCountdownLabels();
+    return;
+  }
+  useOneSpin();
+  spinBusy=true;
+  const btn=document.getElementById("spinGoBtn");
+  if(btn) btn.disabled=true;
+  const wheel=document.getElementById("spinWheel");
+  const res=document.getElementById("spinResult");
+  if(res){ res.textContent="Spinning..."; res.className="spin-result"; }
+
+  // Pick winning segment; land its CENTER under the top pointer
+  const winIdx=Math.floor(Math.random()*SPIN_PRIZES.length);
+  // Need (360 - R%360) % 360 == center of winIdx
+  // => R%360 == (360 - center) % 360
+  const center = winIdx*SPIN_SEG + SPIN_SEG/2;
+  const targetMod = (360 - center + 360) % 360;
+  const extraTurns=6+Math.floor(Math.random()*3);
+  const curMod=((spinRot%360)+360)%360;
+  let delta=(targetMod-curMod+360)%360;
+  if(delta<0.5) delta+=360;
+  const finalDeg=spinRot + extraTurns*360 + delta;
+  spinRot=finalDeg;
+
+  if(wheel){
+    wheel.style.transition="transform 4.5s cubic-bezier(0.12,0.7,0.1,1)";
+    wheel.style.transform="rotate("+finalDeg+"deg)";
+  }
+
+  setTimeout(function(){
+    // Prefer the planned segment; fall back to measured angle if needed
+    let idx=winIdx;
+    const measured=prizeIndexFromRotation(finalDeg);
+    if(measured!==winIdx){
+      // should not happen — trust the pointer math
+      idx=measured;
+    }
+    const prize=SPIN_PRIZES[idx];
+    frogs=(Number(frogs)||0)+prize;
+    localStorage.setItem("snakeFrogs",String(frogs));
+    localStorage.setItem("snakeCoins",String(frogs));
+    if(typeof savePersistentState==="function") savePersistentState();
+    updateHomeStats();
+    updateSpinHomeUI();
+    const remain=getSpinsLeft();
+    if(res){
+      res.textContent="🐍 +"+prize+" snakes won!";
+      res.className="spin-result win";
+    }
+    showFrogToast("🐍 +"+prize+" snakes!");
+    spinBusy=false;
+    if(btn) btn.disabled=remain<=0;
+    const cost=document.getElementById("spinCostLabel");
+    if(cost){
+      if(remain>0){
+        cost.textContent="Today: "+remain+" free spin"+(remain===1?"":"s")+" left";
+        cost.classList.remove("empty");
+      }else{
+        cost.textContent="Resets in "+formatSpinReset(msUntilMidnight());
+        cost.classList.add("empty");
+      }
+    }
+  }, 4600);
+}
+
+function showFrogToast(msg){
+ const t=document.getElementById("frogToast");
+ if(!t) return;
+ t.textContent=msg;
+ t.classList.add("show");
+ clearTimeout(t._hide);
+ t._hide=setTimeout(()=>t.classList.remove("show"), 2200);
+}
+
+
 function buySpecialOffer(){
  playClick();
  expireTempSpecialIfNeeded();
@@ -1700,17 +2486,23 @@ function buySpecialOffer(){
    ownedSkins.push({body:SPECIAL_SKIN.body,glow:SPECIAL_SKIN.glow,name:SPECIAL_SKIN.name,fullColor:true,permanent:true});
    activeSkinIndex=ownedSkins.length-1;
   }
+  // Button leaves home → throw +100 Frogs to player
+  frogs=(Number(frogs)||0)+100;
+  localStorage.setItem("snakeFrogs",String(frogs));
+  localStorage.setItem("snakeCoins",String(frogs));
   localStorage.setItem("snakeOwnedSkins",JSON.stringify(ownedSkins));
   localStorage.setItem("snakeActiveSkin",String(activeSkinIndex));
   savePersistentState();
   updateHomeStats();
   updateSpecialUI();
   drawMySnakePreview();
+  if(typeof showFrogToast==="function") showFrogToast("+100 Frogs! Special Offer unlocked");
   playTone(400,0.1,"sawtooth",0.1);
   playTone(600,0.12,"sawtooth",0.09);
   playTone(900,0.18,"triangle",0.08);
   const pl=document.getElementById("specialPriceLabel");
-  if(pl) pl.textContent="Permanent unlock! Skin is yours forever in My Snake.";
+  if(pl) pl.textContent="Permanent unlock! +100 Frogs bonus. Skin is yours forever.";
+  setTimeout(function(){ closeSpecialOffer(); }, 1200);
  }else{
   // FLASH buy = skin for 10 REAL minutes only
   specialTempUntil=Date.now()+SPECIAL_OFFER_MS; // 10 minutes from now
@@ -1796,7 +2588,7 @@ function renderOwnedSkins(){
  if(!ownedSkins.length){
   const empty=document.createElement("div");
   empty.className="owner-slot empty";
-  empty.innerHTML="No skins yet<br><span style=\"font-size:11px;opacity:.8\">Design or Special Offer se add karo</span>";
+  empty.innerHTML="No skins yet<br><span style=\"font-size:11px;opacity:.8\">Add from Customize or Special Offer</span>";
   wrap.appendChild(empty);
   return;
  }
@@ -1813,18 +2605,22 @@ function renderOwnedSkins(){
   const cv=document.createElement("canvas"); cv.className="owner-preview"; cv.width=150; cv.height=58;
   drawSkinPreview(cv,skin.body,skin.glow, !!(skin.fullColor||skin.name==="Special Offer"));
   const name=document.createElement("div"); name.className="owner-name"; name.textContent=skin.name||("Saved Skin "+(i+1));
-  const btn=document.createElement("button"); btn.className="owner-use"+(i===activeSkinIndex?" active":""); btn.textContent=i===activeSkinIndex?"✓ USING":"USE SNAKE";
-  btn.onclick=(e)=>{ e.stopPropagation(); if(!window._sellMode) useOwnedSkin(i); };
-  slot.append(cv,name,btn);
-  // Sell-select mode: highlight sellable snakes
+  slot.append(cv,name);
+  const canSell=skin && skin.name!=="My Snake" && skin.name!=="Special Offer" && skin.name!=="Aqua King";
   if(window._sellMode){
-   const canSell=skin && skin.name!=="My Snake" && skin.name!=="Special Offer" && skin.name!=="Aqua King";
    if(canSell){
+    const radio=document.createElement("span");
+    radio.className="select-radio"+(window._sellPickIndex===i?" on":"");
+    radio.setAttribute("aria-label", window._sellPickIndex===i?"Chosen":"Available");
+    slot.appendChild(radio);
     slot.classList.add("sell-pickable");
+    if(window._sellPickIndex===i) slot.classList.add("sell-picked");
     slot.onclick=(e)=>{ e.stopPropagation(); pickSnakeToSell(i); };
    }else{
     slot.classList.add("sell-blocked");
    }
+  }else{
+   slot.onclick=(e)=>{ e.stopPropagation(); useOwnedSkin(i); };
   }
   wrap.appendChild(slot);
  });
@@ -1854,25 +2650,41 @@ function updateSellBtnState(){
 }
 function startSellMode(){
  if(!hasSellableSnake()){
-  // only simple + special (or none sellable) — no sell mode
   cancelSellMode();
   updateSellBtnState();
   return;
  }
+ // Second click on SELL while already in sell mode → open confirm if a custom snake is picked
+ if(window._sellMode){
+  const i=window._sellPickIndex;
+  if(i==null || !ownedSkins[i]){
+   const hint=document.getElementById("sellModeHint");
+   if(hint) hint.innerHTML='Pick a custom snake first (blue circle) · <button type="button" class="sell-mode-cancel" onclick="cancelSellMode()">Cancel</button>';
+   playClick();
+   return;
+  }
+  openSellConfirm(i);
+  return;
+ }
  window._sellMode=true;
+ window._sellPickIndex=null;
  const hint=document.getElementById("sellModeHint");
- if(hint) hint.style.display="flex";
+ if(hint){
+  hint.style.display="flex";
+  hint.innerHTML='Pick a custom snake, then press SELL again · <button type="button" class="sell-mode-cancel" onclick="cancelSellMode()">Cancel</button>';
+ }
  const btn=document.getElementById("activeSellBtn");
- if(btn) btn.classList.add("sell-mode-on");
+ if(btn){ btn.classList.add("sell-mode-on"); btn.textContent="SELL"; }
  renderOwnedSkins();
  playClick();
 }
 function cancelSellMode(){
  window._sellMode=false;
+ window._sellPickIndex=null;
  const hint=document.getElementById("sellModeHint");
- if(hint) hint.style.display="none";
+ if(hint){ hint.style.display="none"; }
  const btn=document.getElementById("activeSellBtn");
- if(btn) btn.classList.remove("sell-mode-on");
+ if(btn){ btn.classList.remove("sell-mode-on"); btn.textContent="SELL"; }
  renderOwnedSkins();
 }
 function pickSnakeToSell(i){
@@ -1880,11 +2692,11 @@ function pickSnakeToSell(i){
  if(!ownedSkins[i])return;
  const skin=ownedSkins[i];
  if(skin.name==="My Snake" || skin.name==="Special Offer" || skin.name==="Aqua King"){
-  alert("This snake cannot be sold.");
   return;
  }
- // keep sell mode off when confirm opens, restore cancel cleans up
- openSellConfirm(i);
+ window._sellPickIndex=i;
+ renderOwnedSkins();
+ playClick();
 }
 function openSellConfirm(i){
  if(!ownedSkins[i])return;
