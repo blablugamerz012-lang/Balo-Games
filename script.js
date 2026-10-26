@@ -1,10 +1,10 @@
 /* Balo Games — library, filters, player, search, favorites and profile */
 const games = [
-  { id:"snake-king", title:"Snake King", icon:"🐍", desc:"Classic snake action with mobile and keyboard controls.", category:"arcade", path:"games/snake-king/index.html" },
-  { id:"memory-match", title:"Memory Match", icon:"🧠", desc:"Find matching cards and test your memory.", category:"arcade", path:"games/MATCH%20GAME/memory-match.html" },
-  { id:"my-gun-life", title:"My Gun Life", icon:"⚡", desc:"Jump into a fast-paced action game.", category:"action", path:"games/my-gun-life/index.html" },
-  { id:"tik-tak-toe", title:"Tic Tac Toe", icon:"❌⭕", desc:"A classic strategy game for a quick match.", category:"arcade", path:"games/tik-tak-toe/index.html" },
-  { id:"evo-eater", title:"Evo-Eater", icon:"🦅", desc:"Grow, evolve, and explore the arena.", category:"action", path:"games/evoeater/index.html" },
+  { id:"my-gun-life", title:"My Gun Life", icon:"⚡", desc:"Jump into a fast-paced action game.", category:"action", path:"games/my-gun-life/index.html", date:"2026-10-22" },
+  { id:"evo-eater", title:"Evo Eater", icon:"🦅", desc:"Grow, evolve, and explore the arena.", category:"action", path:"games/evoeater/index.html", date:"2026-10-23" },
+  { id:"tik-tak-toe", title:"Tik Tak Toe", icon:"❌⭕", desc:"A classic strategy game for a quick match.", category:"arcade", path:"games/tik-tak-toe/index.html", date:"2026-10-24" },
+  { id:"memory-match", title:"Memory Match", icon:"🧠", desc:"Find matching cards and test your memory.", category:"arcade", path:"games/MATCH%20GAME/memory-match.html", date:"2026-10-25" },
+  { id:"snake-king", title:"Snake King", icon:"🐍", desc:"Classic snake action with mobile and keyboard controls.", category:"arcade", path:"games/snake-king/index.html", date:"2026-10-26" },
   { id:"coming-soon-adventure", title:"Adventure Games", icon:"🗺️", desc:"A new adventure is being prepared.", category:"adventure", path:"", comingSoon:true },
   { id:"coming-soon-arcade", title:"More Arcade Games", icon:"🕹️", desc:"More quick-play challenges are on the way.", category:"arcade", path:"", comingSoon:true }
 ];
@@ -17,6 +17,8 @@ const clearSearch=document.getElementById("clearSearch");
 const gameCount=document.getElementById("gameCount");
 const emptyGames=document.getElementById("emptyGames");
 const categoryButtons=document.querySelectorAll(".category[data-category]");
+const sectionTitle=document.getElementById("sectionTitle");
+const categoryLabels={all:"All Games",action:"Action",adventure:"Adventure",arcade:"Arcade",latest:"Latest Games"};
 let selectedCategory="all";
 let searchTerm="";
 let currentGame=null;
@@ -48,11 +50,15 @@ function showGames(list){
 }
 
 function applyFilters(){
-  const filtered=games.filter(game=>{
-    const categoryMatches=selectedCategory==="all"||game.category===selectedCategory;
+  let filtered=games.filter(game=>{
+    const categoryMatches=selectedCategory==="all"||selectedCategory==="latest"||game.category===selectedCategory;
     const haystack=(game.title+" "+game.desc+" "+game.category).toLowerCase();
     return categoryMatches&&haystack.includes(searchTerm);
   });
+  if(selectedCategory==="latest"){
+    filtered.sort((a,b)=>Date.parse(b.date||"1970-01-01")-Date.parse(a.date||"1970-01-01"));
+  }
+  if(sectionTitle) sectionTitle.textContent=categoryLabels[selectedCategory]||"All Games";
   showGames(filtered);
 }
 
