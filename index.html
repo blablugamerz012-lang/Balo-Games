@@ -586,6 +586,79 @@
     }
     @media(max-width:380px) { .games-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 
+  
+
+    /* BALO GAMES LIVE SIZE EDITOR — added without replacing the existing game library */
+    :root {
+      --balo-grid-cols: 6;
+      --balo-grid-gap: 17px;
+      --balo-card-radius: 17px;
+      --balo-card-border: 3px;
+      --balo-card-height: 120px;
+      --balo-main-padding: 26px;
+      --balo-section-title-size: 27px;
+      --balo-header-height: 82px;
+      --balo-button-height: 40px;
+      --balo-button-padding: 15px;
+      --balo-button-font-size: 13px;
+      --balo-button-radius: 12px;
+    }
+    .site-header { min-height: var(--balo-header-height); }
+    main#games { padding-left: var(--balo-main-padding); padding-right: var(--balo-main-padding); }
+    .section-title { font-size: var(--balo-section-title-size); }
+    .games-grid { grid-template-columns: repeat(var(--balo-grid-cols), minmax(0, 1fr)); gap: var(--balo-grid-gap); }
+    .game-card { border-width: var(--balo-card-border); border-radius: var(--balo-card-radius); }
+    .game-image { min-height: var(--balo-card-height); }
+    .category-btn, .login-btn, .search-box button, .play-btn, #baloFavoritesBtn {
+      min-height: var(--balo-button-height);
+      padding-left: var(--balo-button-padding);
+      padding-right: var(--balo-button-padding);
+      font-size: var(--balo-button-font-size);
+      border-radius: var(--balo-button-radius);
+    }
+    #balo-size-editor {
+      position: fixed; right: 15px; bottom: 15px; z-index: 1500;
+      padding: 11px 16px; border: 2px solid #fff; border-radius: 13px;
+      background: linear-gradient(120deg,#ff1493,#7c3cff); color: #fff;
+      font: 800 14px Arial,sans-serif; box-shadow: 0 5px 18px #0005; cursor: pointer;
+    }
+    #balo-size-editor-panel {
+      display:none; position:fixed; inset:0; z-index:5000; padding:14px;
+      align-items:center; justify-content:center; background:rgba(0,0,0,.78);
+      font-family:Arial,Helvetica,sans-serif;
+    }
+    #balo-size-editor-panel.open { display:flex; }
+    #balo-size-editor-panel .bse-box {
+      width:min(760px,100%); max-height:92vh; overflow:auto; padding:20px;
+      color:#fff; background:#151522; border:1px solid #ffffff30;
+      border-radius:18px; box-shadow:0 20px 70px #0009;
+    }
+    #balo-size-editor-panel .bse-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    #balo-size-editor-panel h2 { font-size:22px; margin:0; }
+    #balo-size-editor-panel h3 { color:#ff70bd; font-size:16px; margin:0 0 12px; }
+    #balo-size-editor-panel .bse-close { background:#34344b; color:#fff; border:0; border-radius:9px; padding:8px 12px; font-size:20px; cursor:pointer; }
+    #balo-size-editor-panel .bse-help { color:#c7c7dc; font-size:13px; line-height:1.5; margin:12px 0; }
+    #balo-size-editor-panel .bse-section { background:#222236; border:1px solid #ffffff12; border-radius:13px; padding:15px; margin-top:13px; }
+    #balo-size-editor-panel .bse-control { margin:15px 0; }
+    #balo-size-editor-panel .bse-label { display:flex; justify-content:space-between; gap:10px; margin-bottom:8px; color:#f2f2ff; font-size:13px; }
+    #balo-size-editor-panel output { color:#5ce5ff; font-weight:800; }
+    #balo-size-editor-panel input[type=range] { width:100%; accent-color:#ff1493; cursor:pointer; }
+    #balo-size-editor-panel .bse-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:15px; }
+    #balo-size-editor-panel .bse-actions button { flex:1 1 135px; min-height:40px; border:0; border-radius:10px; padding:10px 13px; color:white; font-weight:800; cursor:pointer; }
+    #bse-reset { background:#44445a; } #bse-save { background:#009b77; }
+    #bse-copy { background:#0868e8; } #bse-download { background:linear-gradient(120deg,#ff1493,#ff8c00); }
+    #bse-status { min-height:18px; margin-top:12px; color:#7cf3cb; font-size:12px; }
+    @media(max-width:1100px) {
+      .games-grid { grid-template-columns: repeat(var(--balo-grid-cols), minmax(0,1fr)); }
+    }
+    @media(max-width:650px) {
+      main#games { padding-left: max(10px, var(--balo-main-padding)); padding-right: max(10px, var(--balo-main-padding)); }
+      .games-grid { grid-template-columns: repeat(var(--balo-grid-cols), minmax(0,1fr)); }
+      #balo-size-editor { right:10px; bottom:10px; padding:10px 12px; }
+      #balo-size-editor-panel .bse-box { padding:14px; }
+      #balo-size-editor-panel .bse-section { padding:11px; }
+    }
+
   </style>
 </head>
 
@@ -597,6 +670,7 @@
       <img class="logo" src="./icon/icon.png" alt="Balo Games logo">
       <span>Balo Games</span>
     </a>
+    <button id="balo-size-editor" type="button" aria-haspopup="dialog">⚙ Size Editor</button>
   </header>
 
   <!-- HERO, PROFILE AND SEARCH -->
@@ -691,5 +765,115 @@
     });
   </script>
   <script src="./script.js"></script>
+
+  <!-- BALO GAMES LIVE SIZE EDITOR -->
+  <div id="balo-size-editor-panel" role="dialog" aria-modal="true" aria-labelledby="bse-title">
+    <div class="bse-box">
+      <div class="bse-head">
+        <h2 id="bse-title">🎨 Balo Games Size Editor</h2>
+        <button class="bse-close" id="bse-close" type="button" aria-label="Close editor">×</button>
+      </div>
+      <p class="bse-help">CorelDRAW-style live sizing: move a slider and preview the change on your existing Balo Games page. Existing game links, filters, logo and site content are kept.</p>
+      <section class="bse-section">
+        <h3>▦ Game Blocks</h3>
+        <div class="bse-control"><div class="bse-label"><label for="bse-cols">Desktop columns</label><output id="bse-cols-out">6</output></div><input id="bse-cols" type="range" min="1" max="8" step="1" value="6"></div>
+        <div class="bse-control"><div class="bse-label"><label for="bse-gap">Space between blocks</label><output id="bse-gap-out">17px</output></div><input id="bse-gap" type="range" min="0" max="36" step="1" value="17"></div>
+        <div class="bse-control"><div class="bse-label"><label for="bse-radius">Block corner roundness</label><output id="bse-radius-out">17px</output></div><input id="bse-radius" type="range" min="0" max="40" step="1" value="17"></div>
+        <div class="bse-control"><div class="bse-label"><label for="bse-border">Block border thickness</label><output id="bse-border-out">3px</output></div><input id="bse-border" type="range" min="0" max="10" step="1" value="3"></div>
+        <div class="bse-control"><div class="bse-label"><label for="bse-height">Game image minimum height</label><output id="bse-height-out">120px</output></div><input id="bse-height" type="range" min="60" max="260" step="5" value="120"></div>
+      </section>
+      <section class="bse-section">
+        <h3>▰ Buttons</h3>
+        <div class="bse-control"><div class="bse-label"><label for="bse-btn-height">Button height</label><output id="bse-btn-height-out">40px</output></div><input id="bse-btn-height" type="range" min="26" max="80" step="1" value="40"></div>
+        <div class="bse-control"><div class="bse-label"><label for="bse-btn-padding">Button width / side padding</label><output id="bse-btn-padding-out">15px</output></div><input id="bse-btn-padding" type="range" min="3" max="40" step="1" value="15"></div>
+        <div class="bse-control"><div class="bse-label"><label for="bse-btn-font">Button text size</label><output id="bse-btn-font-out">13px</output></div><input id="bse-btn-font" type="range" min="9" max="24" step="1" value="13"></div>
+        <div class="bse-control"><div class="bse-label"><label for="bse-btn-radius">Button corner roundness</label><output id="bse-btn-radius-out">12px</output></div><input id="bse-btn-radius" type="range" min="0" max="35" step="1" value="12"></div>
+      </section>
+      <section class="bse-section">
+        <h3>✦ Page Layout</h3>
+        <div class="bse-control"><div class="bse-label"><label for="bse-padding">Main page side padding</label><output id="bse-padding-out">26px</output></div><input id="bse-padding" type="range" min="0" max="60" step="1" value="26"></div>
+        <div class="bse-control"><div class="bse-label"><label for="bse-title">Section title size</label><output id="bse-title-out">27px</output></div><input id="bse-title" type="range" min="16" max="48" step="1" value="27"></div>
+        <div class="bse-control"><div class="bse-label"><label for="bse-header">Header minimum height</label><output id="bse-header-out">82px</output></div><input id="bse-header" type="range" min="50" max="150" step="1" value="82"></div>
+      </section>
+      <div class="bse-actions">
+        <button id="bse-reset" type="button">↺ Reset</button>
+        <button id="bse-save" type="button">✓ Save Settings</button>
+        <button id="bse-copy" type="button">Copy CSS</button>
+        <button id="bse-download" type="button">Download CSS</button>
+      </div>
+      <div id="bse-status" aria-live="polite"></div>
+    </div>
+  </div>
+
+
+  <script>
+  (function () {
+    const panel = document.getElementById("balo-size-editor-panel");
+    const root = document.documentElement;
+    const config = {
+      cols: { variable: "--balo-grid-cols", suffix: "", output: "bse-cols-out", initial: 6 },
+      gap: { variable: "--balo-grid-gap", suffix: "px", output: "bse-gap-out", initial: 17 },
+      radius: { variable: "--balo-card-radius", suffix: "px", output: "bse-radius-out", initial: 17 },
+      border: { variable: "--balo-card-border", suffix: "px", output: "bse-border-out", initial: 3 },
+      height: { variable: "--balo-card-height", suffix: "px", output: "bse-height-out", initial: 120 },
+      "btn-height": { variable: "--balo-button-height", suffix: "px", output: "bse-btn-height-out", initial: 40 },
+      "btn-padding": { variable: "--balo-button-padding", suffix: "px", output: "bse-btn-padding-out", initial: 15 },
+      "btn-font": { variable: "--balo-button-font-size", suffix: "px", output: "bse-btn-font-out", initial: 13 },
+      "btn-radius": { variable: "--balo-button-radius", suffix: "px", output: "bse-btn-radius-out", initial: 12 },
+      padding: { variable: "--balo-main-padding", suffix: "px", output: "bse-padding-out", initial: 26 },
+      title: { variable: "--balo-section-title-size", suffix: "px", output: "bse-title-out", initial: 27 },
+      header: { variable: "--balo-header-height", suffix: "px", output: "bse-header-out", initial: 82 }
+    };
+    function setValue(id, value) {
+      const c = config[id], input = document.getElementById("bse-" + id);
+      if (!c || !input) return;
+      const n = Number(value);
+      input.value = n;
+      root.style.setProperty(c.variable, n + c.suffix);
+      document.getElementById(c.output).textContent = n + c.suffix;
+    }
+    function apply(values) { Object.keys(config).forEach(id => setValue(id, values[id] ?? config[id].initial)); }
+    function currentValues() {
+      const result = {};
+      Object.keys(config).forEach(id => result[id] = Number(document.getElementById("bse-" + id).value));
+      return result;
+    }
+    function cssText() {
+      return ":root {\n" + Object.values(config).map(c =>
+        "  " + c.variable + ": " + getComputedStyle(root).getPropertyValue(c.variable).trim() + ";"
+      ).join("\n") + "\n}\n";
+    }
+    function status(message) { document.getElementById("bse-status").textContent = message; }
+    document.getElementById("balo-size-editor").addEventListener("click", () => panel.classList.add("open"));
+    document.getElementById("bse-close").addEventListener("click", () => panel.classList.remove("open"));
+    panel.addEventListener("click", e => { if (e.target === panel) panel.classList.remove("open"); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") panel.classList.remove("open"); });
+    Object.keys(config).forEach(id => document.getElementById("bse-" + id).addEventListener("input", e => setValue(id, e.target.value)));
+    document.getElementById("bse-reset").addEventListener("click", () => { apply({}); status("Default sizes restored. Press Save Settings to keep them."); });
+    document.getElementById("bse-save").addEventListener("click", () => {
+      try { localStorage.setItem("baloGamesLiveSizeSettings", JSON.stringify(currentValues())); status("Settings saved in this browser."); }
+      catch (e) { status("Browser storage unavailable. Download the CSS to keep your settings."); }
+    });
+    document.getElementById("bse-copy").addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(cssText()); status("CSS copied. You can keep it as a backup."); }
+      catch (e) {
+        const area = document.createElement("textarea"); area.value = cssText(); document.body.appendChild(area); area.select();
+        try { document.execCommand("copy"); status("CSS copied."); } catch (_) { status("Copy unavailable; use Download CSS."); }
+        area.remove();
+      }
+    });
+    document.getElementById("bse-download").addEventListener("click", () => {
+      const url = URL.createObjectURL(new Blob([cssText()], {type:"text/css;charset=utf-8"}));
+      const a = document.createElement("a"); a.href = url; a.download = "balo-games-size-settings.css";
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+      status("CSS download started.");
+    });
+    try {
+      const saved = JSON.parse(localStorage.getItem("baloGamesLiveSizeSettings") || "null");
+      apply(saved || {});
+    } catch (e) { apply({}); }
+  })();
+  </script>
+
 </body>
 </html>
