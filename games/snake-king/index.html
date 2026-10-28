@@ -32,9 +32,9 @@ button,select{font:inherit}
 @media screen and (orientation: portrait) and (max-width:900px){
   body::before{
     content:"↻ Please rotate to landscape";
-    position:fixed;inset:0;z-index:9999;background:#06130bf5;color:#9dffb5;
+    position:fixed;inset:0;z-index:5;background:#06130bf5;color:#9dffb5;
     display:flex;align-items:center;justify-content:center;font:800 18px Arial;
-    letter-spacing:.04em;text-align:center;padding:24px;pointer-events:none;
+    letter-spacing:.04em;text-align:center;padding:24px;pointer-events:none !important;
   }
 }
 .screen{display:none;width:100%;height:100%;min-height:0;overflow:auto;overscroll-behavior:contain;scroll-behavior:auto}
@@ -50,32 +50,238 @@ button,select{font:inherit}
 .play-hotspot{left:77.2%;top:32.5%;width:20.6%;height:11.5%}
 .custom-hotspot{left:77.2%;top:45.5%;width:20.6%;height:11.5%}
 .settings-hotspot{left:77.2%;top:58.5%;width:20.6%;height:11.5%}
-.quit-hotspot{left:77.2%;top:71.5%;width:20.6%;height:11.5%}
-/* Bonus Code button — below Quit, premium design */
+/* Quit removed — Bonus Code in Quit slot, Online Battle below */
 .bonus-code-btn{
-  position:absolute;z-index:12;left:77.2%;top:84.2%;width:20.6%;height:11%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  background:linear-gradient(145deg,#2a1050 0%,#1a0a30 50%,#0d0620 100%);
-  border:2px solid #c084fc;border-radius:14px;
-  box-shadow:0 4px 0 #4c1d95,0 0 20px #a855f780,inset 0 1px 0 rgba(255,255,255,.15);
+  position:absolute;z-index:12;left:77.2%;top:71.5%;width:20.6%;height:10.5%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  background:
+    linear-gradient(145deg,#4c1d95 0%,#2a1050 40%,#1a0a30 100%);
+  border:2px solid #e879f9;border-radius:16px;
+  box-shadow:
+    0 5px 0 #3b0764,
+    0 0 22px #c084fc90,
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -8px 16px rgba(0,0,0,.25);
   color:#f0e6ff;font:inherit;cursor:pointer;text-align:center;
   transition:transform .12s ease,filter .15s ease,box-shadow .15s ease;
-  padding:4px 6px;box-sizing:border-box;
+  padding:6px 6px;box-sizing:border-box;
+  overflow:hidden;
+}
+.bonus-code-btn::before{
+  content:"";position:absolute;top:-40%;left:-20%;width:60%;height:80%;
+  background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);
+  transform:rotate(18deg);pointer-events:none;
 }
 .bonus-code-btn:hover{
   filter:brightness(1.12);transform:translateY(-2px);
-  box-shadow:0 6px 0 #4c1d95,0 0 28px #c084fc90,inset 0 1px 0 rgba(255,255,255,.2);
+  box-shadow:0 7px 0 #3b0764,0 0 32px #e879f9aa,inset 0 1px 0 rgba(255,255,255,.28);
 }
-.bonus-code-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #4c1d95}
-.bonus-code-btn .bc-icon{font-size:18px;line-height:1;filter:drop-shadow(0 0 6px #e879f9)}
-.bonus-code-btn .bc-title{font-weight:900;font-size:10px;letter-spacing:.06em;color:#e9d5ff;text-transform:uppercase;line-height:1.1}
-.bonus-code-btn .bc-sub{font-size:8px;color:#c4b5fd;opacity:.9;line-height:1}
+.bonus-code-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #3b0764}
+.bonus-code-btn .bc-icon{font-size:20px;line-height:1;filter:drop-shadow(0 0 8px #e879f9);position:relative}
+.bonus-code-btn .bc-title{font-weight:900;font-size:11px;letter-spacing:.07em;color:#faf5ff;text-transform:uppercase;line-height:1.1;position:relative;text-shadow:0 1px 2px #0008}
+.bonus-code-btn .bc-sub{font-size:8px;color:#e9d5ff;opacity:.95;line-height:1;position:relative;font-weight:700}
+.online-battle-btn{
+  position:absolute;z-index:12;left:77.2%;top:83.5%;width:20.6%;height:10.5%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  background:linear-gradient(145deg,#0ea5e9 0%,#0284c7 45%,#0c4a6e 100%);
+  border:2px solid #7dd3fc;border-radius:16px;
+  box-shadow:
+    0 5px 0 #0c4a6e,
+    0 0 24px #38bdf8aa,
+    inset 0 1px 0 rgba(255,255,255,.28),
+    inset 0 -8px 16px rgba(0,0,0,.2);
+  color:#e0f2fe;font:inherit;cursor:pointer;text-align:center;
+  transition:transform .12s ease,filter .15s ease,box-shadow .15s ease;
+  padding:6px 6px;box-sizing:border-box;
+  overflow:hidden;
+}
+.online-battle-btn::before{
+  content:"";position:absolute;top:-40%;left:-20%;width:60%;height:80%;
+  background:linear-gradient(135deg,rgba(255,255,255,.25),transparent);
+  transform:rotate(18deg);pointer-events:none;
+}
+.online-battle-btn:hover{
+  filter:brightness(1.12);transform:translateY(-2px);
+  box-shadow:0 7px 0 #0c4a6e,0 0 34px #38bdf8,inset 0 1px 0 rgba(255,255,255,.32);
+}
+.online-battle-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #0c4a6e}
+.online-battle-btn .ob-icon{font-size:20px;line-height:1;filter:drop-shadow(0 0 8px #fff);position:relative}
+.online-battle-btn .ob-title{font-weight:900;font-size:11px;letter-spacing:.06em;color:#fff;text-transform:uppercase;line-height:1.1;position:relative;text-shadow:0 1px 3px #0008}
+.online-battle-btn .ob-sub{font-size:8px;color:#e0f2fe;opacity:.95;line-height:1;position:relative;font-weight:700}
+/* Online matchmaking — designed so wait is not boring */
+.ob-match-overlay{
+  position:fixed;inset:0;z-index:9997;display:none;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 30%,#0c3a5c 0%,#020810 55%,#010409 100%);
+  padding:16px;
+}
+.ob-match-overlay.show{display:flex !important}
+.ob-match-box{
+  width:min(420px,94vw);text-align:center;padding:26px 22px 22px;
+  background:linear-gradient(165deg,#0e2f52 0%,#071828 50%,#040e18 100%);
+  border:2px solid #38bdf8;border-radius:22px;
+  box-shadow:0 0 50px #38bdf860, inset 0 1px 0 rgba(255,255,255,.08);
+  position:relative;overflow:hidden;
+}
+.ob-match-box::before{
+  content:"";position:absolute;inset:-40% -20% auto;height:120px;
+  background:radial-gradient(circle,#38bdf830,transparent 70%);pointer-events:none;
+}
+.ob-match-box h2{margin:0 0 6px;color:#7dd3fc;font-size:22px;font-weight:900;position:relative}
+.ob-match-pulse{
+  width:72px;height:72px;margin:12px auto 8px;border-radius:50%;
+  border:3px solid #38bdf8;box-shadow:0 0 24px #38bdf880;
+  display:flex;align-items:center;justify-content:center;font-size:32px;
+  animation:obPulse 1.4s ease-in-out infinite;position:relative;
+}
+@keyframes obPulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 16px #38bdf860}
+  50%{transform:scale(1.08);box-shadow:0 0 32px #38bdf8}
+}
+.ob-match-status{color:#e0f2fe;font-size:16px;font-weight:800;min-height:1.5em;margin:8px 0;position:relative}
+.ob-match-timer{font-size:48px;font-weight:900;color:#38bdf8;margin:4px 0;text-shadow:0 0 24px #38bdf890;position:relative}
+.ob-match-bar{
+  height:10px;border-radius:8px;background:#0a1a2e;margin:12px 0 10px;overflow:hidden;
+  border:1px solid #1e4a6e;position:relative;
+}
+.ob-match-bar > i{
+  display:block;height:100%;width:0%;border-radius:8px;
+  background:linear-gradient(90deg,#0ea5e9,#38bdf8,#7dd3fc);
+  box-shadow:0 0 12px #38bdf8;transition:width .35s linear;
+}
+.ob-match-sub{color:#94a3b8;font-size:13px;margin:0 0 8px;line-height:1.45;position:relative;min-height:2.6em}
+.ob-match-tip{
+  margin-top:12px;padding:10px 12px;border-radius:12px;background:#061428;
+  border:1px solid #1e4a6e;color:#7dd3fc;font-size:12px;font-weight:700;line-height:1.4;
+  position:relative;
+}
+.ob-match-close{
+  position:absolute;top:10px;right:12px;width:40px;height:40px;border-radius:12px;
+  border:2px solid #38bdf8;background:#061428;color:#7dd3fc;font-size:20px;font-weight:900;cursor:pointer;z-index:2;
+}
+.ob-match-close:hover{background:#0c2744;color:#fff}
+
+.sb-bet-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0 16px;
+}
+@media(max-width:600px){.sb-bet-grid{grid-template-columns:repeat(3,1fr)}}
+.sb-bet-chip{
+  border:2px solid #1e4a5c;border-radius:12px;padding:12px 6px;cursor:pointer;
+  background:linear-gradient(160deg,#0c2744,#061018);color:#7dd3fc;
+  font-weight:900;font-size:13px;text-align:center;
+  box-shadow:0 3px 0 #0a1f30;transition:transform .1s,border-color .15s,box-shadow .15s;
+}
+.sb-bet-chip:hover{border-color:#38bdf8;transform:translateY(-2px)}
+.sb-bet-chip.selected{
+  border-color:#ffe566;color:#ffe566;background:linear-gradient(160deg,#1a3a12,#0c2744);
+  box-shadow:0 0 16px #ffd24a50,0 3px 0 #5c4a10;
+}
+.sb-bet-chip.free{border-color:#3b7650;color:#9dffb5}
+.sb-bet-chip.free.selected{border-color:#42ff48;color:#42ff48}
+.sb-bet-balance{text-align:center;color:#9dffb5;font-weight:800;font-size:14px;margin:0 0 8px}
+.sb-bet-note{text-align:center;color:#94a3b8;font-size:12px;margin:0 0 12px;line-height:1.4}
+.ob-warn-overlay{
+  position:fixed;inset:0;z-index:9996;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.8);padding:16px;
+}
+.ob-warn-overlay.show{display:flex !important}
+.ob-warn-box{
+  width:min(380px,94vw);background:#0a1a12;border:2px solid #fbbf24;border-radius:18px;
+  padding:22px 18px;text-align:center;box-shadow:0 0 30px #fbbf2440;
+}
+.ob-warn-box h2{margin:0 0 8px;color:#fde68a;font-size:20px}
+.ob-warn-box p{margin:0 0 16px;color:#d1d5db;font-size:14px;line-height:1.45}
+.ob-warn-box .btn{min-width:110px;padding:11px 14px;margin:4px;border:0;border-radius:12px;font-weight:900;cursor:pointer}
+.ob-warn-box .btn.danger{background:#b91c1c;color:#fff}
+.ob-warn-box .btn.secondary{background:#183326;color:#d9ffe1;border:1px solid #3b7650}
+
+.ob-cd-overlay{
+  position:absolute;inset:0;z-index:40;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.45);border-radius:16px;pointer-events:none;
+}
+.ob-cd-overlay.show{display:flex !important}
+.ob-cd-num{
+  font-size:clamp(80px,22vw,140px);font-weight:900;color:#fff;
+  text-shadow:0 0 30px #38bdf8,0 0 60px #0ea5e9,0 4px 12px #000;
+  animation:obCdPop .9s ease;
+}
+@keyframes obCdPop{
+  0%{transform:scale(0.4);opacity:0}
+  30%{transform:scale(1.15);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+.ob-final-overlay{
+  position:fixed;inset:0;z-index:9995;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.88);padding:16px;
+}
+.ob-final-overlay.show{display:flex !important}
+.ob-final-box{
+  width:min(400px,94vw);text-align:center;padding:28px 20px;
+  border-radius:22px;border:3px solid #f87171;
+  background:linear-gradient(165deg,#2a0a0a,#0c0404);
+  box-shadow:0 0 50px #ef444460;
+}
+.ob-final-box.win{border-color:#42ff48;background:linear-gradient(165deg,#0a2a12,#041208);box-shadow:0 0 50px #42ff4860}
+.ob-final-box h2{margin:0 0 10px;font-size:clamp(28px,8vw,40px);font-weight:900;color:#fecaca}
+.ob-final-box.win h2{color:#9dffb5}
+.ob-final-bet{
+  font-size:clamp(22px,6vw,32px);font-weight:900;color:#fde68a;margin:12px 0;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.ob-final-box p{color:#d1d5db;font-size:14px;margin:0 0 18px;line-height:1.4}
+.ob-final-box .btn{min-width:130px;padding:12px 16px;margin:5px;border:0;border-radius:12px;font-weight:900;cursor:pointer;font-size:14px}
+.ob-final-box .btn.primary{background:#42ff48;color:#06200a}
+.ob-final-box .btn.secondary{background:#183326;color:#d9ffe1;border:1px solid #3b7650}
+
+.sf-bet-line{
+  text-align:center;font-size:12px;font-weight:800;color:#fde68a;flex-shrink:0;
+}
+
+
+.ob-player-chip{
+  display:inline-flex;align-items:center;gap:10px;margin:10px auto;
+  padding:10px 16px;border-radius:999px;
+  background:linear-gradient(90deg,#0c2744,#0a1f12);
+  border:1px solid #38bdf8;box-shadow:0 0 20px #38bdf850;
+}
+.ob-chip-av{font-size:22px}
+.ob-chip-name{font-weight:900;color:#e0f2fe;font-size:15px}
+.ob-chip-tag{
+  font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;
+  color:#06200a;background:#42ff48;padding:3px 8px;border-radius:999px;
+}
+.sf-hud .sf-stat.mid .sf-val{font-size:15px}
+
+
 /* Bonus Code modal */
 .bonus-overlay{
-  position:fixed;inset:0;z-index:110;background:rgba(0,0,0,.82);
+  position:fixed !important;inset:0 !important;z-index:9999 !important;
+  background:rgba(0,0,0,.85);
   display:none;align-items:center;justify-content:center;padding:16px;
   backdrop-filter:blur(6px);
+  pointer-events:auto !important;
 }
+.bonus-overlay.show{display:flex !important}
+
+.bonus-modal{
+  pointer-events:auto !important;
+  width:min(360px,92vw);
+  background:radial-gradient(ellipse at 50% 0%,#2e1065 0%,#1a0a30 40%,#0c0618 100%);
+  border:2px solid #c084fc;border-radius:20px;
+  box-shadow:0 0 40px #a855f750,inset 0 0 40px #7c3aed20;
+  padding:24px 22px 20px;text-align:center;position:relative;z-index:10000;
+}
+.bonus-modal .btn,
+.bonus-actions .btn,
+#bonusClaimBtn,#bonusCloseBtn{
+  pointer-events:auto !important;cursor:pointer !important;
+  position:relative;z-index:10001 !important;
+  min-height:48px;font-size:16px;font-weight:900;
+}
+.bonus-modal input,#bonusCodeInput{
+  pointer-events:auto !important;position:relative;z-index:10001 !important;
+  -webkit-user-select:text !important;user-select:text !important;
+}
+
 .bonus-overlay.show{display:flex}
 .bonus-modal{
   width:min(360px,92vw);background:radial-gradient(ellipse at 50% 0%,#2e1065 0%,#1a0a30 40%,#0c0618 100%);
@@ -282,9 +488,12 @@ button,select{font:inherit}
 .frog-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media (max-width:420px){
-  .bonus-code-btn{left:76%;width:22%;top:84%;height:10.5%}
+  .bonus-code-btn{left:76%;width:22%;top:71%;height:10.5%}
   .bonus-code-btn .bc-title{font-size:9px}
   .bonus-code-btn .bc-icon{font-size:16px}
+  .online-battle-btn{left:76%;width:22%;top:83%;height:10.5%}
+  .online-battle-btn .ob-title{font-size:9px}
+  .online-battle-btn .ob-icon{font-size:16px}
 }
 /* Live values over existing Frogs / High Score on home art */
 .home-hud{
@@ -416,6 +625,21 @@ button,select{font:inherit}
   background:linear-gradient(180deg,#5c4a12,#2a2008);border-color:#c9a227;
 }
 .home-panel-btn.offer .hp-title{color:#ffe566}
+.home-panel-btn .hp-hearts{
+  display:flex;align-items:center;justify-content:flex-start;gap:3px;
+  margin:0 0 3px;line-height:1;pointer-events:none;
+}
+.home-panel-btn .hp-hearts span{
+  font-size:11px;filter:drop-shadow(0 0 4px #ff4d6d);
+  animation:hpHeartBeat 1.4s ease-in-out infinite;
+}
+.home-panel-btn .hp-hearts span:nth-child(2){animation-delay:.15s}
+.home-panel-btn .hp-hearts span:nth-child(3){animation-delay:.3s}
+@keyframes hpHeartBeat{
+  0%,100%{transform:scale(1)}
+  40%{transform:scale(1.18)}
+  60%{transform:scale(0.96)}
+}
 .home-panel-btn:disabled{opacity:.55;cursor:default;transform:none;filter:none}
 .gift-overlay{
   position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.72);
@@ -1057,6 +1281,235 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
  .small{min-width:90px;padding:10px 12px;font-size:13px}
  .gb-left{gap:8px}
 }
+.bonus-overlay{
+  position:fixed !important;inset:0 !important;z-index:9999 !important;
+  background:rgba(0,0,0,.88);
+  display:none !important;
+  align-items:center;justify-content:center;
+  padding:12px;
+  box-sizing:border-box;
+}
+.bonus-overlay.show{display:flex !important}
+.bonus-modal{
+  width:min(340px,94vw);
+  max-height:min(90dvh,520px);
+  overflow:auto;
+  background:radial-gradient(ellipse at 50% 0%,#2e1065 0%,#1a0a30 45%,#0c0618 100%);
+  border:2px solid #c084fc;border-radius:18px;
+  box-shadow:0 0 40px #a855f750;
+  padding:18px 16px 16px;text-align:center;
+  position:relative;box-sizing:border-box;
+  pointer-events:auto !important;
+}
+.bonus-icon{font-size:42px;line-height:1;margin-bottom:4px;filter:drop-shadow(0 0 12px #c084fc)}
+.bonus-modal h2{margin:0 0 6px;font-size:22px;color:#e9d5ff}
+.bonus-modal .bonus-desc{font-size:13px;color:#c4b5fd;margin:0 0 12px;line-height:1.4}
+.bonus-input,.bonus-modal input#bonusCodeInput{
+  display:block;width:100%;box-sizing:border-box;
+  background:#1a0a30;border:2px solid #7c3aed;border-radius:12px;
+  padding:14px 12px;font-size:16px;font-weight:700;color:#f5f3ff;
+  letter-spacing:.1em;text-align:center;outline:none;margin:0 0 10px;
+  pointer-events:auto !important;-webkit-user-select:text;user-select:text;
+}
+.bonus-input:focus,.bonus-modal input#bonusCodeInput:focus{border-color:#e879f9}
+.bonus-status{font-size:13px;font-weight:700;min-height:20px;margin-bottom:10px;color:#fde68a}
+.bonus-status.ok{color:#4ade80}
+.bonus-status.err{color:#f87171}
+.bonus-actions{display:flex;gap:10px}
+.bonus-actions .btn,#bonusClaimBtn,#bonusCloseBtn{
+  flex:1;min-height:48px;border:0;border-radius:12px;font-weight:900;font-size:15px;
+  cursor:pointer !important;pointer-events:auto !important;
+}
+#bonusClaimBtn{background:#42ff48;color:#06200a}
+#bonusCloseBtn{background:#183326;color:#d9ffe1;border:1px solid #3b7650}
+
+
+
+
+
+
+/* Online Battle — premium design */
+#snakeFight.screen{
+  background:
+    radial-gradient(ellipse at 20% 20%, #0c3a5c55 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 80%, #0a3d2055 0%, transparent 40%),
+    linear-gradient(160deg, #031018 0%, #041208 50%, #020806 100%);
+  flex-direction:row;align-items:center;justify-content:center;
+  padding:10px;gap:12px;overflow:hidden;
+}
+#snakeFight.screen.sb-playing{
+  flex-direction:column;
+}
+.sb-setup{
+  display:none;width:min(940px,98vw);max-height:96dvh;overflow:auto;
+  background:linear-gradient(165deg,#0a1f28ee 0%,#061410f2 50%,#040c12f5 100%);
+  border:2px solid #38bdf8;border-radius:22px;
+  box-shadow:0 0 50px #38bdf845,0 0 30px #00ff6630, inset 0 1px 0 rgba(255,255,255,.08);
+  padding:20px 20px 16px;box-sizing:border-box;position:relative;
+}
+.sb-setup::before{
+  content:"";position:absolute;top:0;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,transparent,#38bdf8,#42ff48,transparent);opacity:.7;
+}
+.sb-setup.show{display:block}
+.sb-setup h1{
+  margin:0 0 4px;text-align:center;font-size:clamp(24px,4.5vw,32px);
+  background:linear-gradient(90deg,#7dd3fc,#9dffb5,#ffe566);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-weight:900;letter-spacing:.02em;
+}
+.sb-setup .sb-sub{text-align:center;color:#a8c5d8;font-size:13px;margin:0 0 12px;font-weight:600}
+.sb-step-pills{
+  display:flex;justify-content:center;gap:8px;margin:0 0 14px;flex-wrap:wrap;
+}
+.sb-pill{
+  padding:6px 12px;border-radius:999px;font-size:11px;font-weight:900;
+  border:1px solid #1e4a5c;color:#7a9aaa;background:#061018;
+}
+.sb-pill.on{border-color:#38bdf8;color:#7dd3fc;background:#0c2744;box-shadow:0 0 12px #38bdf850}
+.sb-pill.done{border-color:#22c55e;color:#86efac;background:#0a1f12}
+.sb-step-title{
+  font-size:13px;font-weight:900;color:#7dd3fc;margin:0 0 12px;letter-spacing:.08em;
+  text-transform:uppercase;text-align:center;
+}
+.sb-round-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;
+  background:#0c2744;border:1px solid #38bdf8;color:#7dd3fc;font-size:12px;font-weight:900;
+  margin:0 auto 10px;
+}
+.sb-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;
+}
+.sb-grid.two{grid-template-columns:repeat(2,1fr)}
+.sb-grid.four{grid-template-columns:repeat(4,1fr)}
+@media(max-width:700px){
+  .sb-grid,.sb-grid.four{grid-template-columns:repeat(2,1fr)}
+  #snakeFight.screen{flex-direction:column}
+}
+.sb-card{
+  border:2px solid #3dff8a;border-radius:16px;padding:16px 12px;cursor:pointer;
+  background:linear-gradient(145deg,#0c2a18 0%,#061810 55%,#041208 100%);
+  color:#d9ffe1;text-align:center;font:inherit;
+  box-shadow:0 5px 0 #0a3d20,0 0 20px #00ff6650,inset 0 1px 0 rgba(255,255,255,.1);
+  transition:transform .12s,filter .15s,border-color .15s,box-shadow .15s;
+  min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.sb-card:hover{filter:brightness(1.1);transform:translateY(-3px);border-color:#42ff48;
+  box-shadow:0 7px 0 #0a3d20,0 0 28px #42ff4880,inset 0 1px 0 rgba(255,255,255,.12)}
+.sb-card:active{transform:translateY(2px);box-shadow:0 2px 0 #0a3d20}
+.sb-card.selected{
+  border-color:#ffe566;background:linear-gradient(145deg,#1a3a12,#0a2010);
+  box-shadow:0 0 24px #ffd24a60,0 5px 0 #5c4a10,inset 0 1px 0 rgba(255,255,255,.15);
+}
+.sb-card .t{font-weight:900;font-size:15px;color:#9dffb5;display:block;letter-spacing:.03em}
+.sb-card.selected .t{color:#ffe566}
+.sb-card .d{font-size:11px;color:#7ab892;margin-top:6px;display:block;line-height:1.35;font-weight:700}
+.sb-setup .btn.primary{
+  background:linear-gradient(180deg,#42ff48,#1ecf3a);color:#06200a;
+  box-shadow:0 4px 0 #0a7a20,0 0 18px #42ff4860;border:0;min-height:48px;font-size:15px;
+}
+.sb-setup .btn.secondary{
+  background:linear-gradient(180deg,#1a3a28,#0f2418);color:#d9ffe1;
+  border:2px solid #3b7650;min-height:48px;box-shadow:0 3px 0 #0a1f12;
+}
+.sb-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.sb-nav .btn{
+  min-width:120px;padding:12px 16px;border-radius:12px;border:0;font-weight:900;
+  cursor:pointer;font-size:14px;
+}
+.sb-nav .btn.primary{background:#42ff48;color:#06200a;box-shadow:0 0 16px #42ff4860}
+.sb-nav .btn.secondary{background:#183326;color:#d9ffe1;border:1px solid #3b7650}
+.sb-nav .btn:disabled{opacity:.4;cursor:default}
+
+.sf-play{display:none;flex-direction:column;align-items:center;gap:6px;width:100%;height:100%;min-height:0;box-sizing:border-box}
+.sf-play.show{display:flex}
+.sf-hud{
+  width:min(960px,98vw);display:flex;justify-content:space-between;gap:8px;flex-shrink:0;
+}
+.sf-hud .sf-stat{
+  flex:1;text-align:center;padding:6px 8px;border-radius:12px;font-weight:800;font-size:12px;
+  background:#071b0e;border:1px solid #2c9349;color:#b7d8c1;
+}
+.sf-hud .sf-stat.you{border-color:#42ff48;color:#9dffb5}
+.sf-hud .sf-stat.mid{border-color:#ffe566;color:#ffe566}
+.sf-hud .sf-stat .sf-val{display:block;font-size:16px;font-weight:900;margin-top:2px}
+.sf-hud .sf-stat.enemy{border-color:#f87171;color:#fecaca}
+.sf-hearts{
+  display:flex;justify-content:center;align-items:center;gap:4px;
+  margin-top:4px;line-height:1;min-height:16px;
+}
+.sf-hearts .sf-heart{
+  font-size:13px;filter:drop-shadow(0 0 3px #ff4d6d88);
+  transition:transform .15s ease, opacity .2s ease, filter .2s;
+}
+.sf-hearts .sf-heart.on{opacity:1;transform:scale(1)}
+.sf-hearts .sf-heart.off{opacity:.28;filter:grayscale(1) brightness(.7);transform:scale(.9)}
+.sf-hearts .sf-heart.lost{
+  animation:sfHeartPop .35s ease forwards;
+}
+@keyframes sfHeartPop{
+  0%{transform:scale(1);opacity:1}
+  40%{transform:scale(1.35);opacity:.9}
+  100%{transform:scale(.85);opacity:.28;filter:grayscale(1)}
+}
+.sf-dual{display:flex;gap:10px;width:min(960px,98vw);flex:1;min-height:0}
+.sf-panel{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.sf-panel .sf-panel-label{
+  text-align:center;font-size:11px;font-weight:900;color:#9dffb5;
+  padding:3px;border-radius:8px;background:#0a1f1288;border:1px solid #2c9349;
+}
+.sf-panel.enemy .sf-panel-label{color:#ffb4b4;border-color:#c44;background:#1a080888}
+.sf-panel canvas{
+  width:100%;flex:1;min-height:0;display:block;border-radius:16px;
+  border:2px solid #36ff70;background:#143a16;box-shadow:0 0 25px #00ff5540;
+}
+.sf-panel.enemy canvas{border-color:#36ff70;box-shadow:0 0 25px #00ff5540}
+.sf-single-wrap{
+  position:relative;width:min(70vh,90vw);aspect-ratio:1;max-height:calc(100dvh - 120px);
+}
+.sf-single-wrap canvas{
+  width:100%;height:100%;display:block;border-radius:16px;
+  border:2px solid #36ff70;background:#143a16;box-shadow:0 0 25px #00ff5540;
+}
+.sf-overlay{
+  position:fixed !important;inset:0 !important;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.85);z-index:9998 !important;
+  backdrop-filter:blur(6px);pointer-events:auto !important;
+}
+.sf-overlay.show{display:flex !important}
+.sf-overlay .box{
+  text-align:center;padding:22px 18px;background:#081b10;border:2px solid #37ff7c;
+  border-radius:18px;max-width:92%;width:min(380px,92vw);box-shadow:0 0 40px #00ff6640;
+  pointer-events:auto !important;position:relative;z-index:9999;
+}
+.sf-overlay h2{margin:0 0 8px;color:#75ff9c;font-size:26px;font-weight:900}
+.sf-overlay p{margin:0 0 16px;color:#b7d8c1;font-size:15px;line-height:1.4}
+.sf-overlay .btn{
+  min-width:120px;padding:12px 16px;margin:5px;border:0;border-radius:12px;
+  font-weight:900;cursor:pointer;font-size:14px;pointer-events:auto !important;
+}
+.sf-overlay .btn.primary{background:#42ff48;color:#06200a;box-shadow:0 3px 0 #0a7a20}
+.sf-overlay .btn.secondary{background:#183326;color:#d9ffe1;border:1px solid #3b7650}
+.sf-actions{display:flex;gap:8px;flex-shrink:0;width:min(960px,98vw);justify-content:center}
+.sf-actions .btn{flex:1;max-width:160px;padding:10px;border-radius:12px;border:0;font-weight:900;cursor:pointer;font-size:13px}
+.sf-actions .btn.secondary{background:#183326;color:#d9ffe1;border:1px solid #3b7650}
+.sf-actions .btn.danger{background:#2a1515;color:#ff8a8a;border:1px solid #c44}
+.sf-home-fab{
+  position:fixed; top:12px; right:12px; z-index:60;
+  display:none; align-items:center; justify-content:center; gap:6px;
+  padding:10px 14px; border-radius:14px; border:2px solid #3b7650;
+  background:linear-gradient(145deg,#0c2a18,#061810); color:#d9ffe1;
+  font-weight:900; font-size:13px; cursor:pointer;
+  box-shadow:0 4px 16px #0008, 0 0 12px #42ff4830;
+}
+.sf-home-fab:hover{filter:brightness(1.1); border-color:#42ff48}
+.sf-home-fab:active{transform:translateY(1px)}
+#snakeFight.sb-playing.sf-survival .sf-home-fab{display:flex}
+#snakeFight.sb-playing.sf-survival .sf-actions{display:flex}
+.sf-single-wrap{max-height:calc(100dvh - 150px)}
+.sf-hint{font-size:11px;color:#7ab892;font-weight:700;text-align:center;flex-shrink:0}
+
 </style>
 </head>
 <body>
@@ -1084,11 +1537,15 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
   <button class="hotspot play-hotspot" aria-label="Play Now" onclick="showSetup()"></button>
   <button class="hotspot custom-hotspot" aria-label="Customize" onclick="openCustomize()"></button>
   <button class="hotspot settings-hotspot" aria-label="Settings" onclick="showSettings()"></button>
-  <button class="hotspot quit-hotspot" aria-label="Quit" onclick="quitGame()"></button>
-  <button type="button" class="bonus-code-btn" aria-label="Bonus Code" onclick="openBonusCode()">
+  <button type="button" class="bonus-code-btn" aria-label="Bonus Code" onclick="window.openBonusCode();return false;">
     <span class="bc-icon">🔑</span>
     <span class="bc-title">Bonus Code</span>
-    <span class="bc-sub">Enter &amp; Claim</span>
+    <span class="bc-sub">Claim Frogs</span>
+  </button>
+  <button type="button" class="online-battle-btn" aria-label="Online Battle" onclick="openOnlineBattle();return false;">
+    <span class="ob-icon">🌐</span>
+    <span class="ob-title">Online Battle</span>
+    <span class="ob-sub">VS Players</span>
   </button>
   <div class="home-left-stack">
     <button type="button" class="home-panel-btn spin-btn" id="luckySpinBtn" onclick="openLuckySpin()">
@@ -1110,7 +1567,8 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
     <button type="button" class="home-panel-btn offer" id="specialOfferBtn" onclick="openSpecialOffer()">
       <div class="hp-icon">⚡</div>
       <div class="hp-text">
-        <div class="hp-title">Special Offer</div>
+        <div class="hp-hearts" aria-hidden="true"><span>❤️</span><span>❤️</span><span>❤️</span></div>
+        <div class="hp-title">My Snake</div>
         <div class="hp-sub" id="specialOfferSub">Special Skin — Flash 50 Frogs</div>
         <div class="hp-timer" id="specialOfferTimer">⏱ 10m 0s left</div>
       </div>
@@ -1196,21 +1654,7 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
   </div>
   <div class="frog-toast" id="frogToast">+0 Frogs</div>
 
-  <div class="bonus-overlay" id="bonusOverlay" onclick="if(event.target===this)closeBonusCode()">
-    <div class="bonus-modal">
-      <div style="font-size:48px;line-height:1;margin-bottom:6px;filter:drop-shadow(0 0 16px #c084fc)">🔑</div>
-      <h2>Bonus Code</h2>
-      <p class="bonus-desc">Enter a secret code to claim free Frogs. Each code works only once!</p>
-      <div class="bonus-input-wrap">
-        <input type="text" id="bonusCodeInput" placeholder="Enter code..." maxlength="20" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter'){event.preventDefault();redeemBonusCode();}" />
-      </div>
-      <div class="bonus-status" id="bonusStatus"></div>
-      <div class="bonus-actions">
-        <button class="btn secondary" onclick="closeBonusCode()">Close</button>
-        <button class="btn primary" id="bonusClaimBtn" onclick="redeemBonusCode()">Claim</button>
-      </div>
-    </div>
-  </div>
+
 
 </section>
 
@@ -1237,6 +1681,58 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
     </div>
   </div>
 </section>
+
+
+
+
+<div class="ob-final-overlay" id="obFinalOverlay">
+  <div class="ob-final-box" id="obFinalBox">
+    <h2 id="obFinalTitle">YOU LOSE</h2>
+    <div class="ob-final-bet" id="obFinalBet"><span>🐸</span><span id="obFinalBetAmt">50</span></div>
+    <p id="obFinalMsg">Better luck next time.</p>
+    <button type="button" class="btn primary" onclick="openOnlineBattle()">Play Again</button>
+    <button type="button" class="btn secondary" onclick="forceExitOnlineBattle()">Home</button>
+  </div>
+</div>
+<div class="ob-warn-overlay" id="obWarnOverlay">
+  <div class="ob-warn-box">
+    <h2>Leave match?</h2>
+    <p>If you leave now, you will lose this battle and your bet (if any) will be cut.</p>
+    <button type="button" class="btn danger" onclick="confirmLeaveOnlineBattle()">Leave &amp; Lose</button>
+    <button type="button" class="btn secondary" onclick="cancelLeaveOnlineBattle()">Stay</button>
+  </div>
+</div>
+<div class="ob-match-overlay" id="obMatchOverlay">
+  <div class="ob-match-box">
+    <button type="button" class="ob-match-close" onclick="cancelOnlineMatch()" aria-label="Close">✕</button>
+    <h2>🌐 Online Battle</h2>
+    <div class="ob-match-pulse" id="obMatchPulse">🔍</div>
+    <div class="ob-match-status" id="obMatchStatus">Searching for a player…</div>
+    <div class="ob-player-chip" id="obPlayerChip" style="display:none">
+      <span class="ob-chip-av">👤</span>
+      <span class="ob-chip-name" id="obChipName">Player</span>
+      <span class="ob-chip-tag">Joined</span>
+    </div>
+    <div class="ob-match-timer" id="obMatchTimer">0</div>
+    <div class="ob-match-bar"><i id="obMatchBar"></i></div>
+    <p class="ob-match-sub" id="obMatchSub">Please wait while we connect you to another player.</p>
+    <div class="ob-match-tip" id="obMatchTip">Tip: Use your custom snake for a unique look.</div>
+  </div>
+</div>
+
+<div class="bonus-overlay" id="bonusOverlay">
+  <div class="bonus-modal">
+    <div class="bonus-icon">🔑</div>
+    <h2>Bonus Code</h2>
+    <p class="bonus-desc">Type your secret code below, then press Claim.</p>
+    <input type="text" id="bonusCodeInput" class="bonus-input" placeholder="Enter code..." maxlength="24" autocomplete="off" spellcheck="false" />
+    <div class="bonus-status" id="bonusStatus"></div>
+    <div class="bonus-actions">
+      <button type="button" class="btn secondary" id="bonusCloseBtn" onclick="event.preventDefault();window.closeBonusCode();">Close</button>
+      <button type="button" class="btn primary" id="bonusClaimBtn" onclick="event.preventDefault();window.redeemBonusCode();">Claim</button>
+    </div>
+  </div>
+</div>
 
 <div class="sell-overlay" id="sellOverlay" onclick="if(event.target===this)closeSellConfirm()">
   <div class="sell-modal">
@@ -1282,6 +1778,9 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
     <div class="actions">
       <button class="btn secondary" onclick="showHome()">← Home</button>
       <button class="btn primary" onclick="startGame()">START GAME</button>
+    </div>
+    <div class="actions" style="margin-top:10px">
+      <button type="button" class="btn primary" style="background:linear-gradient(180deg,#38bdf8,#0284c7);color:#fff;box-shadow:0 0 16px #38bdf860;width:100%" onclick="openOnlineBattle()">🌐 Online Battle</button>
     </div>
   </div>
 </section>
@@ -1392,6 +1891,113 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
   </div>
 </section>
 
+
+<section id="snakeFight" class="screen">
+  <!-- Step 1: Mode -->
+  <div class="sb-setup show" id="sbStepMode">
+    <h1>🌐 Online Battle</h1>
+    <p class="sb-sub">Choose how you want to battle</p>
+    <div class="sb-step-pills"><span class="sb-pill on">1 Mode</span><span class="sb-pill">2 Bet</span></div>
+    <div class="sb-step-title">Battle Mode</div>
+    <div class="sb-grid">
+      <button type="button" class="sb-card" data-mode="time" onclick="obPickMode('time',this)">
+        <span class="t">⏱ Time Battle</span>
+        <span class="d">60 seconds · most frogs win</span>
+      </button>
+      <button type="button" class="sb-card" data-mode="race" onclick="obPickMode('race',this)">
+        <span class="t">🏁 Frog Race</span>
+        <span class="d">First to 10 frogs · dual screen</span>
+      </button>
+      <button type="button" class="sb-card" data-mode="classic" onclick="obPickMode('classic',this)">
+        <span class="t">💀 Survival</span>
+        <span class="d">Last snake standing</span>
+      </button>
+    </div>
+    <div class="sb-nav">
+      <button type="button" class="btn secondary" id="obHomeBtn1">← Home</button>
+      <button type="button" class="btn primary" id="obModeNext" disabled onclick="obGoBet()">Next → Bet</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Bet -->
+  <div class="sb-setup" id="sbStepBet">
+    <h1>🌐 Online Battle</h1>
+    <p class="sb-sub">Choose a frog bet · or play free</p>
+    <div class="sb-step-pills"><span class="sb-pill done">1 Mode</span><span class="sb-pill on">2 Bet</span></div>
+    <div class="sb-bet-balance">Your Frogs: <span id="obBetBalance">0</span></div>
+    <div class="sb-step-title">Frog Bet</div>
+    <div class="sb-bet-grid" id="obBetGrid">
+      <button type="button" class="sb-bet-chip free selected" data-bet="0" onclick="obPickBet(0,this)">FREE</button>
+      <button type="button" class="sb-bet-chip" data-bet="50" onclick="obPickBet(50,this)">🐸 50</button>
+      <button type="button" class="sb-bet-chip" data-bet="100" onclick="obPickBet(100,this)">🐸 100</button>
+      <button type="button" class="sb-bet-chip" data-bet="300" onclick="obPickBet(300,this)">🐸 300</button>
+      <button type="button" class="sb-bet-chip" data-bet="500" onclick="obPickBet(500,this)">🐸 500</button>
+      <button type="button" class="sb-bet-chip" data-bet="1000" onclick="obPickBet(1000,this)">🐸 1K</button>
+      <button type="button" class="sb-bet-chip" data-bet="3000" onclick="obPickBet(3000,this)">🐸 3K</button>
+      <button type="button" class="sb-bet-chip" data-bet="5000" onclick="obPickBet(5000,this)">🐸 5K</button>
+      <button type="button" class="sb-bet-chip" data-bet="10000" onclick="obPickBet(10000,this)">🐸 10K</button>
+      <button type="button" class="sb-bet-chip" data-bet="50000" onclick="obPickBet(50000,this)">🐸 50K</button>
+    </div>
+    <p class="sb-bet-note">Win = gain bet frogs · Lose = bet cut · Free = no frogs won or lost</p>
+    <div class="sb-nav">
+      <button type="button" class="btn secondary" onclick="obGoMode()">← Back</button>
+      <button type="button" class="btn secondary" id="obHomeBtn2">Home</button>
+      <button type="button" class="btn primary" onclick="obConfirmBetAndMatch()">Find Player &amp; Start</button>
+    </div>
+  </div>
+
+  <!-- Play -->
+  <div class="sf-play" id="sbPlay">
+    <div class="sf-hud">
+      <div class="sf-stat you">
+        <span>You</span>
+        <span class="sf-val" id="sfYouLen">0</span>
+        <div class="sf-hearts" id="sfYouHearts" style="display:none" aria-label="Your lives">
+          <span class="sf-heart on">❤️</span><span class="sf-heart on">❤️</span><span class="sf-heart on">❤️</span>
+        </div>
+      </div>
+      <div class="sf-stat mid"><span id="sfMidLabel">Round</span><span class="sf-val" id="sfMidVal">1 / 3</span></div>
+      <div class="sf-stat enemy">
+        <span id="sfEnemyHudLabel">Opponent</span>
+        <span class="sf-val" id="sfEnemyLen">0</span>
+        <div class="sf-hearts" id="sfEnemyHearts" style="display:none" aria-label="Opponent lives">
+          <span class="sf-heart on">❤️</span><span class="sf-heart on">❤️</span><span class="sf-heart on">❤️</span>
+        </div>
+      </div>
+    </div>
+    <div class="sf-dual" id="sfDual" style="display:none">
+      <div class="sf-panel you">
+        <div class="sf-panel-label">You</div>
+        <canvas id="fightCanvasYou" width="420" height="420"></canvas>
+      </div>
+      <div class="sf-panel enemy">
+        <div class="sf-panel-label" id="sfEnemyPanelLabel">Opponent</div>
+        <canvas id="fightCanvasEnemy" width="420" height="420"></canvas>
+      </div>
+    </div>
+    <div class="sf-single-wrap" id="sfSingle" style="display:none">
+      <canvas id="fightCanvas" width="640" height="640"></canvas>
+      <div class="ob-cd-overlay" id="obCdOverlay"><div class="ob-cd-num" id="obCdNum">3</div></div>
+    </div>
+    <div class="ob-cd-overlay" id="obCdOverlayDual" style="position:fixed;border-radius:0;z-index:50"><div class="ob-cd-num" id="obCdNumDual">3</div></div>
+    <div class="sf-bet-line" id="sfBetLine">Bet: FREE</div>
+    <div class="sf-hint" id="sfHint">WASD / Arrows · Swipe · Rounds 1 → 3</div>
+    <div class="sf-actions">
+      <button type="button" class="btn secondary" id="obHomeBtn3">🏠 Home</button>
+    </div>
+    <button type="button" class="sf-home-fab" id="obHomeBtnFab" aria-label="Home">🏠 Home</button>
+  </div>
+
+  <div class="sf-overlay" id="sfOverlay">
+    <div class="box">
+      <h2 id="sfResultTitle">Online Battle</h2>
+      <p id="sfResultMsg"></p>
+      <button type="button" class="btn primary" id="sfContinueBtn" onclick="obContinueAfterRound()">Continue</button>
+      <button type="button" class="btn secondary" id="obHomeBtn4">Home</button>
+    </div>
+  </div>
+</section>
+
 <section id="game" class="screen">
   <div class="hud">
     <div class="stat">🏆 Score: <span id="score">0</span></div>
@@ -1427,10 +2033,10 @@ canvas{width:100%;height:100%;display:block;border-radius:16px;border:2px solid 
     </div>
   </div>
   <div class="dpad">
-    <button class="up" onclick="setDir(0,-1)">▲</button>
-    <button class="left" onclick="setDir(-1,0)">◀</button>
-    <button class="down" onclick="setDir(0,1)">▼</button>
-    <button class="right" onclick="setDir(1,0)">▶</button>
+    <button class="up" onclick="window.setDir&&window.setDir(0,-1)">▲</button>
+    <button class="left" onclick="window.setDir&&window.setDir(-1,0)">◀</button>
+    <button class="down" onclick="window.setDir&&window.setDir(0,1)">▼</button>
+    <button class="right" onclick="window.setDir&&window.setDir(1,0)">▶</button>
   </div>
 </section>
 
@@ -2096,73 +2702,1272 @@ function closeSpecialOffer(){
  if(ov) ov.classList.remove("show");
  if(specialSnakeAnim){ cancelAnimationFrame(specialSnakeAnim); specialSnakeAnim=null; }
 }
+
+
+
+
+/* ===== Online Battle — mode, bet, matchmaking up-count, 3 rounds ===== */
+const OB_PLAYER_NAMES=[
+  "ShadowFang","NeonViper","AquaStrike","GoldCoil","NightScale",
+  "RubyRacer","CyberSlither","FrostBite","ThunderTail","PixelPython",
+  "KingCobraX","LimeDash","StormSerpent","BlazeLoop","SilentFang",
+  "NovaSnake","CrystalCoil","IronWinder","LuckyScale","TurboVenom",
+  "SkyRattler","EmberTwist","GhostScale","RapidRibbon","UltraCoil"
+];
+const OB_TIPS=[
+  "Tip: Collect frogs faster than your opponent.",
+  "Tip: Plan your turns — walls end the match.",
+  "Tip: Your custom snake skin is used in battle.",
+  "Tip: Three rounds, then a new player can join.",
+  "Tip: Free play gives no frog reward or loss."
+];
+const OB_STATUS_SEARCH=[
+  "Searching for a player…",
+  "Scanning nearby players…",
+  "Looking for a fair match…",
+  "Checking player list…"
+];
+let obMatchTimer=null, obMatchLeft=0, obMatchTotal=0, obMatchDotsT=null, obOpponentName="Player";
+let obMatchCancelled=false;
+let obRound=1, obMaxRounds=3, obNeedNewPlayer=false;
+let obBet=0, obBetLocked=0;
+let obInMatch=false;
+
+function obSfx(type){
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return;
+    if(!window._obAudioCtx) window._obAudioCtx=new AC();
+    const ctx=window._obAudioCtx;
+    if(ctx.state==="suspended") ctx.resume();
+    const t=ctx.currentTime;
+    function tone(freq, dur, wave, vol, slideTo, delay){
+      const o=ctx.createOscillator();
+      const g=ctx.createGain();
+      o.type=wave||"sine";
+      o.connect(g); g.connect(ctx.destination);
+      const t0=t+(delay||0);
+      o.frequency.setValueAtTime(freq, t0);
+      if(slideTo!=null) o.frequency.exponentialRampToValueAtTime(Math.max(30, slideTo), t0+dur);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(Math.max(0.0001, vol||0.1), t0+0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+      o.start(t0); o.stop(t0+dur+0.02);
+    }
+    if(type==="eat"){
+      tone(620, 0.08, "square", 0.1, 980, 0);
+      tone(900, 0.1, "square", 0.07, 1200, 0.04);
+    }else if(type==="click"){
+      tone(660, 0.08, "sine", 0.08, null, 0);
+    }else if(type==="tick"){
+      tone(520+((typeof obMatchLeft==="number"?obMatchLeft:0)*40), 0.06, "square", 0.05, null, 0);
+    }else if(type==="found"){
+      tone(520, 0.2, "sine", 0.1, 880, 0);
+      tone(660, 0.18, "sine", 0.07, 990, 0.08);
+    }else if(type==="heart" || type==="heartbreak"){
+      // Heart break / life lost — crack + drop
+      tone(520, 0.08, "triangle", 0.14, 280, 0);
+      tone(380, 0.12, "sawtooth", 0.1, 140, 0.05);
+      tone(180, 0.22, "triangle", 0.08, 70, 0.12);
+    }else if(type==="win"){
+      // Bright victory fanfare
+      tone(523, 0.12, "sine", 0.12, null, 0);      // C5
+      tone(659, 0.12, "sine", 0.11, null, 0.1);    // E5
+      tone(784, 0.14, "sine", 0.12, null, 0.2);    // G5
+      tone(1046, 0.28, "sine", 0.13, 1318, 0.32);  // C6 → E6
+      tone(784, 0.2, "triangle", 0.06, null, 0.35);
+    }else if(type==="lose"){
+      // Heavy lose / defeat
+      tone(400, 0.18, "triangle", 0.12, 220, 0);
+      tone(300, 0.22, "sawtooth", 0.1, 120, 0.12);
+      tone(160, 0.35, "triangle", 0.09, 70, 0.28);
+    }else if(type==="start"){
+      tone(300, 0.12, "sine", 0.1, 600, 0);
+      tone(450, 0.1, "sine", 0.08, 700, 0.08);
+    }
+  }catch(e){}
+}
+function randomOpponentName(){
+  return OB_PLAYER_NAMES[Math.floor(Math.random()*OB_PLAYER_NAMES.length)]+(Math.floor(Math.random()*900)+100);
+}
+function obGoHomeSafe(){
+  try{ obSfx("click"); }catch(e){}
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  if(obInMatch){ requestLeaveOnlineBattle(); return; }
+  forceExitOnlineBattle();
+}
+function forceExitOnlineBattle(){
+  try{ stopBattleLoop(); }catch(e){}
+  obInMatch=false;
+  cancelOnlineMatch(true);
+  const w=document.getElementById("obWarnOverlay");
+  if(w){ w.classList.remove("show"); w.style.display="none"; }
+  const ov=document.getElementById("sfOverlay");
+  if(ov){ ov.classList.remove("show"); ov.style.display="none"; }
+  const fin=document.getElementById("obFinalOverlay");
+  if(fin){ fin.classList.remove("show"); fin.style.display="none"; }
+  const play=document.getElementById("sbPlay");
+  if(play) play.classList.remove("show");
+  const sc=document.getElementById("snakeFight");
+  if(sc){ sc.classList.remove("active"); sc.classList.remove("sb-playing"); sc.classList.remove("sf-survival"); }
+  if(typeof showHome==="function") showHome();
+  else if(typeof show==="function") show("home");
+  else {
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    document.getElementById("home")?.classList.add("active");
+  }
+}
+function obRefreshBalance(){
+  const el=document.getElementById("obBetBalance");
+  if(el) el.textContent=Number(frogs||0).toLocaleString();
+}
+function obPickMode(mode, btn){
+  obSfx("click");
+  sbMode=mode;
+  document.querySelectorAll("#sbStepMode .sb-card").forEach(c=>c.classList.remove("selected"));
+  if(btn) btn.classList.add("selected");
+  const n=document.getElementById("obModeNext");
+  if(n) n.disabled=false;
+}
+function obGoMode(){
+  obSfx("click");
+  if(typeof sbHideAllSteps==="function") sbHideAllSteps();
+  const el=document.getElementById("sbStepMode");
+  if(el){ el.classList.add("show"); el.style.display="block"; }
+}
+function obGoBet(){
+  if(!sbMode) return;
+  obSfx("click");
+  if(typeof sbHideAllSteps==="function") sbHideAllSteps();
+  const el=document.getElementById("sbStepBet");
+  if(el){ el.classList.add("show"); el.style.display="block"; }
+  obRefreshBalance();
+}
+function obPickBet(amount, btn){
+  obSfx("click");
+  amount=Number(amount)||0;
+  if(amount>0 && Number(frogs||0)<amount){
+    alert("Not enough frogs for this bet.");
+    return;
+  }
+  obBet=amount;
+  document.querySelectorAll("#obBetGrid .sb-bet-chip").forEach(c=>c.classList.remove("selected"));
+  if(btn) btn.classList.add("selected");
+}
+function openOnlineBattle(){
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  obSfx("click");
+  cancelOnlineMatch(true);
+  obInMatch=false;
+  obRound=1; obNeedNewPlayer=false; obBet=0; obBetLocked=0;
+  sbMode=""; sbDiff="medium"; sbSpeedMs=135;
+  if(typeof show==="function") show("snakeFight");
+  else {
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    document.getElementById("snakeFight")?.classList.add("active");
+  }
+  if(typeof sbHideAllSteps==="function") sbHideAllSteps();
+  const mode=document.getElementById("sbStepMode");
+  if(mode){ mode.classList.add("show"); mode.style.display="block"; }
+  const play=document.getElementById("sbPlay");
+  if(play) play.classList.remove("show");
+  document.getElementById("sfOverlay")?.classList.remove("show");
+  const fin=document.getElementById("obFinalOverlay");
+  if(fin){ fin.classList.remove("show"); fin.style.display="none"; }
+  document.querySelectorAll("#sbStepMode .sb-card").forEach(c=>c.classList.remove("selected"));
+  const mn=document.getElementById("obModeNext");
+  if(mn) mn.disabled=true;
+  document.querySelectorAll("#obBetGrid .sb-bet-chip").forEach(c=>c.classList.remove("selected"));
+  const free=document.querySelector('#obBetGrid .sb-bet-chip[data-bet="0"]');
+  if(free) free.classList.add("selected");
+  setTimeout(obBindHomeButtons, 50);
+}
+function obConfirmBetAndMatch(){
+  if(!sbMode){ obGoMode(); return; }
+  obSfx("click");
+  if(obBet>0 && Number(frogs||0)<obBet){
+    alert("Not enough frogs for this bet.");
+    return;
+  }
+  obBetLocked=obBet;
+  obRound=1; obNeedNewPlayer=false;
+  beginOnlineMatchmaking();
+}
+function beginOnlineMatchmaking(){
+  obMatchCancelled=false;
+  const waits=[5,15,20];
+  obMatchTotal=waits[Math.floor(Math.random()*waits.length)];
+  obMatchLeft=0; // count UP 1,2,3... to total
+  obOpponentName=randomOpponentName();
+  const ov=document.getElementById("obMatchOverlay");
+  const st=document.getElementById("obMatchStatus");
+  const tm=document.getElementById("obMatchTimer");
+  const sub=document.getElementById("obMatchSub");
+  const bar=document.getElementById("obMatchBar");
+  const tip=document.getElementById("obMatchTip");
+  const pulse=document.getElementById("obMatchPulse");
+  const chip0=document.getElementById("obPlayerChip");
+  if(chip0) chip0.style.display="none";
+  if(st) st.textContent=OB_STATUS_SEARCH[0];
+  if(tm) tm.textContent="1";
+  if(sub) sub.textContent="Connecting… count goes 1, 2, 3…";
+  if(bar) bar.style.width="0%";
+  if(tip) tip.textContent=OB_TIPS[Math.floor(Math.random()*OB_TIPS.length)];
+  if(pulse) pulse.textContent="🔍";
+  if(ov){ ov.classList.add("show"); ov.style.display="flex"; }
+  if(obMatchTimer) clearInterval(obMatchTimer);
+  if(obMatchDotsT) clearInterval(obMatchDotsT);
+  let tick=0;
+  // start at 1 immediately
+  obMatchLeft=1;
+  if(tm) tm.textContent="1";
+  if(bar) bar.style.width=Math.min(100,(1/obMatchTotal)*100)+"%";
+  obMatchDotsT=setInterval(function(){
+    if(obMatchCancelled) return;
+    tick++;
+    if(st && obMatchLeft<obMatchTotal-1) st.textContent=OB_STATUS_SEARCH[tick%OB_STATUS_SEARCH.length];
+    else if(st){ st.textContent="Player found! Connecting…"; if(pulse) pulse.textContent="✨"; }
+    if(tip && tick%5===0) tip.textContent=OB_TIPS[Math.floor(Math.random()*OB_TIPS.length)];
+  },700);
+  obMatchTimer=setInterval(function(){
+    if(obMatchCancelled) return;
+    if(obMatchLeft>=obMatchTotal){
+      clearInterval(obMatchTimer); obMatchTimer=null;
+      if(obMatchDotsT){ clearInterval(obMatchDotsT); obMatchDotsT=null; }
+      if(obMatchCancelled) return;
+      obSfx("found");
+      if(st) st.textContent=obOpponentName+" is joining…";
+      if(sub) sub.textContent="Match ready. Starting battle…";
+      if(pulse) pulse.textContent="🐍";
+      if(bar) bar.style.width="100%";
+      const chip=document.getElementById("obPlayerChip");
+      const chipN=document.getElementById("obChipName");
+      if(chipN) chipN.textContent=obOpponentName;
+      if(chip) chip.style.display="inline-flex";
+      setTimeout(function(){
+        if(obMatchCancelled) return;
+        if(ov){ ov.classList.remove("show"); ov.style.display="none"; }
+        finishMatchmakingAndPlay();
+      }, 900);
+      return;
+    }
+    obMatchLeft++;
+    obSfx("tick");
+    if(tm) tm.textContent=String(obMatchLeft);
+    if(bar) bar.style.width=Math.min(100,(obMatchLeft/obMatchTotal)*100)+"%";
+  },1000);
+}
+function cancelOnlineMatch(silent){
+  obMatchCancelled=true;
+  if(!silent){ obSfx("click"); try{ if(typeof playClick==="function") playClick(); }catch(e){} }
+  if(obMatchTimer){ clearInterval(obMatchTimer); obMatchTimer=null; }
+  if(obMatchDotsT){ clearInterval(obMatchDotsT); obMatchDotsT=null; }
+  const ov=document.getElementById("obMatchOverlay");
+  if(ov){ ov.classList.remove("show"); ov.style.display="none"; }
+}
+function sbApplyOpponentLabels(){
+  const hud=document.getElementById("sfEnemyHudLabel");
+  if(hud) hud.textContent=obOpponentName;
+  const pan=document.getElementById("sfEnemyPanelLabel");
+  if(pan) pan.textContent=obOpponentName;
+  const mid=document.getElementById("sfMidVal");
+  if(mid) mid.textContent=obRound+" / "+obMaxRounds;
+  const midL=document.getElementById("sfMidLabel");
+  if(midL) midL.textContent="Round";
+  const bl=document.getElementById("sfBetLine");
+  if(bl) bl.textContent=obBetLocked>0?("Bet: 🐸 "+obBetLocked.toLocaleString()):"Bet: FREE (no frog reward)";
+}
+function finishMatchmakingAndPlay(){
+  if(obNeedNewPlayer){ obRound=1; obNeedNewPlayer=false; }
+  if(!sbMode) sbMode="classic";
+  sbDiff="medium"; sbSpeedMs=135;
+  sbApplyOpponentLabels();
+  if(typeof sbHideAllSteps==="function") sbHideAllSteps();
+  const play=document.getElementById("sbPlay");
+  if(play) play.classList.add("show");
+  const sc=document.getElementById("snakeFight");
+  if(sc) sc.classList.add("sb-playing");
+  const dual=document.getElementById("sfDual");
+  const single=document.getElementById("sfSingle");
+  if(sbMode==="classic"){
+    if(dual) dual.style.display="none";
+    if(single) single.style.display="block";
+  }else{
+    if(dual) dual.style.display="flex";
+    if(single) single.style.display="none";
+  }
+  obInMatch=true;
+  sbYouLives=SB_MAX_LIVES; sbEnemyLives=SB_MAX_LIVES;
+  try{ sbSyncSurvivalHomeUI(); }catch(e){}
+  try{ sbUpdateHeartsUI(); }catch(e){}
+  sbYouColors=sbGetPlayerColors();
+  try{
+    const youLab = document.querySelector(".sf-stat.you span") || document.querySelector("#sfYouLen")?.previousElementSibling;
+    // Prefer explicit panel labels
+    document.querySelectorAll(".sf-panel-label").forEach((el,i)=>{
+      if(i===0 && sbYouColors && sbYouColors.name) el.textContent = sbYouColors.name;
+    });
+    const topYou = document.querySelector(".sf-stat.you > span:first-child");
+    if(topYou && sbYouColors && sbYouColors.name) topYou.textContent = sbYouColors.name;
+  }catch(e){}
+  obSfx("start");
+  if(typeof restartBattle==="function") restartBattle();
+  sbApplyOpponentLabels();
+  setTimeout(obBindHomeButtons, 50);
+}
+function requestLeaveOnlineBattle(){
+  if(!obInMatch){ forceExitOnlineBattle(); return; }
+  const w=document.getElementById("obWarnOverlay");
+  if(w){ w.classList.add("show"); w.style.display="flex"; }
+  obSfx("click");
+}
+function cancelLeaveOnlineBattle(){
+  const w=document.getElementById("obWarnOverlay");
+  if(w){ w.classList.remove("show"); w.style.display="none"; }
+  obSfx("click");
+}
+function confirmLeaveOnlineBattle(){
+  const w=document.getElementById("obWarnOverlay");
+  if(w){ w.classList.remove("show"); w.style.display="none"; }
+  if(obBetLocked>0){
+    frogs=Math.max(0, Number(frogs||0)-obBetLocked);
+    try{
+      localStorage.setItem("snakeFrogs",String(frogs));
+      localStorage.setItem("snakeCoins",String(frogs));
+      if(typeof savePersistentState==="function") savePersistentState();
+      if(typeof updateHomeStats==="function") updateHomeStats();
+    }catch(e){}
+  }
+  obInMatch=false;
+  forceExitOnlineBattle();
+}
+function obContinueAfterRound(){
+  obSfx("click");
+  const ov=document.getElementById("sfOverlay");
+  if(ov){ ov.classList.remove("show"); ov.style.display="none"; }
+  if(obNeedNewPlayer){
+    obInMatch=false;
+    openOnlineBattle();
+    return;
+  }
+  if(typeof restartBattle==="function") restartBattle();
+  sbApplyOpponentLabels();
+}
+function obBindHomeButtons(){
+  ["obHomeBtn1","obHomeBtn2","obHomeBtn3","obHomeBtn4","obHomeBtnFab"].forEach(function(id){
+    const b=document.getElementById(id);
+    if(b && !b._obBound){
+      b._obBound=true;
+      b.addEventListener("click", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        obGoHomeSafe();
+      });
+    }
+  });
+}
+function sbSyncSurvivalHomeUI(){
+  const sc=document.getElementById("snakeFight");
+  if(!sc) return;
+  if(sbMode==="classic") sc.classList.add("sf-survival");
+  else sc.classList.remove("sf-survival");
+  try{ sbUpdateHeartsUI(); }catch(e){}
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", obBindHomeButtons);
+else setTimeout(obBindHomeButtons, 100);
+
+
+function startRoundCountdown(){
+  const els = [
+    document.getElementById("obCdOverlay"),
+    document.getElementById("obCdOverlayDual")
+  ];
+  const nums = [
+    document.getElementById("obCdNum"),
+    document.getElementById("obCdNumDual")
+  ];
+  let n = 3;
+  els.forEach(e=>{ if(e){ e.classList.add("show"); e.style.display="flex"; }});
+  function tick(){
+    nums.forEach(el=>{ if(el){ el.textContent=String(n); el.style.animation="none"; void el.offsetWidth; el.style.animation=""; }});
+    obSfx("tick");
+    if(n<=1){
+      setTimeout(function(){
+        els.forEach(e=>{ if(e){ e.classList.remove("show"); e.style.display="none"; }});
+        if(typeof restartBattle==="function") restartBattle();
+        try{ sbApplyOpponentLabels(); }catch(e){}
+        obSfx("start");
+      }, 700);
+      return;
+    }
+    n--;
+    setTimeout(tick, 900);
+  }
+  tick();
+}
+function formatBetLabel(v){
+  v=Number(v)||0;
+  if(v>=1000){
+    const k=v/1000;
+    return (Number.isInteger(k)?k:k)+"K";
+  }
+  return String(v);
+}
+function showOnlineFinal(result){
+  const ov=document.getElementById("obFinalOverlay");
+  const box=document.getElementById("obFinalBox");
+  const title=document.getElementById("obFinalTitle");
+  const amt=document.getElementById("obFinalBetAmt");
+  const msg=document.getElementById("obFinalMsg");
+  const betLine=document.getElementById("obFinalBet");
+  if(box){
+    box.classList.remove("win");
+    if(result==="win") box.classList.add("win");
+  }
+  if(title){
+    if(result==="win") title.textContent="YOU WIN";
+    else if(result==="lose") title.textContent="YOU LOSE";
+    else title.textContent="DRAW";
+  }
+  if(obBetLocked>0){
+    if(betLine) betLine.style.display="flex";
+    if(amt) amt.textContent=formatBetLabel(obBetLocked);
+    if(msg){
+      if(result==="win") msg.textContent="You gained 🐸 "+formatBetLabel(obBetLocked)+" frogs.";
+      else if(result==="lose") msg.textContent="You lost 🐸 "+formatBetLabel(obBetLocked)+" frogs.";
+      else msg.textContent="No frogs changed.";
+    }
+  }else{
+    if(betLine) betLine.style.display="none";
+    if(msg) msg.textContent=result==="win"?"Nice win! (Free play)":"Better luck next time. (Free play)";
+  }
+  // hide mid overlay
+  const sf=document.getElementById("sfOverlay");
+  if(sf){ sf.classList.remove("show"); sf.style.display="none"; }
+  if(ov){ ov.classList.add("show"); ov.style.display="flex"; }
+  if(result==="win") obSfx("win");
+  else obSfx("lose");
+}
+
+window.openOnlineBattle=openOnlineBattle;
+window.cancelOnlineMatch=cancelOnlineMatch;
+window.beginOnlineMatchmaking=beginOnlineMatchmaking;
+window.obPickBet=obPickBet;
+window.obPickMode=obPickMode;
+window.obGoBet=obGoBet;
+window.obGoMode=obGoMode;
+window.obConfirmBetAndMatch=obConfirmBetAndMatch;
+window.requestLeaveOnlineBattle=requestLeaveOnlineBattle;
+window.cancelLeaveOnlineBattle=cancelLeaveOnlineBattle;
+window.confirmLeaveOnlineBattle=confirmLeaveOnlineBattle;
+window.obContinueAfterRound=obContinueAfterRound;
+window.obGoHomeSafe=obGoHomeSafe;
+window.forceExitOnlineBattle=forceExitOnlineBattle;
+
+/* ===== Snake Battle — setup flow, own skin, main-game look, AI tiers ===== */
+const SB_N=18;
+let sbMode="time", sbDiff="medium", sbSpeedMs=135;
+let sbRunning=false, sbAnim=null, sbLast=0, sbAcc=0, sbOver=false;
+let sbYou=[], sbEnemy=[], sbYouDir={x:1,y:0}, sbYouNext={x:1,y:0};
+let sbEnemyDir={x:-1,y:0}, sbEnemyNext={x:-1,y:0};
+let sbFoodYou={x:9,y:9}, sbFoodEnemy={x:9,y:9}, sbFood={x:9,y:9};
+let sbScoreYou=0, sbScoreEnemy=0, sbTimeLeft=60, sbTick=0;
+let sbYouColors={head:"#42ff48",body:"#1a9a40",glow:"#42ff48"};
+let sbEnemyColors={head:"#ff6b6b",body:"#b33030",glow:"#ff6b6b"};
+let sbYouLives=3;
+let sbEnemyLives=3;
+const SB_MAX_LIVES=3;
+
+const SB_AI={
+  easy:{mistake:0.45, look:1, second:0.55},
+  medium:{mistake:0.22, look:2, second:0.28},
+  high:{mistake:0.08, look:3, second:0.12},
+  extreme:{mistake:0.02, look:4, second:0.05}
+};
+
+
+function sbUpdateHeartsUI(){
+  const isSurv = sbMode==="classic";
+  const yH = document.getElementById("sfYouHearts");
+  const eH = document.getElementById("sfEnemyHearts");
+  if(yH) yH.style.display = isSurv ? "flex" : "none";
+  if(eH) eH.style.display = isSurv ? "flex" : "none";
+  if(!isSurv) return;
+  function paint(el, lives){
+    if(!el) return;
+    const hearts = el.querySelectorAll(".sf-heart");
+    hearts.forEach((h,i)=>{
+      const on = i < lives;
+      h.classList.toggle("on", on);
+      h.classList.toggle("off", !on);
+      h.textContent = on ? "❤️" : "🖤";
+    });
+  }
+  paint(yH, sbYouLives);
+  paint(eH, sbEnemyLives);
+}
+function sbLoseLife(who){
+  if(who==="you"){
+    sbYouLives = Math.max(0, sbYouLives-1);
+    try{ obSfx("heartbreak"); }catch(e){}
+  }else{
+    sbEnemyLives = Math.max(0, sbEnemyLives-1);
+    // softer tick when enemy loses a heart
+    try{ obSfx("tick"); }catch(e){}
+  }
+  sbUpdateHeartsUI();
+}
+function sbPlayEatSound(who){
+  // Online battle eat sound — same frog mp3 as Play Now
+  try{
+    if(typeof playFrogEat==="function"){ playFrogEat(); return; }
+  }catch(e){}
+  try{ if(typeof obSfx==="function") obSfx("eat"); }catch(e){}
+}
+
+function sbGetPlayerColors(){
+  // Single source of truth = My Snake selection (activeSkinIndex + ownedSkins)
+  try{
+    let idx = (typeof activeSkinIndex === "number") ? activeSkinIndex : 0;
+    let list = (typeof ownedSkins !== "undefined" && Array.isArray(ownedSkins)) ? ownedSkins : null;
+    // Keep in sync with storage (in case another tab / older code changed it)
+    try{
+      const storedIdx = Number(localStorage.getItem("snakeActiveSkin"));
+      if(!isNaN(storedIdx) && storedIdx >= 0) idx = storedIdx;
+      const raw = localStorage.getItem("snakeOwnedSkins");
+      if(raw){
+        const parsed = JSON.parse(raw);
+        if(Array.isArray(parsed) && parsed.length) list = parsed;
+      }
+    }catch(e){}
+    if(typeof activeSkinIndex === "number" && activeSkinIndex >= 0) idx = activeSkinIndex;
+    if(!list || !list.length){
+      if(typeof getColors === "function"){
+        const c = getColors();
+        return {head:c.glow||"#f5c542", body:c.body||"#111111", glow:c.glow||"#f5c542", fullColor:!!c.fullColor};
+      }
+      const body = localStorage.getItem("snakeCustomBody")||"#111111";
+      const glow = localStorage.getItem("snakeCustomGlow")||"#f5c542";
+      return {head:glow, body:body, glow:glow, fullColor:false};
+    }
+    if(idx < 0 || idx >= list.length) idx = 0;
+    const active = list[idx];
+    if(active){
+      return {
+        head: active.glow || "#f5c542",
+        body: active.body || "#111111",
+        glow: active.glow || "#f5c542",
+        fullColor: !!active.fullColor || active.name === "Special Offer",
+        name: active.name || "My Snake"
+      };
+    }
+  }catch(e){}
+  return {head:"#f5c542",body:"#111111",glow:"#f5c542",fullColor:false,name:"My Snake"};
+}
+
+function sbHideAllSteps(){
+  ["sbStepMode","sbStepDiff","sbStepSpeed","sbStepBet"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){ el.classList.remove("show"); el.style.display="none"; }
+  });
+  const play=document.getElementById("sbPlay");
+  if(play) play.classList.remove("show");
+  const sc=document.getElementById("snakeFight");
+  if(sc) sc.classList.remove("sb-playing");
+  const ov=document.getElementById("sfOverlay");
+  if(ov) ov.classList.remove("show");
+}
+function sbShowStep(id){
+  sbHideAllSteps();
+  const el=document.getElementById(id);
+  if(el){ el.classList.add("show"); el.style.display="block"; }
+}
+function openSnakeBattle(){ openOnlineBattle(); }
+function closeSnakeBattle(force){
+  if(!force && typeof obInMatch!=="undefined" && obInMatch){ requestLeaveOnlineBattle(); return; }
+  forceExitOnlineBattle();
+}
+window.closeSnakeBattle=closeSnakeBattle;
+window.openSnakeBattle=openSnakeBattle;
+
+function sbClearSelected(stepId){
+  const step=document.getElementById(stepId);
+  if(!step) return;
+  step.querySelectorAll(".sb-card").forEach(c=>c.classList.remove("selected"));
+}
+function sbPickMode(mode, btn){
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  sbMode=mode;
+  sbClearSelected("sbStepMode");
+  if(btn) btn.classList.add("selected");
+  const n=document.getElementById("sbModeNext");
+  if(n) n.disabled=false;
+}
+function sbPickDiff(diff, btn){
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  sbDiff=diff;
+  sbClearSelected("sbStepDiff");
+  if(btn) btn.classList.add("selected");
+  const n=document.getElementById("sbDiffNext");
+  if(n) n.disabled=false;
+}
+function sbPickSpeed(ms, btn){
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  sbSpeedMs=ms;
+  sbClearSelected("sbStepSpeed");
+  if(btn) btn.classList.add("selected");
+  const n=document.getElementById("sbSpeedNext");
+  if(n) n.disabled=false;
+}
+function sbGoMode(){ stopBattleLoop(); sbShowStep("sbStepMode"); }
+function sbGoDifficulty(){
+  if(!sbMode) return;
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  sbShowStep("sbStepDiff");
+}
+function sbGoSpeed(){
+  if(!sbDiff) return;
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  sbShowStep("sbStepSpeed");
+}
+function sbStartPlay(){
+  if(!sbMode||!sbDiff||!sbSpeedMs) return;
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  // After all selections → matchmaking wait, then battle starts
+  if(typeof beginOnlineMatchmaking==="function") beginOnlineMatchmaking();
+  else restartBattle();
+}
+
+function restartBattle(){
+  stopBattleLoop();
+  const ov=document.getElementById("sfOverlay");
+  if(ov){ ov.classList.remove("show"); ov.style.display="none"; }
+  // Always use active My Snake / custom skin
+  sbYouColors=sbGetPlayerColors();
+  sbEnemyColors={head:"#ff6b6b",body:"#9f1239",glow:"#f87171",fullColor:false};
+  sbYouLives=SB_MAX_LIVES; sbEnemyLives=SB_MAX_LIVES;
+  try{ sbSyncSurvivalHomeUI(); }catch(e){}
+  try{ sbUpdateHeartsUI(); }catch(e){}
+  sbOver=false; sbAcc=0; sbTick=0;
+  sbScoreYou=0; sbScoreEnemy=0; sbTimeLeft=60;
+  const mid=Math.floor(SB_N/2);
+  sbYou=[{x:3,y:mid},{x:2,y:mid},{x:1,y:mid}];
+  sbEnemy=[{x:SB_N-4,y:mid},{x:SB_N-3,y:mid},{x:SB_N-2,y:mid}];
+  sbYouDir={x:1,y:0}; sbYouNext={x:1,y:0};
+  sbEnemyDir={x:-1,y:0}; sbEnemyNext={x:-1,y:0};
+  sbPlaceFood("you"); sbPlaceFood("enemy"); sbPlaceFood("shared");
+  sbUpdateHud();
+  sbRunning=true; sbLast=performance.now();
+  sbAnim=requestAnimationFrame(sbLoop);
+}
+function stopBattleLoop(){
+  sbRunning=false;
+  if(sbAnim){ cancelAnimationFrame(sbAnim); sbAnim=null; }
+}
+function sbPlaceFood(which){
+  const avoid= which==="you"?sbYou: which==="enemy"?sbEnemy: sbYou.concat(sbEnemy);
+  let p, ok=false, g=0;
+  while(!ok && g++<200){
+    p={x:Math.floor(Math.random()*SB_N), y:Math.floor(Math.random()*SB_N)};
+    if(!avoid.some(s=>s.x===p.x&&s.y===p.y)) ok=true;
+  }
+  if(which==="you") sbFoodYou=p;
+  else if(which==="enemy") sbFoodEnemy=p;
+  else sbFood=p;
+}
+function sbUpdateHud(){
+  const yl=document.getElementById("sfYouLen");
+  const el=document.getElementById("sfEnemyLen");
+  const midL=document.getElementById("sfMidLabel");
+  const midV=document.getElementById("sfMidVal");
+  if(sbMode==="classic"){
+    if(yl) yl.textContent=String(sbYou.length);
+    if(el) el.textContent=String(sbEnemy.length);
+  }else if(sbMode==="time"){
+    if(yl) yl.textContent=String(sbScoreYou);
+    if(el) el.textContent=String(sbScoreEnemy);
+  }else{
+    if(yl) yl.textContent=sbScoreYou+"/10";
+    if(el) el.textContent=sbScoreEnemy+"/10";
+  }
+  if(midL) midL.textContent="Round";
+  if(midV) midV.textContent=(obRound||1)+" / "+(obMaxRounds||3);
+  if(sbMode==="time"){
+    if(midL) midL.textContent="Time · R"+obRound;
+    if(midV) midV.textContent=Math.max(0,Math.ceil(sbTimeLeft))+"s";
+  }
+}
+
+function sbSetDir(x,y){
+  if(!sbRunning || sbOver) return;
+  if(Math.abs(x)+Math.abs(y)!==1) return;
+  if(sbYouDir.x===-x && sbYouDir.y===-y) return;
+  sbYouNext={x,y};
+}
+function sbBlocked(nx,ny,selfB,otherB){
+  if(nx<0||ny<0||nx>=SB_N||ny>=SB_N) return true;
+  if(selfB.some((s,i)=>i>0&&s.x===nx&&s.y===ny)) return true;
+  if(otherB && otherB.some(s=>s.x===nx&&s.y===ny)) return true;
+  return false;
+}
+function sbAi(head, dir, body, other, food){
+  const cfg=SB_AI[sbDiff]||SB_AI.medium;
+  const opts=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}];
+  // Easy: often random / wrong
+  if(Math.random()<cfg.mistake){
+    const pool=opts.filter(o=>!(dir.x===-o.x&&dir.y===-o.y));
+    if(pool.length) return pool[Math.floor(Math.random()*pool.length)];
+  }
+  const scored=[];
+  for(const o of opts){
+    if(dir.x===-o.x&&dir.y===-o.y) continue;
+    const nx=head.x+o.x, ny=head.y+o.y;
+    if(sbBlocked(nx,ny,body, sbMode==="classic"?other:null)) continue;
+    let sc= -(Math.abs(nx-food.x)+Math.abs(ny-food.y))*(cfg.look>=2?4:2);
+    let open=0;
+    for(const o2 of opts){
+      const nnx=nx+o2.x, nny=ny+o2.y;
+      if(!sbBlocked(nnx,nny,[{x:nx,y:ny}].concat(body), sbMode==="classic"?other:null)) open++;
+    }
+    sc+=open*(cfg.look>=3?6:3);
+    // extreme: mild hunt when longer
+    if(cfg.look>=4 && other && body.length>=(other.length||0)){
+      sc -= (Math.abs(nx-other[0].x)+Math.abs(ny-other[0].y))*0.5;
+    }
+    scored.push({o,sc});
+  }
+  if(!scored.length){
+    for(const o of opts){ if(!(dir.x===-o.x&&dir.y===-o.y)) return o; }
+    return dir;
+  }
+  scored.sort((a,b)=>b.sc-a.sc);
+  if(Math.random()<cfg.second && scored.length>1) return scored[1].o;
+  return scored[0].o;
+}
+function sbMoveSnake(body, dir, food, other){
+  const head={x:body[0].x+dir.x, y:body[0].y+dir.y};
+  if(head.x<0||head.y<0||head.x>=SB_N||head.y>=SB_N) return {dead:true, body, ate:false};
+  if(body.some(s=>s.x===head.x&&s.y===head.y)) return {dead:true, body, ate:false};
+  if(sbMode==="classic" && other && other.some(s=>s.x===head.x&&s.y===head.y)) return {dead:true, body, ate:false};
+  const ate=food && head.x===food.x && head.y===food.y;
+  const next=[head].concat(body);
+  if(!ate) next.pop();
+  return {dead:false, body:next, ate, head};
+}
+function sbStep(){
+  if(!sbRunning||sbOver) return;
+  sbTick++;
+  sbYouDir=sbYouNext;
+  if(sbMode==="classic"){
+    sbEnemyNext=sbAi(sbEnemy[0], sbEnemyDir, sbEnemy, sbYou, sbFood);
+  }else{
+    sbEnemyNext=sbAi(sbEnemy[0], sbEnemyDir, sbEnemy, null, sbFoodEnemy);
+  }
+  sbEnemyDir=sbEnemyNext;
+
+  if(sbMode==="classic"){
+    // Independent moves: if one is out, the other keeps moving (no freeze)
+    const yR=sbMoveSnake(sbYou, sbYouDir, sbFood, sbEnemy);
+    const eR=sbMoveSnake(sbEnemy, sbEnemyDir, sbFood, sbYou);
+    const mid=Math.floor(SB_N/2);
+    let youDead=!!yR.dead, enemyDead=!!eR.dead;
+
+    // Head-on same cell
+    if(!yR.dead && !eR.dead && yR.head && eR.head && yR.head.x===eR.head.x && yR.head.y===eR.head.y){
+      if(sbYou.length===sbEnemy.length){ youDead=true; enemyDead=true; }
+      else if(sbYou.length>sbEnemy.length){ enemyDead=true; }
+      else { youDead=true; }
+    }
+
+    // Apply survivor moves first so the living snake never freezes
+    if(!youDead){
+      sbYou=yR.body;
+      if(yR.ate){ sbScoreYou++; sbPlayEatSound("you"); sbPlaceFood("shared"); }
+    }
+    if(!enemyDead){
+      sbEnemy=eR.body;
+      if(eR.ate){ sbScoreEnemy++; sbPlaceFood("shared"); }
+    }
+
+    // Handle your death — opponent already moved above, keeps going next frames
+    if(youDead){
+      sbLoseLife("you");
+      if(sbYouLives<=0){ sbFinish("lose"); return; }
+      sbYou=[{x:3,y:mid},{x:2,y:mid},{x:1,y:mid}];
+      sbYouDir={x:1,y:0}; sbYouNext={x:1,y:0};
+    }
+    // Handle enemy death — you already moved above, keep going
+    if(enemyDead){
+      sbLoseLife("enemy");
+      if(sbEnemyLives<=0){ sbFinish("win"); return; }
+      sbEnemy=[{x:SB_N-4,y:mid},{x:SB_N-3,y:mid},{x:SB_N-2,y:mid}];
+      sbEnemyDir={x:-1,y:0}; sbEnemyNext={x:-1,y:0};
+    }
+  }else{
+    const yR=sbMoveSnake(sbYou, sbYouDir, sbFoodYou, null);
+    const eR=sbMoveSnake(sbEnemy, sbEnemyDir, sbFoodEnemy, null);
+    if(yR.dead){
+      const mid=Math.floor(SB_N/2);
+      sbYou=[{x:3,y:mid},{x:2,y:mid},{x:1,y:mid}];
+      sbYouDir={x:1,y:0}; sbYouNext={x:1,y:0};
+    }else{
+      sbYou=yR.body;
+      if(yR.ate){ sbScoreYou++; sbPlayEatSound("you"); sbPlaceFood("you"); }
+    }
+    if(eR.dead){
+      const mid=Math.floor(SB_N/2);
+      sbEnemy=[{x:SB_N-4,y:mid},{x:SB_N-3,y:mid},{x:SB_N-2,y:mid}];
+      sbEnemyDir={x:-1,y:0}; sbEnemyNext={x:-1,y:0};
+    }else{
+      sbEnemy=eR.body;
+      if(eR.ate){ sbScoreEnemy++; sbPlaceFood("enemy"); }
+    }
+    if(sbMode==="race"){
+      if(sbScoreYou>=10){ sbFinish("win"); return; }
+      if(sbScoreEnemy>=10){ sbFinish("lose"); return; }
+    }
+  }
+  sbUpdateHud();
+}
+function sbFinish(result){
+  if(sbOver && result!=="force") return;
+  sbOver=true;
+  sbRunning=false;
+  stopBattleLoop();
+  const wasWin = result==="win";
+  const wasLose = result==="lose";
+  let delta=0;
+  if(wasWin && obBetLocked>0){
+    delta=obBetLocked;
+    frogs=(Number(frogs)||0)+delta;
+  }else if(wasLose && obBetLocked>0){
+    delta=-obBetLocked;
+    frogs=Math.max(0, Number(frogs||0)-obBetLocked);
+  }
+  if(delta!==0){
+    try{
+      localStorage.setItem("snakeFrogs",String(frogs));
+      localStorage.setItem("snakeCoins",String(frogs));
+      if(typeof savePersistentState==="function") savePersistentState();
+      if(typeof updateHomeStats==="function") updateHomeStats();
+      if(typeof showFrogToast==="function") showFrogToast((delta>0?"+":"")+delta+" Frogs");
+    }catch(e){}
+  }
+  if(wasWin) obSfx("win");
+  else if(wasLose) obSfx("lose");
+  else obSfx("click");
+
+  try{ sbDrawAll(); }catch(e){}
+
+  // After each round (1 or 2): auto 3-2-1 then next round — no question
+  if(obRound < obMaxRounds){
+    obRound += 1;
+    try{ sbApplyOpponentLabels(); }catch(e){}
+    startRoundCountdown();
+    return;
+  }
+  // Round 3 finished → final big screen
+  obNeedNewPlayer=true;
+  obInMatch=false;
+  showOnlineFinal(wasWin ? "win" : (wasLose ? "lose" : "draw"));
+}
+
+/* Play Now graphics — same board, frog, smooth snake style */
+function sbBoard(ctx,W,H,n){
+  const cell=W/n;
+  ctx.fillStyle="#143a16";
+  ctx.fillRect(0,0,W,H);
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+    if((x+y)%2===0){ ctx.fillStyle="rgba(255,255,255,0.03)"; ctx.fillRect(x*cell,y*cell,cell,cell); }
+  }
+  for(let i=0;i<80;i++){
+    ctx.fillStyle="rgba(80,170,70,0.08)";
+    ctx.fillRect((i*83)%W,(i*137)%H,2,5);
+  }
+  return cell;
+}
+function sbDrawFrogOn(ctx, fx, fy, cell){
+  // Same frog as simple/Play Now mode (FROG_IMG)
+  const sz = cell * 1.55;
+  ctx.save();
+  ctx.shadowBlur = 14;
+  ctx.shadowColor = "#71ff70";
+  if(typeof FROG_IMG !== "undefined" && FROG_IMG.complete && FROG_IMG.naturalWidth){
+    ctx.drawImage(FROG_IMG, fx - sz/2, fy - sz/2, sz, sz);
+  } else {
+    // fallback simple frog if image not ready
+    const s = cell * 0.42;
+    ctx.translate(fx, fy);
+    ctx.fillStyle = "#2d8f3a";
+    ctx.beginPath(); ctx.ellipse(0, 2, s*1.05, s*0.85, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#3cb54a";
+    ctx.beginPath(); ctx.ellipse(0, 0, s*0.95, s*0.75, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#b8e86a";
+    ctx.beginPath(); ctx.ellipse(0, 3, s*0.55, s*0.45, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.beginPath(); ctx.arc(-s*0.35, -s*0.45, s*0.28, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc( s*0.35, -s*0.45, s*0.28, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#1a1a1a";
+    ctx.beginPath(); ctx.arc(-s*0.32, -s*0.42, s*0.14, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc( s*0.38, -s*0.42, s*0.14, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.shadowBlur = 0;
+  ctx.restore();
+}
+function sbDrawSmoothOn(ctx, pts, bodyColor, glowColor, fullColor, cell){
+  if(!pts||!pts.length) return;
+  const px=pts.map(p=>({x:p.x*cell+cell/2, y:p.y*cell+cell/2}));
+  ctx.lineJoin="round"; ctx.lineCap="round";
+  // shadow
+  ctx.strokeStyle="rgba(0,0,0,0.22)";
+  ctx.lineWidth=cell*0.55;
+  if(px.length===1){
+    ctx.fillStyle="rgba(0,0,0,0.2)";
+    ctx.beginPath(); ctx.arc(px[0].x+2,px[0].y+3,cell*0.28,0,Math.PI*2); ctx.fill();
+  }else{
+    ctx.beginPath(); ctx.moveTo(px[0].x+2,px[0].y+3);
+    for(let i=1;i<px.length;i++) ctx.lineTo(px[i].x+2,px[i].y+3);
+    ctx.stroke();
+  }
+  // outer glow
+  ctx.shadowColor=glowColor; ctx.shadowBlur=fullColor?16:10;
+  ctx.strokeStyle=glowColor; ctx.lineWidth=cell*(fullColor?0.62:0.52);
+  if(px.length===1){
+    ctx.fillStyle=glowColor;
+    ctx.beginPath(); ctx.arc(px[0].x,px[0].y,cell*0.28,0,Math.PI*2); ctx.fill();
+  }else{
+    ctx.beginPath(); ctx.moveTo(px[0].x,px[0].y);
+    for(let i=1;i<px.length;i++) ctx.lineTo(px[i].x,px[i].y);
+    ctx.stroke();
+  }
+  ctx.shadowBlur=0;
+  // body core
+  const core=fullColor?bodyColor:bodyColor;
+  ctx.strokeStyle=core; ctx.lineWidth=cell*(fullColor?0.42:0.36);
+  if(px.length===1){
+    ctx.fillStyle=core;
+    ctx.beginPath(); ctx.arc(px[0].x,px[0].y,cell*0.22,0,Math.PI*2); ctx.fill();
+  }else{
+    ctx.beginPath(); ctx.moveTo(px[0].x,px[0].y);
+    for(let i=1;i<px.length;i++) ctx.lineTo(px[i].x,px[i].y);
+    ctx.stroke();
+  }
+  // head
+  const h=px[0];
+  let dir={x:1,y:0};
+  if(px.length>1){ dir={x:px[0].x-px[1].x, y:px[0].y-px[1].y}; }
+  const ang=Math.atan2(dir.y, dir.x);
+  const hr=cell*(fullColor?0.48:0.42);
+  ctx.save();
+  ctx.translate(h.x,h.y); ctx.rotate(ang);
+  ctx.shadowColor=glowColor; ctx.shadowBlur=fullColor?18:12;
+  ctx.fillStyle=bodyColor;
+  ctx.beginPath(); ctx.ellipse(2,0,hr*1.15,hr*0.88,0,0,Math.PI*2); ctx.fill();
+  ctx.shadowBlur=0;
+  ctx.fillStyle="rgba(255,255,255,0.16)";
+  ctx.beginPath(); ctx.ellipse(0,-hr*0.25,hr*0.7,hr*0.35,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="#f5f5f0";
+  ctx.beginPath(); ctx.arc(hr*0.15,-hr*0.42,fullColor?5:4,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(hr*0.15, hr*0.42,fullColor?5:4,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="#1a1a12";
+  ctx.beginPath(); ctx.arc(hr*0.28,-hr*0.42,fullColor?2.4:1.9,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(hr*0.28, hr*0.42,fullColor?2.4:1.9,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+function sbDrawArena(canvas, body, food, colors){
+  if(!canvas) return;
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width, H=canvas.height;
+  const cell=sbBoard(ctx,W,H,SB_N);
+  if(food) sbDrawFrogOn(ctx, food.x*cell+cell/2, food.y*cell+cell/2, cell);
+  const full=!!colors.fullColor;
+  sbDrawSmoothOn(ctx, body, colors.body||colors.head, colors.glow||colors.head, full, cell);
+}
+function sbDrawClassic(){
+  const canvas=document.getElementById("fightCanvas");
+  if(!canvas) return;
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width, H=canvas.height;
+  const cell=sbBoard(ctx,W,H,SB_N);
+  if(sbFood) sbDrawFrogOn(ctx, sbFood.x*cell+cell/2, sbFood.y*cell+cell/2, cell);
+  sbDrawSmoothOn(ctx, sbEnemy, sbEnemyColors.body, sbEnemyColors.glow, false, cell);
+  const full=!!sbYouColors.fullColor;
+  sbDrawSmoothOn(ctx, sbYou, sbYouColors.body||sbYouColors.head, sbYouColors.glow, full, cell);
+}
+function sbDrawAll(){
+  // Keep your selected snake skin applied live
+  try{ sbYouColors=sbGetPlayerColors(); }catch(e){}
+  if(sbMode==="classic") sbDrawClassic();
+  else{
+    sbDrawArena(document.getElementById("fightCanvasYou"), sbYou, sbFoodYou, sbYouColors);
+    sbDrawArena(document.getElementById("fightCanvasEnemy"), sbEnemy, sbFoodEnemy, sbEnemyColors);
+  }
+}
+
+function sbLoop(ts){
+  if(sbOver){ try{ sbDrawAll(); }catch(e){} return; }
+  if(!sbRunning){ return; }
+  const dt=Math.min(40, ts-sbLast);
+  sbLast=ts;
+  if(sbMode==="time"){
+    sbTimeLeft-=dt/1000;
+    if(sbTimeLeft<=0){
+      sbTimeLeft=0;
+      sbUpdateHud();
+      if(sbScoreYou>sbScoreEnemy) sbFinish("win");
+      else if(sbScoreYou<sbScoreEnemy) sbFinish("lose");
+      else sbFinish("draw");
+      return;
+    }
+  }
+  sbAcc+=dt;
+  const stepMs=sbSpeedMs||135;
+  while(sbAcc>=stepMs){
+    sbAcc-=stepMs;
+    sbStep();
+    if(sbOver) break;
+  }
+  sbUpdateHud();
+  sbDrawAll();
+  if(sbRunning&&!sbOver) sbAnim=requestAnimationFrame(sbLoop);
+}
+
+document.addEventListener("keydown", function(e){
+  const sc=document.getElementById("snakeFight");
+  if(!sc||!sc.classList.contains("active")) return;
+  if(!document.getElementById("sbPlay")?.classList.contains("show")) return;
+  const tag=(e.target&&e.target.tagName||"").toLowerCase();
+  if(tag==="input"||tag==="textarea") return;
+  const code=e.code||"", k=(e.key||"").toLowerCase();
+  let h=false;
+  if(code==="KeyW"||code==="ArrowUp"||k==="w"||k==="arrowup"){ sbSetDir(0,-1); h=true; }
+  else if(code==="KeyS"||code==="ArrowDown"||k==="s"||k==="arrowdown"){ sbSetDir(0,1); h=true; }
+  else if(code==="KeyA"||code==="ArrowLeft"||k==="a"||k==="arrowleft"){ sbSetDir(-1,0); h=true; }
+  else if(code==="KeyD"||code==="ArrowRight"||k==="d"||k==="arrowright"){ sbSetDir(1,0); h=true; }
+  if(h) e.preventDefault();
+}, {passive:false});
+
+(function(){
+  function bind(id){
+    const canvas=document.getElementById(id);
+    if(!canvas) return;
+    let t0=null;
+    canvas.addEventListener("touchstart", e=>{ t0=e.changedTouches[0]; }, {passive:true});
+    canvas.addEventListener("touchend", e=>{
+      if(!t0) return;
+      const t=e.changedTouches[0];
+      const dx=t.clientX-t0.clientX, dy=t.clientY-t0.clientY;
+      t0=null;
+      if(Math.max(Math.abs(dx),Math.abs(dy))<22) return;
+      if(Math.abs(dx)>Math.abs(dy)) sbSetDir(dx>0?1:-1,0);
+      else sbSetDir(0,dy>0?1:-1);
+    }, {passive:true});
+  }
+  setTimeout(function(){
+    bind("fightCanvas"); bind("fightCanvasYou");
+  }, 400);
+})();
+
+window.openSnakeBattle=openSnakeBattle;
+window.openSnakeFight=openSnakeBattle;
+window.closeSnakeBattle=closeSnakeBattle;
+window.closeSnakeFight=closeSnakeBattle;
+window.restartBattle=restartBattle;
+window.sbPickMode=sbPickMode;
+window.sbPickDiff=sbPickDiff;
+window.sbPickSpeed=sbPickSpeed;
+window.sbGoMode=sbGoMode;
+window.sbGoDifficulty=sbGoDifficulty;
+window.sbGoSpeed=sbGoSpeed;
+window.sbStartPlay=sbStartPlay;
+window.startBattleMode=function(m){ sbPickMode(m); sbGoDifficulty(); };
+window.backToBattleMenu=sbGoMode;
+window.startSnakeFight=function(){ sbStartPlay(); };
+
 /* ===== Bonus Codes (multiple one-time codes) ===== */
 const BONUS_CODES={
- "000111222":{frogs:100000, label:"Mega Jackpot"},
- "SNAKEKING":{frogs:5000, label:"Snake King"},
- "FROG2026":{frogs:2500, label:"Frog Year"},
- "BALOGAMES":{frogs:1000, label:"Balo Games"}
+  "000111222":{frogs:100000, label:"Mega Jackpot"},
+  "SNAKEKING":{frogs:5000, label:"Snake King"},
+  "FROG2026":{frogs:2500, label:"Frog Year"},
+  "BALOGAMES":{frogs:1000, label:"Balo Games"},
+  "X9K2M7QP":{frogs:10000, label:"Vault Gold"},
+  "R4TN8W2H":{frogs:7500, label:"Vault Silver"},
+  "P3LQ9Z5C":{frogs:5000, label:"Vault Bronze"},
+  "H7VB2N9K":{frogs:3000, label:"Deep Nest"},
+  "M2Q8XR4T":{frogs:2000, label:"Swamp Key"},
+  "Z5C9K3WP":{frogs:1500, label:"Lily Key"},
+  "G8LEHXMG":{frogs:100, label:"Vault 1"},
+  "XSTGXXVV":{frogs:175, label:"Vault 2"},
+  "D2X6PYVW":{frogs:250, label:"Vault 3"},
+  "RGWGEUY9":{frogs:325, label:"Vault 4"},
+  "MCASUBSG":{frogs:400, label:"Vault 5"},
+  "BXYPF5J8":{frogs:400, label:"Vault 6"},
+  "PCFRPCHH":{frogs:525, label:"Vault 7"},
+  "MDJBRWDC":{frogs:650, label:"Vault 8"},
+  "BKLEF3MS":{frogs:825, label:"Vault 9"},
+  "TAFAELMJ":{frogs:900, label:"Vault 10"},
+  "FJBTZ6UB":{frogs:1000, label:"Vault 11"},
+  "SKHVZWLH":{frogs:1225, label:"Vault 12"},
+  "HUVYKHKY":{frogs:1550, label:"Vault 13"},
+  "XQSZEYXJ":{frogs:1875, label:"Vault 14"},
+  "QFFERNGP":{frogs:2100, label:"Vault 15"},
+  "CHVEUND4":{frogs:2500, label:"Vault 16"},
+  "V3XAUUC5":{frogs:3025, label:"Vault 17"},
+  "ADNJTZC3":{frogs:3550, label:"Vault 18"},
+  "ACU7JBB3":{frogs:4075, label:"Vault 19"},
+  "GSFBLBK8":{frogs:5100, label:"Vault 20"},
+  "YMCMH7CP":{frogs:100, label:"Vault 21"},
+  "F8S4EXJ8":{frogs:175, label:"Vault 22"},
+  "YGDHJYWD":{frogs:250, label:"Vault 23"},
+  "C6NXMFZ3":{frogs:325, label:"Vault 24"},
+  "U6VZPSHV":{frogs:400, label:"Vault 25"},
+  "VZSAXUNP":{frogs:400, label:"Vault 26"},
+  "HPGKHRMS":{frogs:525, label:"Vault 27"},
+  "RJVTPBJB":{frogs:650, label:"Vault 28"},
+  "GPDHAZFZ":{frogs:825, label:"Vault 29"},
+  "C9C8FEHM":{frogs:900, label:"Vault 30"},
+  "E9JHA4JM":{frogs:1000, label:"Vault 31"},
+  "K3J3QBZK":{frogs:1225, label:"Vault 32"},
+  "DQNGTUMZ":{frogs:1550, label:"Vault 33"},
+  "KSZAZ6GP":{frogs:1875, label:"Vault 34"},
+  "FPAXHQFJ":{frogs:2100, label:"Vault 35"},
+  "DPH4SSUS":{frogs:2500, label:"Vault 36"},
+  "PYF3QDYB":{frogs:3025, label:"Vault 37"},
+  "HXH8MBHC":{frogs:3550, label:"Vault 38"},
+  "KVJTGHVB":{frogs:4075, label:"Vault 39"},
+  "K9JPQVQ4":{frogs:5100, label:"Vault 40"},
+  "ZVAPLEHG":{frogs:100, label:"Vault 41"},
+  "ZTMQUFGJ":{frogs:175, label:"Vault 42"},
+  "P8FLGFVX":{frogs:250, label:"Vault 43"},
+  "USWYNEHH":{frogs:325, label:"Vault 44"},
+  "SUNVQTVY":{frogs:400, label:"Vault 45"},
+  "GMTMBFWJ":{frogs:400, label:"Vault 46"},
+  "KKENU3AS":{frogs:525, label:"Vault 47"},
+  "LPYBMVQS":{frogs:650, label:"Vault 48"},
+  "AQR5AXHQ":{frogs:825, label:"Vault 49"},
+  "FVSXWCQZ":{frogs:900, label:"Vault 50"},
+  "MBCXPJCT":{frogs:1000, label:"Vault 51"},
+  "RVE5LYRU":{frogs:1225, label:"Vault 52"},
+  "ASH4UHR8":{frogs:1550, label:"Vault 53"},
+  "HAUGULSU":{frogs:1875, label:"Vault 54"},
+  "MBWQK4HB":{frogs:2100, label:"Vault 55"},
+  "SSLDBXKA":{frogs:2500, label:"Vault 56"},
+  "ZFY3NNDH":{frogs:3025, label:"Vault 57"},
+  "WGNQZFPB":{frogs:3550, label:"Vault 58"},
+  "QZNRZSA3":{frogs:4075, label:"Vault 59"},
+  "GZZXZ7ZQ":{frogs:5100, label:"Vault 60"},
+  "CNXUDMRS":{frogs:100, label:"Vault 61"},
+  "ZBDMPPBS":{frogs:175, label:"Vault 62"},
+  "VZFBGSDK":{frogs:250, label:"Vault 63"},
+  "GLV3XMDH":{frogs:325, label:"Vault 64"},
+  "Q6ANDTMV":{frogs:400, label:"Vault 65"},
+  "CGDJHAMZ":{frogs:400, label:"Vault 66"},
+  "L4EWT8U2":{frogs:525, label:"Vault 67"},
+  "HSFPH7UQ":{frogs:650, label:"Vault 68"},
+  "KDDCBJKN":{frogs:825, label:"Vault 69"},
+  "MVLTMMVM":{frogs:900, label:"Vault 70"},
+  "ZBWUZJAK":{frogs:1000, label:"Vault 71"},
+  "NWMWPRZM":{frogs:1225, label:"Vault 72"},
+  "P2WKP5UZ":{frogs:1550, label:"Vault 73"},
+  "ARHBTXV2":{frogs:1875, label:"Vault 74"},
+  "KCLQJKHX":{frogs:2100, label:"Vault 75"},
 };
+function normalizeBonusCode(raw){
+  // Case-insensitive: upper/lower both OK. Strip spaces and dashes.
+  return String(raw||"").trim().toUpperCase().replace(/[\s\-_]+/g,"");
+}
 function getUsedBonusCodes(){
- try{ return JSON.parse(localStorage.getItem("snakeBonusCodesUsed")||"[]"); }catch(e){ return []; }
+  try{
+    const a=JSON.parse(localStorage.getItem("snakeBonusCodesUsed")||"[]");
+    return Array.isArray(a)?a.map(normalizeBonusCode):[];
+  }catch(e){ return []; }
 }
 function markBonusUsed(code){
- const used=getUsedBonusCodes();
- if(!used.includes(code)) used.push(code);
- localStorage.setItem("snakeBonusCodesUsed",JSON.stringify(used));
- // legacy flag for old single code
- if(code==="000111222") localStorage.setItem("snakeBonusCodeUsed","1");
+  const key=normalizeBonusCode(code);
+  const used=getUsedBonusCodes();
+  if(!used.includes(key)) used.push(key);
+  localStorage.setItem("snakeBonusCodesUsed", JSON.stringify(used));
 }
-function openBonusCode(){
- playClick();
- const ov=document.getElementById("bonusOverlay");
- const inp=document.getElementById("bonusCodeInput");
- const st=document.getElementById("bonusStatus");
- const btn=document.getElementById("bonusClaimBtn");
- if(st){ st.textContent=""; st.className="bonus-status"; }
- if(inp){ inp.value=""; inp.disabled=false; }
- if(btn) btn.disabled=false;
- if(ov) ov.classList.add("show");
- setTimeout(function(){ if(inp) inp.focus(); }, 120);
+function findBonusEntry(raw){
+  const code=normalizeBonusCode(raw);
+  if(!code) return null;
+  for(const k of Object.keys(BONUS_CODES)){
+    if(normalizeBonusCode(k)===code){
+      return {key:normalizeBonusCode(k), entry:BONUS_CODES[k]};
+    }
+  }
+  return null;
 }
-function closeBonusCode(){
- playClick();
- const ov=document.getElementById("bonusOverlay");
- if(ov) ov.classList.remove("show");
-}
-function redeemBonusCode(){
- playClick();
- const inp=document.getElementById("bonusCodeInput");
- const st=document.getElementById("bonusStatus");
- const code=(inp?.value||"").trim().toUpperCase();
- if(!code){
-  if(st){ st.textContent="Please enter a code."; st.className="bonus-status err"; }
-  return;
- }
- const used=getUsedBonusCodes();
- // also accept lowercase keys
- const entry=BONUS_CODES[code] || BONUS_CODES[code.toLowerCase()] || Object.entries(BONUS_CODES).find(([k])=>k.toUpperCase()===code)?.[1];
- const key=Object.keys(BONUS_CODES).find(k=>k.toUpperCase()===code);
- if(!entry || !key){
-  if(st){ st.textContent="Invalid code. Try again."; st.className="bonus-status err"; }
-  return;
- }
- if(used.includes(key) || (key==="000111222" && localStorage.getItem("snakeBonusCodeUsed")==="1")){
-  if(st){ st.textContent="This code was already claimed!"; st.className="bonus-status err"; }
-  return;
- }
- const amount=entry.frogs;
- frogs = (Number(frogs)||0) + amount;
- localStorage.setItem("snakeFrogs",String(frogs));
- localStorage.setItem("snakeCoins",String(frogs));
- markBonusUsed(key);
- if(typeof savePersistentState==="function") savePersistentState();
- updateHomeStats();
- showFrogToast("+"+amount.toLocaleString()+" Frogs!");
- if(st){ st.textContent="🎉 "+entry.label+"! +"+amount.toLocaleString()+" Frogs"; st.className="bonus-status ok"; }
- if(inp) inp.value="";
- setTimeout(()=>{ closeBonusCode(); }, 1600);
-}
+window.openBonusCode=function(){
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  var ov=document.getElementById("bonusOverlay");
+  var inp=document.getElementById("bonusCodeInput");
+  var st=document.getElementById("bonusStatus");
+  var claim=document.getElementById("bonusClaimBtn");
+  if(st){ st.textContent=""; st.className="bonus-status"; }
+  if(inp){ inp.value=""; inp.disabled=false; }
+  if(claim) claim.disabled=false;
+  if(ov){ ov.classList.add("show"); ov.style.display="flex"; }
+  setTimeout(function(){ try{ if(inp) inp.focus(); }catch(e){} }, 80);
+};
+window.closeBonusCode=function(){
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  var ov=document.getElementById("bonusOverlay");
+  if(ov){ ov.classList.remove("show"); ov.style.display="none"; }
+};
+window.redeemBonusCode=function(){
+  try{ if(typeof playClick==="function") playClick(); }catch(e){}
+  var inp=document.getElementById("bonusCodeInput");
+  var st=document.getElementById("bonusStatus");
+  var claim=document.getElementById("bonusClaimBtn");
+  var raw=inp?inp.value:"";
+  if(!normalizeBonusCode(raw)){
+    if(st){ st.textContent="Please enter a code."; st.className="bonus-status err"; }
+    return;
+  }
+  var found=findBonusEntry(raw);
+  if(!found){
+    if(st){ st.textContent="Invalid code. Try again."; st.className="bonus-status err"; }
+    return;
+  }
+  if(getUsedBonusCodes().includes(found.key)){
+    if(st){ st.textContent="This code was already claimed!"; st.className="bonus-status err"; }
+    return;
+  }
+  var amount=Number(found.entry.frogs)||0;
+  try{
+    frogs=(Number(frogs)||0)+amount;
+    localStorage.setItem("snakeFrogs",String(frogs));
+    localStorage.setItem("snakeCoins",String(frogs));
+    markBonusUsed(found.key);
+    if(typeof savePersistentState==="function") savePersistentState();
+    if(typeof updateHomeStats==="function") updateHomeStats();
+    if(typeof showFrogToast==="function") showFrogToast("+"+amount.toLocaleString()+" Frogs!");
+  }catch(err){
+    if(st){ st.textContent="Error claiming code."; st.className="bonus-status err"; }
+    return;
+  }
+  if(st){ st.textContent="Success! +"+amount.toLocaleString()+" Frogs"; st.className="bonus-status ok"; }
+  if(inp) inp.value="";
+  if(claim) claim.disabled=true;
+  setTimeout(function(){ window.closeBonusCode(); if(claim) claim.disabled=false; }, 1000);
+};
+(function setupBonusButtons(){
+  function bind(){
+    var claim=document.getElementById("bonusClaimBtn");
+    var closeBtn=document.getElementById("bonusCloseBtn");
+    var inp=document.getElementById("bonusCodeInput");
+    var ov=document.getElementById("bonusOverlay");
+    if(claim) claim.onclick=function(e){ e&&e.preventDefault(); window.redeemBonusCode(); };
+    if(closeBtn) closeBtn.onclick=function(e){ e&&e.preventDefault(); window.closeBonusCode(); };
+    if(inp) inp.onkeydown=function(e){ if(e.key==="Enter"){ e.preventDefault(); window.redeemBonusCode(); } };
+    if(ov) ov.onclick=function(e){ if(e.target===ov) window.closeBonusCode(); };
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", bind);
+  else bind();
+  setTimeout(bind, 300);
+  setTimeout(bind, 1000);
+})();
 
 /* ===== Lucky Spin (daily 3 free — snake prizes) ===== */
 /* 8 equal segments. Index 0 is at TOP under the pointer when rotation=0.
@@ -3055,22 +4860,36 @@ function placeFood(){
 function setDir(x,y){
  if(!gameRunning || paused) return;
  if((x===0 && y===0) || Math.abs(x)+Math.abs(y)!==1) return;
- // Prevent two very fast turns from creating a 180-degree reversal.
- if(turnLocked) return;
+ // Block only instant 180 vs current travel direction (allow queued turn)
+ if(dir.x===-x && dir.y===-y) return;
  if(nextDir.x===-x && nextDir.y===-y) return;
  nextDir={x,y};
- turnLocked=true;
 }
-window.addEventListener("keydown",e=>{
- const k=e.key.toLowerCase();
- const keys=["arrowup","w","arrowdown","s","arrowleft","a","arrowright","d","p"," "];
- if(keys.includes(k)) e.preventDefault();
- if(["arrowup","w"].includes(k)) setDir(0,-1);
- else if(["arrowdown","s"].includes(k)) setDir(0,1);
- else if(["arrowleft","a"].includes(k)) setDir(-1,0);
- else if(["arrowright","d"].includes(k)) setDir(1,0);
- else if(k==="p"||k===" ") pauseGame();
-});
+window.setDir=setDir;
+function handleGameKeys(e){
+ // Ignore when typing in inputs
+ const tag=(e.target&&e.target.tagName||"").toLowerCase();
+ if(tag==="input"||tag==="textarea"||(e.target&&e.target.isContentEditable)) return;
+ // Ignore when bonus/spin/sell overlays open
+ if(document.getElementById("bonusOverlay")?.classList.contains("show")) return;
+ if(document.getElementById("spinOverlay")?.classList.contains("show")) return;
+ if(document.getElementById("sellOverlay")?.classList.contains("show")) return;
+ if(document.getElementById("giftOverlay")?.classList.contains("show")) return;
+ if(document.getElementById("specialOverlay")?.classList.contains("show")) return;
+ if(document.getElementById("snakeFight")?.classList.contains("active")) return;
+
+ const code=e.code||"";
+ const k=(e.key||"").toLowerCase();
+ let handled=false;
+ if(code==="KeyW"||code==="ArrowUp"||k==="w"||k==="arrowup"){ setDir(0,-1); handled=true; }
+ else if(code==="KeyS"||code==="ArrowDown"||k==="s"||k==="arrowdown"){ setDir(0,1); handled=true; }
+ else if(code==="KeyA"||code==="ArrowLeft"||k==="a"||k==="arrowleft"){ setDir(-1,0); handled=true; }
+ else if(code==="KeyD"||code==="ArrowRight"||k==="d"||k==="arrowright"){ setDir(1,0); handled=true; }
+ else if(code==="KeyP"||k==="p"||k===" "){ if(typeof pauseGame==="function") pauseGame(); handled=true; }
+ if(handled) e.preventDefault();
+}
+window.addEventListener("keydown", handleGameKeys, {passive:false});
+document.addEventListener("keydown", handleGameKeys, {passive:false});
 let touchStart=null;
 canvas.addEventListener("touchstart",e=>{touchStart=e.changedTouches[0];},{passive:true});
 canvas.addEventListener("touchend",e=>{
@@ -3851,8 +5670,23 @@ setInterval(function(){
   if(document.getElementById("home")?.classList.contains("active")){
     updateDailyUI();
     updateSpecialUI();
-  }
+     }
 },1000);
+
+// Global click backup — ensures critical buttons always fire
+document.addEventListener("click", function(ev){
+  var t = ev.target;
+  if(!t) return;
+  var id = t.id || (t.closest && t.closest("[id]") && t.closest("[id]").id);
+  if(t.id==="bonusClaimBtn" || (t.closest && t.closest("#bonusClaimBtn"))){
+    ev.preventDefault();
+    if(typeof window.redeemBonusCode==="function") window.redeemBonusCode();
+  } else if(t.id==="bonusCloseBtn" || (t.closest && t.closest("#bonusCloseBtn"))){
+    ev.preventDefault();
+    if(typeof window.closeBonusCode==="function") window.closeBonusCode();
+  }
+}, true);
+
 </script>
 </body>
 </html>
