@@ -811,7 +811,7 @@
     const panel = document.getElementById("balo-size-editor-panel");
     const root = document.documentElement;
     const config = {
-      cols: { variable: "--balo-grid-cols", suffix: "", output: "bse-cols-out", initial: 6 },
+      cols: { variable: "--balo-grid-cols", suffix: "", output: "bse-cols-out", initial: Math.min(6, window.innerWidth <= 380 ? 2 : window.innerWidth <= 650 ? 3 : window.innerWidth <= 1100 ? 4 : 6) },
       gap: { variable: "--balo-grid-gap", suffix: "px", output: "bse-gap-out", initial: 17 },
       radius: { variable: "--balo-card-radius", suffix: "px", output: "bse-radius-out", initial: 17 },
       border: { variable: "--balo-card-border", suffix: "px", output: "bse-border-out", initial: 3 },
