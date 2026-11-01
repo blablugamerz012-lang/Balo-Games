@@ -659,6 +659,17 @@
       #balo-size-editor-panel .bse-section { padding:11px; }
     }
 
+  
+    /* Stable sticky header: logo and search remain in the header while scrolling */
+    .site-header { position:sticky; top:0; z-index:4000; flex-wrap:nowrap; justify-content:space-between; min-width:0; box-shadow:0 4px 16px rgba(0,0,0,.18); }
+    .site-header .brand { flex:0 0 auto; min-width:0; }
+    .header-search { display:flex; align-items:center; width:min(340px,38vw); min-width:170px; height:44px; margin-left:auto; overflow:hidden; border:2px solid #fff; border-radius:14px; background:#fff; box-shadow:0 3px 12px rgba(0,0,0,.18); }
+    .header-search input { width:100%; min-width:0; height:100%; padding:0 13px; border:0; outline:0; color:#17213a; background:#fff; font:14px Arial,sans-serif; }
+    .header-search button { height:100%; flex:0 0 46px; border:0; background:#0754c9; color:#fff; font-size:23px; cursor:pointer; }
+    .header-search button:hover { background:#ff1493; }
+    @media(max-width:650px) { .site-header { gap:9px; padding:10px; } .site-header .brand { font-size:19px; gap:7px; } .site-header .logo { width:36px; height:36px; } .header-search { width:clamp(120px,40vw,190px); min-width:0; height:38px; } .header-search input { padding:0 8px; font-size:12px; } .header-search button { flex-basis:34px; font-size:19px; } }
+    @media(max-width:380px) { .site-header .brand { font-size:16px; gap:5px; } .site-header .logo { width:30px; height:30px; } .header-search { width:118px; } }
+
   </style>
 </head>
 
@@ -670,6 +681,7 @@
       <img class="logo" src="./icon/icon.png" alt="Balo Games logo">
       <span>Balo Games</span>
     </a>
+    <form class="header-search" id="searchForm" role="search" aria-label="Search games"><input type="search" id="gameSearch" placeholder="Search games..." aria-label="Search games" autocomplete="off"><button type="submit" aria-label="Search">⌕</button></form>
     <button id="balo-size-editor" type="button" aria-haspopup="dialog">⚙ Size Editor</button>
   </header>
 
@@ -689,10 +701,7 @@
         <h1>Balo Games</h1>
         <p>Discover and play browser games on Balo Games.</p>
       </div>
-      <form class="search-box" id="searchForm">
-        <input type="search" id="gameSearch" placeholder="Search games..." aria-label="Search games">
-        <button type="submit" id="searchSubmit" aria-label="Search">⌕</button>
-      </form>
+      
     </div>
     <nav class="categories" aria-label="Game categories">
       <button class="category-btn category active" data-category="all" aria-pressed="true" type="button">All Games</button>
