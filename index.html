@@ -67,7 +67,7 @@
       top: 0;
       z-index: 5000;
     }
-    .brand { display: flex; align-items: center; gap: 12px; font-size: 28px; font-weight: 900; cursor: pointer; flex-shrink: 0; }
+    .brand { display: flex; align-items: center; gap: 12px; font-size: 28px; font-weight: 900; cursor: pointer; flex-shrink: 0; color: inherit; text-decoration: none; }
     .logo { width: 45px; height: 45px; object-fit: contain; }
     .logo-fallback { display:none; place-items:center; width:45px; height:45px; border-radius:12px; background:linear-gradient(135deg,#ff1493,#7b2cff); color:#fff; font-size:18px; font-weight:900; box-shadow:0 5px 15px rgba(0,0,0,.25); }
 
@@ -680,6 +680,12 @@
       margin-bottom: 14px;
     }
     .fav-page-bar h2 { margin: 0; }
+    .fav-home-btn {
+      border: 2px solid #fff; background: #0878ee; color: #fff;
+      border-radius: 10px; padding: 8px 14px; font-weight: 800;
+      font-size: 13px; cursor: pointer;
+    }
+    .fav-home-btn:hover { filter: brightness(1.12); }
     #removeFavModeBtn {
       border: 2px solid #fff;
       background: rgba(255,20,147,0.25);
@@ -961,11 +967,10 @@
 
 
   <header>
-    <div class="brand" onclick="goHome()">
-      <img class="logo" src="./icon.png" alt="Balo Games logo" onerror="this.style.display='none';var f=this.nextElementSibling;if(f){f.style.display='grid';}">
-      <span class="logo-fallback" aria-hidden="true">BG</span>
+    <a class="brand" href="./index.html" onclick="goHome(); return false;" aria-label="Balo Games Home">
+      <img class="logo" src="./icon/icon.png" alt="Balo Games logo">
       <span>Balo Games</span>
-    </div>
+    </a>
     <button type="button" id="loginBtn" title="Login" aria-label="Login">
       <span class="login-ico">👤</span>
       <span class="login-label">Login</span>
@@ -1403,6 +1408,7 @@
       }
       bar.innerHTML = `
         <h2 class="section-title" style="margin:0;">⭐ Favorite Games</h2>
+        <button type="button" class="fav-home-btn" onclick="goHome()">⌂ Home</button>
         <button type="button" id="removeFavModeBtn" class="${removeFavMode ? "active" : ""}">${removeFavMode ? "Cancel Remove" : "Remove Favourite"}</button>
         <div id="removeFavHint" class="${removeFavMode ? "show" : ""}">Select a game below, then confirm to remove it from Favorites.</div>
       `;
@@ -1454,6 +1460,10 @@
       document.getElementById("gameScreenView").classList.remove("active");
       document.getElementById("homeScreenView").classList.remove("hidden");
       document.getElementById("gameFrame").src = "";
+      renderHome("all");
+      document.querySelectorAll(".category-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.cat === "all");
+      });
       window.scrollTo(0, 0);
     }
 
