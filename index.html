@@ -1,888 +1,954 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Balo Games</title>
-  <meta name="description" content="Balo Games is a gaming website where players can discover and play browser games, including action, adventure, and arcade games.">
-  <link rel="canonical" href="https://blablugamerz012-lang.github.io/Balo-Games/">
-  <meta name="keywords" content="Balo Games, online games, action games, adventure games, arcade games">
-  <meta name="theme-color" content="#ff1493">
-  <meta property="og:site_name" content="Balo Games">
-  <meta property="og:title" content="Balo Games">
-  <meta property="og:description" content="Discover and play browser games on Balo Games, including action, adventure, and arcade games.">
-  <meta property="og:url" content="https://blablugamerz012-lang.github.io/Balo-Games/">
-  <meta property="og:type" content="website">
+<title>Balo Games</title>
 
-  <link rel="icon" type="image/png" href="./icon/icon.png">
+<meta name="description" content="Balo Games is a browser gaming website where players can discover and play games.">
+<meta name="keywords" content="Balo Games, online games, action games, adventure games, arcade games">
+<meta name="robots" content="index, follow">
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Balo Games",
-    "url": "https://blablugamerz012-lang.github.io/Balo-Games/"
-  }
-  </script>
+<link rel="canonical" href="https://blablugamerz012-lang.github.io/Balo-Games/">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<meta property="og:title" content="Balo Games">
+<meta property="og:description" content="Discover and play browser games on Balo Games.">
+<meta property="og:url" content="https://blablugamerz012-lang.github.io/Balo-Games/">
+<meta property="og:type" content="website">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#071a48;
+    color:#fff;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+button{
+    font-family:inherit;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    min-height:82px;
+    padding:12px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    background:linear-gradient(90deg,#4f454a,#ff1ac2);
+    box-shadow:0 4px 15px rgba(0,0,0,.25);
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    font-size:30px;
+    font-weight:900;
+    text-decoration:none;
+    white-space:nowrap;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:#fff;
+    color:#ff1493;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    font-weight:900;
+    box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.search-box{
+    width:230px;
+    height:44px;
+    border:0;
+    outline:none;
+    border-radius:25px;
+    padding:0 18px;
+    font-size:15px;
+    background:#fff;
+    color:#222;
+}
+
+.login-btn{
+    border:0;
+    background:#087cff;
+    color:#fff;
+    padding:12px 20px;
+    border-radius:24px;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,.25);
+}
+
+.login-btn:hover{
+    transform:translateY(-1px);
+    background:#006be5;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:245px;
+    padding:35px 20px;
+    background:linear-gradient(135deg,#0712ab,#0754c9);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.hero-content{
+    max-width:850px;
+}
+
+.hero h1{
+    font-size:52px;
+    font-weight:900;
+    margin-bottom:10px;
+}
+
+.hero p{
+    font-size:18px;
+    opacity:.95;
+    margin-bottom:22px;
+}
+
+.hero-search{
+    width:min(600px,90vw);
+    height:52px;
+    border:0;
+    outline:0;
+    border-radius:28px;
+    padding:0 22px;
+    font-size:17px;
+    color:#222;
+}
+
+/* ================= CATEGORIES ================= */
+
+.category-area{
+    background:#43addb;
+    padding:18px 15px;
+}
+
+.categories{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.category-btn{
+    border:0;
+    padding:11px 23px;
+    border-radius:25px;
+    background:#0754c9;
+    color:#fff;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.category-btn:hover,
+.category-btn.active{
+    background:#ff1493;
+    transform:translateY(-2px);
+}
+
+/* ================= GAMES ================= */
+
+.games-area{
+    background:#43addb;
+    padding:15px 18px 45px;
+    min-height:450px;
+}
+
+.section-title{
+    max-width:1200px;
+    margin:0 auto 20px;
+    font-size:31px;
+    font-weight:900;
+}
+
+.game-grid{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.game-card{
+    min-height:170px;
+    border-radius:22px;
+    overflow:hidden;
+    background:linear-gradient(145deg,#bababa,#4f899c);
+    border:4px solid rgba(255,255,255,.75);
+    box-shadow:0 8px 18px rgba(0,0,0,.25);
+    cursor:pointer;
+    transition:.2s;
+    display:flex;
+    flex-direction:column;
+}
+
+.game-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 13px 25px rgba(0,0,0,.3);
+}
+
+.game-thumb{
+    flex:1;
+    min-height:105px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.15);
+    font-size:55px;
+}
+
+.game-info{
+    background:rgba(0,0,0,.55);
+    padding:11px 13px;
+}
+
+.game-title{
+    font-size:18px;
+    font-weight:900;
+    margin-bottom:4px;
+}
+
+.game-desc{
+    font-size:12px;
+    opacity:.9;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    text-align:center;
+    padding:55px 15px;
+    color:#fff;
+    font-size:18px;
+}
+
+/* ================= GAME VIEW ================= */
+
+.game-screen{
+    display:none;
+    min-height:calc(100vh - 82px);
+    background:#071a48;
+}
+
+.game-screen.active{
+    display:block;
+}
+
+.game-topbar{
+    min-height:65px;
+    padding:10px 15px;
+    background:#0754c9;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.back-btn{
+    border:0;
+    background:#ff1493;
+    color:#fff;
+    border-radius:22px;
+    padding:11px 19px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.game-name{
+    font-size:22px;
+    font-weight:900;
+    text-align:center;
+}
+
+.game-container{
+    width:100%;
+    height:calc(100vh - 147px);
+    min-height:500px;
+    background:#000;
+}
+
+#gameFrame{
+    display:block;
+    width:100%;
+    height:100%;
+    border:0;
+    background:#000;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    background:#071a48;
+    padding:30px 15px;
+    text-align:center;
+}
+
+.footer-logo{
+    font-size:25px;
+    font-weight:900;
+    color:#ff1ac2;
+    margin-bottom:8px;
+}
+
+.footer p{
+    font-size:13px;
+    opacity:.75;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .game-grid{
+        grid-template-columns:repeat(3,1fr);
     }
 
-    html {
-      scroll-behavior: smooth;
+    .hero h1{
+        font-size:42px;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #fff;
-      color: #222;
+    .search-box{
+        width:180px;
+    }
+}
+
+@media(max-width:650px){
+
+    .header{
+        min-height:auto;
+        padding:10px 12px;
+        flex-wrap:wrap;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    .logo{
+        font-size:23px;
     }
 
-    /* HEADER */
-    header {
-      background: linear-gradient(135deg, #ff69b4, #ff1493);
-      color: #fff;
-      padding: 10px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
+    .logo-icon{
+        width:40px;
+        height:40px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 25px;
-      font-weight: 800;
-      white-space: nowrap;
+    .header-right{
+        width:100%;
+        justify-content:center;
     }
 
-    .logo {
-      width: 45px;
-      height: 45px;
-      object-fit: contain;
-      flex-shrink: 0;
+    .search-box{
+        flex:1;
+        min-width:0;
+        width:auto;
     }
 
-    .search-box {
-      width: min(280px, 100%);
+    .login-btn{
+        padding:11px 15px;
     }
 
-    .search-box input {
-      width: 100%;
-      padding: 11px 15px;
-      border: none;
-      border-radius: 25px;
-      outline: none;
-      font-size: 14px;
+    .hero{
+        min-height:210px;
     }
 
-    /* BLUE HERO AND CATEGORIES */
-    .top-area {
-      background: linear-gradient(135deg, #0868e8, #0754c9);
-      color: #fff;
-      text-align: center;
-      padding: 12px 10px;
+    .hero h1{
+        font-size:35px;
     }
 
-    .hero h1 {
-      font-size: 27px;
-      margin-bottom: 5px;
+    .hero p{
+        font-size:15px;
     }
 
-    .hero p {
-      font-size: 14px;
-      margin-bottom: 10px;
+    .game-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
     }
 
-    .categories {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
+    .game-card{
+        min-height:155px;
     }
 
-    .category-btn {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      padding: 7px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: 0.2s;
+    .game-thumb{
+        min-height:90px;
+        font-size:45px;
     }
 
-    .category-btn.latest-category { border-color: #ffb6df; font-weight: 800; }
+    .section-title{
+        font-size:26px;
+    }
+}
 
-    .category-btn:hover,
-    .category-btn.active {
-      background: #fff;
-      color: #0754c9;
+@media(max-width:390px){
+
+    .game-grid{
+        grid-template-columns:1fr;
     }
 
-    /* POPULAR GAMES */
-    main {
-      max-width: 1200px;
-      margin: auto;
-      padding: 28px 5%;
-      min-height: 250px;
+    .category-btn{
+        padding:10px 17px;
     }
-
-    .section-title {
-      font-size: 25px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .game-card {
-      border: 1px solid #e8e8e8;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .game-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    }
-
-    .game-image {
-      height: 140px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 47px;
-      background: linear-gradient(135deg, #e9f4ff, #fce7f3);
-    }
-
-    .game-info {
-      padding: 13px;
-      text-align: center;
-    }
-
-    .game-info h3 {
-      font-size: 16px;
-      margin-bottom: 7px;
-    }
-
-    .game-info p {
-      color: #777;
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
-
-    .play-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #ff69b4, #ff1493);
-      color: #fff;
-      border: none;
-      padding: 9px 18px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    .play-btn:hover {
-      opacity: 0.88;
-    }
-
-    .no-results {
-      text-align: center;
-      padding: 30px 10px;
-      color: #666;
-      grid-column: 1 / -1;
-    }
-
-    .game-image {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .game-icon {
-      font-size: clamp(38px, 5vw, 58px);
-      filter: drop-shadow(0 5px 5px rgba(0,0,0,.12));
-    }
-
-    .game-category-tag {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      padding: 4px 7px;
-      border-radius: 7px;
-      background: rgba(255,255,255,.9);
-      color: #0754c9;
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
-    .game-action {
-      display: inline-block;
-      margin-top: 8px;
-      color: #ff1493;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .coming-soon-card {
-      cursor: default;
-      opacity: .9;
-    }
-
-    .game-image-snake-king { background: linear-gradient(135deg,#d9fbe9,#effff5); }
-    .game-image-memory-match { background: linear-gradient(135deg,#dceeff,#f1f8ff); }
-    .game-image-my-gun-life { background: linear-gradient(135deg,#ffe3e8,#fff1f3); }
-    .game-image-tik-tak-toe { background: linear-gradient(135deg,#fff0d5,#fff9e9); }
-    .game-image-evo-eater { background: linear-gradient(135deg,#e0e4ff,#f2eaff); }
-    .game-image-coming-soon-adventure { background: linear-gradient(135deg,#dcf7f0,#effcf9); }
-    .game-image-coming-soon-arcade { background: linear-gradient(135deg,#ffe4d7,#fff3e9); }
-
-    #gameOverlay, #confirmBackdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(15,12,25,.86);
-      padding: 18px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #gameOverlay.open, #confirmBackdrop.open { display: flex; }
-
-    #gameFrame {
-      width: min(1200px,100%);
-      height: min(780px,90vh);
-      border: 0;
-      border-radius: 14px;
-      background: #fff;
-    }
-
-    #gameCloseBtn {
-      position: absolute;
-      top: 14px;
-      right: 20px;
-      z-index: 2;
-      background: #fff;
-      border: 0;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-weight: 800;
-    }
-
-    .confirm-box {
-      position: relative;
-      width: min(420px,100%);
-      padding: 28px;
-      background: #fff;
-      border-radius: 18px;
-    }
-
-    .confirm-box p { padding: 18px 0; color: #62636d; }
-
-    .confirm-close {
-      position: absolute;
-      right: 13px;
-      top: 12px;
-      border: 0;
-      background: #f1f1f6;
-      border-radius: 8px;
-      padding: 6px 9px;
-    }
-
-    .confirm-actions { display:flex; gap:10px; justify-content:flex-end; }
-    .confirm-actions button { border:0; border-radius:9px; padding:10px 15px; font-weight:800; }
-    .btn-yes { background:#ff1493; color:#fff; }
-    .btn-no { background:#f0f0f5; color:#333; }
-
-    /* ABOUT BALO GAMES - NO LOGO */
-    .about {
-      background: #080808;
-      color: #fff;
-      padding: 28px 5%;
-      text-align: center;
-    }
-
-    .about-inner {
-      max-width: 800px;
-      margin: auto;
-    }
-
-    .about h2 {
-      font-size: 23px;
-      margin-bottom: 9px;
-    }
-
-    .about p {
-      color: #e1e1e1;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* COLOURFUL FOOTER */
-    footer {
-      background: linear-gradient(
-        110deg,
-        #ffcf33,
-        #ff8c42,
-        #ff5ca8,
-        #a855f7,
-        #4287ff
-      );
-      color: #111;
-      text-align: center;
-      padding: 12px 10px;
-    }
-
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      font-size: 21px;
-      font-weight: 800;
-      margin-bottom: 3px;
-    }
-
-    .footer-brand .logo {
-      width: 30px;
-      height: 30px;
-    }
-
-    footer p {
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 17px;
-      margin: 10px 0;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .footer-links a {
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .footer-links a:hover {
-      color: #fff;
-    }
-
-    /* DEMO MESSAGE */
-    .message {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #171717;
-      color: #fff;
-      padding: 13px 18px;
-      border-radius: 10px;
-      width: max-content;
-      max-width: 90%;
-      text-align: center;
-      font-size: 14px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
-      display: none;
-      z-index: 10;
-    }
-
-    /* TABLETS */
-    @media (max-width: 900px) {
-      .games-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    /* MOBILE */
-    @media (max-width: 600px) {
-      header {
-        padding: 10px 4%;
-        gap: 10px;
-      }
-
-      .brand {
-        font-size: 21px;
-        gap: 7px;
-      }
-
-      .brand .logo {
-        width: 38px;
-        height: 38px;
-      }
-
-      .search-box {
-        width: 100%;
-      }
-
-      .search-box input {
-        padding: 10px 13px;
-      }
-
-      .top-area {
-        padding: 10px 8px;
-      }
-
-      .hero h1 {
-        font-size: 22px;
-      }
-
-      .hero p {
-        font-size: 13px;
-        margin-bottom: 8px;
-      }
-
-      .categories {
-        gap: 6px;
-      }
-
-      .category-btn {
-        padding: 6px 11px;
-        font-size: 12px;
-      }
-
-      main {
-        padding: 23px 4%;
-      }
-
-      .section-title {
-        font-size: 22px;
-        margin-bottom: 15px;
-      }
-
-      .games-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .game-image {
-        height: 115px;
-        font-size: 39px;
-      }
-
-      .game-info {
-        padding: 10px 6px;
-      }
-
-      .game-info h3 {
-        font-size: 14px;
-      }
-
-      .play-btn {
-        padding: 8px 13px;
-        font-size: 12px;
-      }
-
-      .about {
-        padding: 23px 5%;
-      }
-
-      .about h2 {
-        font-size: 21px;
-      }
-
-      .about p {
-        font-size: 13px;
-      }
-
-      footer {
-        padding: 10px;
-      }
-
-      .footer-brand {
-        font-size: 19px;
-      }
-    }
-
-    /* Balo Games refreshed design */
-    * { box-sizing:border-box; }
-    body { font-family:Arial,Helvetica,sans-serif; background:#071a48; color:#fff; }
-    .site-header { min-height:82px; padding:14px 24px; background:linear-gradient(120deg,#ff1493,#ff69b4); display:flex; align-items:center; gap:16px; border-bottom:4px solid #ffb6df; }
-    .site-header .brand { display:flex; align-items:center; gap:12px; font-size:clamp(22px,4vw,32px); font-weight:900; }
-    .site-header .logo { width:46px; height:46px; object-fit:contain; }
-    .top-area { background:linear-gradient(135deg,#0878ff,#0648b8); color:white; text-align:left; padding:22px 24px 0; border-bottom:4px solid #36a9ff; }
-    .hero-top-row { display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; }
-    .profile-box { display:flex; align-items:center; gap:12px; min-height:92px; padding:9px 12px; border:2px solid rgba(255,255,255,.75); border-radius:18px; background:rgba(0,31,120,.28); box-shadow:0 6px 18px rgba(0,0,0,.16); }
-    .avatar-wrap { position:relative; }
-    .avatar { width:70px;height:70px;border:3px solid white;border-radius:50%;background:linear-gradient(145deg,#dff3ff,#6fbaff);display:grid;place-items:center;color:#0754c9;font-size:32px; }
-    .avatar-edit { position:absolute;right:-5px;bottom:-5px;width:28px;height:28px;border:2px solid white;border-radius:50%;background:#ff1493;color:white;cursor:pointer; }
-    .login-btn { border:2px solid white;border-radius:14px;padding:11px 18px;background:linear-gradient(135deg,#0878ff,#0648b8);color:white;font-weight:900;font-size:15px;cursor:pointer; }
-    .hero-bottom { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-top:20px;padding-bottom:20px; }
-    .hero-copy h1 { font-size:clamp(24px,4vw,34px);font-weight:900;margin:0 0 5px; }
-    .hero-copy p { font-size:14px;margin:0;color:#e8f3ff; }
-    .search-box { display:flex;align-items:center;width:min(100%,330px);background:white;border:3px solid #a8d8ff;border-radius:18px;overflow:hidden; }
-    .search-box input { width:100%;min-width:0;padding:13px;border:0;outline:none;font-size:16px;color:#123; }
-    .search-box button { border:0;padding:12px 15px;background:#ff1493;color:white;font-size:20px;cursor:pointer; }
-    .categories { display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:9px;padding:14px 0;background:transparent;border:0; }
-    .category-btn { border:2px solid rgba(255,255,255,.85);border-radius:12px;padding:9px 15px;background:rgba(0,0,80,.2);color:white;font-weight:800;cursor:pointer;font-size:13px;transition:background .2s; }
-    .category-btn:hover,.category-btn.active { background:#ff1493;color:white;border-color:white; }
-    main#games { width:100%;max-width:1500px;margin:0 auto;padding:26px 24px 40px;min-height:250px; }
-    .section-title { text-align:center;font-size:27px;margin-bottom:18px;color:white; }
-    #gameCount { text-align:center;color:#c5d8ff!important;font-size:13px;margin:-7px 0 20px!important; }
-    .games-grid { display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:17px;width:100%; }
-    .game-card { min-width:0;border:3px solid #43b7ff;border-radius:17px;background:linear-gradient(145deg,#102d69,#0b1e4b);box-shadow:0 5px 0 #031236,0 0 12px rgba(0,145,255,.22);overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;color:white;display:flex;flex-direction:column; }
-    .game-card:hover { transform:translateY(-4px);border-color:#ff69b4;box-shadow:0 5px 0 #031236,0 0 18px rgba(255,20,147,.3); }
-    .game-image { height:auto;min-height:120px;flex:1;display:grid;place-items:center;font-size:clamp(30px,4vw,54px);background:linear-gradient(135deg,#123c86,#10204d); }
-    .game-icon { font-size:clamp(38px,4vw,54px); }
-    .game-info { padding:10px;text-align:center;background:#0b1e4b; }
-    .game-info h3 { font-size:14px;font-weight:800;margin:0 0 7px;color:#fff;overflow-wrap:anywhere; }
-    .game-info p { color:#b8d8ff;font-size:11px;line-height:1.45;margin:0 0 8px; }
-    .game-category-tag { background:#ff1493;color:white; }
-    .game-action { color:#73c8ff;font-size:12px;font-weight:800; }
-    .coming-soon-card { cursor:default; }
-    .no-results { text-align:center;padding:35px 15px;color:#d9e7ff; }
-    .no-results h3 { margin-bottom:9px; }
-    .play-btn { display:inline-block;margin-top:9px;padding:8px 13px;border:0;border-radius:8px;background:#0878ff;color:white;font-weight:bold;cursor:pointer; }
-    .play-btn:hover { background:#ff1493; }
-    .about { background:linear-gradient(120deg,#ff1493,#ff69b4);color:white;padding:28px 5%;text-align:center; }
-    .about p { color:white; }
-    footer { background:linear-gradient(120deg,#ff1493,#ff69b4);color:white;text-align:center;padding:12px 10px; }
-    footer .footer-links a:hover { color:#0754c9; }
-    .message { z-index:2000; }
-    [hidden] { display:none!important; }
-    @media(max-width:1100px) { .games-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
-    @media(max-width:650px) {
-      .site-header { padding:14px; }
-      .top-area { padding:17px 17px 0; }
-      main#games { padding:22px 17px 32px; }
-      .avatar { width:60px;height:60px; }
-      .games-grid { grid-template-columns:repeat(3,minmax(0,1fr));gap:10px; }
-      .game-card { border-width:2px;border-radius:12px; }
-      .game-info { padding:8px 5px; }
-      .game-info h3 { font-size:12px; }
-      .categories { padding:12px 0; }
-      .hero-bottom { align-items:stretch; }
-      .search-box { width:100%; }
-      .game-image { min-height:95px; }
-    }
-    @media(max-width:380px) { .games-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-
-  
-
-    /* BALO GAMES LIVE SIZE EDITOR — added without replacing the existing game library */
-    :root {
-      --balo-grid-cols: 6;
-      --balo-grid-gap: 17px;
-      --balo-card-radius: 17px;
-      --balo-card-border: 3px;
-      --balo-card-height: 120px;
-      --balo-main-padding: 26px;
-      --balo-section-title-size: 27px;
-      --balo-header-height: 82px;
-      --balo-button-height: 40px;
-      --balo-button-padding: 15px;
-      --balo-button-font-size: 13px;
-      --balo-button-radius: 12px;
-    }
-    .site-header { min-height: var(--balo-header-height); }
-    main#games { padding-left: var(--balo-main-padding); padding-right: var(--balo-main-padding); }
-    .section-title { font-size: var(--balo-section-title-size); }
-    .games-grid { grid-template-columns: repeat(var(--balo-grid-cols), minmax(0, 1fr)); gap: var(--balo-grid-gap); }
-    .game-card { border-width: var(--balo-card-border); border-radius: var(--balo-card-radius); }
-    .game-image { min-height: var(--balo-card-height); }
-    .category-btn, .login-btn, .search-box button, .play-btn, #baloFavoritesBtn {
-      min-height: var(--balo-button-height);
-      padding-left: var(--balo-button-padding);
-      padding-right: var(--balo-button-padding);
-      font-size: var(--balo-button-font-size);
-      border-radius: var(--balo-button-radius);
-    }
-    #balo-size-editor {
-      position: fixed; right: 15px; bottom: 15px; z-index: 1500;
-      padding: 11px 16px; border: 2px solid #fff; border-radius: 13px;
-      background: linear-gradient(120deg,#ff1493,#7c3cff); color: #fff;
-      font: 800 14px Arial,sans-serif; box-shadow: 0 5px 18px #0005; cursor: pointer;
-    }
-    #balo-size-editor-panel {
-      display:none; position:fixed; inset:0; z-index:5000; padding:14px;
-      align-items:center; justify-content:center; background:rgba(0,0,0,.78);
-      font-family:Arial,Helvetica,sans-serif;
-    }
-    #balo-size-editor-panel.open { display:flex; }
-    #balo-size-editor-panel .bse-box {
-      width:min(760px,100%); max-height:92vh; overflow:auto; padding:20px;
-      color:#fff; background:#151522; border:1px solid #ffffff30;
-      border-radius:18px; box-shadow:0 20px 70px #0009;
-    }
-    #balo-size-editor-panel .bse-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
-    #balo-size-editor-panel h2 { font-size:22px; margin:0; }
-    #balo-size-editor-panel h3 { color:#ff70bd; font-size:16px; margin:0 0 12px; }
-    #balo-size-editor-panel .bse-close { background:#34344b; color:#fff; border:0; border-radius:9px; padding:8px 12px; font-size:20px; cursor:pointer; }
-    #balo-size-editor-panel .bse-help { color:#c7c7dc; font-size:13px; line-height:1.5; margin:12px 0; }
-    #balo-size-editor-panel .bse-section { background:#222236; border:1px solid #ffffff12; border-radius:13px; padding:15px; margin-top:13px; }
-    #balo-size-editor-panel .bse-control { margin:15px 0; }
-    #balo-size-editor-panel .bse-label { display:flex; justify-content:space-between; gap:10px; margin-bottom:8px; color:#f2f2ff; font-size:13px; }
-    #balo-size-editor-panel output { color:#5ce5ff; font-weight:800; }
-    #balo-size-editor-panel input[type=range] { width:100%; accent-color:#ff1493; cursor:pointer; }
-    #balo-size-editor-panel .bse-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:15px; }
-    #balo-size-editor-panel .bse-actions button { flex:1 1 135px; min-height:40px; border:0; border-radius:10px; padding:10px 13px; color:white; font-weight:800; cursor:pointer; }
-    #bse-reset { background:#44445a; } #bse-save { background:#009b77; }
-    #bse-copy { background:#0868e8; } #bse-download { background:linear-gradient(120deg,#ff1493,#ff8c00); }
-    #bse-status { min-height:18px; margin-top:12px; color:#7cf3cb; font-size:12px; }
-    @media(max-width:1100px) {
-      .games-grid { grid-template-columns: repeat(var(--balo-grid-cols), minmax(0,1fr)); }
-    }
-    @media(max-width:650px) {
-      main#games { padding-left: max(10px, var(--balo-main-padding)); padding-right: max(10px, var(--balo-main-padding)); }
-      .games-grid { grid-template-columns: repeat(var(--balo-grid-cols), minmax(0,1fr)); }
-      #balo-size-editor { right:10px; bottom:10px; padding:10px 12px; }
-      #balo-size-editor-panel .bse-box { padding:14px; }
-      #balo-size-editor-panel .bse-section { padding:11px; }
-    }
-
-  
-    /* Stable sticky header: logo and search remain in the header while scrolling */
-    .site-header { position:sticky; top:0; z-index:4000; flex-wrap:nowrap; justify-content:space-between; min-width:0; box-shadow:0 4px 16px rgba(0,0,0,.18); }
-    .site-header .brand { flex:0 0 auto; min-width:0; }
-    .header-search { display:flex; align-items:center; width:min(340px,38vw); min-width:170px; height:44px; margin-left:auto; overflow:hidden; border:2px solid #fff; border-radius:14px; background:#fff; box-shadow:0 3px 12px rgba(0,0,0,.18); }
-    .header-search input { width:100%; min-width:0; height:100%; padding:0 13px; border:0; outline:0; color:#17213a; background:#fff; font:14px Arial,sans-serif; }
-    .header-search button { height:100%; flex:0 0 46px; border:0; background:#0754c9; color:#fff; font-size:23px; cursor:pointer; }
-    .header-search button:hover { background:#ff1493; }
-    @media(max-width:650px) { .site-header { gap:9px; padding:10px; } .site-header .brand { font-size:19px; gap:7px; } .site-header .logo { width:36px; height:36px; } .header-search { width:clamp(120px,40vw,190px); min-width:0; height:38px; } .header-search input { padding:0 8px; font-size:12px; } .header-search button { flex-basis:34px; font-size:19px; } }
-    @media(max-width:380px) { .site-header .brand { font-size:16px; gap:5px; } .site-header .logo { width:30px; height:30px; } .header-search { width:118px; } }
-
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header class="site-header">
-    <a class="brand" id="logoBtn" href="./index.html" aria-label="Balo Games home">
-      <img class="logo" src="./icon/icon.png" alt="Balo Games logo">
-      <span>Balo Games</span>
+<!-- ================= HOME ================= -->
+
+<div id="homeScreenView">
+
+<header class="header">
+
+    <a href="#" class="logo" onclick="goHome();return false;">
+        <span class="logo-icon">B</span>
+        <span>Balo Games</span>
     </a>
-    <form class="header-search" id="searchForm" role="search" aria-label="Search games"><input type="search" id="gameSearch" placeholder="Search games..." aria-label="Search games" autocomplete="off"><button type="submit" aria-label="Search">⌕</button></form>
-    <button id="balo-size-editor" type="button" aria-haspopup="dialog">⚙ Size Editor</button>
-  </header>
 
-  <!-- HERO, PROFILE AND SEARCH -->
-  <section class="top-area">
-    <div class="hero-top-row">
-      <div class="profile-box" aria-label="Player avatar">
-        <div class="avatar-wrap">
-          <div class="avatar" aria-label="Avatar placeholder">👤</div>
-          <button class="avatar-edit" id="avatarEdit" type="button" aria-label="Edit avatar" title="Edit avatar">✎</button>
-        </div>
-      </div>
-      <button class="login-btn" id="loginButton" type="button">Login</button>
+    <div class="header-right">
+
+        <input
+            type="search"
+            id="headerSearch"
+            class="search-box"
+            placeholder="Search games..."
+            autocomplete="off"
+        >
+
+        <button class="login-btn" onclick="showComingSoon()">
+            Login
+        </button>
+
     </div>
-    <div class="hero-bottom">
-      <div class="hero-copy">
+
+</header>
+
+<section class="hero">
+
+    <div class="hero-content">
+
         <h1>Balo Games</h1>
-        <p>Discover and play browser games on Balo Games.</p>
-      </div>
-      
-    </div>
-    <nav class="categories" aria-label="Game categories">
-      <button class="category-btn category active" data-category="all" aria-pressed="true" type="button">All Games</button>
-      <button class="category-btn category" data-category="action" aria-pressed="false" type="button">Action</button>
-      <button class="category-btn category" data-category="adventure" aria-pressed="false" type="button">Adventure</button>
-      <button class="category-btn category" data-category="arcade" aria-pressed="false" type="button">Arcade</button>
-    </nav>
-  </section>
 
-  <!-- POPULAR GAMES: YOUR REAL GAME LIBRARY LOADS FROM script.js -->
-  <main id="games">
-    <h2 class="section-title" id="sectionTitle">All Games</h2>
-    <p id="gameCount" style="text-align:center;color:#777;font-size:13px;margin:-10px 0 18px">Loading games…</p>
+        <p>
+            Discover and play browser games on Balo Games.
+        </p>
 
-    <div class="games-grid" id="gameGrid"></div>
+        <input
+            type="search"
+            id="heroSearch"
+            class="hero-search"
+            placeholder="Search your favorite game..."
+            autocomplete="off"
+        >
 
-    <div class="no-results" id="emptyGames" hidden>
-      <h3>No games found</h3>
-      <p>Try another search or category.</p>
-      <button class="play-btn" id="resetFilters" type="button">Show all games</button>
     </div>
 
-    <button id="clearSearch" type="button" hidden style="display:block;margin:15px auto;padding:8px 14px;border:0;border-radius:20px;background:#fce7f3;color:#a00057">Clear search</button>
-  </main>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-brand">
-      <img class="logo" src="./icon/icon.png" alt="">
-      <span>Balo Games</span>
+<section class="category-area">
+
+    <div class="categories">
+
+        <button
+            class="category-btn active"
+            data-category="all"
+            onclick="filterCategory('all',this)">
+            All Games
+        </button>
+
+        <button
+            class="category-btn"
+            data-category="action"
+            onclick="filterCategory('action',this)">
+            Action
+        </button>
+
+        <button
+            class="category-btn"
+            data-category="adventure"
+            onclick="filterCategory('adventure',this)">
+            Adventure
+        </button>
+
+        <button
+            class="category-btn"
+            data-category="arcade"
+            onclick="filterCategory('arcade',this)">
+            Arcade
+        </button>
+
     </div>
 
-    <p>Play and Enjoy</p>
+</section>
 
-    <nav class="footer-links" aria-label="Footer navigation">
-      <a href="./about.html">About</a>
-      <a href="./contact.html">Contact</a>
-      <a href="./privacy-policy.html">Privacy Policy</a>
-    </nav>
+<section class="games-area">
 
-    <p>© 2026 Balo Games. All rights reserved.</p>
-  </footer>
+    <h2 class="section-title" id="sectionTitle">
+        All Games
+    </h2>
 
+    <div class="game-grid" id="homeGrid"></div>
 
-  <!-- GAME PLAYER -->
-  <div id="gameOverlay" role="dialog" aria-modal="true" aria-label="Game player">
-    <button id="gameCloseBtn" type="button" aria-label="Close game">✕ Close</button>
-    <iframe id="gameFrame" src="" title="Game" allowfullscreen></iframe>
-  </div>
-
-  <div id="confirmBackdrop" role="dialog" aria-modal="true" aria-label="Confirm leaving game">
-    <div class="confirm-box">
-      <button class="confirm-close" id="confirmCloseBtn" type="button" aria-label="Close">✕</button>
-      <p>Do you want to quit the game and go to the home page?</p>
-      <div class="confirm-actions">
-        <button class="btn-yes" id="confirmYesBtn" type="button">YES</button>
-        <button class="btn-no" id="confirmNoBtn" type="button">NO</button>
-      </div>
+    <div class="empty hidden" id="emptyMessage">
+        No games found.
     </div>
-  </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("searchForm");
-      if (form) form.addEventListener("submit", function (event) { event.preventDefault(); });
-      const login = document.getElementById("loginButton");
-      if (login) login.addEventListener("click", function () { alert("Login feature coming soon!"); });
-      const edit = document.getElementById("avatarEdit");
-      if (edit) edit.addEventListener("click", function () { alert("Avatar customization coming soon!"); });
+</section>
+
+<footer class="footer">
+
+    <div class="footer-logo">Balo Games</div>
+
+    <p>
+        Discover and play browser games.
+    </p>
+
+</footer>
+
+</div>
+
+
+<!-- ================= GAME SCREEN ================= -->
+
+<div id="gameScreenView" class="game-screen">
+
+    <div class="game-topbar">
+
+        <button class="back-btn" onclick="goHome()">
+            ← Back
+        </button>
+
+        <div class="game-name" id="overlayGameTitle">
+            Balo Games
+        </div>
+
+        <button class="back-btn" onclick="goHome()">
+            Home
+        </button>
+
+    </div>
+
+    <div class="game-container">
+
+        <iframe
+            id="gameFrame"
+            title="Balo Games"
+            allowfullscreen
+            loading="eager">
+        </iframe>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   BALO GAMES
+   GAME REGISTRY
+   ========================================================= */
+
+const games = [
+
+    {
+        title:"Evo Eater",
+        cat:"action",
+        tags:["action"],
+        icon:"🦅",
+        desc:"Grow, evolve, and explore.",
+        path:"games/evo-eater/index.html"
+    },
+
+    {
+        title:"Tik Tak Toe",
+        cat:"arcade",
+        tags:["arcade"],
+        icon:"❌⭕",
+        desc:"Classic strategy game.",
+        path:"games/tik-tak-toe/index.html"
+    },
+
+    {
+        title:"Memory Match",
+        cat:"arcade",
+        tags:["arcade"],
+        icon:"🧠",
+        desc:"Test your memory.",
+        path:"games/memory-match/index.html"
+    },
+
+    {
+        title:"Snake King",
+        cat:"arcade",
+        tags:["arcade","snake"],
+        icon:"🐍",
+        desc:"Classic snake action.",
+        path:"games/snake-king/index.html"
+    },
+
+    {
+        title:"Space Run",
+        cat:"action",
+        tags:["action"],
+        icon:"🚀",
+        desc:"Space runner.",
+        path:"games/space-run/index.html"
+    },
+
+    {
+        title:"Puzzle Box",
+        cat:"adventure",
+        tags:["adventure","puzzle"],
+        icon:"🧩",
+        desc:"Solve puzzles.",
+        path:"games/puzzle-box/index.html"
+    },
+
+    {
+        title:"Dungeon Quest",
+        cat:"adventure",
+        tags:["adventure"],
+        icon:"⚔️",
+        desc:"Explore dungeons.",
+        path:"games/dungeon-quest/index.html"
+    }
+
+];
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+let currentCategory = "all";
+let currentSearch = "";
+
+
+/* =========================================================
+   CREATE GAME CARD
+   ========================================================= */
+
+function createGameCard(game){
+
+    const card = document.createElement("div");
+
+    card.className = "game-card";
+
+    card.setAttribute("tabindex","0");
+
+    card.innerHTML = `
+
+        <div class="game-thumb">
+            ${game.icon}
+        </div>
+
+        <div class="game-info">
+
+            <div class="game-title">
+                ${escapeHTML(game.title)}
+            </div>
+
+            <div class="game-desc">
+                ${escapeHTML(game.desc)}
+            </div>
+
+        </div>
+
+    `;
+
+    card.addEventListener("click",function(){
+        openGame(game.title);
     });
-  </script>
-  <script src="./script.js"></script>
 
-  <!-- BALO GAMES LIVE SIZE EDITOR -->
-  <div id="balo-size-editor-panel" role="dialog" aria-modal="true" aria-labelledby="bse-title">
-    <div class="bse-box">
-      <div class="bse-head">
-        <h2 id="bse-title">🎨 Balo Games Size Editor</h2>
-        <button class="bse-close" id="bse-close" type="button" aria-label="Close editor">×</button>
-      </div>
-      <p class="bse-help">CorelDRAW-style live sizing: move a slider and preview the change on your existing Balo Games page. Existing game links, filters, logo and site content are kept.</p>
-      <section class="bse-section">
-        <h3>▦ Game Blocks</h3>
-        <div class="bse-control"><div class="bse-label"><label for="bse-cols">Desktop columns</label><output id="bse-cols-out">6</output></div><input id="bse-cols" type="range" min="1" max="8" step="1" value="6"></div>
-        <div class="bse-control"><div class="bse-label"><label for="bse-gap">Space between blocks</label><output id="bse-gap-out">17px</output></div><input id="bse-gap" type="range" min="0" max="36" step="1" value="17"></div>
-        <div class="bse-control"><div class="bse-label"><label for="bse-radius">Block corner roundness</label><output id="bse-radius-out">17px</output></div><input id="bse-radius" type="range" min="0" max="40" step="1" value="17"></div>
-        <div class="bse-control"><div class="bse-label"><label for="bse-border">Block border thickness</label><output id="bse-border-out">3px</output></div><input id="bse-border" type="range" min="0" max="10" step="1" value="3"></div>
-        <div class="bse-control"><div class="bse-label"><label for="bse-height">Game image minimum height</label><output id="bse-height-out">120px</output></div><input id="bse-height" type="range" min="60" max="260" step="5" value="120"></div>
-      </section>
-      <section class="bse-section">
-        <h3>▰ Buttons</h3>
-        <div class="bse-control"><div class="bse-label"><label for="bse-btn-height">Button height</label><output id="bse-btn-height-out">40px</output></div><input id="bse-btn-height" type="range" min="26" max="80" step="1" value="40"></div>
-        <div class="bse-control"><div class="bse-label"><label for="bse-btn-padding">Button width / side padding</label><output id="bse-btn-padding-out">15px</output></div><input id="bse-btn-padding" type="range" min="3" max="40" step="1" value="15"></div>
-        <div class="bse-control"><div class="bse-label"><label for="bse-btn-font">Button text size</label><output id="bse-btn-font-out">13px</output></div><input id="bse-btn-font" type="range" min="9" max="24" step="1" value="13"></div>
-        <div class="bse-control"><div class="bse-label"><label for="bse-btn-radius">Button corner roundness</label><output id="bse-btn-radius-out">12px</output></div><input id="bse-btn-radius" type="range" min="0" max="35" step="1" value="12"></div>
-      </section>
-      <section class="bse-section">
-        <h3>✦ Page Layout</h3>
-        <div class="bse-control"><div class="bse-label"><label for="bse-padding">Main page side padding</label><output id="bse-padding-out">26px</output></div><input id="bse-padding" type="range" min="0" max="60" step="1" value="26"></div>
-        <div class="bse-control"><div class="bse-label"><label for="bse-title">Section title size</label><output id="bse-title-out">27px</output></div><input id="bse-title" type="range" min="16" max="48" step="1" value="27"></div>
-        <div class="bse-control"><div class="bse-label"><label for="bse-header">Header minimum height</label><output id="bse-header-out">82px</output></div><input id="bse-header" type="range" min="50" max="150" step="1" value="82"></div>
-      </section>
-      <div class="bse-actions">
-        <button id="bse-reset" type="button">↺ Reset</button>
-        <button id="bse-save" type="button">✓ Save Settings</button>
-        <button id="bse-copy" type="button">Copy CSS</button>
-        <button id="bse-download" type="button">Download CSS</button>
-      </div>
-      <div id="bse-status" aria-live="polite"></div>
-    </div>
-  </div>
+    card.addEventListener("keydown",function(e){
+
+        if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            openGame(game.title);
+        }
+
+    });
+
+    return card;
+}
 
 
-  <script>
-  (function () {
-    const panel = document.getElementById("balo-size-editor-panel");
-    const root = document.documentElement;
-    const config = {
-      cols: { variable: "--balo-grid-cols", suffix: "", output: "bse-cols-out", initial: Math.min(6, window.innerWidth <= 380 ? 2 : window.innerWidth <= 650 ? 3 : window.innerWidth <= 1100 ? 4 : 6) },
-      gap: { variable: "--balo-grid-gap", suffix: "px", output: "bse-gap-out", initial: 17 },
-      radius: { variable: "--balo-card-radius", suffix: "px", output: "bse-radius-out", initial: 17 },
-      border: { variable: "--balo-card-border", suffix: "px", output: "bse-border-out", initial: 3 },
-      height: { variable: "--balo-card-height", suffix: "px", output: "bse-height-out", initial: 120 },
-      "btn-height": { variable: "--balo-button-height", suffix: "px", output: "bse-btn-height-out", initial: 40 },
-      "btn-padding": { variable: "--balo-button-padding", suffix: "px", output: "bse-btn-padding-out", initial: 15 },
-      "btn-font": { variable: "--balo-button-font-size", suffix: "px", output: "bse-btn-font-out", initial: 13 },
-      "btn-radius": { variable: "--balo-button-radius", suffix: "px", output: "bse-btn-radius-out", initial: 12 },
-      padding: { variable: "--balo-main-padding", suffix: "px", output: "bse-padding-out", initial: 26 },
-      title: { variable: "--balo-section-title-size", suffix: "px", output: "bse-title-out", initial: 27 },
-      header: { variable: "--balo-header-height", suffix: "px", output: "bse-header-out", initial: 82 }
+/* =========================================================
+   RENDER GAMES
+   ========================================================= */
+
+function renderGames(){
+
+    const grid = document.getElementById("homeGrid");
+    const empty = document.getElementById("emptyMessage");
+
+    grid.innerHTML = "";
+
+    const search = currentSearch.trim().toLowerCase();
+
+    const filtered = games.filter(function(game){
+
+        const categoryMatch =
+            currentCategory === "all" ||
+            game.cat === currentCategory ||
+            game.tags.includes(currentCategory);
+
+        const searchMatch =
+            !search ||
+            game.title.toLowerCase().includes(search) ||
+            game.desc.toLowerCase().includes(search) ||
+            game.tags.some(tag =>
+                tag.toLowerCase().includes(search)
+            );
+
+        return categoryMatch && searchMatch;
+
+    });
+
+    filtered.forEach(function(game){
+
+        grid.appendChild(
+            createGameCard(game)
+        );
+
+    });
+
+    empty.classList.toggle(
+        "hidden",
+        filtered.length !== 0
+    );
+
+}
+
+
+/* =========================================================
+   CATEGORY FILTER
+   ========================================================= */
+
+function filterCategory(category,button){
+
+    currentCategory = category;
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(function(btn){
+            btn.classList.remove("active");
+        });
+
+    if(button){
+        button.classList.add("active");
+    }
+
+    const names = {
+        all:"All Games",
+        action:"Action",
+        adventure:"Adventure",
+        arcade:"Arcade"
     };
-    function setValue(id, value) {
-      const c = config[id], input = document.getElementById("bse-" + id);
-      if (!c || !input) return;
-      const n = Number(value);
-      input.value = n;
-      root.style.setProperty(c.variable, n + c.suffix);
-      document.getElementById(c.output).textContent = n + c.suffix;
-    }
-    function apply(values) { Object.keys(config).forEach(id => setValue(id, values[id] ?? config[id].initial)); }
-    function currentValues() {
-      const result = {};
-      Object.keys(config).forEach(id => result[id] = Number(document.getElementById("bse-" + id).value));
-      return result;
-    }
-    function cssText() {
-      return ":root {\n" + Object.values(config).map(c =>
-        "  " + c.variable + ": " + getComputedStyle(root).getPropertyValue(c.variable).trim() + ";"
-      ).join("\n") + "\n}\n";
-    }
-    function status(message) { document.getElementById("bse-status").textContent = message; }
-    document.getElementById("balo-size-editor").addEventListener("click", () => panel.classList.add("open"));
-    document.getElementById("bse-close").addEventListener("click", () => panel.classList.remove("open"));
-    panel.addEventListener("click", e => { if (e.target === panel) panel.classList.remove("open"); });
-    document.addEventListener("keydown", e => { if (e.key === "Escape") panel.classList.remove("open"); });
-    Object.keys(config).forEach(id => document.getElementById("bse-" + id).addEventListener("input", e => setValue(id, e.target.value)));
-    document.getElementById("bse-reset").addEventListener("click", () => { apply({}); status("Default sizes restored. Press Save Settings to keep them."); });
-    document.getElementById("bse-save").addEventListener("click", () => {
-      try { localStorage.setItem("baloGamesLiveSizeSettings", JSON.stringify(currentValues())); status("Settings saved in this browser."); }
-      catch (e) { status("Browser storage unavailable. Download the CSS to keep your settings."); }
+
+    document.getElementById("sectionTitle").textContent =
+        names[category] || "All Games";
+
+    renderGames();
+
+    window.scrollTo({
+        top:document.querySelector(".games-area").offsetTop - 70,
+        behavior:"smooth"
     });
-    document.getElementById("bse-copy").addEventListener("click", async () => {
-      try { await navigator.clipboard.writeText(cssText()); status("CSS copied. You can keep it as a backup."); }
-      catch (e) {
-        const area = document.createElement("textarea"); area.value = cssText(); document.body.appendChild(area); area.select();
-        try { document.execCommand("copy"); status("CSS copied."); } catch (_) { status("Copy unavailable; use Download CSS."); }
-        area.remove();
-      }
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function performSearch(value){
+
+    currentSearch = value;
+
+    renderGames();
+
+}
+
+
+document
+    .getElementById("headerSearch")
+    .addEventListener("input",function(){
+
+        document.getElementById("heroSearch").value =
+            this.value;
+
+        performSearch(this.value);
+
     });
-    document.getElementById("bse-download").addEventListener("click", () => {
-      const url = URL.createObjectURL(new Blob([cssText()], {type:"text/css;charset=utf-8"}));
-      const a = document.createElement("a"); a.href = url; a.download = "balo-games-size-settings.css";
-      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
-      status("CSS download started.");
+
+
+document
+    .getElementById("heroSearch")
+    .addEventListener("input",function(){
+
+        document.getElementById("headerSearch").value =
+            this.value;
+
+        performSearch(this.value);
+
     });
-    try {
-      const saved = JSON.parse(localStorage.getItem("baloGamesLiveSizeSettings") || "null");
-      apply(saved || {});
-    } catch (e) { apply({}); }
-  })();
-  </script>
+
+
+/* =========================================================
+   OPEN GAME
+   ========================================================= */
+
+function openGame(title){
+
+    const game = games.find(function(g){
+        return g.title === title;
+    });
+
+    if(!game || !game.path){
+        alert("Game is not available yet.");
+        return;
+    }
+
+    const frame = document.getElementById("gameFrame");
+
+    document.getElementById("overlayGameTitle").textContent =
+        game.title;
+
+    frame.src = game.path;
+
+    document
+        .getElementById("homeScreenView")
+        .classList.add("hidden");
+
+    document
+        .getElementById("gameScreenView")
+        .classList.add("active");
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =========================================================
+   HOME
+   ========================================================= */
+
+function goHome(){
+
+    const frame = document.getElementById("gameFrame");
+
+    frame.src = "about:blank";
+
+    document
+        .getElementById("gameScreenView")
+        .classList.remove("active");
+
+    document
+        .getElementById("homeScreenView")
+        .classList.remove("hidden");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+function showComingSoon(){
+
+    alert("Login feature is coming soon.");
+
+}
+
+
+/* =========================================================
+   SAFE HTML
+   ========================================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   IFRAME ERROR
+   ========================================================= */
+
+document
+    .getElementById("gameFrame")
+    .addEventListener("error",function(){
+
+        document.getElementById("overlayGameTitle").textContent =
+            "Game could not be loaded";
+
+    });
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+renderGames();
+
+</script>
 
 </body>
 </html>
