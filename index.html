@@ -1,954 +1,1797 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- saved from url=(0116)file:///D:/Hub+999/Index%20Files/Colour%20Full%20Index/Full%20Colour%20Editor/Balo-Games-Full%20Colour%20Editor.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <title>Balo Games</title>
+  <link rel="icon" type="image/png" href="./icon.png">
+  <style>
 
-<title>Balo Games</title>
+    :root {
+      --bg-main: #328686;
+      --header-start: #c10b7e;
+      --header-end: #c5c748;
+      --header-border: #e0e0e0;
+      --hero-start: #547187;
+      --hero-end: #066ddb;
+      --accent: #000000;
+      --accent-2: #ffffff;
+      --card-bg: #ffffff;
+      --card-bg-2: #34265a;
+      --card-border: #f7f7f7;
+      --tag-bg: #000000;
+      --text-main: #ffffff;
+      --text-secondary: #ffffff;
+      --sidebar-bg: #f4f0ff;
+      --sidebar-border: #000000;
+      --sidebar-item-bg: #707070;
+      --ad-bg: #ffffff;
+      --ad-border: #ffffff;
+      --footer-start: #ecc022;
+      --footer-end: #ff00d9;
+      --game-pane-bg: #a08888;
+      --game-pane-border: #000000;
+      --game-title-bg: #ffffff;
+      --game-title-text: #000000;
+      --game-frame-bg: #aba6a6;
+      --game-actions-bg: #d3c5c5;
+      --game-btn-bg: #6b6b6b;
+      --game-btn-border: #000000;
+      --game-btn-hover: #fff0f0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; touch-action: manipulation; zoom: 100%; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg-main);
+      color: #fff;
+      overflow-x: hidden;
+      touch-action: pan-x pan-y;
+      -webkit-text-size-adjust: 100%;
+      user-select: none;
+    }
+    a { text-decoration: none; color: inherit; }
 
-<meta name="description" content="Balo Games is a browser gaming website where players can discover and play games.">
-<meta name="keywords" content="Balo Games, online games, action games, adventure games, arcade games">
-<meta name="robots" content="index, follow">
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, var(--header-start), var(--header-end));
+      color: #fff;
+      padding: 12px 4%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 82px;
+      border-bottom: 4px solid var(--header-border);
+      position: sticky;
+      top: 0;
+      z-index: 5000;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-size: 28px; font-weight: 900; cursor: pointer; flex-shrink: 0; }
+    .logo { width: 45px; height: 45px; object-fit: contain; }
+    .logo-fallback { display:none; place-items:center; width:45px; height:45px; border-radius:12px; background:linear-gradient(135deg,#ff1493,#7b2cff); color:#fff; font-size:18px; font-weight:900; box-shadow:0 5px 15px rgba(0,0,0,.25); }
 
-<link rel="canonical" href="https://blablugamerz012-lang.github.io/Balo-Games/">
+    /* Search bar inside header - top right */
+    #topSearchWrap {
+      display: flex;
+      align-items: center;
+      width: 240px;
+      max-width: 42vw;
+      height: 42px;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      border: 2px solid #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+      flex-shrink: 0;
+    }
+    #topSearchWrap input {
+      flex: 1 1 auto;
+      min-width: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0 12px;
+      border: 0;
+      outline: none;
+      font-size: 14px;
+      color: #222;
+      background: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    #topSearchWrap input::placeholder { color: #888; }
+    #topSearchWrap button {
+      border: 0;
+      height: 100%;
+      padding: 0 14px;
+      background: #c10b7e;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+      line-height: 42px;
+    }
+    #topSearchWrap button:hover { background: #a00968; }
 
-<meta property="og:title" content="Balo Games">
-<meta property="og:description" content="Discover and play browser games on Balo Games.">
-<meta property="og:url" content="https://blablugamerz012-lang.github.io/Balo-Games/">
-<meta property="og:type" content="website">
+    /* Heart toggle on game cards */
+    .fav-toggle {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      z-index: 2;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .fav-toggle:hover { transform: scale(1.12); }
+    .fav-toggle.is-fav { background: #ff1493; }
 
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html,body{
-    width:100%;
-    min-height:100%;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#071a48;
-    color:#fff;
-}
-
-body{
-    overflow-x:hidden;
-}
-
-button{
-    font-family:inherit;
-}
-
-.hidden{
-    display:none!important;
-}
-
-/* ================= HEADER ================= */
-
-.header{
-    min-height:82px;
-    padding:12px 22px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    background:linear-gradient(90deg,#4f454a,#ff1ac2);
-    box-shadow:0 4px 15px rgba(0,0,0,.25);
-    position:sticky;
-    top:0;
-    z-index:1000;
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:#fff;
-    font-size:30px;
-    font-weight:900;
-    text-decoration:none;
-    white-space:nowrap;
-}
-
-.logo-icon{
-    width:48px;
-    height:48px;
-    border-radius:14px;
-    background:#fff;
-    color:#ff1493;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:25px;
-    font-weight:900;
-    box-shadow:0 4px 10px rgba(0,0,0,.2);
-}
-
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.search-box{
-    width:230px;
-    height:44px;
-    border:0;
-    outline:none;
-    border-radius:25px;
-    padding:0 18px;
-    font-size:15px;
-    background:#fff;
-    color:#222;
-}
-
-.login-btn{
-    border:0;
-    background:#087cff;
-    color:#fff;
-    padding:12px 20px;
-    border-radius:24px;
-    font-size:15px;
-    font-weight:800;
-    cursor:pointer;
-    box-shadow:0 4px 10px rgba(0,0,0,.25);
-}
-
-.login-btn:hover{
-    transform:translateY(-1px);
-    background:#006be5;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-    min-height:245px;
-    padding:35px 20px;
-    background:linear-gradient(135deg,#0712ab,#0754c9);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-}
-
-.hero-content{
-    max-width:850px;
-}
-
-.hero h1{
-    font-size:52px;
-    font-weight:900;
-    margin-bottom:10px;
-}
-
-.hero p{
-    font-size:18px;
-    opacity:.95;
-    margin-bottom:22px;
-}
-
-.hero-search{
-    width:min(600px,90vw);
-    height:52px;
-    border:0;
-    outline:0;
-    border-radius:28px;
-    padding:0 22px;
-    font-size:17px;
-    color:#222;
-}
-
-/* ================= CATEGORIES ================= */
-
-.category-area{
-    background:#43addb;
-    padding:18px 15px;
-}
-
-.categories{
-    max-width:1200px;
-    margin:auto;
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:10px;
-}
-
-.category-btn{
-    border:0;
-    padding:11px 23px;
-    border-radius:25px;
-    background:#0754c9;
-    color:#fff;
-    font-size:15px;
-    font-weight:800;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.category-btn:hover,
-.category-btn.active{
-    background:#ff1493;
-    transform:translateY(-2px);
-}
-
-/* ================= GAMES ================= */
-
-.games-area{
-    background:#43addb;
-    padding:15px 18px 45px;
-    min-height:450px;
-}
-
-.section-title{
-    max-width:1200px;
-    margin:0 auto 20px;
-    font-size:31px;
-    font-weight:900;
-}
-
-.game-grid{
-    max-width:1200px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-}
-
-.game-card{
-    min-height:170px;
-    border-radius:22px;
-    overflow:hidden;
-    background:linear-gradient(145deg,#bababa,#4f899c);
-    border:4px solid rgba(255,255,255,.75);
-    box-shadow:0 8px 18px rgba(0,0,0,.25);
-    cursor:pointer;
-    transition:.2s;
-    display:flex;
-    flex-direction:column;
-}
-
-.game-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 13px 25px rgba(0,0,0,.3);
-}
-
-.game-thumb{
-    flex:1;
-    min-height:105px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(255,255,255,.15);
-    font-size:55px;
-}
-
-.game-info{
-    background:rgba(0,0,0,.55);
-    padding:11px 13px;
-}
-
-.game-title{
-    font-size:18px;
-    font-weight:900;
-    margin-bottom:4px;
-}
-
-.game-desc{
-    font-size:12px;
-    opacity:.9;
-}
-
-/* ================= EMPTY ================= */
-
-.empty{
-    text-align:center;
-    padding:55px 15px;
-    color:#fff;
-    font-size:18px;
-}
-
-/* ================= GAME VIEW ================= */
-
-.game-screen{
-    display:none;
-    min-height:calc(100vh - 82px);
-    background:#071a48;
-}
-
-.game-screen.active{
-    display:block;
-}
-
-.game-topbar{
-    min-height:65px;
-    padding:10px 15px;
-    background:#0754c9;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-}
-
-.back-btn{
-    border:0;
-    background:#ff1493;
-    color:#fff;
-    border-radius:22px;
-    padding:11px 19px;
-    font-weight:900;
-    cursor:pointer;
-}
-
-.game-name{
-    font-size:22px;
-    font-weight:900;
-    text-align:center;
-}
-
-.game-container{
-    width:100%;
-    height:calc(100vh - 147px);
-    min-height:500px;
-    background:#000;
-}
-
-#gameFrame{
-    display:block;
-    width:100%;
-    height:100%;
-    border:0;
-    background:#000;
-}
-
-/* ================= FOOTER ================= */
-
-.footer{
-    background:#071a48;
-    padding:30px 15px;
-    text-align:center;
-}
-
-.footer-logo{
-    font-size:25px;
-    font-weight:900;
-    color:#ff1ac2;
-    margin-bottom:8px;
-}
-
-.footer p{
-    font-size:13px;
-    opacity:.75;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:900px){
-
-    .game-grid{
-        grid-template-columns:repeat(3,1fr);
+    @media (max-width: 700px) {
+      header { padding: 10px 3%; min-height: 64px; gap: 8px; }
+      .brand { font-size: 18px; gap: 6px; }
+      .logo { width: 34px; height: 34px; }
+      #topSearchWrap {
+        width: 150px;
+        max-width: 48vw;
+        height: 36px;
+        border-radius: 10px;
+      }
+      #topSearchWrap input { padding: 0 10px; font-size: 13px; }
+      #topSearchWrap button { padding: 0 11px; font-size: 14px; line-height: 36px; }
     }
 
-    .hero h1{
-        font-size:42px;
+    /* HERO */
+    .top-area {
+      background: linear-gradient(135deg, var(--hero-start), var(--hero-end));
+      color: #fff;
+      text-align: center;
+      padding: 18px 10px;
+      position: relative;
+    }
+    .hero h1 { font-size: 30px; margin-bottom: 6px; font-weight: 900; }
+    .hero p { font-size: 14px; margin-bottom: 12px; color: #e0efff; }
+
+    /* Favorites on blue hero - top left */
+    #favBtn {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 40px;
+      padding: 0 14px;
+      border: 2px solid rgba(255,255,255,0.9);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      white-space: nowrap;
+      backdrop-filter: blur(6px);
+      transition: transform 0.15s, background 0.2s, border-color 0.2s;
+    }
+    #favBtn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+    #favBtn.active {
+      background: linear-gradient(135deg, #ff1493, #c10b7e);
+      border-color: #fff;
+    }
+    #favBtn .fav-ico { font-size: 16px; line-height: 1; }
+    #favCount {
+      background: rgba(0,0,0,0.25);
+      border-radius: 10px;
+      padding: 1px 7px;
+      font-size: 12px;
+      min-width: 20px;
+      text-align: center;
     }
 
-    .search-box{
-        width:180px;
-    }
-}
-
-@media(max-width:650px){
-
-    .header{
-        min-height:auto;
-        padding:10px 12px;
-        flex-wrap:wrap;
-    }
-
-    .logo{
-        font-size:23px;
+    /* Search on blue hero - top right */
+    #topSearchWrap.hero-search {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      left: auto;
+      z-index: 20;
+      width: 220px;
+      max-width: 42vw;
+      height: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     }
 
-    .logo-icon{
-        width:40px;
-        height:40px;
+    /* Login in header - top right */
+    #loginBtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 42px;
+      padding: 0 16px;
+      border: 2px solid #ffffff;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #e8f4ff 100%);
+      color: #066ddb;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+    }
+    #loginBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6,109,219,0.35);
+      background: #fff;
+    }
+    #loginBtn .login-ico { font-size: 15px; line-height: 1; }
+    #loginBtn.logged-in {
+      background: linear-gradient(135deg, #1dd1a1, #10b981);
+      color: #fff;
+      border-color: #fff;
+    }
+    #loginBtn.is-settings {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      border-color: #fff;
     }
 
-    .header-right{
-        width:100%;
-        justify-content:center;
+    /* Settings modal */
+    #settingsModal {
+      position: fixed;
+      inset: 0;
+      z-index: 7100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.68);
+    }
+    #settingsModal.open { display: flex; }
+    .settings-box {
+      width: min(420px, 100%);
+      max-height: 85vh;
+      overflow-y: auto;
+      background: #fff;
+      color: #17213a;
+      border-radius: 18px;
+      padding: 24px 22px 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+      position: relative;
+    }
+    .settings-box h2 { color: #6366f1; margin-bottom: 4px; font-size: 22px; }
+    .settings-sub { font-size: 13px; color: #64748b; margin-bottom: 16px; }
+    .settings-close {
+      position: absolute; top: 12px; right: 12px; border: 0; background: #f1f5f9;
+      color: #334155; width: 32px; height: 32px; border-radius: 8px; font-weight: 800;
+      cursor: pointer; font-size: 16px;
+    }
+    .settings-section {
+      margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;
+    }
+    .settings-section:last-of-type { border-bottom: 0; margin-bottom: 8px; }
+    .settings-section h3 {
+      font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;
+      color: #64748b; margin-bottom: 10px;
+    }
+    .settings-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: #1e293b;
+    }
+    .settings-row label { flex: 1; }
+    .settings-row select {
+      padding: 8px 10px; border: 2px solid #e2e8f0; border-radius: 8px;
+      font-size: 13px; font-weight: 700; background: #fff; cursor: pointer; max-width: 150px;
+    }
+    .settings-row input[type="range"] { width: 120px; accent-color: #6366f1; }
+    .toggle-btn {
+      border: 0; border-radius: 20px; padding: 6px 14px; font-size: 12px;
+      font-weight: 800; cursor: pointer; min-width: 56px;
+    }
+    .toggle-btn.on { background: #10b981; color: #fff; }
+    .toggle-btn.off { background: #e2e8f0; color: #64748b; }
+    .settings-danger {
+      width: 100%; border: 2px solid #fecaca; background: #fef2f2; color: #dc2626;
+      border-radius: 10px; padding: 11px; font-weight: 800; font-size: 13px;
+      cursor: pointer; margin-top: 4px;
+    }
+    .settings-danger:hover { background: #fee2e2; }
+    .settings-logout {
+      width: 100%; border: 0; background: #1e293b; color: #fff; border-radius: 10px;
+      padding: 11px; font-weight: 800; font-size: 13px; cursor: pointer; margin-top: 8px;
+    }
+    .settings-logout:hover { background: #334155; }
+    .accent-swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+    .accent-swatch {
+      width: 28px; height: 28px; border-radius: 50%; border: 3px solid transparent;
+      cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .accent-swatch.active { border-color: #1e293b; transform: scale(1.1); }
+
+    /* Login modal */
+    #loginModal {
+      position: fixed;
+      inset: 0;
+      z-index: 7000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.65);
+    }
+    #loginModal.open { display: flex; }
+    .login-box {
+      width: min(380px, 100%);
+      background: #fff;
+      color: #17213a;
+      border-radius: 18px;
+      padding: 28px 24px 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+      position: relative;
+    }
+    .login-box h2 {
+      color: #066ddb;
+      margin-bottom: 6px;
+      font-size: 22px;
+    }
+    .login-box .login-sub {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 18px;
+    }
+    .login-box label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: #334155;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 14px;
+      outline: none;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .login-box input:focus { border-color: #066ddb; }
+    .login-submit {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px;
+      background: linear-gradient(135deg, #066ddb, #3b82f6);
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+    .login-submit:hover { filter: brightness(1.08); }
+    .login-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border: 0;
+      background: #f1f5f9;
+      color: #334155;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .login-note {
+      text-align: center;
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 14px;
+      line-height: 1.45;
+    }
+    .login-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .login-divider::before,
+    .login-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+    .social-login-btn {
+      width: 100%;
+      border: 2px solid #e2e8f0;
+      background: #fff;
+      color: #1e293b;
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .social-login-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .social-login-btn.google { border-color: #dadce0; }
+    .social-login-btn.guest { background: #f1f5f9; }
+    .controls-guide {
+      font-size: 13px;
+      color: #334155;
+      line-height: 1.5;
+      text-align: left;
+    }
+    .controls-guide p { margin: 0 0 6px; }
+    .controls-guide ul {
+      margin: 0 0 12px 18px;
+      padding: 0;
+    }
+    .controls-guide li { margin-bottom: 4px; }
+    .controls-note {
+      font-size: 12px;
+      color: #64748b;
+      margin: 0 !important;
     }
 
-    .search-box{
-        flex:1;
-        min-width:0;
-        width:auto;
+    @media (max-width: 700px) {
+      #favBtn {
+        top: 10px;
+        left: 10px;
+        height: 34px;
+        padding: 0 10px;
+        font-size: 12px;
+        border-radius: 10px;
+      }
+      #favBtn .fav-label { display: none; }
+      #topSearchWrap.hero-search {
+        top: 10px;
+        right: 10px;
+        width: 140px;
+        max-width: 42vw;
+        height: 34px;
+        border-radius: 10px;
+      }
+      #loginBtn {
+        height: 36px;
+        padding: 0 12px;
+        font-size: 12px;
+        border-radius: 10px;
+      }
+      #loginBtn .login-label { display: none; }
+    }
+    .categories { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 10px 0; flex-wrap: wrap; }
+    .category-btn {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.8);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .category-btn:hover, .category-btn.active { background: var(--accent); color: #fff; }
+
+    /* GAMES GRID */
+    main {
+      max-width: 1250px;
+      margin: auto;
+      padding: 26px 4%;
+      min-height: 300px;
+    }
+    .section-title { font-size: 21px; margin-bottom: 20px; color: white; font-weight: 800; }
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 19px;
+    }
+    .game-card {
+      border: 5px solid var(--card-border);
+      border-radius: 25px;
+      overflow: hidden;
+      background: linear-gradient(145deg, var(--card-bg), var(--card-bg-2));
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .game-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .coming-soon-card { cursor: default; opacity: .9; }
+    .coming-soon-card:hover { transform: none; border-color: var(--card-border); }
+    .coming-soon-card .game-action { color: #ffe082; }
+    .game-image {
+      height: 115px;
+      min-height: 115px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 45px;
+      background: linear-gradient(135deg, var(--card-bg), var(--card-bg-2));
+      position: relative;
+    }
+    .game-category-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      background: var(--tag-bg);
+      color: white;
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .game-info { padding: 12px; text-align: center; background: var(--card-bg-2); }
+    .game-info h3 { font-size: 15px; margin-bottom: 5px; color: #fff; font-weight: 800; }
+    .game-info p { color: var(--text-secondary); font-size: 11px; margin-bottom: 8px; }
+    .game-action { color: #fff; font-size: 11px; font-weight: 800; }
+
+    /* GAME VIEW SCREEN */
+    #gameScreenView {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 30px 0;
+    }
+    #gameScreenView.active { display: block; }
+    #homeScreenView.hidden { display: none; }
+
+    .poki-play-container {
+      display: grid;
+      grid-template-columns: 180px 1fr 140px;
+      gap: 15px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 15px;
+      width: 100%;
+      align-items: start;
+    }
+    @media (max-width: 1200px) {
+      .poki-play-container { grid-template-columns: 1fr 140px; }
+      .poki-left-sidebar { display: none; }
+    }
+    @media (max-width: 900px) {
+      .poki-play-container { grid-template-columns: 1fr; }
+      .poki-right-sidebar { display: none; }
     }
 
-    .login-btn{
-        padding:11px 15px;
+    .poki-left-sidebar {
+      background: var(--card-bg-2);
+      border: 2px solid var(--card-bg);
+      border-radius: 12px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 420px;
+      overflow-y: auto;
+    }
+    .sidebar-title { font-size: 13px; color: #fff; border-bottom: 2px solid var(--sidebar-border); padding-bottom: 5px; font-weight: 800; text-align: center; }
+    .sidebar-game-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+      background: var(--sidebar-item-bg);
+      padding: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid var(--sidebar-border);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .sidebar-game-item:hover { background: var(--card-bg); border-color: var(--accent); }
+    .sidebar-game-icon { font-size: 18px; width: 30px; height: 30px; display: grid; place-items: center; background: var(--card-bg); border-radius: 6px; }
+    .sidebar-game-info h4 { font-size: 11px; color: #fff; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+
+    .game-main-pane {
+      background: var(--game-pane-bg);
+      border-radius: 14px;
+      border: 2px solid var(--game-pane-border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .game-title-bar {
+      padding: 10px 18px;
+      background: var(--game-title-bg);
+      border-bottom: 2px solid var(--game-pane-border);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--game-title-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .game-title-bar .home-btn {
+      background: var(--accent);
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .title-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    /* Fav button on game screen top-right */
+    #gameFavBtn {
+      border: 0;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+      background: #066ddb;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    #gameFavBtn:hover { filter: brightness(1.1); }
+    #gameFavBtn.is-fav {
+      background: #ff1493;
+      pointer-events: none;
     }
 
-    .hero{
-        min-height:210px;
+    /* Favorites page toolbar */
+    .fav-page-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .fav-page-bar h2 { margin: 0; }
+    #removeFavModeBtn {
+      border: 2px solid #fff;
+      background: rgba(255,20,147,0.25);
+      color: #fff;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    #removeFavModeBtn.active {
+      background: #ff1493;
+      border-color: #fff;
+    }
+    #removeFavHint {
+      display: none;
+      width: 100%;
+      font-size: 13px;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+    #removeFavHint.show { display: block; }
+    .game-card.remove-select-mode {
+      outline: 3px dashed #ff1493;
+      cursor: pointer;
+    }
+    .game-card.remove-select-mode:hover {
+      outline-color: #fff;
+      transform: translateY(-2px);
+    }
+    .game-frame-wrap {
+      width: 100%;
+      height: 380px;
+      background: var(--game-frame-bg);
+      position: relative;
+    }
+    #gameFrame { width: 100%; height: 100%; border: none; }
+
+    .game-bottom-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px 18px;
+      background: var(--game-actions-bg);
+      border-top: 2px solid var(--game-pane-border);
+    }
+    .action-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .poki-btn {
+      background: var(--game-btn-bg);
+      color: white;
+      border: 1px solid var(--game-btn-border);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .poki-btn:hover { background: var(--game-btn-hover); border-color: var(--game-btn-hover); }
+
+    .poki-right-sidebar {
+      background: var(--card-bg-2);
+      border: 2px dashed var(--accent-2);
+      border-radius: 12px;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      height: 420px;
+    }
+    .ad-box-lamba {
+      background: var(--ad-bg);
+      border-radius: 8px;
+      flex: 1;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 10px;
+      padding: 5px;
     }
 
-    .hero h1{
-        font-size:35px;
+    .all-games-bottom-section {
+      max-width: 1400px;
+      margin: 40px auto 20px;
+      padding: 0 20px;
+      width: 100%;
+    }
+    .bottom-section-title { font-size: 21px; margin-bottom: 20px; color: #fff; border-bottom: 2px solid var(--sidebar-border); padding-bottom: 10px; font-weight: 900; }
+
+    footer {
+      background: linear-gradient(120deg, var(--footer-start), var(--footer-end));
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      font-weight: 700;
     }
 
-    .hero p{
-        font-size:15px;
+    @media (max-width: 1100px) {
+      .games-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 700px) {
+      .games-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .game-frame-wrap { height: 260px; }
+    }
+  
+    
+
+  
+    
+    
+
+  
+    
+    
+
+  
+    
+
+  
+    /* (search styles moved into header section above) */
+
+  
+    /* CRAZY-GAMES STYLE LEFT HOVER SIDEBAR */
+    #sideHotzone {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 100vh;
+      z-index: 4500;
+    }
+    #crazySidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 220px;
+      z-index: 4501;
+      background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%);
+      border-right: 3px solid var(--accent, #e85454);
+      box-shadow: 8px 0 30px rgba(0,0,0,0.45);
+      transform: translateX(-100%);
+      transition: transform 0.28s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 16px 12px 20px;
+      overflow-y: auto;
+    }
+    #crazySidebar.open,
+    #sideHotzone:hover + #crazySidebar,
+    #crazySidebar:hover {
+      transform: translateX(0);
+    }
+    #crazySidebar .sb-brand {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 6px;
+      padding: 4px 6px;
+    }
+    #crazySidebar .sb-sub {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 14px;
+      padding: 0 6px;
+    }
+    #crazySidebar .sb-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      border-radius: 12px;
+      padding: 11px 12px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    #crazySidebar .sb-btn:hover,
+    #crazySidebar .sb-btn.active {
+      background: var(--accent, #e85454);
+      border-color: #fff;
+      transform: translateX(4px);
+    }
+    #crazySidebar .sb-ico {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+    #crazySidebar .sb-hint {
+      margin-top: auto;
+      font-size: 10px;
+      color: #64748b;
+      padding: 10px 6px 0;
+      line-height: 1.4;
+    }
+    @media (max-width: 700px) {
+      #sideHotzone { width: 12px; }
+      #crazySidebar { width: 200px; }
     }
 
-    .game-grid{
-        grid-template-columns:repeat(2,1fr);
-        gap:10px;
+  
+    /* Sidebar edge arrow hint */
+    #sideArrow {
+      position: fixed;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 4502;
+      width: 22px;
+      height: 56px;
+      border: 0;
+      border-radius: 0 12px 12px 0;
+      background: var(--accent, #e85454);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 2px 0 12px rgba(0,0,0,0.35);
+      display: grid;
+      place-items: center;
+      transition: left 0.28s ease, opacity 0.2s;
+      padding: 0;
+      line-height: 1;
+    }
+    #sideArrow:hover { filter: brightness(1.1); }
+    body.sidebar-open #sideArrow {
+      left: 220px;
+      border-radius: 12px 0 0 12px;
+    }
+    @media (max-width: 700px) {
+      body.sidebar-open #sideArrow { left: 200px; }
     }
 
-    .game-card{
-        min-height:155px;
-    }
 
-    .game-thumb{
-        min-height:90px;
-        font-size:45px;
-    }
-
-    .section-title{
-        font-size:26px;
-    }
-}
-
-@media(max-width:390px){
-
-    .game-grid{
-        grid-template-columns:1fr;
-    }
-
-    .category-btn{
-        padding:10px 17px;
-    }
-}
-</style>
+    .site-footer { background:linear-gradient(135deg,#071a48,#123f8c); margin-top:45px; padding:34px 5% 18px; border-top:4px solid #ff1493; }
+    .footer-inner { max-width:1250px; margin:auto; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:28px; }
+    .footer-brand h3 { font-size:24px; margin-bottom:8px; }
+    .footer-brand p,.footer-col a { color:#dbe8ff; font-size:13px; line-height:1.7; }
+    .footer-col h4 { color:#fff; margin-bottom:10px; font-size:15px; }
+    .footer-col a { display:block; margin:5px 0; cursor:pointer; }
+    .footer-col a:hover { color:#ff7ac4; }
+    .footer-bottom { max-width:1250px; margin:24px auto 0; padding-top:14px; border-top:1px solid rgba(255,255,255,.18); text-align:center; color:#b9c8e6; font-size:12px; }
+    .info-modal { position:fixed; inset:0; z-index:6000; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(0,0,0,.68); }
+    .info-modal.open { display:flex; }
+    .info-box { width:min(620px,100%); max-height:82vh; overflow:auto; background:#fff; color:#17213a; border-radius:18px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,.45); }
+    .info-box h2 { color:#071a48; margin-bottom:12px; }
+    .info-box p,.info-box li { font-size:14px; line-height:1.65; margin-bottom:10px; }
+    .info-close { float:right; border:0; background:#ff1493; color:#fff; border-radius:9px; padding:7px 11px; cursor:pointer; font-weight:800; }
+    @media(max-width:800px){ .footer-inner{grid-template-columns:1fr 1fr;} }
+    @media(max-width:500px){ .footer-inner{grid-template-columns:1fr;} }
+  </style>
 </head>
-
 <body>
 
-<!-- ================= HOME ================= -->
+  <div id="sideHotzone" aria-hidden="true"></div>
+  <button type="button" id="sideArrow" title="Categories" aria-label="Open categories">›</button>
+  <aside id="crazySidebar" aria-label="Game categories">
+    <div class="sb-brand">Balo Games</div>
+    <div class="sb-sub">Categories</div>
+    <button type="button" class="sb-btn active" data-filter="all"><span class="sb-ico">🎮</span> All Games</button>
+    <button type="button" class="sb-btn" data-filter="action"><span class="sb-ico">💥</span> Action</button>
+    <button type="button" class="sb-btn" data-filter="adventure"><span class="sb-ico">🗺️</span> Adventure</button>
+    <button type="button" class="sb-btn" data-filter="arcade"><span class="sb-ico">🕹️</span> Arcade</button>
+    <div class="sb-hint">Choose a category to filter the games</div>
+  </aside>
 
-<div id="homeScreenView">
 
-<header class="header">
-
-    <a href="#" class="logo" onclick="goHome();return false;">
-        <span class="logo-icon">B</span>
-        <span>Balo Games</span>
-    </a>
-
-    <div class="header-right">
-
-        <input
-            type="search"
-            id="headerSearch"
-            class="search-box"
-            placeholder="Search games..."
-            autocomplete="off"
-        >
-
-        <button class="login-btn" onclick="showComingSoon()">
-            Login
-        </button>
-
+  <header>
+    <div class="brand" onclick="goHome()">
+      <img class="logo" src="./icon.png" alt="Balo Games logo" onerror="this.style.display='none';var f=this.nextElementSibling;if(f){f.style.display='grid';}">
+      <span class="logo-fallback" aria-hidden="true">BG</span>
+      <span>Balo Games</span>
     </div>
+    <button type="button" id="loginBtn" title="Login" aria-label="Login">
+      <span class="login-ico">👤</span>
+      <span class="login-label">Login</span>
+    </button>
+  </header>
 
-</header>
-
-<section class="hero">
-
-    <div class="hero-content">
-
+  <!-- HOME SCREEN -->
+  <div id="homeScreenView">
+    <section class="top-area">
+      <button type="button" id="favBtn" title="Favorite Games" aria-label="Favorite Games">
+        <span class="fav-ico">⭐</span>
+        <span class="fav-label">Favorites</span>
+        <span id="favCount">0</span>
+      </button>
+      <form id="topSearchWrap" class="hero-search" onsubmit="return false;" role="search">
+        <input type="search" id="topSearchInput" placeholder="Search games..." aria-label="Search games" autocomplete="off">
+        <button type="submit" id="topSearchSubmit" aria-label="Search">⌕</button>
+      </form>
+      <div class="hero">
         <h1>Balo Games</h1>
+        <p>Discover and play browser games on Balo Games.</p>
+      </div>
+      <nav class="categories">
+        <button class="category-btn active" type="button" data-cat="all">All Games</button>
+        <button class="category-btn" type="button" data-cat="action">Action</button>
+        <button class="category-btn" type="button" data-cat="adventure">Adventure</button>
+        <button class="category-btn" type="button" data-cat="arcade">Arcade</button>
+      </nav>
+    </section>
 
-        <p>
-            Discover and play browser games on Balo Games.
-        </p>
+    <main id="games">
+      <h2 class="section-title">All Games</h2>
+      <div class="games-grid" id="homeGrid"><div class="game-card" onclick="openGame('My Gun Life')">
+        <div class="game-image"><span class="game-category-tag">action</span>⚡</div>
+        <div class="game-info"><h3>My Gun Life</h3><p>Fast-paced action game.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Evo Eater')">
+        <div class="game-image"><span class="game-category-tag">action</span>🦅</div>
+        <div class="game-info"><h3>Evo Eater</h3><p>Grow, evolve, and explore.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Tik Tak Toe')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>❌⭕</div>
+        <div class="game-info"><h3>Tik Tak Toe</h3><p>Classic strategy game.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Memory Match')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>🧠</div>
+        <div class="game-info"><h3>Memory Match</h3><p>Test your memory.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Snake King')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>🐍</div>
+        <div class="game-info"><h3>Snake King</h3><p>Classic snake action.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Space Run')">
+        <div class="game-image"><span class="game-category-tag">action</span>🚀</div>
+        <div class="game-info"><h3>Space Run</h3><p>Space runner.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Puzzle Box')">
+        <div class="game-image"><span class="game-category-tag">adventure</span>🧩</div>
+        <div class="game-info"><h3>Puzzle Box</h3><p>Solve puzzles.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Dungeon Quest')">
+        <div class="game-image"><span class="game-category-tag">adventure</span>⚔️</div>
+        <div class="game-info"><h3>Dungeon Quest</h3><p>Explore dungeons.</p><span class="game-action">Play game →</span></div>
+      </div></div>
+    </main>
+  </div>
 
-        <input
-            type="search"
-            id="heroSearch"
-            class="hero-search"
-            placeholder="Search your favorite game..."
-            autocomplete="off"
-        >
+  <!-- GAME PLAY SCREEN -->
+  <div id="gameScreenView">
+    <div class="poki-play-container">
+      <aside class="poki-left-sidebar">
+        <h3 class="sidebar-title">More</h3>
+        <div id="sidebarGames"><div class="sidebar-game-item" onclick="openGame('My Gun Life')">
+        <div class="sidebar-game-icon">⚡</div>
+        <div class="sidebar-game-info"><h4>My Gun Life</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Evo Eater')">
+        <div class="sidebar-game-icon">🦅</div>
+        <div class="sidebar-game-info"><h4>Evo Eater</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Tik Tak Toe')">
+        <div class="sidebar-game-icon">❌⭕</div>
+        <div class="sidebar-game-info"><h4>Tik Tak Toe</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Memory Match')">
+        <div class="sidebar-game-icon">🧠</div>
+        <div class="sidebar-game-info"><h4>Memory Match</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Snake King')">
+        <div class="sidebar-game-icon">🐍</div>
+        <div class="sidebar-game-info"><h4>Snake King</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Space Run')">
+        <div class="sidebar-game-icon">🚀</div>
+        <div class="sidebar-game-info"><h4>Space Run</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Puzzle Box')">
+        <div class="sidebar-game-icon">🧩</div>
+        <div class="sidebar-game-info"><h4>Puzzle Box</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Dungeon Quest')">
+        <div class="sidebar-game-icon">⚔️</div>
+        <div class="sidebar-game-info"><h4>Dungeon Quest</h4></div>
+      </div></div>
+      </aside>
 
-    </div>
-
-</section>
-
-<section class="category-area">
-
-    <div class="categories">
-
-        <button
-            class="category-btn active"
-            data-category="all"
-            onclick="filterCategory('all',this)">
-            All Games
-        </button>
-
-        <button
-            class="category-btn"
-            data-category="action"
-            onclick="filterCategory('action',this)">
-            Action
-        </button>
-
-        <button
-            class="category-btn"
-            data-category="adventure"
-            onclick="filterCategory('adventure',this)">
-            Adventure
-        </button>
-
-        <button
-            class="category-btn"
-            data-category="arcade"
-            onclick="filterCategory('arcade',this)">
-            Arcade
-        </button>
-
-    </div>
-
-</section>
-
-<section class="games-area">
-
-    <h2 class="section-title" id="sectionTitle">
-        All Games
-    </h2>
-
-    <div class="game-grid" id="homeGrid"></div>
-
-    <div class="empty hidden" id="emptyMessage">
-        No games found.
-    </div>
-
-</section>
-
-<footer class="footer">
-
-    <div class="footer-logo">Balo Games</div>
-
-    <p>
-        Discover and play browser games.
-    </p>
-
-</footer>
-
-</div>
-
-
-<!-- ================= GAME SCREEN ================= -->
-
-<div id="gameScreenView" class="game-screen">
-
-    <div class="game-topbar">
-
-        <button class="back-btn" onclick="goHome()">
-            ← Back
-        </button>
-
-        <div class="game-name" id="overlayGameTitle">
-            Balo Games
+      <div class="game-main-pane">
+        <div class="game-title-bar">
+          <span id="overlayGameTitle">Game Title</span>
+          <div class="title-bar-actions">
+            <button type="button" id="gameFavBtn" onclick="toggleGameFavorite()">☆ Fav</button>
+            <button type="button" class="home-btn" onclick="goHome()">Home</button>
+          </div>
         </div>
+        <div class="game-frame-wrap" id="frameWrap">
+          <iframe id="gameFrame" src="" title="Game Player" allowfullscreen=""></iframe>
+        </div>
+        <div class="game-bottom-actions">
+          <div class="action-group">
+            <button class="poki-btn" id="likeBtn" onclick="toggleLike()">❤️ 143</button>
+            <button class="poki-btn" onclick="shareGame()">🔗 Share</button>
+            <button class="poki-btn" onclick="reportBug()">⚠️ Bug Report</button>
+          </div>
+          <div class="action-group">
+            <button class="poki-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+          </div>
+        </div>
+      </div>
 
-        <button class="back-btn" onclick="goHome()">
-            Home
-        </button>
-
+      <aside class="poki-right-sidebar">
+        <div class="ad-box-lamba">Ad Space<br>(120x600)</div>
+      </aside>
     </div>
 
-    <div class="game-container">
-
-        <iframe
-            id="gameFrame"
-            title="Balo Games"
-            allowfullscreen
-            loading="eager">
-        </iframe>
-
+    <div class="all-games-bottom-section">
+      <h3 class="bottom-section-title">All Games</h3>
+      <div class="games-grid" id="bottomGrid"><div class="game-card" onclick="openGame('My Gun Life')">
+        <div class="game-image"><span class="game-category-tag">action</span>⚡</div>
+        <div class="game-info"><h3>My Gun Life</h3><p>Fast-paced action game.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Evo Eater')">
+        <div class="game-image"><span class="game-category-tag">action</span>🦅</div>
+        <div class="game-info"><h3>Evo Eater</h3><p>Grow, evolve, and explore.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Tik Tak Toe')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>❌⭕</div>
+        <div class="game-info"><h3>Tik Tak Toe</h3><p>Classic strategy game.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Memory Match')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>🧠</div>
+        <div class="game-info"><h3>Memory Match</h3><p>Test your memory.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Snake King')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>🐍</div>
+        <div class="game-info"><h3>Snake King</h3><p>Classic snake action.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Space Run')">
+        <div class="game-image"><span class="game-category-tag">action</span>🚀</div>
+        <div class="game-info"><h3>Space Run</h3><p>Space runner.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Puzzle Box')">
+        <div class="game-image"><span class="game-category-tag">adventure</span>🧩</div>
+        <div class="game-info"><h3>Puzzle Box</h3><p>Solve puzzles.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Dungeon Quest')">
+        <div class="game-image"><span class="game-category-tag">adventure</span>⚔️</div>
+        <div class="game-info"><h3>Dungeon Quest</h3><p>Explore dungeons.</p><span class="game-action">Play game →</span></div>
+      </div></div>
     </div>
+  </div>
 
-</div>
+  
+  
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>Balo Games</h3>
+        <p>Play browser games, discover new challenges, and enjoy Balo Games on desktop and mobile.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a onclick="goHome()">Home</a>
+        <a onclick="showInfo('about')">About</a>
+        <a onclick="showInfo('contact')">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Information</h4>
+        <a onclick="showInfo('privacy')">Privacy Policy</a>
+        <a onclick="showInfo('terms')">Terms &amp; Conditions</a>
+        <a onclick="showInfo('cookies')">Cookie Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Games</h4>
+        <a onclick="filterGames('all')">All Games</a>
+        <a onclick="filterGames('action')">Action</a>
+        <a onclick="filterGames('adventure')">Adventure</a>
+        <a onclick="filterGames('arcade')">Arcade</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Balo Games. All rights reserved.</div>
+  </footer>
 
+  <div class="info-modal" id="infoModal" onclick="if(event.target===this) closeInfo()">
+    <div class="info-box">
+      <button class="info-close" onclick="closeInfo()">Close</button>
+      <div id="infoContent"></div>
+    </div>
+  </div>
 
-<script>
+  <div id="loginModal" onclick="if(event.target===this) closeLogin()">
+    <div class="login-box">
+      <button type="button" class="login-close" onclick="closeLogin()" aria-label="Close">×</button>
+      <h2 id="loginModalTitle">Welcome back</h2>
+      <p class="login-sub" id="loginModalSub">Login to save favorites on this device.</p>
 
-/* =========================================================
-   BALO GAMES
-   GAME REGISTRY
-   ========================================================= */
+      <button type="button" class="social-login-btn google" id="googleLoginBtn">
+        <span>G</span> Continue with Google
+      </button>
+      <button type="button" class="social-login-btn guest" id="guestLoginBtn">
+        Continue as Guest
+      </button>
 
-const games = [
+      <div class="login-divider">OR</div>
 
-    {
-        title:"Evo Eater",
-        cat:"action",
-        tags:["action"],
-        icon:"🦅",
-        desc:"Grow, evolve, and explore.",
-        path:"games/evo-eater/index.html"
-    },
+      <form id="loginForm" onsubmit="return handleLogin(event)">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com" required autocomplete="username">
+        <label for="loginPass">Password</label>
+        <input type="password" id="loginPass" placeholder="••••••••" required autocomplete="current-password" minlength="4">
+        <button type="submit" class="login-submit" id="loginSubmitBtn">Login with Email</button>
+      </form>
+      <p class="login-note" id="loginNote">
+        Real Google login needs your Google Cloud Client ID / Firebase setup.
+        Right now email &amp; guest login work on this device only (local save).
+      </p>
+    </div>
+  </div>
 
-    {
-        title:"Tik Tak Toe",
-        cat:"arcade",
-        tags:["arcade"],
-        icon:"❌⭕",
-        desc:"Classic strategy game.",
-        path:"games/tik-tak-toe/index.html"
-    },
+  <div id="settingsModal" onclick="if(event.target===this) closeSettings()">
+    <div class="settings-box">
+      <button type="button" class="settings-close" onclick="closeSettings()" aria-label="Close">×</button>
+      <h2>Settings</h2>
+      <p class="settings-sub" id="settingsUserLabel">Account settings</p>
 
-    {
-        title:"Memory Match",
-        cat:"arcade",
-        tags:["arcade"],
-        icon:"🧠",
-        desc:"Test your memory.",
-        path:"games/memory-match/index.html"
-    },
+      <div class="settings-section">
+        <h3>Game Preferences</h3>
+        <div class="settings-row">
+          <label>Sound</label>
+          <button type="button" class="toggle-btn off" id="setSound">OFF</button>
+        </div>
+        <div class="settings-row">
+          <label>Music</label>
+          <button type="button" class="toggle-btn off" id="setMusic">OFF</button>
+        </div>
+        <div class="settings-row">
+          <label for="setVolume">Volume</label>
+          <input type="range" id="setVolume" min="0" max="100" value="70">
+        </div>
+      </div>
 
-    {
-        title:"Snake King",
-        cat:"arcade",
-        tags:["arcade","snake"],
-        icon:"🐍",
-        desc:"Classic snake action.",
-        path:"games/snake-king/index.html"
-    },
+      <div class="settings-section">
+        <h3>Controls Guide</h3>
+        <div class="controls-guide" id="controlsGuide">
+          <p><b>Keyboard</b></p>
+          <ul>
+            <li>Arrow keys / WASD — move</li>
+            <li>Space / P — pause</li>
+            <li>Enter — confirm / start</li>
+            <li>Esc — close menus</li>
+          </ul>
+          <p><b>Mobile / Touch</b></p>
+          <ul>
+            <li>Swipe — move direction</li>
+            <li>Tap buttons — actions</li>
+            <li>On-screen D-pad — where available</li>
+          </ul>
+          <p class="controls-note">Exact controls can change per game.</p>
+        </div>
+      </div>
 
-    {
-        title:"Space Run",
-        cat:"action",
-        tags:["action"],
-        icon:"🚀",
-        desc:"Space runner.",
-        path:"games/space-run/index.html"
-    },
+      <div class="settings-section">
+        <h3>Account</h3>
+        <button type="button" class="settings-logout" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </div>
 
-    {
-        title:"Puzzle Box",
-        cat:"adventure",
-        tags:["adventure","puzzle"],
-        icon:"🧩",
-        desc:"Solve puzzles.",
-        path:"games/puzzle-box/index.html"
-    },
+  
+  
+  <script>
+    const games = [
+      { title: "My Gun Life", cat: "action", tags: ["gun"], icon: "⚡", desc: "Jump into a fast-paced action game.", path: "games/my-gun-life/index.html" },
+      { title: "Evo Eater", cat: "action", tags: ["evolution"], icon: "🦅", desc: "Grow, evolve, and explore the arena.", path: "games/evoeater/index.html" },
+      { title: "Tik Tak Toe", cat: "arcade", tags: ["puzzle", "2player"], icon: "❌⭕", desc: "A classic strategy game for a quick match.", path: "games/tik-tak-toe/index.html" },
+      { title: "Memory Match", cat: "arcade", tags: ["puzzle"], icon: "🧠", desc: "Find matching cards and test your memory.", path: "games/MATCH%20GAME/memory-match.html" },
+      { title: "Snake King", cat: "arcade", tags: ["snake"], icon: "🐍", desc: "Classic snake action with mobile and keyboard controls.", path: "games/snake-king/index.html" },
+      { title: "Adventure Games", cat: "adventure", tags: ["adventure"], icon: "🗺️", desc: "A new adventure is being prepared.", comingSoon: true },
+      { title: "More Arcade Games", cat: "arcade", tags: ["arcade"], icon: "🕹️", desc: "More quick-play challenges are on the way.", comingSoon: true }
+    ];
 
-    {
-        title:"Dungeon Quest",
-        cat:"adventure",
-        tags:["adventure"],
-        icon:"⚔️",
-        desc:"Explore dungeons.",
-        path:"games/dungeon-quest/index.html"
+    /* Favorites (localStorage) */
+    let favorites = [];
+    try { favorites = JSON.parse(localStorage.getItem("baloFavorites") || "[]"); } catch (e) { favorites = []; }
+    let showingFavorites = false;
+    let removeFavMode = false;
+    let currentGameTitle = "";
+
+    function saveFavorites() {
+      localStorage.setItem("baloFavorites", JSON.stringify(favorites));
+      updateFavCount();
     }
 
-];
-
-
-/* =========================================================
-   VARIABLES
-   ========================================================= */
-
-let currentCategory = "all";
-let currentSearch = "";
-
-
-/* =========================================================
-   CREATE GAME CARD
-   ========================================================= */
-
-function createGameCard(game){
-
-    const card = document.createElement("div");
-
-    card.className = "game-card";
-
-    card.setAttribute("tabindex","0");
-
-    card.innerHTML = `
-
-        <div class="game-thumb">
-            ${game.icon}
-        </div>
-
-        <div class="game-info">
-
-            <div class="game-title">
-                ${escapeHTML(game.title)}
-            </div>
-
-            <div class="game-desc">
-                ${escapeHTML(game.desc)}
-            </div>
-
-        </div>
-
-    `;
-
-    card.addEventListener("click",function(){
-        openGame(game.title);
-    });
-
-    card.addEventListener("keydown",function(e){
-
-        if(e.key === "Enter" || e.key === " "){
-            e.preventDefault();
-            openGame(game.title);
-        }
-
-    });
-
-    return card;
-}
-
-
-/* =========================================================
-   RENDER GAMES
-   ========================================================= */
-
-function renderGames(){
-
-    const grid = document.getElementById("homeGrid");
-    const empty = document.getElementById("emptyMessage");
-
-    grid.innerHTML = "";
-
-    const search = currentSearch.trim().toLowerCase();
-
-    const filtered = games.filter(function(game){
-
-        const categoryMatch =
-            currentCategory === "all" ||
-            game.cat === currentCategory ||
-            game.tags.includes(currentCategory);
-
-        const searchMatch =
-            !search ||
-            game.title.toLowerCase().includes(search) ||
-            game.desc.toLowerCase().includes(search) ||
-            game.tags.some(tag =>
-                tag.toLowerCase().includes(search)
-            );
-
-        return categoryMatch && searchMatch;
-
-    });
-
-    filtered.forEach(function(game){
-
-        grid.appendChild(
-            createGameCard(game)
-        );
-
-    });
-
-    empty.classList.toggle(
-        "hidden",
-        filtered.length !== 0
-    );
-
-}
-
-
-/* =========================================================
-   CATEGORY FILTER
-   ========================================================= */
-
-function filterCategory(category,button){
-
-    currentCategory = category;
-
-    document
-        .querySelectorAll(".category-btn")
-        .forEach(function(btn){
-            btn.classList.remove("active");
-        });
-
-    if(button){
-        button.classList.add("active");
+    function updateFavCount() {
+      const el = document.getElementById("favCount");
+      if (el) el.textContent = favorites.length;
+      const btn = document.getElementById("favBtn");
+      if (btn) btn.classList.toggle("active", showingFavorites);
     }
 
-    const names = {
-        all:"All Games",
-        action:"Action",
-        adventure:"Adventure",
-        arcade:"Arcade"
-    };
+    function isFav(title) {
+      return favorites.indexOf(title) !== -1;
+    }
 
-    document.getElementById("sectionTitle").textContent =
-        names[category] || "All Games";
+    function addFavorite(title) {
+      if (!isFav(title)) {
+        favorites.push(title);
+        saveFavorites();
+      }
+      updateGameFavButton();
+      refreshCardHearts();
+    }
 
-    renderGames();
+    function removeFavorite(title) {
+      const i = favorites.indexOf(title);
+      if (i !== -1) {
+        favorites.splice(i, 1);
+        saveFavorites();
+      }
+      updateGameFavButton();
+    }
 
-    window.scrollTo({
-        top:document.querySelector(".games-area").offsetTop - 70,
-        behavior:"smooth"
-    });
+    function updateGameFavButton() {
+      const btn = document.getElementById("gameFavBtn");
+      if (!btn || !currentGameTitle) return;
+      if (isFav(currentGameTitle)) {
+        btn.classList.add("is-fav");
+        btn.innerHTML = "♥";
+        btn.title = "Added to Favorites";
+      } else {
+        btn.classList.remove("is-fav");
+        btn.innerHTML = "☆ Fav";
+        btn.title = "Add to Favorites";
+      }
+    }
 
-}
+    function toggleGameFavorite() {
+      if (!currentGameTitle) return;
+      if (isFav(currentGameTitle)) return; // already fav → only heart, no remove here
+      addFavorite(currentGameTitle);
+    }
 
+    function refreshCardHearts() {
+      document.querySelectorAll(".fav-toggle").forEach(btn => {
+        const t = btn.getAttribute("data-title");
+        const fav = isFav(t);
+        btn.classList.toggle("is-fav", fav);
+        btn.textContent = fav ? "♥" : "☆";
+        btn.title = fav ? "In Favorites" : "Add to Favorites";
+      });
+    }
 
-/* =========================================================
-   SEARCH
-   ========================================================= */
-
-function performSearch(value){
-
-    currentSearch = value;
-
-    renderGames();
-
-}
-
-
-document
-    .getElementById("headerSearch")
-    .addEventListener("input",function(){
-
-        document.getElementById("heroSearch").value =
-            this.value;
-
-        performSearch(this.value);
-
-    });
-
-
-document
-    .getElementById("heroSearch")
-    .addEventListener("input",function(){
-
-        document.getElementById("headerSearch").value =
-            this.value;
-
-        performSearch(this.value);
-
-    });
-
-
-/* =========================================================
-   OPEN GAME
-   ========================================================= */
-
-function openGame(title){
-
-    const game = games.find(function(g){
-        return g.title === title;
-    });
-
-    if(!game || !game.path){
-        alert("Game is not available yet.");
+    // Card star: only ADD to favorites (remove only via Favorites page flow)
+    function toggleFavorite(title, ev) {
+      if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+      if (removeFavMode && showingFavorites) {
+        confirmRemoveFavorite(title);
         return;
+      }
+      if (!isFav(title)) {
+        addFavorite(title);
+        refreshCardHearts();
+      }
     }
 
-    const frame = document.getElementById("gameFrame");
+    function cardHTML(g) {
+      const fav = !g.comingSoon && isFav(g.title);
+      const safe = g.title.replace(/'/g, "\\'");
+      const removeClass = (showingFavorites && removeFavMode) ? " remove-select-mode" : "";
+      const heartBtn = g.comingSoon || (showingFavorites && removeFavMode)
+        ? ""
+        : `<button type="button" class="fav-toggle${fav ? " is-fav" : ""}" data-title="${safe}" onclick="toggleFavorite('${safe}', event)" title="${fav ? "In Favorites" : "Add to Favorites"}">${fav ? "♥" : "☆"}</button>`;
+      const clickAttr = g.comingSoon ? "" : ` onclick="onCardClick('${safe}')" role="button" tabindex="0"`;
+      const action = g.comingSoon ? "Coming soon ✦" : (showingFavorites && removeFavMode ? "Select to remove →" : "Play game →");
+      return `<div class="game-card${removeClass}${g.comingSoon ? " coming-soon-card" : ""}"${clickAttr}>
+        <div class="game-image">
+          <span class="game-category-tag">${g.cat}</span>
+          ${heartBtn}
+          ${g.icon}
+        </div>
+        <div class="game-info"><h3>${g.title}</h3><p>${g.desc}</p><span class="game-action">${action}</span></div>
+      </div>`;
+    }
 
-    document.getElementById("overlayGameTitle").textContent =
-        game.title;
+    function onCardClick(title) {
+      if (showingFavorites && removeFavMode) {
+        confirmRemoveFavorite(title);
+        return;
+      }
+      openGame(title);
+    }
 
-    frame.src = game.path;
+    function confirmRemoveFavorite(title) {
+      if (!isFav(title)) return;
+      const ok = confirm('Remove "' + title + '" from Favorites?');
+      if (!ok) return;
+      removeFavorite(title);
+      removeFavMode = false;
+      renderFavorites();
+    }
 
-    document
-        .getElementById("homeScreenView")
-        .classList.add("hidden");
+    function sidebarHTML(g) {
+      return `<div class="sidebar-game-item" onclick="openGame('${g.title.replace(/'/g, "\\'")}')">
+        <div class="sidebar-game-icon">${g.icon}</div>
+        <div class="sidebar-game-info"><h4>${g.title}</h4></div>
+      </div>`;
+    }
 
-    document
-        .getElementById("gameScreenView")
-        .classList.add("active");
+    function renderHome(cat) {
+      showingFavorites = false;
+      removeFavMode = false;
+      updateFavCount();
+      const list = cat === "all" ? games : games.filter(g => g.cat === cat);
+      const bar = document.getElementById("favPageBar");
+      if (bar) bar.remove();
+      const titleEl = document.querySelector("#games > .section-title");
+      if (titleEl) {
+        titleEl.style.display = "";
+        titleEl.textContent = cat === "all" ? "All Games" : (cat.charAt(0).toUpperCase() + cat.slice(1));
+      }
+      document.getElementById("homeGrid").innerHTML = list.map(cardHTML).join("");
+    }
 
-    window.scrollTo(0,0);
+    function renderFavorites() {
+      showingFavorites = true;
+      updateFavCount();
+      document.getElementById("gameScreenView").classList.remove("active");
+      document.getElementById("homeScreenView").classList.remove("hidden");
 
-}
+      const main = document.getElementById("games");
+      let bar = document.getElementById("favPageBar");
+      if (!bar) {
+        bar = document.createElement("div");
+        bar.id = "favPageBar";
+        bar.className = "fav-page-bar";
+        main.insertBefore(bar, document.getElementById("homeGrid"));
+      }
+      bar.innerHTML = `
+        <h2 class="section-title" style="margin:0;">⭐ Favorite Games</h2>
+        <button type="button" id="removeFavModeBtn" class="${removeFavMode ? "active" : ""}">${removeFavMode ? "Cancel Remove" : "Remove Favourite"}</button>
+        <div id="removeFavHint" class="${removeFavMode ? "show" : ""}">Select a game below, then confirm to remove it from Favorites.</div>
+      `;
+      // hide original section title if present
+      const oldTitle = main.querySelector(":scope > .section-title");
+      if (oldTitle && oldTitle.id !== "favPageBar") oldTitle.style.display = "none";
 
+      document.getElementById("removeFavModeBtn").onclick = () => {
+        removeFavMode = !removeFavMode;
+        renderFavorites();
+      };
 
-/* =========================================================
-   HOME
-   ========================================================= */
+      const list = games.filter(g => !g.comingSoon && isFav(g.title));
+      const grid = document.getElementById("homeGrid");
+      if (!list.length) {
+        removeFavMode = false;
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px 16px;opacity:0.9;">
+          <div style="font-size:40px;margin-bottom:10px;">⭐</div>
+          <h3 style="margin-bottom:8px;">No favorites yet</h3>
+          <p style="font-size:14px;opacity:0.85;">Open a game and tap <b>☆ Fav</b> on the top-right to add it here.</p>
+        </div>`;
+        const rm = document.getElementById("removeFavModeBtn");
+        if (rm) rm.style.display = "none";
+      } else {
+        grid.innerHTML = list.map(cardHTML).join("");
+      }
+      document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+      window.scrollTo(0, 0);
+    }
 
-function goHome(){
+    function renderSideAndBottom() {
+      document.getElementById("sidebarGames").innerHTML = games.filter(g => !g.comingSoon).map(sidebarHTML).join("");
+      document.getElementById("bottomGrid").innerHTML = games.map(cardHTML).join("");
+    }
 
-    const frame = document.getElementById("gameFrame");
+    function openGame(title) {
+      const game = games.find(g => g.title === title);
+      if (!game || game.comingSoon || !game.path) return;
+      currentGameTitle = title;
+      document.getElementById("overlayGameTitle").textContent = title;
+      document.getElementById("gameFrame").src = game.path;
+      document.getElementById("homeScreenView").classList.add("hidden");
+      document.getElementById("gameScreenView").classList.add("active");
+      updateGameFavButton();
+      window.scrollTo(0, 0);
+    }
 
-    frame.src = "about:blank";
+    function goHome() {
+      document.getElementById("gameScreenView").classList.remove("active");
+      document.getElementById("homeScreenView").classList.remove("hidden");
+      document.getElementById("gameFrame").src = "";
+      window.scrollTo(0, 0);
+    }
 
-    document
-        .getElementById("gameScreenView")
-        .classList.remove("active");
+    function toggleFullscreen() {
+      const wrap = document.getElementById("frameWrap");
+      if (!document.fullscreenElement) {
+        wrap.requestFullscreen().catch(err => alert("Fullscreen error: " + err.message));
+      } else {
+        document.exitFullscreen();
+      }
+    }
 
-    document
-        .getElementById("homeScreenView")
-        .classList.remove("hidden");
+    let liked = false;
+    function toggleLike() {
+      const btn = document.getElementById("likeBtn");
+      liked = !liked;
+      if (liked) {
+        btn.innerHTML = "❤️ 144";
+        btn.style.background = "#e85454";
+      } else {
+        btn.innerHTML = "❤️ 143";
+        btn.style.background = "#bea2a2";
+      }
+    }
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
+    function shareGame() {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Game link copied to clipboard!");
+    }
+
+    function reportBug() {
+      alert("Bug report sent successfully!");
+    }
+
+    document.querySelectorAll(".category-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderHome(btn.dataset.cat);
+      });
     });
 
-}
-
-
-/* =========================================================
-   LOGIN
-   ========================================================= */
-
-function showComingSoon(){
-
-    alert("Login feature is coming soon.");
-
-}
-
-
-/* =========================================================
-   SAFE HTML
-   ========================================================= */
-
-function escapeHTML(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================================
-   IFRAME ERROR
-   ========================================================= */
-
-document
-    .getElementById("gameFrame")
-    .addEventListener("error",function(){
-
-        document.getElementById("overlayGameTitle").textContent =
-            "Game could not be loaded";
-
+    // Zoom lock
+    document.addEventListener("gesturestart", e => e.preventDefault(), { passive: false });
+    document.addEventListener("gesturechange", e => e.preventDefault(), { passive: false });
+    document.addEventListener("gestureend", e => e.preventDefault(), { passive: false });
+    document.addEventListener("wheel", e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
+    document.addEventListener("keydown", e => {
+      if (e.ctrlKey && (e.key === "+" || e.key === "-" || e.key === "=" || e.key === "0")) e.preventDefault();
     });
 
+    
+    // Crazy sidebar filter
+    function filterGames(filter) {
+      showingFavorites = false;
+      removeFavMode = false;
+      updateFavCount();
+      const bar = document.getElementById("favPageBar");
+      if (bar) bar.remove();
+      let list;
+      if (filter === "all") list = games;
+      else if (filter === "action" || filter === "adventure" || filter === "arcade")
+        list = games.filter(g => g.cat === filter);
+      else
+        list = games.filter(g => (g.tags || []).includes(filter));
 
-/* =========================================================
-   START
-   ========================================================= */
+      document.getElementById("gameScreenView").classList.remove("active");
+      document.getElementById("homeScreenView").classList.remove("hidden");
+      document.getElementById("homeGrid").innerHTML = list.map(cardHTML).join("");
+      document.querySelectorAll(".category-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.cat === "all");
+      });
+      document.querySelectorAll("#crazySidebar .sb-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.filter === filter);
+      });
+      const title = document.querySelector("#games > .section-title");
+      if (title) {
+        title.style.display = "";
+        const lab = document.querySelector('#crazySidebar .sb-btn[data-filter="'+filter+'"]');
+        title.textContent = lab ? lab.textContent.trim() : "All Games";
+      }
+      window.scrollTo(0, 0);
+    }
 
-renderGames();
+    document.querySelectorAll("#crazySidebar .sb-btn").forEach(btn => {
+      btn.addEventListener("click", () => filterGames(btn.dataset.filter));
+    });
 
-</script>
+    // Favorites button
+    (function () {
+      const favBtn = document.getElementById("favBtn");
+      if (!favBtn) return;
+      favBtn.addEventListener("click", () => {
+        if (showingFavorites) {
+          renderHome("all");
+          document.querySelectorAll(".category-btn").forEach(b => {
+            b.classList.toggle("active", b.dataset.cat === "all");
+          });
+        } else {
+          renderFavorites();
+        }
+      });
+      updateFavCount();
+    })();
 
-</body>
-</html>
+    renderHome("all");
+    renderSideAndBottom();
+    updateFavCount();
+
+    // Sidebar arrow toggle
+    (function () {
+      const sb = document.getElementById("crazySidebar");
+      const arrow = document.getElementById("sideArrow");
+      const hot = document.getElementById("sideHotzone");
+      if (!sb || !arrow) return;
+      function setOpen(open) {
+        sb.classList.toggle("open", open);
+        document.body.classList.toggle("sidebar-open", open);
+        arrow.textContent = open ? "‹" : "›";
+      }
+      arrow.addEventListener("click", (e) => {
+        e.stopPropagation();
+        setOpen(!sb.classList.contains("open"));
+      });
+      // keep hover behavior; when mouse leaves sidebar close unless pinned by click
+      let pinned = false;
+      arrow.addEventListener("click", () => { pinned = sb.classList.contains("open"); });
+      sb.addEventListener("mouseenter", () => setOpen(true));
+      if (hot) hot.addEventListener("mouseenter", () => setOpen(true));
+      sb.addEventListener("mouseleave", () => {
+        if (!pinned) setOpen(false);
+      });
+      document.addEventListener("click", (e) => {
+        if (!sb.contains(e.target) && e.target !== arrow && e.target !== hot) {
+          pinned = false;
+          setOpen(false);
+        }
+      });
+    })();
+
+
+    // Top right search (like Style Editor)
+    (function () {
+      const input = document.getElementById("topSearchInput");
+      const form = document.getElementById("topSearchWrap");
+      if (!input || !form) return;
+      function runSearch() {
+        const q = (input.value || "").toLowerCase().trim();
+        const list = !q ? games : games.filter(g =>
+          g.title.toLowerCase().includes(q) ||
+          g.desc.toLowerCase().includes(q) ||
+          g.cat.toLowerCase().includes(q)
+        );
+        document.getElementById("gameScreenView").classList.remove("active");
+        document.getElementById("homeScreenView").classList.remove("hidden");
+        document.getElementById("homeGrid").innerHTML = list.map(cardHTML).join("");
+        document.querySelectorAll(".category-btn").forEach(b => {
+          b.classList.toggle("active", b.dataset.cat === "all");
+        });
+      }
+      input.addEventListener("input", runSearch);
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        runSearch();
+      });
+    })();
+
+
+
+    const infoPages = {
+      about: `<h2>About Balo Games</h2><p>Balo Games is a browser gaming website where players can discover and play online games across action, adventure, and arcade categories.</p><p>Our goal is to provide a simple, fast, and enjoyable place to play games on supported devices.</p>`,
+      contact: `<h2>Contact Balo Games</h2><p>If you need help, want to report a problem, or have feedback about a game, please contact the Balo Games team through the official contact channel provided with the website.</p><p>For game bugs, you can also use the Bug Report button on the game screen.</p>`,
+      privacy: `<h2>Privacy Policy</h2><p>Balo Games is designed to provide browser-based gaming content. We aim to collect only information needed to operate and improve the website.</p><p>Third-party services, analytics, advertising, or browser storage may have their own policies where applicable. Please review their policies before using those services.</p>`,
+      terms: `<h2>Terms &amp; Conditions</h2><p>By using Balo Games, you agree to use the website responsibly and not to interfere with its operation or misuse its content.</p><p>Game availability and features may change as the website is updated.</p>`,
+      cookies: `<h2>Cookie Policy</h2><p>Balo Games may use browser storage or similar technologies where needed for website functionality. Third-party services may also use their own technologies according to their policies.</p>`
+    };
+    function showInfo(page){ document.getElementById('infoContent').innerHTML=infoPages[page]||infoPages.about; document.getElementById('infoModal').classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeInfo(){ document.getElementById('infoModal').classList.remove('open'); document.body.style.overflow=''; }
+
+    /* Login + Settings */
+    let currentUser = null;
+    try { currentUser = JSON.parse(localStorage.getItem("baloUser") || "null"); } catch (e) { currentUser = null; }
+
+    let appSettings = {
+      sound: false,
+      music: false,
+      volume: 70
+    };
+    try {
+      const saved = JSON.parse(localStorage.getItem("baloSettings") || "null");
+      if (saved) appSettings = Object.assign(appSettings, saved);
+    } catch (e) {}
+
+    function saveSettings() {
+      localStorage.setItem("baloSettings", JSON.stringify(appSettings));
+      applySettings();
+    }
+
+    function applySettings() {
+      const volEl = document.getElementById("setVolume");
+      if (volEl) volEl.value = appSettings.volume;
+
+      const soundBtn = document.getElementById("setSound");
+      const musicBtn = document.getElementById("setMusic");
+      if (soundBtn) {
+        soundBtn.textContent = appSettings.sound ? "ON" : "OFF";
+        soundBtn.className = "toggle-btn " + (appSettings.sound ? "on" : "off");
+      }
+      if (musicBtn) {
+        musicBtn.textContent = appSettings.music ? "ON" : "OFF";
+        musicBtn.className = "toggle-btn " + (appSettings.music ? "on" : "off");
+      }
+    }
+
+    function updateLoginButton() {
+      const btn = document.getElementById("loginBtn");
+      if (!btn) return;
+      if (currentUser && currentUser.email) {
+        btn.classList.add("logged-in", "is-settings");
+        btn.innerHTML = '<span class="login-ico">⚙️</span><span class="login-label">Settings</span>';
+        btn.title = "Settings";
+      } else {
+        btn.classList.remove("logged-in", "is-settings");
+        btn.innerHTML = '<span class="login-ico">👤</span><span class="login-label">Login</span>';
+        btn.title = "Login";
+      }
+    }
+
+    function openLogin() {
+      if (currentUser && currentUser.email) {
+        openSettings();
+        return;
+      }
+      document.getElementById("loginModal").classList.add("open");
+      document.body.style.overflow = "hidden";
+      setTimeout(() => {
+        const em = document.getElementById("loginEmail");
+        if (em) em.focus();
+      }, 50);
+    }
+
+    function closeLogin() {
+      document.getElementById("loginModal").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    function openSettings() {
+      const label = document.getElementById("settingsUserLabel");
+      if (label && currentUser) {
+        label.textContent = "Logged in as " + (currentUser.email || currentUser.name);
+      }
+      applySettings();
+      document.getElementById("settingsModal").classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeSettings() {
+      document.getElementById("settingsModal").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    function finishLogin(user) {
+      currentUser = user;
+      localStorage.setItem("baloUser", JSON.stringify(currentUser));
+      updateLoginButton();
+      closeLogin();
+      openSettings();
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = (document.getElementById("loginEmail").value || "").trim();
+      const pass = document.getElementById("loginPass").value || "";
+      if (!email || !pass) return false;
+      if (pass.length < 4) {
+        alert("Password must be at least 4 characters.");
+        return false;
+      }
+      finishLogin({
+        email: email,
+        name: email.split("@")[0],
+        provider: "email"
+      });
+      return false;
+    }
+
+    function loginWithGoogle() {
+      // Real Google OAuth needs Google Client ID + Google Identity Services script.
+      // Without your Client ID, browser cannot open a real Google account picker that verifies users.
+      alert(
+        "Google login is ready in UI, but real Google sign-in needs your Google Cloud OAuth Client ID (or Firebase).\n\n" +
+        "Share Client ID later and it can be connected.\n\n" +
+        "For now use Email login or Guest."
+      );
+    }
+
+    function loginAsGuest() {
+      finishLogin({
+        email: "guest@balogames.local",
+        name: "Guest",
+        provider: "guest"
+      });
+    }
+
+    document.getElementById("googleLoginBtn").addEventListener("click", loginWithGoogle);
+    document.getElementById("guestLoginBtn").addEventListener("click", loginAsGuest);
+
+    function doLogout() {
+      currentUser = null;
+      localStorage.removeItem("baloUser");
+      updateLoginButton();
+      closeSettings();
+    }
+
+    // Settings controls
+    document.getElementById("setVolume").addEventListener("input", function () {
+      appSettings.volume = parseInt(this.value, 10);
+      saveSettings();
+    });
+    document.getElementById("setSound").addEventListener("click", function () {
+      appSettings.sound = !appSettings.sound;
+      saveSettings();
+    });
+    document.getElementById("setMusic").addEventListener("click", function () {
+      appSettings.music = !appSettings.music;
+      saveSettings();
+    });
+    document.getElementById("logoutBtn").addEventListener("click", doLogout);
+
+    document.getElementById("loginBtn").addEventListener("click", function () {
+      alert("Login is coming soon.");
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") { closeInfo(); closeLogin(); closeSettings(); }
+    });
+    updateLoginButton();
+    applySettings();
+    </script>
+
+
+</body></html>
