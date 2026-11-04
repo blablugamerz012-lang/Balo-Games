@@ -118,11 +118,19 @@ main.wrap:before,main.wrap:after{display:none!important}
 }
 @media(max-width:390px){#dashboard .cards{grid-template-columns:1fr}}
 
+
+/* Clickable celebration button and falling visual effects */
+#magicDrop{position:fixed;right:20px;bottom:20px;z-index:50;width:54px;height:54px;border-radius:50%;padding:0;font-size:25px;background:linear-gradient(135deg,#ff28b8,#087cff);border:2px solid #fff;box-shadow:0 5px 22px #0008;cursor:pointer}
+#magicDrop:focus-visible{outline:3px solid #ffe66d;outline-offset:4px}
+.drop-item{position:fixed;top:-45px;z-index:45;pointer-events:none;animation:dropFall var(--fall-time,4s) linear forwards;will-change:transform,opacity}
+@keyframes dropFall{0%{transform:translate3d(0,-10px,0) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate3d(var(--drift,30px),110vh,0) rotate(540deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.drop-item{animation-duration:1.5s!important}}
+#lockoutNote{font-size:13px;text-align:center;color:#ffd5eb;margin:8px 0 0;min-height:18px}
 </style></head>
 <body>
 <header><h1 class="brand"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none'"></a> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
 <main class="wrap">
-<section class="panel" id="loginPanel"><div id="loginFields"><div class="welcome"><div class="welcomeIcon"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website"></a></div><p class="eyebrow">BALO GAMES • ADMIN</p><h2>Admin <span>Login</span></h2><p class="welcomeText">Sign in to manage Balo Games.</p></div><form id="loginForm"><label>Email Address</label><input id="adminEmail" type="email" required autocomplete="username" value="blablugamerz012@gmail.com"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter admin password"><button type="submit" class="ownerButton">⇥ &nbsp; Login</button></form><p><button type="button" id="forgotBtn">⟳ &nbsp; Forgot Password?</button></p><p class="secureNote">🛡 Secure Admin Access</p><p id="notice" role="status" aria-live="polite"></p></div></section>
+<section class="panel" id="loginPanel"><div id="loginFields"><div class="welcome"><div class="welcomeIcon"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website"></a></div><p class="eyebrow">BALO GAMES • ADMIN</p><h2>Admin <span>Login</span></h2><p class="welcomeText">Sign in to manage Balo Games.</p></div><form id="loginForm"><label>Email Address</label><input id="adminEmail" type="email" required autocomplete="username" value="blablugamerz012@gmail.com"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter admin password"><button type="submit" class="ownerButton">⇥ &nbsp; Login</button></form><p><button type="button" id="forgotBtn">⟳ &nbsp; Forgot Password?</button></p><p class="secureNote">🛡 Secure Admin Access</p><p id="notice" role="status" aria-live="polite"></p><p id="lockoutNote" role="status" aria-live="polite"></p></div></section>
 <section class="panel hidden" id="forgotPanel"><div class="welcomeIcon">🔐</div><h2>Forgot <span>Password?</span></h2><p>Enter your email address and we’ll send you a password reset link.</p><form id="forgotForm"><label>Email Address</label><input id="recoveryEmail" type="email" required autocomplete="email" placeholder="Email Address"><button class="ownerButton" id="sendResetBtn" type="submit">➤ &nbsp; Send Reset Link</button></form><button class="backBtn" type="button" id="backToLogin">← &nbsp; Back to Login</button><p id="forgotNotice" role="status" aria-live="polite"></p></section>
 <section class="panel hidden" id="resetPanel">
 <h2 id="resetHeading">Create Your Password</h2><p>Choose a private code with at least 12 characters.</p>
@@ -139,6 +147,7 @@ main.wrap:before,main.wrap:after{display:none!important}
 <div class="panel"><h2>💬 Comments</h2><div id="comments"></div></div>
 </section>
 </main>
+<button id="magicDrop" type="button" title="Surprise effects" aria-label="Drop colourful flowers and rain">✿</button>
 <script>
 const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
@@ -146,6 +155,24 @@ const ADMIN_UID="72706391-8b46-495e-8605-4babf75c64dc";
 const ADMIN_EMAIL="blablugamerz012@gmail.com";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:false,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id);
+
+const LOCK_KEY="balo_admin_login_lock_v1";
+const FAIL_KEY="balo_admin_login_fails_v1";
+const LOCK_MS=5*60*1000;
+function lockState(){try{return JSON.parse(localStorage.getItem(LOCK_KEY)||"0")||0}catch{return 0}}
+function failures(){try{return Number(localStorage.getItem(FAIL_KEY)||0)}catch{return 0}}
+function setFailures(n){try{localStorage.setItem(FAIL_KEY,String(n))}catch{}}
+function setLock(until){try{localStorage.setItem(LOCK_KEY,String(until))}catch{}}
+function lockMessage(){
+ const until=lockState(), left=until-Date.now();
+ if(left<=0){if(until){setLock(0);setFailures(0)}$("loginForm").querySelector('button[type="submit"]').disabled=false;$("lockoutNote").textContent="";return false;}
+ $("loginForm").querySelector('button[type="submit"]').disabled=true;
+ const mins=Math.floor(left/60000), secs=Math.ceil((left%60000)/1000);
+ $("lockoutNote").textContent="Too many failed attempts. Try again in "+mins+":"+String(secs).padStart(2,"0")+".";
+ return true;
+}
+setInterval(lockMessage,1000);
+
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function date(v){return v?new Date(v).toLocaleString():"";}
 function render(items,target,kind){
@@ -192,12 +219,26 @@ $("resetForm").addEventListener("submit",async e=>{
 });
 
 $("loginForm").addEventListener("submit",async e=>{
-  e.preventDefault();$("notice").textContent="Signing in...";
+  e.preventDefault();if(lockMessage())return;$("notice").textContent="Signing in...";
   const {error}=await db.auth.signInWithPassword({email:$("adminEmail").value.trim(),password:$("password").value});
-  if(error){$("notice").textContent="Password is incorrect. Try again or use Forgot Password.";return;}
-  await showDashboard();
+  if(error){const n=failures()+1;if(n>=3){setFailures(0);setLock(Date.now()+LOCK_MS);$("notice").textContent="3 incorrect attempts. Login paused for 5 minutes.";}else{setFailures(n);$("notice").textContent="Incorrect login. "+(3-n)+" attempt(s) left before a 5-minute pause.";}lockMessage();return;}
+  setFailures(0);setLock(0);await showDashboard();
 });
+
 $("refresh").addEventListener("click",loadData);
+$("magicDrop").addEventListener("click",()=>{
+ const symbols=["🌸","🌼","🌺","🌷","💧","✿","❀","●","✦","💠"];
+ const colors=["#ff4fa3","#ffd43b","#66d9ff","#a78bfa","#72e6a6","#ff8a4c","#ffffff"];
+ for(let i=0;i<44;i++){
+  const el=document.createElement("span");el.className="drop-item";
+  const rain=Math.random()<.24;el.textContent=rain?"💧":symbols[Math.floor(Math.random()*symbols.length)];
+  if(!rain){el.style.color=colors[Math.floor(Math.random()*colors.length)];el.style.fontSize=(14+Math.random()*22)+"px";}
+  else el.style.fontSize=(13+Math.random()*13)+"px";
+  el.style.left=(Math.random()*100)+"vw";el.style.setProperty("--fall-time",(2.8+Math.random()*3.8)+"s");el.style.setProperty("--drift",((Math.random()-.5)*180)+"px");
+  document.body.appendChild(el);el.addEventListener("animationend",()=>el.remove(),{once:true});
+ }
+});
+
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
 $("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
 db.auth.getSession().then(showDashboard);
