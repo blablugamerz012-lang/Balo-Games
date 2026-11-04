@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Balo Games — Admin Dashboard</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="this.onerror=null;this.src='https://unpkg.com/@supabase/supabase-js@2';"></script>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#071a48;color:#fff}
 header{background:linear-gradient(120deg,#c10b7e,#066ddb);padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -72,7 +72,15 @@ async function showDashboard(){
 }
 async function sendOwnerRecovery(){ $("notice").textContent="Sending secure recovery email...";try{const {data,error}=await db.auth.resetPasswordForEmail($("adminEmail").value.trim(),{redirectTo:"https://blablugamerz012-lang.github.io/Balo-Games/admin.html"});if(error)throw error;$("notice").textContent="Recovery email sent to the registered owner Gmail. Check Inbox and Spam.";return true;}catch(err){console.error("Owner recovery error:",err);$("notice").textContent="Email send failed: "+(err.message||"Check Supabase Auth email/SMTP settings.");return false;} }
 $("forgotBtn").addEventListener("click",async()=>{
-  $("forgotBtn").disabled=true;await sendOwnerRecovery();$("forgotBtn").disabled=false;
+  const btn=$("forgotBtn");
+  btn.disabled=true;
+  try {
+    if(!window.supabase || !db || !db.auth){$("notice").textContent="Login service did not load. Refresh the page and try again.";return;}
+    await sendOwnerRecovery();
+  } catch(err) {
+    console.error("Forgot password button error:",err);
+    $("notice").textContent="Could not start password recovery: "+(err.message||"Please refresh and try again.");
+  } finally { btn.disabled=false; }
 });
 
 db.auth.onAuthStateChange((event,session)=>{
