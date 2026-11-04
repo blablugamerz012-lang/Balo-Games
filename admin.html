@@ -126,6 +126,17 @@ main.wrap:before,main.wrap:after{display:none!important}
 @keyframes dropFall{0%{transform:translate3d(0,-10px,0) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate3d(var(--drift,30px),110vh,0) rotate(540deg);opacity:0}}
 @media(prefers-reduced-motion:reduce){.drop-item{animation-duration:1.5s!important}}
 #lockoutNote{font-size:13px;text-align:center;color:#ffd5eb;margin:8px 0 0;min-height:18px}
+
+#sideArrow{position:fixed;right:0;top:48%;z-index:61;width:38px;height:64px;border-radius:14px 0 0 14px;padding:0;font-size:34px;line-height:1;background:linear-gradient(150deg,#ff22ad,#087cff);border:1px solid #fff;box-shadow:0 4px 18px #0008;transition:right .25s}
+#effectsPanel{position:fixed;z-index:60;right:0;top:50%;transform:translate(105%,-50%);width:min(260px,82vw);padding:18px;background:linear-gradient(150deg,#08194d,#10106a);border:1px solid #38d5ff;border-right:0;border-radius:18px 0 0 18px;box-shadow:0 8px 30px #0009;transition:transform .28s ease}
+#effectsPanel.open{transform:translate(0,-50%)}
+#effectsPanel .effectsHead{display:flex;align-items:center;justify-content:space-between;font-weight:900;margin-bottom:14px}
+#effectsPanel button{display:block;width:100%;margin:9px 0;padding:12px;border-radius:11px;background:linear-gradient(100deg,#ed149c,#087cff);color:#fff;font-weight:800}
+#effectsPanel #closeEffects{width:30px;height:30px;padding:0;margin:0 0 0 8px;background:#243b79;font-size:21px}
+#effectsPanel .holdHint{font-size:12px;color:#d8e7ff;text-align:center;margin:6px 0 12px}
+body.screen-jolt{animation:screenJolt .55s ease}
+@keyframes screenJolt{0%,100%{transform:translate(0) rotate(0)}15%{transform:translate(-8px,3px) rotate(-1deg)}30%{transform:translate(8px,-3px) rotate(1deg)}45%{transform:translate(-6px,2px) rotate(-.7deg)}60%{transform:translate(6px,-2px) rotate(.7deg)}75%{transform:translate(-3px,1px) rotate(-.3deg)}}
+@media(prefers-reduced-motion:reduce){#effectsPanel,#sideArrow{transition:none}body.screen-jolt{animation:none}}
 </style></head>
 <body>
 <header><h1 class="brand"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none'"></a> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
@@ -147,7 +158,7 @@ main.wrap:before,main.wrap:after{display:none!important}
 <div class="panel"><h2>💬 Comments</h2><div id="comments"></div></div>
 </section>
 </main>
-<button id="magicDrop" type="button" title="Surprise effects" aria-label="Drop colourful flowers and rain">✿</button>
+<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead">Balo Games Effects <button id="closeEffects" type="button" aria-label="Close panel">×</button></div><button id="magicDrop" type="button">🌸 Flowers & Rain</button><p class="holdHint">3 seconds hold = automatic effects</p><button id="shoeEffect" type="button" aria-label="Screen shake effect">👟 Shoe</button></aside>
 <script>
 const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
@@ -226,18 +237,24 @@ $("loginForm").addEventListener("submit",async e=>{
 });
 
 $("refresh").addEventListener("click",loadData);
-$("magicDrop").addEventListener("click",()=>{
- const symbols=["🌸","🌼","🌺","🌷","💧","✿","❀","●","✦","💠"];
+
+const effectsPanel=$("effectsPanel"), sideArrow=$("sideArrow");
+function toggleEffects(open){effectsPanel.classList.toggle("open",open);effectsPanel.setAttribute("aria-hidden",String(!open));sideArrow.setAttribute("aria-expanded",String(open));sideArrow.textContent=open?"›":"‹";}
+sideArrow.addEventListener("click",()=>toggleEffects(!effectsPanel.classList.contains("open")));
+$("closeEffects").addEventListener("click",()=>toggleEffects(false));
+function dropBurst(){
+ const symbols=["🌸","🌼","🌺","🌷","💧","✿","❀","✦","💠"];
  const colors=["#ff4fa3","#ffd43b","#66d9ff","#a78bfa","#72e6a6","#ff8a4c","#ffffff"];
- for(let i=0;i<44;i++){
-  const el=document.createElement("span");el.className="drop-item";
-  const rain=Math.random()<.24;el.textContent=rain?"💧":symbols[Math.floor(Math.random()*symbols.length)];
-  if(!rain){el.style.color=colors[Math.floor(Math.random()*colors.length)];el.style.fontSize=(14+Math.random()*22)+"px";}
-  else el.style.fontSize=(13+Math.random()*13)+"px";
-  el.style.left=(Math.random()*100)+"vw";el.style.setProperty("--fall-time",(2.8+Math.random()*3.8)+"s");el.style.setProperty("--drift",((Math.random()-.5)*180)+"px");
-  document.body.appendChild(el);el.addEventListener("animationend",()=>el.remove(),{once:true});
- }
-});
+ for(let i=0;i<38;i++){const el=document.createElement("span");el.className="drop-item";const rain=Math.random()<.28;el.textContent=rain?"💧":symbols[Math.floor(Math.random()*symbols.length)];if(!rain)el.style.color=colors[Math.floor(Math.random()*colors.length)];el.style.fontSize=(14+Math.random()*22)+"px";el.style.left=(Math.random()*100)+"vw";el.style.setProperty("--fall-time",(2.8+Math.random()*3.8)+"s");el.style.setProperty("--drift",((Math.random()-.5)*180)+"px");document.body.appendChild(el);el.addEventListener("animationend",()=>el.remove(),{once:true});}
+}
+let autoDrops=false,autoTimer=null,holdTimer=null,longHold=false;
+function startAuto(){if(autoDrops)return;autoDrops=true;$("magicDrop").textContent="⏹ Stop automatic effects";dropBurst();autoTimer=setInterval(dropBurst,1800);}
+function stopAuto(){autoDrops=false;clearInterval(autoTimer);autoTimer=null;$("magicDrop").textContent="🌸 Flowers & Rain";}
+$("magicDrop").addEventListener("pointerdown",()=>{longHold=false;holdTimer=setTimeout(()=>{longHold=true;startAuto();},3000);});
+["pointerup","pointerleave","pointercancel"].forEach(ev=>$("magicDrop").addEventListener(ev,()=>clearTimeout(holdTimer)));
+$("magicDrop").addEventListener("click",()=>{if(longHold){longHold=false;return;}if(autoDrops)stopAuto();else dropBurst();});
+$("shoeEffect").addEventListener("click",()=>{document.body.classList.remove("screen-jolt");void document.body.offsetWidth;document.body.classList.add("screen-jolt");setTimeout(()=>document.body.classList.remove("screen-jolt"),650);});
+
 
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
 $("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
