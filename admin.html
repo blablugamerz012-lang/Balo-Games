@@ -43,11 +43,21 @@ header{background:linear-gradient(100deg,#03082f,#11105d 65%,#09052e);border-bot
 #dashboard{width:100%;color:#fff}#dashboard .panel{background:#fff;color:#17213a}
 footer{background:#03082f;border-top:4px solid #ff0aa6}
 @media(max-width:600px){.wrap{padding:12px;margin:12px auto}#loginPanel,#forgotPanel,#resetPanel{padding:26px 18px;border-radius:25px}header{padding:12px;flex-wrap:wrap}.welcome h2{font-size:32px}}
+
+/* Final login artwork: side gamers + compact admin emblem */
+main.wrap{position:relative;isolation:isolate}
+#loginPanel{position:relative;z-index:2}
+main.wrap:before,main.wrap:after{position:absolute;z-index:1;top:50%;transform:translateY(-50%);font-size:clamp(105px,15vw,190px);line-height:1;filter:drop-shadow(0 0 18px #08c9ff) drop-shadow(0 0 24px #ff0aa6);pointer-events:none}
+main.wrap:before{content:"🧑🏻‍🎮";left:max(10px,calc((100% - 1120px)/2 - 10px));}
+main.wrap:after{content:"👩🏻‍🎧";right:max(10px,calc((100% - 1120px)/2 - 10px));filter:drop-shadow(0 0 18px #ff0aa6) drop-shadow(0 0 24px #08c9ff)}
+#loginPanel .welcomeIcon{font-size:42px;width:68px;height:68px;border-radius:20px;background:linear-gradient(135deg,#ff0aa6,#087cff);color:white;box-shadow:0 0 22px #08c9ff;display:grid;place-items:center}
+#loginPanel .welcomeIcon:before{content:"♛";font-size:48px;color:#fff;text-shadow:0 2px 8px #ffd21a}
+@media(max-width:850px){main.wrap:before,main.wrap:after{display:none}}
 </style></head>
 <body>
 <header><h1 class="brand"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none'"></a> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
 <main class="wrap">
-<section class="panel" id="loginPanel"><div id="loginFields"><div class="welcome"><div class="welcomeIcon">🎮</div><p class="eyebrow">BALO GAMES • ADMIN</p><h2>Admin <span>Login</span></h2><p class="welcomeText">Sign in to manage Balo Games.</p></div><form id="loginForm"><label>Email Address</label><input id="adminEmail" type="email" required autocomplete="username" value="blablugamerz012@gmail.com"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter admin password"><button type="submit" class="ownerButton">⇥ &nbsp; Login</button></form><p><button type="button" id="forgotBtn">⟳ &nbsp; Forgot Password?</button></p><p class="secureNote">🛡 Secure Admin Access</p><p id="notice" role="status" aria-live="polite"></p></div></section>
+<section class="panel" id="loginPanel"><div id="loginFields"><div class="welcome"><div class="welcomeIcon" aria-label="Admin emblem"></div><p class="eyebrow">BALO GAMES • ADMIN</p><h2>Admin <span>Login</span></h2><p class="welcomeText">Sign in to manage Balo Games.</p></div><form id="loginForm"><label>Email Address</label><input id="adminEmail" type="email" required autocomplete="username" value="blablugamerz012@gmail.com"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter admin password"><button type="submit" class="ownerButton">⇥ &nbsp; Login</button></form><p><button type="button" id="forgotBtn">⟳ &nbsp; Forgot Password?</button></p><p class="secureNote">🛡 Secure Admin Access</p><p id="notice" role="status" aria-live="polite"></p></div></section>
 <section class="panel hidden" id="forgotPanel"><div class="welcomeIcon">🔐</div><h2>Forgot <span>Password?</span></h2><p>Enter your email address and we’ll send you a password reset link.</p><form id="forgotForm"><label>Email Address</label><input id="recoveryEmail" type="email" required autocomplete="email" placeholder="Email Address"><button class="ownerButton" id="sendResetBtn" type="submit">➤ &nbsp; Send Reset Link</button></form><button class="backBtn" type="button" id="backToLogin">← &nbsp; Back to Login</button><p id="forgotNotice" role="status" aria-live="polite"></p></section>
 <section class="panel hidden" id="resetPanel">
 <h2 id="resetHeading">Create Your Password</h2><p>Choose a private code with at least 12 characters.</p>
