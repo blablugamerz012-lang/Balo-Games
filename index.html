@@ -915,17 +915,19 @@
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 4502;
-      width: 22px;
-      height: 56px;
-      border: 0;
-      border-radius: 0 12px 12px 0;
-      background: var(--accent, #e85454);
+      z-index: 10001;
+      width: 30px;
+      height: 64px;
+      border: 2px solid #fff;
+      border-left: 0;
+      border-radius: 0 14px 14px 0;
+      background: linear-gradient(180deg, #ff1493, #086ddb);
       color: #fff;
-      font-size: 16px;
+      font-size: 24px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 2px 0 12px rgba(0,0,0,0.35);
+      pointer-events: auto;
+      box-shadow: 3px 0 16px rgba(0,0,0,0.45);
       display: grid;
       place-items: center;
       transition: left 0.28s ease, opacity 0.2s;
@@ -935,7 +937,9 @@
     #sideArrow:hover { filter: brightness(1.1); }
     body.sidebar-open #sideArrow {
       left: 220px;
-      border-radius: 12px 0 0 12px;
+      border-left: 2px solid #fff;
+      border-right: 0;
+      border-radius: 14px 0 0 14px;
     }
     @media (max-width: 700px) {
       body.sidebar-open #sideArrow { left: 200px; }
