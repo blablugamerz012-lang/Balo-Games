@@ -156,6 +156,13 @@ body.screen-jolt{animation:screenJolt .55s ease}
 
 .bear-drop{position:fixed;top:-90px;z-index:75;pointer-events:none;font-size:clamp(38px,7vw,68px);filter:drop-shadow(0 5px 7px #0007);animation:bearFall var(--bear-time,3.8s) cubic-bezier(.2,.65,.35,1) forwards;will-change:transform,opacity}
 @keyframes bearFall{0%{transform:translate3d(0,-30px,0) rotate(-18deg);opacity:0}12%{opacity:1}75%{transform:translate3d(var(--bear-drift,30px),75vh,0) rotate(18deg)}100%{transform:translate3d(var(--bear-drift,30px),115vh,0) rotate(360deg);opacity:0}}
+
+/* Icon-only effect tiles */
+#effectsPanel .effectsHead{min-height:30px;margin-bottom:12px}
+#effectsPanel .effectsHead span{display:block;flex:1}
+#effectsPanel .effectTiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#effectsPanel button.effectTile{width:100%;aspect-ratio:1/1;min-height:68px;margin:0;padding:8px;border:1px solid #62dfff;border-radius:15px;background:linear-gradient(145deg,#142d79,#c10b7e);font-size:32px;display:grid;place-items:center;box-shadow:0 4px 12px #0005}
+#effectsPanel button.effectTile:active{transform:scale(.94)}
 </style></head>
 <body>
 <div id="screenStage">
@@ -180,7 +187,7 @@ body.screen-jolt{animation:screenJolt .55s ease}
 </main>
 </div>
 <div id="activeEffectTray" class="hidden" role="status"><span id="activeEffectName">Effect active</span><button id="removeEffect" type="button">Remove ×</button></div>
-<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead">Balo Games Effects <button id="closeEffects" type="button" aria-label="Close panel">×</button></div><button id="magicDrop" type="button">🌸 Flowers & Rain</button><p class="holdHint">Hold 3 seconds for continuous flowers and rain</p><button id="bearDrop" type="button">🧸 Dropping Bear</button><p class="holdHint">Teddy bears fall from the top</p><button id="screenEffect" type="button">🖥 Screen Effects</button><p class="holdHint">Zoom • Mirror • Flip • Cha Cha Slide • Reset</p></aside>
+<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead"><span></span><button id="closeEffects" type="button" aria-label="Close panel">×</button></div><div class="effectTiles"><button class="effectTile" id="magicDrop" type="button" aria-label="Flowers and rain" title="Flowers and rain">🌸</button><button class="effectTile" id="bearDrop" type="button" aria-label="Dropping teddy bears" title="Dropping teddy bears">🧸</button><button class="effectTile" id="screenEffect" type="button" aria-label="Screen movement" title="Screen movement">🖥️</button></div></aside>
 <script>
 const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
@@ -272,7 +279,7 @@ function dropBurst(){
 let autoDrops=false,autoTimer=null,holdTimer=null,longHold=false,screenTimer=null;
 const stage=$("screenStage"), tray=$("activeEffectTray"), trayName=$("activeEffectName");
 function showTray(label){trayName.textContent=label;tray.classList.remove("hidden");}
-function clearScreenEffect(){clearTimeout(screenTimer);stage.className="";$("screenEffect").textContent="🖥 Screen Effects";}
+function clearScreenEffect(){clearTimeout(screenTimer);stage.className="";}
 function runScreenSequence(){
   clearScreenEffect();
   const steps=[
@@ -287,10 +294,10 @@ function runScreenSequence(){
   const next=()=>{if(i>=steps.length){clearScreenEffect();showTray("Screen restored to normal");return;}
     stage.className=steps[i][0];showTray(steps[i][1]);i++;screenTimer=setTimeout(next,650);
   };
-  $("screenEffect").textContent="↻ Playing screen effects";next();
+  next();
 }
-function startAuto(){if(autoDrops)return;autoDrops=true;$("magicDrop").textContent="⏹ Stop automatic effects";dropBurst();autoTimer=setInterval(dropBurst,1800);showTray("Flowers & rain are active");}
-function stopAuto(){autoDrops=false;clearInterval(autoTimer);autoTimer=null;$("magicDrop").textContent="🌸 Flowers & Rain";document.querySelectorAll(".drop-item").forEach(x=>x.remove());showTray("Flowers & rain removed");}
+function startAuto(){if(autoDrops)return;autoDrops=true;dropBurst();autoTimer=setInterval(dropBurst,1800);showTray("Flowers & rain are active");}
+function stopAuto(){autoDrops=false;clearInterval(autoTimer);autoTimer=null;document.querySelectorAll(".drop-item").forEach(x=>x.remove());showTray("Flowers & rain removed");}
 $("magicDrop").addEventListener("pointerdown",()=>{longHold=false;holdTimer=setTimeout(()=>{longHold=true;startAuto();},3000);});
 ["pointerup","pointerleave","pointercancel"].forEach(ev=>$("magicDrop").addEventListener(ev,()=>clearTimeout(holdTimer)));
 $("magicDrop").addEventListener("click",()=>{if(longHold){longHold=false;return;}if(autoDrops)stopAuto();else{dropBurst();showTray("Flowers & rain effect");}});
