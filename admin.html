@@ -26,15 +26,10 @@ button.secondary{background:#066ddb}.hidden{display:none!important}
 <body>
 <header><h1 class="brand"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none'"></a> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
 <main class="wrap">
-<section class="panel" id="loginPanel">
-<div id="registerView" class="welcome"><div class="welcomeIcon"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none';this.parentElement.parentElement.textContent='BG'"></a></div><p class="eyebrow">BALO GAMES • OWNER SECURITY</p><h2>Register Your Owner Code</h2><p class="welcomeText">First, verify ownership through your registered Gmail. Then create your private Owner Code.</p><button type="button" id="startRegister" class="ownerButton">Register Owner Code →</button><p class="secureNote">🔒 One-time setup • Gmail verification required</p></div>
-<div id="loginFields" class="hidden"><div class="welcome" style="padding-top:4px"><div class="welcomeIcon"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none';this.parentElement.parentElement.textContent='BG'"></a></div><p class="eyebrow">BALO GAMES • ADMIN ACCESS</p><h2>Enter Owner Code</h2><p class="welcomeText">Enter your private code to open the admin dashboard.</p></div>
-<form id="loginForm"><label>Owner Code</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter your Owner Code"><button type="submit" class="ownerButton">Unlock Dashboard →</button></form>
-<p><button type="button" class="secondary" id="forgotBtn">Forgot Owner Code?</button></p><p id="notice" role="status" aria-live="polite"></p></div>
-</section>
+<section class="panel" id="loginPanel"><div id="loginFields"><div class="welcome" style="padding-top:4px"><div class="welcomeIcon"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener"><img src="./icon/icon.png" alt="Balo Games website"></a></div><p class="eyebrow">BALO GAMES • ADMIN</p><h2>Admin Login</h2><p class="welcomeText">Sign in to view the private admin dashboard.</p></div><form id="loginForm"><label>Gmail</label><input id="adminEmail" type="email" required autocomplete="username" value="blablugamerz012@gmail.com"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter admin password"><button type="submit" class="ownerButton">Open Dashboard →</button></form><p><button type="button" class="secondary" id="forgotBtn">Forgot Password?</button></p><p id="notice" role="status" aria-live="polite"></p></div></section>
 <section class="panel hidden" id="resetPanel">
-<h2 id="resetHeading">Create Your Owner Code</h2><p>Choose a private code with at least 12 characters.</p>
-<form id="resetForm"><label>New Owner Code</label><input id="newPassword" type="password" required minlength="12" autocomplete="new-password"><label>Confirm Owner Code</label><input id="confirmPassword" type="password" required minlength="12" autocomplete="new-password"><button type="submit">Save Owner Code</button></form>
+<h2 id="resetHeading">Create Your Password</h2><p>Choose a private code with at least 12 characters.</p>
+<form id="resetForm"><label>New Password</label><input id="newPassword" type="password" required minlength="12" autocomplete="new-password"><label>Confirm Password</label><input id="confirmPassword" type="password" required minlength="12" autocomplete="new-password"><button type="submit">Save Password</button></form>
 <p id="resetNotice" role="status" aria-live="polite"></p>
 </section>
 <section id="dashboard" class="hidden">
@@ -52,7 +47,6 @@ const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
 const ADMIN_UID="72706391-8b46-495e-8605-4babf75c64dc";
 const ADMIN_EMAIL="blablugamerz012@gmail.com";
-const OWNER_CODE_FLAG="balo_owner_code_registered_v1";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 const $=id=>document.getElementById(id);
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
@@ -76,10 +70,7 @@ async function showDashboard(){
   if(!user||user.id!==ADMIN_UID){await db.auth.signOut();$("loginPanel").classList.remove("hidden");$("dashboard").classList.add("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");return;}
   $("loginPanel").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logout").classList.remove("hidden");$("bell").classList.remove("hidden");await loadData();
 }
-function showOwnerEntry(){const registered=localStorage.getItem(OWNER_CODE_FLAG)==="yes";$("registerView").classList.toggle("hidden",registered);$("loginFields").classList.toggle("hidden",!registered);}
-showOwnerEntry();
-async function sendOwnerRecovery(){ $("notice").textContent="Sending secure recovery email...";try{const {data,error}=await db.auth.resetPasswordForEmail(ADMIN_EMAIL,{redirectTo:window.location.origin+window.location.pathname});if(error)throw error;$("notice").textContent="Recovery email sent to the registered owner Gmail. Check Inbox and Spam.";return true;}catch(err){console.error("Owner recovery error:",err);$("notice").textContent="Email send failed: "+(err.message||"Check Supabase Auth email/SMTP settings.");return false;} }
-$("startRegister").addEventListener("click",async()=>{const b=$("startRegister");b.disabled=true;b.textContent="Sending Gmail verification...";await sendOwnerRecovery();b.disabled=false;b.textContent="Register Owner Code →";});
+async function sendOwnerRecovery(){ $("notice").textContent="Sending secure recovery email...";try{const {data,error}=await db.auth.resetPasswordForEmail($("adminEmail").value.trim(),{redirectTo:"https://blablugamerz012-lang.github.io/Balo-Games/admin.html"});if(error)throw error;$("notice").textContent="Recovery email sent to the registered owner Gmail. Check Inbox and Spam.";return true;}catch(err){console.error("Owner recovery error:",err);$("notice").textContent="Email send failed: "+(err.message||"Check Supabase Auth email/SMTP settings.");return false;} }
 $("forgotBtn").addEventListener("click",async()=>{
   $("forgotBtn").disabled=true;await sendOwnerRecovery();$("forgotBtn").disabled=false;
 });
@@ -97,22 +88,21 @@ $("resetForm").addEventListener("submit",async e=>{
   $("resetNotice").textContent="Saving...";
   const {data:{user},error}=await db.auth.getUser();
   if(error||!user||user.id!==ADMIN_UID){$("resetNotice").textContent="Recovery session is invalid. Request a new reset link.";return;}
-  const {error:updateError}=await db.auth.updateUser({password:p,data:{owner_code_registered:true}});
+  const {error:updateError}=await db.auth.updateUser({password:p});
   if(updateError){$("resetNotice").textContent="Could not update password. Request a fresh reset link.";return;}
-  localStorage.setItem(OWNER_CODE_FLAG,"yes");
-  $("resetNotice").textContent="Owner Code saved successfully. You can now unlock the dashboard with this code.";
-  await db.auth.signOut();$("resetPanel").classList.add("hidden");$("loginPanel").classList.remove("hidden");showOwnerEntry();$("password").value="";
+  $("resetNotice").textContent="Password saved successfully. You can now unlock the dashboard with this code.";
+  await db.auth.signOut();$("resetPanel").classList.add("hidden");$("loginPanel").classList.remove("hidden");();$("password").value="";
 });
 
 $("loginForm").addEventListener("submit",async e=>{
   e.preventDefault();$("notice").textContent="Signing in...";
-  const {error}=await db.auth.signInWithPassword({email:ADMIN_EMAIL,password:$("password").value});
-  if(error){$("notice").textContent="Owner Code is incorrect. Try again or use Forgot Owner Code.";return;}
+  const {error}=await db.auth.signInWithPassword({email:$("adminEmail").value.trim(),password:$("password").value});
+  if(error){$("notice").textContent="Password is incorrect. Try again or use Forgot Password.";return;}
   await showDashboard();
 });
 $("refresh").addEventListener("click",loadData);
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
-$("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");showOwnerEntry();$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
+$("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");();$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
 db.auth.getSession().then(showDashboard);
 </script>
 </body></html>
