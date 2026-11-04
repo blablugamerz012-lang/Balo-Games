@@ -915,19 +915,17 @@
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 10001;
-      width: 30px;
-      height: 64px;
-      border: 2px solid #fff;
-      border-left: 0;
-      border-radius: 0 14px 14px 0;
-      background: linear-gradient(180deg, #ff1493, #086ddb);
+      z-index: 4502;
+      width: 22px;
+      height: 56px;
+      border: 0;
+      border-radius: 0 12px 12px 0;
+      background: var(--accent, #e85454);
       color: #fff;
-      font-size: 24px;
+      font-size: 16px;
       font-weight: 900;
       cursor: pointer;
-      pointer-events: auto;
-      box-shadow: 3px 0 16px rgba(0,0,0,0.45);
+      box-shadow: 2px 0 12px rgba(0,0,0,0.35);
       display: grid;
       place-items: center;
       transition: left 0.28s ease, opacity 0.2s;
@@ -937,9 +935,7 @@
     #sideArrow:hover { filter: brightness(1.1); }
     body.sidebar-open #sideArrow {
       left: 220px;
-      border-left: 2px solid #fff;
-      border-right: 0;
-      border-radius: 14px 0 0 14px;
+      border-radius: 12px 0 0 12px;
     }
     @media (max-width: 700px) {
       body.sidebar-open #sideArrow { left: 200px; }
@@ -962,27 +958,12 @@
     .info-close { float:right; border:0; background:#ff1493; color:#fff; border-radius:9px; padding:7px 11px; cursor:pointer; font-weight:800; }
     @media(max-width:800px){ .footer-inner{grid-template-columns:1fr 1fr;} }
     @media(max-width:500px){ .footer-inner{grid-template-columns:1fr;} }
-
-    /* Balo Games optional page effects */
-    #baloQuickEffects{position:fixed;right:14px;top:46%;z-index:9998;display:flex;flex-direction:column;gap:9px}
-    #baloQuickEffects button{width:43px;height:43px;border:1px solid #ffffff88;border-radius:50%;background:linear-gradient(145deg,#ff36b2,#086ddb);color:#fff;font-size:21px;box-shadow:0 4px 14px #0005;cursor:pointer;display:grid;place-items:center}
-    #baloQuickEffects button:focus-visible{outline:3px solid #ffe66d;outline-offset:3px}
-    .balo-flower-particle{position:fixed;top:-35px;z-index:9997;pointer-events:none;animation:baloFlowerFall var(--fall-time,4s) linear forwards}
-    @keyframes baloFlowerFall{to{transform:translate3d(var(--drift,25px),110vh,0) rotate(540deg);opacity:.12}}
-    body.balo-screen-effect{animation:baloScreenPulse .65s ease-in-out 3}
-    @keyframes baloScreenPulse{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
-    @media(max-width:600px){#baloQuickEffects{right:8px;top:auto;bottom:22%;gap:7px}#baloQuickEffects button{width:39px;height:39px;font-size:19px}}
-    @media(prefers-reduced-motion:reduce){.balo-flower-particle,body.balo-screen-effect{animation:none!important}}
   </style>
 </head>
 <body>
 
   <div id="sideHotzone" aria-hidden="true"></div>
   <button type="button" id="sideArrow" title="Categories" aria-label="Open categories">›</button>
-  <div id="baloQuickEffects" aria-label="Page effects">
-    <button type="button" id="flowerFxBtn" title="Flower effect" aria-label="Play flower effect">🌸</button>
-    <button type="button" id="screenFxBtn" title="Screen effect" aria-label="Play screen effect">✨</button>
-  </div>
   <aside id="crazySidebar" aria-label="Game categories">
     <div class="sb-brand">Balo Games</div>
     <div class="sb-sub">Categories</div>
@@ -1957,41 +1938,6 @@
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") { closeInfo(); closeLogin(); closeSettings(); }
     });
-
-    // Optional flower and gentle screen effects. No remove controls are added.
-    (function(){
-      const flowerBtn=document.getElementById("flowerFxBtn");
-      const screenBtn=document.getElementById("screenFxBtn");
-      let flowerTimer=null;
-      function dropFlowers(){
-        if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-        const petals=["🌸","🌼","🌺","🌷","✿"];
-        for(let i=0;i<24;i++){
-          const p=document.createElement("span");
-          p.className="balo-flower-particle";
-          p.textContent=petals[Math.floor(Math.random()*petals.length)];
-          p.style.left=(Math.random()*100)+"vw";
-          p.style.fontSize=(18+Math.random()*15)+"px";
-          p.style.setProperty("--fall-time",(3.2+Math.random()*2.8)+"s");
-          p.style.setProperty("--drift",((Math.random()*100)-50)+"px");
-          document.body.appendChild(p);
-          p.addEventListener("animationend",()=>p.remove(),{once:true});
-        }
-      }
-      flowerBtn.addEventListener("click",()=>{
-        dropFlowers();
-        if(flowerTimer)clearInterval(flowerTimer);
-        flowerTimer=setInterval(dropFlowers,1100);
-        setTimeout(()=>{if(flowerTimer){clearInterval(flowerTimer);flowerTimer=null;}},5200);
-      });
-      screenBtn.addEventListener("click",()=>{
-        if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-        document.body.classList.remove("balo-screen-effect");
-        void document.body.offsetWidth;
-        document.body.classList.add("balo-screen-effect");
-        setTimeout(()=>document.body.classList.remove("balo-screen-effect"),2100);
-      });
-    })();
     updateLoginButton();
     applySettings();
     </script>
