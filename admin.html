@@ -29,7 +29,13 @@ button.secondary{background:#066ddb}.hidden{display:none!important}
 <section class="panel" id="loginPanel">
 <h2>Admin Login</h2><p>Sign in with your authorized Supabase admin account.</p>
 <form id="loginForm"><label>Email</label><input id="email" type="email" required autocomplete="username"><label>Password</label><input id="password" type="password" required autocomplete="current-password"><button type="submit">Login</button></form>
-<p id="notice"></p>
+<p><button type="button" class="secondary" id="forgotBtn">Forgot password?</button></p>
+<p id="notice" role="status" aria-live="polite"></p>
+</section>
+<section class="panel hidden" id="resetPanel">
+<h2>Set a new admin password</h2><p>Use a strong password you have not used elsewhere.</p>
+<form id="resetForm"><label>New password</label><input id="newPassword" type="password" required minlength="12" autocomplete="new-password"><label>Confirm new password</label><input id="confirmPassword" type="password" required minlength="12" autocomplete="new-password"><button type="submit">Save new password</button></form>
+<p id="resetNotice" role="status" aria-live="polite"></p>
 </section>
 <section id="dashboard" class="hidden">
 <div class="panel topline"><div><h2>Feedback Overview</h2><p>Only the authorized admin account can read these submissions.</p></div><button class="secondary" id="refresh">Refresh</button></div>
@@ -68,7 +74,7 @@ async function showDashboard(){
   if(!user||user.id!==ADMIN_UID){await db.auth.signOut();$("loginPanel").classList.remove("hidden");$("dashboard").classList.add("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");return;}
   $("loginPanel").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logout").classList.remove("hidden");$("bell").classList.remove("hidden");await loadData();
 }
-$("loginForm").addEventListener("submit",async e=>{
+$("forgotBtn").addEventListener("click",async()=>{\n  const email=$("email").value.trim();\n  if(!email){$("notice").textContent="Enter your admin email first.";return;}\n  $("forgotBtn").disabled=true;$("notice").textContent="Sending recovery email...";\n  const redirectTo=window.location.origin+window.location.pathname;\n  const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo});\n  $("forgotBtn").disabled=false;\n  $("notice").textContent=error?"Could not send the email. Check Supabase Auth email settings and try again.":"If this email belongs to an account, a password reset link has been sent. Check your inbox and spam folder.";\n});\n\ndb.auth.onAuthStateChange((event,session)=>{\n  if(event==="PASSWORD_RECOVERY" && session){\n    $("loginPanel").classList.add("hidden");$("dashboard").classList.add("hidden");$("resetPanel").classList.remove("hidden");\n  }\n});\n$("resetForm").addEventListener("submit",async e=>{\n  e.preventDefault();\n  const p=$("newPassword").value, confirm=$("confirmPassword").value;\n  if(p.length<12){$("resetNotice").textContent="Use at least 12 characters.";return;}\n  if(p!==confirm){$("resetNotice").textContent="Passwords do not match.";return;}\n  $("resetNotice").textContent="Saving...";\n  const {data:{user},error}=await db.auth.getUser();\n  if(error||!user||user.id!==ADMIN_UID){$("resetNotice").textContent="Recovery session is invalid. Request a new reset link.";return;}\n  const {error:updateError}=await db.auth.updateUser({password:p});\n  if(updateError){$("resetNotice").textContent="Could not update password. Request a fresh reset link.";return;}\n  $("resetNotice").textContent="Password updated. Please log in with your new password.";\n  await db.auth.signOut();$("resetPanel").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("password").value="";\n});\n\n$("loginForm").addEventListener("submit",async e=>{
   e.preventDefault();$("notice").textContent="Signing in...";
   const {error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
   if(error){$("notice").textContent="Login failed. Check your email and password.";return;}
