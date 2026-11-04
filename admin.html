@@ -91,7 +91,7 @@ $("resetForm").addEventListener("submit",async e=>{
   const {error:updateError}=await db.auth.updateUser({password:p});
   if(updateError){$("resetNotice").textContent="Could not update password. Request a fresh reset link.";return;}
   $("resetNotice").textContent="Password saved successfully. You can now unlock the dashboard with this code.";
-  await db.auth.signOut();$("resetPanel").classList.add("hidden");$("loginPanel").classList.remove("hidden");();$("password").value="";
+  await db.auth.signOut();$("resetPanel").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("password").value="";
 });
 
 $("loginForm").addEventListener("submit",async e=>{
