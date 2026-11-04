@@ -19,7 +19,7 @@ button.secondary{background:#066ddb}.hidden{display:none!important}
 .message{white-space:pre-wrap;line-height:1.5;overflow-wrap:anywhere}
 .topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .count{font-size:26px;font-weight:900;color:#c10b7e}
-#notice{color:#b91c1c;font-size:13px;margin-top:8px}
+#notice{color:#b91c1c;font-size:13px;margin-top:8px}.welcome{text-align:center;padding:24px 12px 18px}.welcomeIcon{width:76px;height:76px;border-radius:24px;margin:0 auto 16px;display:grid;place-items:center;font-size:38px;background:linear-gradient(135deg,#ffe0f2,#dbeafe);box-shadow:0 8px 24px #071a4820}.eyebrow{font-size:11px;font-weight:900;letter-spacing:2px;color:#c10b7e}.welcome h2{font-size:27px;margin:10px 0;color:#071a48}.welcomeText{max-width:470px;margin:0 auto 24px;color:#64748b;line-height:1.6}.ownerButton{min-width:230px;padding:14px 20px;background:linear-gradient(110deg,#c10b7e,#066ddb);font-size:15px;box-shadow:0 8px 20px #066ddb35}.ownerButton span{margin-left:12px}.secureNote{font-size:12px;color:#64748b;margin-top:18px}.backButton{background:#64748b}
 @media(max-width:650px){.cards{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
@@ -27,10 +27,11 @@ button.secondary{background:#066ddb}.hidden{display:none!important}
 <header><h1>🎮 Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
 <main class="wrap">
 <section class="panel" id="loginPanel">
-<h2>Admin Login</h2><p>Sign in with your authorized Supabase admin account.</p>
-<form id="loginForm"><label>Email</label><input id="email" type="email" required autocomplete="username"><label>Password</label><input id="password" type="password" required autocomplete="current-password"><button type="submit">Login</button></form>
-<p><button type="button" class="secondary" id="forgotBtn">Forgot password?</button></p>
-<p id="notice" role="status" aria-live="polite"></p>
+<div id="ownerWelcome" class="welcome"><div class="welcomeIcon">🎮</div><p class="eyebrow">BALO GAMES • PRIVATE AREA</p><h2>Are you the Balo Games owner?</h2><p class="welcomeText">This area is reserved for the Balo Games owner. Continue to securely sign in and manage game feedback.</p><button type="button" id="ownerContinue" class="ownerButton">Yes, I’m the owner <span>→</span></button><p class="secureNote">🔒 Secure admin access</p></div>
+<div id="loginFields" class="hidden"><h2>Welcome back, Owner!</h2><p>Sign in to open your Balo Games dashboard.</p>
+<form id="loginForm"><label>Email address</label><input id="email" type="email" required autocomplete="username" placeholder="Enter your admin email"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter your password"><button type="submit">Secure Login</button></form>
+<p><button type="button" class="secondary" id="forgotBtn">Forgot password?</button> <button type="button" class="backButton" id="ownerBack">Back</button></p>
+<p id="notice" role="status" aria-live="polite"></p></div>
 </section>
 <section class="panel hidden" id="resetPanel">
 <h2>Set a new admin password</h2><p>Use a strong password you have not used elsewhere.</p>
@@ -74,6 +75,8 @@ async function showDashboard(){
   if(!user||user.id!==ADMIN_UID){await db.auth.signOut();$("loginPanel").classList.remove("hidden");$("dashboard").classList.add("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");return;}
   $("loginPanel").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logout").classList.remove("hidden");$("bell").classList.remove("hidden");await loadData();
 }
+$("ownerContinue").addEventListener("click",()=>{$("ownerWelcome").classList.add("hidden");$("loginFields").classList.remove("hidden");$("email").focus();});
+$("ownerBack").addEventListener("click",()=>{$("loginFields").classList.add("hidden");$("ownerWelcome").classList.remove("hidden");$("notice").textContent="";});
 $("forgotBtn").addEventListener("click",async()=>{
   const email=$("email").value.trim();
   if(!email){$("notice").textContent="Enter your admin email first.";return;}
@@ -111,7 +114,7 @@ $("loginForm").addEventListener("submit",async e=>{
 });
 $("refresh").addEventListener("click",loadData);
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
-$("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
+$("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("loginFields").classList.add("hidden");$("ownerWelcome").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
 db.auth.getSession().then(showDashboard);
 </script>
 </body></html>
