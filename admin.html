@@ -53,6 +53,31 @@ main.wrap:after{content:"👩🏻‍🎧";right:max(10px,calc((100% - 1120px)/2 
 #loginPanel .welcomeIcon{font-size:42px;width:68px;height:68px;border-radius:20px;background:linear-gradient(135deg,#ff0aa6,#087cff);color:white;box-shadow:0 0 22px #08c9ff;display:grid;place-items:center}
 #loginPanel .welcomeIcon:before{content:"♛";font-size:48px;color:#fff;text-shadow:0 2px 8px #ffd21a}
 @media(max-width:850px){main.wrap:before,main.wrap:after{display:none}}
+
+/* BALO ADMIN LOGIN: clean responsive design without character images */
+main.wrap{position:relative;isolation:isolate;overflow:hidden;min-height:calc(100vh - 190px);padding:34px 16px}
+main.wrap:before,main.wrap:after{content:"";position:absolute;display:block;z-index:0;pointer-events:none;top:50%;width:clamp(110px,18vw,220px);height:clamp(110px,18vw,220px);transform:translateY(-50%) rotate(45deg);border:2px solid #16cfff;border-radius:34px;background:linear-gradient(135deg,#0b4da833,#ff0aa622);box-shadow:0 0 25px #08c9ff66,inset 0 0 28px #ff0aa633}
+main.wrap:before{left:clamp(8px,5vw,70px);clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+main.wrap:after{right:clamp(8px,5vw,70px);border-color:#ff42c4;box-shadow:0 0 25px #ff0aa666,inset 0 0 28px #08c9ff33}
+#loginPanel,#forgotPanel,#resetPanel{position:relative;z-index:2;width:min(520px,100%);padding:32px clamp(18px,4vw,36px);border:1px solid #36cfff;border-radius:26px;background:linear-gradient(155deg,rgba(10,25,91,.98),rgba(4,8,43,.98));box-shadow:0 0 0 5px #ffffff08,0 18px 55px #0009,0 0 32px #08c9ff55,inset 0 0 28px #1643a944}
+main.wrap:before,main.wrap:after{opacity:.7}
+#loginPanel .welcomeIcon{width:66px;height:66px;border-radius:20px;margin:0 auto 12px;background:linear-gradient(135deg,#ff0aa6,#087cff);font-size:0;box-shadow:0 0 24px #08c9ff88}
+#loginPanel .welcomeIcon:before{content:"♛";font-size:43px;color:#fff;text-shadow:0 2px 8px #ffd21a}
+#loginPanel .welcome h2{letter-spacing:.2px}
+#loginPanel .welcomeText{font-size:14px}
+#loginPanel input,#forgotPanel input,#resetPanel input{min-height:52px;font-size:15px}
+#loginPanel button.ownerButton,#forgotPanel button.ownerButton,#resetPanel button{min-height:54px}
+#forgotBtn{cursor:pointer}
+#loginPanel .secureNote{letter-spacing:.3px}
+@media(max-width:850px){main.wrap:before,main.wrap:after{width:90px;height:90px;opacity:.25}}
+@media(max-width:600px){
+ main.wrap{min-height:calc(100svh - 110px);padding:16px 12px;margin:8px auto}
+ main.wrap:before,main.wrap:after{width:65px;height:65px;top:12%;opacity:.18}
+ #loginPanel,#forgotPanel,#resetPanel{padding:24px 17px;border-radius:22px}
+ #loginPanel .welcome h2{font-size:34px}
+ #loginPanel input{padding:14px}
+}
+
 </style></head>
 <body>
 <header><h1 class="brand"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none'"></a> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
