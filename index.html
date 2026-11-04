@@ -750,6 +750,15 @@
       transition: background 0.2s, border-color 0.2s;
     }
     .poki-btn:hover { background: var(--game-btn-hover); border-color: var(--game-btn-hover); }
+    .game-reaction-actions { justify-content: center; }
+    .game-reaction-actions .poki-btn.is-selected { background: #c10b7e; border-color: #fff; }
+    #reactionStatus { font-size: 11px; color: #263238; font-weight: 700; }
+    @media (max-width: 700px) {
+      .game-bottom-actions { justify-content: center; padding: 9px 8px; }
+      .game-reaction-actions { width: 100%; justify-content: center; gap: 6px; }
+      .game-reaction-actions .poki-btn { padding: 7px 9px; font-size: 11px; }
+      #reactionStatus { width: 100%; text-align: center; }
+    }
 
     .poki-right-sidebar {
       background: var(--card-bg-2);
@@ -1075,10 +1084,12 @@
           <iframe id="gameFrame" src="" title="Game Player" allowfullscreen=""></iframe>
         </div>
         <div class="game-bottom-actions">
-          <div class="action-group">
-            <button class="poki-btn" id="likeBtn" onclick="toggleLike()">❤️ 143</button>
-            <button class="poki-btn" onclick="shareGame()">🔗 Share</button>
-            <button class="poki-btn" onclick="reportBug()">⚠️ Bug Report</button>
+          <div class="action-group game-reaction-actions">
+            <button class="poki-btn" id="likeBtn" onclick="toggleLike()" type="button" aria-pressed="false">❤️ <span id="likeCount">0</span></button>
+            <button class="poki-btn" id="unlikeBtn" onclick="toggleUnlike()" type="button" aria-pressed="false">👎 <span id="unlikeCount">0</span></button>
+            <button class="poki-btn" id="shareGameBtn" onclick="shareGame()" type="button">🔗 Share</button>
+            <button class="poki-btn" onclick="reportBug()" type="button">⚠️ Bug Report</button>
+            <span id="reactionStatus" role="status" aria-live="polite"></span>
           </div>
           <div class="action-group">
             <button class="poki-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
@@ -1239,6 +1250,7 @@
 
   
   
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const games = [
       { title: "My Gun Life", cat: "action", tags: ["gun"], icon: "⚡", desc: "Jump into a fast-paced action game.", path: "games/my-gun-life/index.html" },
@@ -1453,6 +1465,8 @@
       document.getElementById("homeScreenView").classList.add("hidden");
       document.getElementById("gameScreenView").classList.add("active");
       updateGameFavButton();
+      history.replaceState(null, "", window.location.pathname + window.location.search + "#play=" + encodeURIComponent(reactionSlug(title)));
+      refreshGameReactions();
       window.scrollTo(0, 0);
     }
 
@@ -1460,6 +1474,8 @@
       document.getElementById("gameScreenView").classList.remove("active");
       document.getElementById("homeScreenView").classList.remove("hidden");
       document.getElementById("gameFrame").src = "";
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+      currentGameTitle = "";
       renderHome("all");
       document.querySelectorAll(".category-btn").forEach(b => {
         b.classList.toggle("active", b.dataset.cat === "all");
@@ -1476,22 +1492,137 @@
       }
     }
 
-    let liked = false;
-    function toggleLike() {
-      const btn = document.getElementById("likeBtn");
-      liked = !liked;
-      if (liked) {
-        btn.innerHTML = "❤️ 144";
-        btn.style.background = "#e85454";
-      } else {
-        btn.innerHTML = "❤️ 143";
-        btn.style.background = "#bea2a2";
+    // Live game reactions: shown only in the game screen's bottom action bar.
+    const SUPABASE_URL = "https://ajpglxinwfgpenlfbkzz.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
+    const reactionClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    let reactionVisitorId = null;
+    let reactionBusy = false;
+    let currentReaction = null;
+
+    function reactionSlug(title) {
+      return String(title || "").toLowerCase().trim()
+        .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    }
+    function setReactionStatus(message) {
+      const el = document.getElementById("reactionStatus");
+      if (el) el.textContent = message || "";
+    }
+    function paintReactionButtons() {
+      const like = document.getElementById("likeBtn");
+      const unlike = document.getElementById("unlikeBtn");
+      if (like) {
+        like.classList.toggle("is-selected", currentReaction === "like");
+        like.setAttribute("aria-pressed", String(currentReaction === "like"));
+      }
+      if (unlike) {
+        unlike.classList.toggle("is-selected", currentReaction === "dislike");
+        unlike.setAttribute("aria-pressed", String(currentReaction === "dislike"));
       }
     }
+    async function ensureReactionVisitor() {
+      if (!reactionClient) throw new Error("Reaction service could not load.");
+      const { data: sessionData, error: sessionError } = await reactionClient.auth.getSession();
+      if (sessionError) throw sessionError;
+      let user = sessionData?.session?.user;
+      if (!user) {
+        const { data, error } = await reactionClient.auth.signInAnonymously();
+        if (error) throw error;
+        user = data?.user || data?.session?.user;
+      }
+      if (!user?.id) throw new Error("Visitor session unavailable.");
+      reactionVisitorId = user.id;
+      return user.id;
+    }
+    async function refreshGameReactions() {
+      const slug = reactionSlug(currentGameTitle);
+      const likeCountEl = document.getElementById("likeCount");
+      const unlikeCountEl = document.getElementById("unlikeCount");
+      currentReaction = null;
+      paintReactionButtons();
+      if (!slug || !reactionClient) {
+        if (likeCountEl) likeCountEl.textContent = "0";
+        if (unlikeCountEl) unlikeCountEl.textContent = "0";
+        setReactionStatus("Reactions unavailable");
+        return;
+      }
+      try {
+        const visitorId = await ensureReactionVisitor();
+        const [likes, dislikes, mine] = await Promise.all([
+          reactionClient.from("game_reactions").select("visitor_id", { count: "exact", head: true })
+            .eq("game_slug", slug).eq("reaction", "like"),
+          reactionClient.from("game_reactions").select("visitor_id", { count: "exact", head: true })
+            .eq("game_slug", slug).eq("reaction", "dislike"),
+          reactionClient.from("game_reactions").select("reaction")
+            .eq("game_slug", slug).eq("visitor_id", visitorId).maybeSingle()
+        ]);
+        if (likes.error) throw likes.error;
+        if (dislikes.error) throw dislikes.error;
+        if (mine.error) throw mine.error;
+        if (likeCountEl) likeCountEl.textContent = String(likes.count ?? 0);
+        if (unlikeCountEl) unlikeCountEl.textContent = String(dislikes.count ?? 0);
+        currentReaction = mine.data?.reaction || null;
+        paintReactionButtons();
+        setReactionStatus("");
+      } catch (error) {
+        console.error("Reaction load failed:", error);
+        setReactionStatus("Could not load reactions");
+      }
+    }
+    async function saveGameReaction(nextReaction) {
+      if (!currentGameTitle || reactionBusy) return;
+      reactionBusy = true;
+      setReactionStatus("Saving...");
+      try {
+        const visitorId = await ensureReactionVisitor();
+        const slug = reactionSlug(currentGameTitle);
+        if (currentReaction === nextReaction) {
+          const { error } = await reactionClient.from("game_reactions")
+            .delete().eq("game_slug", slug).eq("visitor_id", visitorId);
+          if (error) throw error;
+          currentReaction = null;
+        } else {
+          const { error } = await reactionClient.from("game_reactions").upsert(
+            { game_slug: slug, visitor_id: visitorId, reaction: nextReaction },
+            { onConflict: "game_slug,visitor_id" }
+          );
+          if (error) throw error;
+          currentReaction = nextReaction;
+        }
+        await refreshGameReactions();
+      } catch (error) {
+        console.error("Reaction save failed:", error);
+        setReactionStatus("Could not save — check Supabase settings");
+      } finally {
+        reactionBusy = false;
+      }
+    }
+    function toggleLike() { saveGameReaction("like"); }
+    function toggleUnlike() { saveGameReaction("dislike"); }
 
-    function shareGame() {
-      navigator.clipboard.writeText(window.location.href);
-      alert("Game link copied to clipboard!");
+    async function shareGame() {
+      const game = games.find(g => g.title === currentGameTitle);
+      const url = new URL(window.location.href);
+      url.hash = "play=" + encodeURIComponent(reactionSlug(currentGameTitle));
+      const shareData = {
+        title: currentGameTitle ? currentGameTitle + " | Balo Games" : "Balo Games",
+        text: "Play " + (currentGameTitle || "games") + " on Balo Games!",
+        url: url.toString()
+      };
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+        } else if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(shareData.url);
+          setReactionStatus("Game link copied!");
+        } else {
+          window.prompt("Copy this game link:", shareData.url);
+        }
+      } catch (error) {
+        if (error?.name !== "AbortError") {
+          setReactionStatus("Could not share this game link");
+        }
+      }
     }
 
     function reportBug() {
@@ -1572,6 +1703,14 @@
     renderHome("all");
     renderSideAndBottom();
     updateFavCount();
+    // Restore a shared game link such as the homepage URL followed by #play=my-gun-life.
+    (function openSharedGameFromHash() {
+      const match = location.hash.match(/^#play=([^&]+)/);
+      if (!match) return;
+      const slug = decodeURIComponent(match[1]);
+      const game = games.find(g => !g.comingSoon && reactionSlug(g.title) === slug);
+      if (game) openGame(game.title);
+    })();
 
     // Sidebar arrow toggle
     (function () {
