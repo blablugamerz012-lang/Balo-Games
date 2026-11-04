@@ -81,13 +81,7 @@ showOwnerEntry();
 async function sendOwnerRecovery(){ $("notice").textContent="Sending secure recovery email...";const {error}=await db.auth.resetPasswordForEmail(ADMIN_EMAIL,{redirectTo:window.location.origin+window.location.pathname});$("notice").textContent=error?"Email could not be sent. Check Supabase email/SMTP settings and try again.":"If the registered owner account exists, a recovery email has been sent. Check Gmail inbox and spam."; }
 $("startRegister").addEventListener("click",sendOwnerRecovery);
 $("forgotBtn").addEventListener("click",async()=>{
-  const email=$("email").value.trim();
-  if(!email){$("notice").textContent="Enter your admin email first.";return;}
-  $("forgotBtn").disabled=true;$("notice").textContent="Sending recovery email...";
-  const redirectTo=window.location.origin+window.location.pathname;
-  const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo});
-  $("forgotBtn").disabled=false;
-  $("notice").textContent=error?"Could not send the email. Check Supabase Auth email settings and try again.":"If this email belongs to an account, a password reset link has been sent. Check your inbox and spam folder.";
+  $("forgotBtn").disabled=true;await sendOwnerRecovery();$("forgotBtn").disabled=false;
 });
 
 db.auth.onAuthStateChange((event,session)=>{
