@@ -119,86 +119,9 @@ main.wrap:before,main.wrap:after{display:none!important}
 @media(max-width:390px){#dashboard .cards{grid-template-columns:1fr}}
 
 
-/* Clickable celebration button and falling visual effects */
-#magicDrop{position:fixed;right:20px;bottom:20px;z-index:50;width:54px;height:54px;border-radius:50%;padding:0;font-size:25px;background:linear-gradient(135deg,#ff28b8,#087cff);border:2px solid #fff;box-shadow:0 5px 22px #0008;cursor:pointer}
-#magicDrop:focus-visible{outline:3px solid #ffe66d;outline-offset:4px}
-.drop-item{position:fixed;top:-45px;z-index:45;pointer-events:none;animation:dropFall var(--fall-time,4s) linear forwards;will-change:transform,opacity}
-@keyframes dropFall{0%{transform:translate3d(0,-10px,0) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate3d(var(--drift,30px),110vh,0) rotate(540deg);opacity:0}}
-@media(prefers-reduced-motion:reduce){.drop-item{animation-duration:1.5s!important}}
-#lockoutNote{font-size:13px;text-align:center;color:#ffd5eb;margin:8px 0 0;min-height:18px}
-
-#sideArrow{position:fixed;right:0;top:48%;z-index:61;width:38px;height:64px;border-radius:14px 0 0 14px;padding:0;font-size:34px;line-height:1;background:linear-gradient(150deg,#ff22ad,#087cff);border:1px solid #fff;box-shadow:0 4px 18px #0008;transition:right .25s}
-#effectsPanel{position:fixed;z-index:60;right:0;top:50%;transform:translate(105%,-50%);width:min(260px,82vw);padding:18px;background:linear-gradient(150deg,#08194d,#10106a);border:1px solid #38d5ff;border-right:0;border-radius:18px 0 0 18px;box-shadow:0 8px 30px #0009;transition:transform .28s ease}
-#effectsPanel.open{transform:translate(0,-50%)}
-#effectsPanel .effectsHead{display:flex;align-items:center;justify-content:space-between;font-weight:900;margin-bottom:14px}
-#effectsPanel button{display:block;width:100%;margin:9px 0;padding:12px;border-radius:11px;background:linear-gradient(100deg,#ed149c,#087cff);color:#fff;font-weight:800}
-#effectsPanel #closeEffects{width:30px;height:30px;padding:0;margin:0 0 0 8px;background:#243b79;font-size:21px}
-#effectsPanel .holdHint{font-size:12px;color:#d8e7ff;text-align:center;margin:6px 0 12px}
-body.screen-jolt{animation:screenJolt .55s ease}
-@keyframes screenJolt{0%,100%{transform:translate(0) rotate(0)}15%{transform:translate(-8px,3px) rotate(-1deg)}30%{transform:translate(8px,-3px) rotate(1deg)}45%{transform:translate(-6px,2px) rotate(-.7deg)}60%{transform:translate(6px,-2px) rotate(.7deg)}75%{transform:translate(-3px,1px) rotate(-.3deg)}}
-@media(prefers-reduced-motion:reduce){#effectsPanel,#sideArrow{transition:none}body.screen-jolt{animation:none}}
-
-/* Screen effects and bottom effect controls */
-#screenStage{transform-origin:center center;will-change:transform;transition:transform .55s cubic-bezier(.2,.8,.2,1);min-height:100vh}
-#activeEffectTray{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:80;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);padding:10px 12px 10px 16px;border:1px solid #6de5ff;border-radius:999px;background:linear-gradient(100deg,#09194fef,#24105eef);box-shadow:0 8px 28px #0009,0 0 18px #08c9ff66;color:#fff;font-size:13px;font-weight:800}
-#activeEffectTray.hidden{display:none!important}
-#activeEffectTray button{padding:7px 12px;border-radius:999px;background:#e6008d;color:#fff;white-space:nowrap}
-#screenStage.fx-zoom-in{transform:scale(1.12)}
-#screenStage.fx-zoom-out{transform:scale(.88)}
-#screenStage.fx-mirror{transform:scaleX(-1)}
-#screenStage.fx-flip{transform:scaleY(-1)}
-#screenStage.fx-slide-left{transform:translateX(-48px)}
-#screenStage.fx-slide-right{transform:translateX(48px)}
-#screenStage.fx-zoom-in.fx-mirror{transform:scale(1.08,-1)}
-@media(max-width:600px){#screenStage.fx-zoom-in{transform:scale(1.04)}#screenStage.fx-zoom-out{transform:scale(.96)}#screenStage.fx-slide-left{transform:translateX(-18px)}#screenStage.fx-slide-right{transform:translateX(18px)}}
-@media(prefers-reduced-motion:reduce){#screenStage{transition:none}}
-
-
-.bear-drop{position:fixed;top:-90px;z-index:75;pointer-events:none;font-size:clamp(38px,7vw,68px);filter:drop-shadow(0 5px 7px #0007);animation:bearFall var(--bear-time,3.8s) cubic-bezier(.2,.65,.35,1) forwards;will-change:transform,opacity}
-@keyframes bearFall{0%{transform:translate3d(0,-30px,0) rotate(-18deg);opacity:0}12%{opacity:1}75%{transform:translate3d(var(--bear-drift,30px),75vh,0) rotate(18deg)}100%{transform:translate3d(var(--bear-drift,30px),115vh,0) rotate(360deg);opacity:0}}
-
-/* Icon-only effect tiles */
-#effectsPanel .effectsHead{min-height:30px;margin-bottom:12px}
-#effectsPanel .effectsHead span{display:block;flex:1}
-#effectsPanel .effectTiles{display:flex;flex-direction:column;align-items:stretch;gap:14px;width:100%}
-#effectsPanel button.effectTile{display:grid!important;position:relative!important;inset:auto!important;box-sizing:border-box!important;width:100%!important;height:70px!important;min-width:100%!important;min-height:70px!important;max-width:100%!important;max-height:70px!important;aspect-ratio:auto!important;flex:0 0 70px!important;margin:0!important;padding:8px!important;border:1px solid #62dfff;border-radius:15px;background:linear-gradient(145deg,#142d79,#c10b7e);font-size:32px;place-items:center;box-shadow:0 4px 12px #0005}
-#effectsPanel button.effectTile:active{transform:scale(.94)}
-\n/* Extra admin-only visual controls */\n#effectsPanel .speedControl{height:54px;display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid #62dfff;border-radius:14px;background:#142d79;color:white;font-size:22px;margin:0;padding:8px}\n#effectsPanel .speedControl input{width:65%;margin:0;padding:0;accent-color:#ff35b6}\nbody.admin-theme-sunset{background:radial-gradient(ellipse at 50% 45%,#7b245e 0,#351044 48%,#10051e 100%)}body.admin-theme-ocean{background:radial-gradient(ellipse at 50% 45%,#087b9c 0,#082e68 48%,#030b2b 100%)}\n.fx-particle{position:fixed;top:-35px;z-index:76;pointer-events:none;font-size:24px;animation:extraFall var(--duration,3s) linear forwards}\n@keyframes extraFall{to{transform:translate3d(var(--drift,20px),110vh,0) rotate(600deg);opacity:.1}}\n#lightningFlash{position:fixed;inset:0;z-index:77;background:#fff;opacity:0;pointer-events:none}\n#lightningFlash.flash{animation:lightFlash .65s ease-out}\n@keyframes lightFlash{0%,100%{opacity:0}12%,35%{opacity:.75}22%{opacity:.08}45%{opacity:.45}}\n.fx-burst{position:fixed;z-index:76;pointer-events:none;font-size:28px;animation:burstPop 1.3s ease-out forwards}\n@keyframes burstPop{0%{transform:scale(.2);opacity:1}100%{transform:translate(var(--x),var(--y)) scale(1.3);opacity:0}}\n
-/* Clearly separated effect categories */
-#effectsPanel{max-height:88vh;overflow-y:auto;overscroll-behavior:contain}
-#effectsPanel .effectGroups{display:flex;flex-direction:column;gap:16px}
-#effectsPanel .effectGroup{padding:10px;border:1px solid #3a83cf;border-radius:14px;background:linear-gradient(145deg,#0b1c50,#15145b)}
-#effectsPanel .effectGroup h3{margin:0 0 10px;color:#fff;font-size:14px;font-weight:900;letter-spacing:.4px}
-#effectsPanel .effectGroup .effectTiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-#effectsPanel .effectGroup button.effectTile{width:100%!important;height:58px!important;min-width:0!important;min-height:58px!important;max-width:100%!important;max-height:58px!important;flex:none!important;margin:0!important;padding:6px!important;font-size:27px}
-#effectsPanel .effectGroup:has(#screenEffect) .effectTiles{grid-template-columns:1fr}
-#effectsPanel .effectGroup:has(#screenEffect) button.effectTile{width:100%!important}
-#effectsPanel .effectGroup:has(.speedControl) .effectTiles{grid-template-columns:repeat(2,minmax(0,1fr))}
-#effectsPanel .effectGroup .speedControl{grid-column:1/-1;height:58px}
-@media(max-height:650px){#effectsPanel{top:6vh;transform:translate(105%,0);max-height:88vh}#effectsPanel.open{transform:translate(0,0)}}
-
-/* Minecraft-style effect picker and saved hotbar */
-#effectPicker{position:fixed;inset:0;z-index:120;display:none;place-items:center;padding:18px;background:#020617bb;backdrop-filter:blur(5px)}
-#effectPicker.open{display:grid}
-#effectPickerCard{width:min(620px,94vw);max-height:82vh;overflow:auto;padding:20px;border:3px solid #fff;border-radius:12px;background:linear-gradient(145deg,#182b58,#0b1536);box-shadow:0 12px 0 #050b20,0 0 0 5px #ffffff22,0 20px 55px #000b}
-#effectPickerTitle{font-size:20px;font-weight:1000;margin:0 0 16px}
-#effectPickerOptions{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:10px}
-#effectPickerOptions button{min-height:88px;border:3px solid #7893c8;border-radius:8px;background:linear-gradient(145deg,#263f70,#17294f);font-size:27px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
-#effectPickerOptions button span{font-size:12px}
-#effectPickerOptions button.added{border-color:#76ef9b;box-shadow:inset 0 0 0 2px #76ef9b}
-#effectPickerClose{float:right;background:#d92775}
-#effectsPanel .effectGroup h3{cursor:pointer;padding:8px;border-radius:8px;background:#ffffff12}
-#effectsPanel .effectGroup h3:after{content:"  ▣";float:right;color:#9cecff}
-#effectHotbar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:110;display:flex;align-items:center;gap:7px;max-width:calc(100vw - 18px);overflow-x:auto;padding:8px;background:#f8fafc;border:4px solid #64748b;border-radius:7px;box-shadow:0 5px 0 #263449,0 10px 24px #0008;min-height:68px}
-#effectHotbar:empty{display:none}
-.hotbarSlot{position:relative;flex:0 0 52px;width:52px;height:50px;padding:3px!important;border:3px solid #94a3b8!important;border-radius:4px!important;background:linear-gradient(145deg,#e2e8f0,#cbd5e1)!important;color:#172554!important;font-size:23px!important;box-shadow:inset 0 0 0 2px #fff}
-.hotbarSlot.active{border-color:#eab308!important;background:#fff7c2!important}
-.hotbarSlot small{display:block;font-size:8px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hotbarRemove{position:absolute;right:-5px;top:-7px;width:17px;height:17px;padding:0!important;border-radius:50%!important;background:#dc2626!important;color:#fff!important;font-size:12px!important;line-height:17px}
-@media(max-width:480px){#effectPickerCard{padding:14px}#effectHotbar{bottom:8px;gap:4px;padding:5px}.hotbarSlot{flex-basis:46px;width:46px;height:46px}}
 </style></head>
 <body>
-<div id="screenStage">
+<div>
 <header><h1 class="brand"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none'"></a> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
 <main class="wrap">
 <section class="panel" id="loginPanel"><div id="loginFields"><div class="welcome"><div class="welcomeIcon"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website"></a></div><p class="eyebrow">BALO GAMES • ADMIN</p><h2>Admin <span>Login</span></h2><p class="welcomeText">Sign in to manage Balo Games.</p></div><form id="loginForm"><label>Email Address</label><input id="adminEmail" type="email" required autocomplete="username" value="blablugamerz012@gmail.com"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter admin password"><button type="submit" class="ownerButton">⇥ &nbsp; Login</button></form><p><button type="button" id="forgotBtn">⟳ &nbsp; Forgot Password?</button></p><p class="secureNote">🛡 Secure Admin Access</p><p id="notice" role="status" aria-live="polite"></p><p id="lockoutNote" role="status" aria-live="polite"></p></div></section>
@@ -220,53 +143,8 @@ body.screen-jolt{animation:screenJolt .55s ease}
 </main>
 </div>
 
-<div id="effectPicker" aria-hidden="true"><div id="effectPickerCard"><button id="effectPickerClose" type="button">✕</button><h2 id="effectPickerTitle">Choose effects</h2><div id="effectPickerOptions"></div></div></div>
-<div id="effectHotbar" aria-label="Saved effect slots"></div>
-<div id="activeEffectTray" class="hidden" role="status"><span id="activeEffectName">Effect active</span><button id="removeEffect" type="button">Remove ×</button></div>
-<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead"><span></span><button id="closeEffects" type="button" aria-label="Close panel">×</button></div><div class="effectGroups"><section class="effectGroup"><h3>🌧️ Falling</h3><div class="effectTiles"><button class="effectTile" id="magicDrop" type="button" aria-label="Flowers and rain" title="Flowers and rain">🌸</button><button class="effectTile" id="bearDrop" type="button" aria-label="Dropping animals" title="Dropping animals">🐾</button><button class="effectTile" id="snowEffect" type="button" aria-label="Snow" title="Snow">❄️</button></div></section><section class="effectGroup"><h3>✨ Magic</h3><div class="effectTiles"><button class="effectTile" id="confettiEffect" type="button" aria-label="Confetti" title="Confetti">🎊</button><button class="effectTile" id="lightningEffect" type="button" aria-label="Lightning" title="Lightning">⚡</button><button class="effectTile" id="fireworksEffect" type="button" aria-label="Fireworks" title="Fireworks">🎆</button></div></section><section class="effectGroup"><h3>🖥️ Screen</h3><div class="effectTiles"><button class="effectTile" id="screenEffect" type="button" aria-label="Screen movement" title="Screen movement">🖥️</button></div></section><section class="effectGroup"><h3>⚙️ Settings</h3><div class="effectTiles"><button class="effectTile" id="themeEffect" type="button" aria-label="Change background theme" title="Change background theme">🎨</button><button class="effectTile" id="soundEffect" type="button" aria-label="Toggle sound" title="Toggle sound">🔊</button><label class="speedControl" title="Effect speed">⚡ <input id="effectSpeed" type="range" min="0.5" max="2" step="0.1" value="1" aria-label="Effect speed"></label><button class="effectTile" id="resetEffects" type="button" aria-label="Reset all effects" title="Reset all effects">↩️</button></div></section></div></aside>
-<script>
 
-/* Category picker + persistent Minecraft-style effect hotbar */
-const EFFECT_GROUPS={
- "🌧️ Falling":[["magicDrop","🌸","Flowers & rain"],["bearDrop","🐾","Animals"],["snowEffect","❄️","Snow"]],
- "✨ Magic":[["confettiEffect","🎊","Confetti"],["lightningEffect","⚡","Lightning"],["fireworksEffect","🎆","Fireworks"]],
- "🖥️ Screen":[["screenEffect","🖥️","Screen movement"]],
- "⚙️ Settings":[["themeEffect","🎨","Background"],["soundEffect","🔊","Sound"],["resetEffects","↩️","Reset"]]
-};
-const HOTBAR_KEY="balo_admin_effect_hotbar_v1";
-let hotbarItems=[];
-try{hotbarItems=JSON.parse(localStorage.getItem(HOTBAR_KEY)||"[]");if(!Array.isArray(hotbarItems))hotbarItems=[];}catch{hotbarItems=[];}
-const picker=$("effectPicker"),pickerOptions=$("effectPickerOptions"),hotbar=$("effectHotbar");
-function saveHotbar(){try{localStorage.setItem(HOTBAR_KEY,JSON.stringify(hotbarItems));}catch{}}
-function renderHotbar(){
- hotbar.innerHTML="";
- hotbarItems.forEach((id,index)=>{
-  const info=Object.values(EFFECT_GROUPS).flat().find(x=>x[0]===id);if(!info)return;
-  const slot=document.createElement("button");slot.type="button";slot.className="hotbarSlot";slot.title="Click to use "+info[2];slot.innerHTML=info[1]+'<small>'+info[2]+'</small>';
-  slot.addEventListener("click",()=>{hotbar.querySelectorAll(".hotbarSlot").forEach(x=>x.classList.remove("active"));slot.classList.add("active");const original=$(id);if(original){original.click();}});
-  const remove=document.createElement("button");remove.type="button";remove.className="hotbarRemove";remove.textContent="×";remove.title="Remove";remove.addEventListener("click",e=>{e.stopPropagation();hotbarItems=hotbarItems.filter(x=>x!==id);saveHotbar();renderHotbar();});
-  slot.appendChild(remove);hotbar.appendChild(slot);
- });
-}
-function openEffectPicker(groupName){
- const items=EFFECT_GROUPS[groupName]||[];
- $("effectPickerTitle").textContent=groupName+" — Choose options";
- pickerOptions.innerHTML="";
- items.forEach(([id,emoji,label])=>{
-  const b=document.createElement("button");b.type="button";b.innerHTML=emoji+"<span>"+label+"</span>";
-  if(hotbarItems.includes(id))b.classList.add("added");
-  b.addEventListener("click",()=>{if(!hotbarItems.includes(id)){hotbarItems.push(id);saveHotbar();renderHotbar();b.classList.add("added");}else{hotbarItems=hotbarItems.filter(x=>x!==id);saveHotbar();renderHotbar();b.classList.remove("added");}});
-  pickerOptions.appendChild(b);
- });
- picker.classList.add("open");picker.setAttribute("aria-hidden","false");
-}
-document.querySelectorAll("#effectsPanel .effectGroup").forEach(group=>{
- const heading=group.querySelector("h3");if(!heading)return;
- heading.addEventListener("click",()=>openEffectPicker(heading.textContent.trim()));
-});
-$("effectPickerClose").addEventListener("click",()=>{picker.classList.remove("open");picker.setAttribute("aria-hidden","true");});
-picker.addEventListener("click",e=>{if(e.target===picker){picker.classList.remove("open");picker.setAttribute("aria-hidden","true");}});
-renderHotbar();
+<script>
 
 const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
@@ -345,73 +223,6 @@ $("loginForm").addEventListener("submit",async e=>{
 });
 
 $("refresh").addEventListener("click",loadData);
-
-const effectsPanel=$("effectsPanel"), sideArrow=$("sideArrow");
-function toggleEffects(open){effectsPanel.classList.toggle("open",open);effectsPanel.setAttribute("aria-hidden",String(!open));sideArrow.setAttribute("aria-expanded",String(open));sideArrow.textContent=open?"›":"‹";}
-sideArrow.addEventListener("click",()=>toggleEffects(!effectsPanel.classList.contains("open")));
-$("closeEffects").addEventListener("click",()=>toggleEffects(false));
-function dropBurst(){
- const symbols=["🌸","🌼","🌺","🌷","💧","✿","❀","✦","💠"];
- const colors=["#ff4fa3","#ffd43b","#66d9ff","#a78bfa","#72e6a6","#ff8a4c","#ffffff"];
- for(let i=0;i<38;i++){const el=document.createElement("span");el.className="drop-item";const rain=Math.random()<.28;el.textContent=rain?"💧":symbols[Math.floor(Math.random()*symbols.length)];if(!rain)el.style.color=colors[Math.floor(Math.random()*colors.length)];el.style.fontSize=(14+Math.random()*22)+"px";el.style.left=(Math.random()*100)+"vw";el.style.setProperty("--fall-time",(2.8+Math.random()*3.8)+"s");el.style.setProperty("--drift",((Math.random()-.5)*180)+"px");document.body.appendChild(el);el.addEventListener("animationend",()=>el.remove(),{once:true});}
-}
-let autoDrops=false,autoTimer=null,holdTimer=null,longHold=false,screenTimer=null;
-const stage=$("screenStage"), tray=$("activeEffectTray"), trayName=$("activeEffectName");
-function showTray(label){trayName.textContent=label;tray.classList.remove("hidden");}
-function clearScreenEffect(){clearTimeout(screenTimer);stage.className="";}
-function runScreenSequence(){
-  clearScreenEffect();
-  const steps=[
-    ["fx-zoom-in","Screen zoom in"],
-    ["fx-zoom-out","Screen zoom out"],
-    ["fx-mirror","Screen mirror"],
-    ["fx-flip","Screen flip"],
-    ["fx-slide-left","Cha Cha Slide — left"],
-    ["fx-slide-right","Cha Cha Slide — right"]
-  ];
-  let i=0;
-  const next=()=>{if(i>=steps.length){clearScreenEffect();showTray("Screen restored to normal");return;}
-    stage.className=steps[i][0];showTray(steps[i][1]);i++;screenTimer=setTimeout(next,650);
-  };
-  next();
-}
-function startAuto(){if(autoDrops)return;autoDrops=true;dropBurst();autoTimer=setInterval(dropBurst,1800);showTray("Flowers & rain are active");}
-function stopAuto(){autoDrops=false;clearInterval(autoTimer);autoTimer=null;document.querySelectorAll(".drop-item").forEach(x=>x.remove());showTray("Flowers & rain removed");}
-$("magicDrop").addEventListener("pointerdown",()=>{longHold=false;holdTimer=setTimeout(()=>{longHold=true;startAuto();},3000);});
-["pointerup","pointerleave","pointercancel"].forEach(ev=>$("magicDrop").addEventListener(ev,()=>clearTimeout(holdTimer)));
-$("magicDrop").addEventListener("click",()=>{if(longHold){longHold=false;return;}if(autoDrops)stopAuto();else{dropBurst();showTray("Flowers & rain effect");}});
-$("bearDrop").addEventListener("click",()=>{for(let i=0;i<9;i++){const bear=document.createElement("span");bear.className="bear-drop";bear.textContent="🐾";bear.style.left=(5+Math.random()*88)+"vw";bear.style.setProperty("--bear-time",(3.1+Math.random()*2.2)+"s");bear.style.setProperty("--bear-drift",((Math.random()-.5)*100)+"px");bear.style.animationDelay=(Math.random()*.9)+"s";document.body.appendChild(bear);bear.addEventListener("animationend",()=>bear.remove(),{once:true});}showTray("Dropping animals");});
-$("screenEffect").addEventListener("click",runScreenSequence);
-$("removeEffect").addEventListener("click",()=>{stopAuto();clearScreenEffect();tray.classList.add("hidden");});
-
-/* Extra visual effects, themes, sound and speed */
-let effectSpeed=1,themeIndex=0,soundOn=true,audioCtx=null;
-const themes=["", "admin-theme-sunset","admin-theme-ocean"];
-function playUiTone(freq=620){
- if(!soundOn)return;
- try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.frequency.value=freq;osc.type="sine";gain.gain.setValueAtTime(.045,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.16);osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+.17);}catch(e){}
-}
-function makeParticles(symbols,count=45){
- for(let i=0;i<count;i++){const p=document.createElement("span");p.className="fx-particle";p.textContent=symbols[Math.floor(Math.random()*symbols.length)];p.style.left=Math.random()*100+"vw";p.style.setProperty("--duration",(2+Math.random()*3)/effectSpeed+"s");p.style.setProperty("--drift",((Math.random()-.5)*180)+"px");p.style.animationDelay=(Math.random()*.7)+"s";document.body.appendChild(p);p.addEventListener("animationend",()=>p.remove(),{once:true});}
-}
-function burstFireworks(){
- for(let n=0;n<5;n++){const x=10+Math.random()*80,y=15+Math.random()*55;for(let i=0;i<14;i++){const p=document.createElement("span");p.className="fx-burst";p.textContent=["✦","✧","•","✨"][i%4];p.style.left=x+"vw";p.style.top=y+"vh";p.style.setProperty("--x",Math.cos(i*Math.PI/7)* (55+Math.random()*65)+"px");p.style.setProperty("--y",Math.sin(i*Math.PI/7)* (55+Math.random()*65)+"px");document.body.appendChild(p);p.addEventListener("animationend",()=>p.remove(),{once:true});}}
-}
-$("confettiEffect").addEventListener("click",()=>{makeParticles(["🎉","🎊","✨","🟡","💖"],65);showTray("Confetti");playUiTone(740);});
-$("snowEffect").addEventListener("click",()=>{makeParticles(["❄","❅","❆","❄️"],55);showTray("Snow");playUiTone(520);});
-$("lightningEffect").addEventListener("click",()=>{let flash=document.getElementById("lightningFlash");if(!flash){flash=document.createElement("div");flash.id="lightningFlash";document.body.appendChild(flash);}flash.classList.remove("flash");void flash.offsetWidth;flash.classList.add("flash");showTray("Lightning");playUiTone(180);});
-$("fireworksEffect").addEventListener("click",()=>{burstFireworks();showTray("Fireworks");playUiTone(880);});
-$("themeEffect").addEventListener("click",()=>{document.body.classList.remove(...themes.filter(Boolean));themeIndex=(themeIndex+1)%themes.length;if(themes[themeIndex])document.body.classList.add(themes[themeIndex]);showTray("Theme changed");playUiTone(660);});
-$("soundEffect").addEventListener("click",()=>{soundOn=!soundOn;$("soundEffect").textContent=soundOn?"🔊":"🔇";showTray(soundOn?"Sound on":"Sound off");if(soundOn)playUiTone(700);});
-$("effectSpeed").addEventListener("input",e=>{effectSpeed=Number(e.target.value);document.querySelectorAll(".fx-particle").forEach(p=>p.style.animationDuration=(3/effectSpeed)+"s");showTray("Effect speed: "+effectSpeed.toFixed(1)+"×");});
-$("resetEffects").addEventListener("click",()=>{
- stopAuto();clearScreenEffect();document.querySelectorAll(".drop-item,.bear-drop,.fx-particle,.fx-burst").forEach(p=>p.remove());
- const flash=document.getElementById("lightningFlash");if(flash)flash.remove();
- document.body.classList.remove(...themes.filter(Boolean));themeIndex=0;effectSpeed=1;$("effectSpeed").value="1";
- tray.classList.add("hidden");playUiTone(420);
-});
-
-
 
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
 $("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
