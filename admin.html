@@ -8,7 +8,7 @@
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#071a48;color:#fff}
 header{background:linear-gradient(120deg,#c10b7e,#066ddb);padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px}
-h1{font-size:22px;margin:0}.wrap{max-width:1100px;margin:28px auto;padding:0 16px}
+h1{font-size:22px;margin:0}.brand{display:flex;align-items:center;gap:10px}.brand img{width:42px;height:42px;object-fit:contain;border-radius:10px;background:#fff;padding:3px}.wrap{max-width:1100px;margin:28px auto;padding:0 16px}
 .panel{background:#fff;color:#17213a;border-radius:16px;padding:22px;box-shadow:0 10px 30px #0003;margin-bottom:18px}
 input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:9px;margin:7px 0 13px;font-size:14px}
 button{border:0;border-radius:9px;padding:10px 15px;background:#c10b7e;color:white;font-weight:800;cursor:pointer}
@@ -24,11 +24,11 @@ button.secondary{background:#066ddb}.hidden{display:none!important}
 </style>
 </head>
 <body>
-<header><h1>🎮 Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
+<header><h1 class="brand"><img src="./icon/icon.png" alt="Balo Games logo" onerror="this.style.display='none'"> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
 <main class="wrap">
 <section class="panel" id="loginPanel">
 <div id="registerView" class="welcome"><div class="welcomeIcon"><img src="./icon/icon.png" alt="Balo Games logo" onerror="this.style.display='none';this.parentElement.textContent='BG'"></div><p class="eyebrow">BALO GAMES • OWNER SECURITY</p><h2>Register Your Owner Code</h2><p class="welcomeText">First, verify ownership through your registered Gmail. Then create your private Owner Code.</p><button type="button" id="startRegister" class="ownerButton">Register Owner Code →</button><p class="secureNote">🔒 One-time setup • Gmail verification required</p></div>
-<div id="loginFields" class="hidden"><div class="welcome" style="padding-top:4px"><div class="welcomeIcon">🔐</div><p class="eyebrow">BALO GAMES • ADMIN ACCESS</p><h2>Enter Owner Code</h2><p class="welcomeText">Enter your private code to open the admin dashboard.</p></div>
+<div id="loginFields" class="hidden"><div class="welcome" style="padding-top:4px"><div class="welcomeIcon"><img src="./icon/icon.png" alt="Balo Games logo" onerror="this.style.display='none';this.parentElement.textContent='BG'"></div><p class="eyebrow">BALO GAMES • ADMIN ACCESS</p><h2>Enter Owner Code</h2><p class="welcomeText">Enter your private code to open the admin dashboard.</p></div>
 <form id="loginForm"><label>Owner Code</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter your Owner Code"><button type="submit" class="ownerButton">Unlock Dashboard →</button></form>
 <p><button type="button" class="secondary" id="forgotBtn">Forgot Owner Code?</button></p><p id="notice" role="status" aria-live="polite"></p></div>
 </section>
