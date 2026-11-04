@@ -22,11 +22,33 @@ button.secondary{background:#066ddb}.hidden{display:none!important}
 #notice{color:#b91c1c;font-size:13px;margin-top:8px}.welcome{text-align:center;padding:24px 12px 18px}.welcomeIcon{width:88px;height:88px;border-radius:24px;margin:0 auto 16px;display:grid;place-items:center;overflow:hidden;font-size:26px;font-weight:900;color:#c10b7e;background:linear-gradient(135deg,#ffe0f2,#dbeafe);box-shadow:0 8px 24px #071a4820}.welcomeIcon .logoLink{width:100%;height:100%}.welcomeIcon img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;padding:4px}.eyebrow{font-size:11px;font-weight:900;letter-spacing:2px;color:#c10b7e}.welcome h2{font-size:27px;margin:10px 0;color:#071a48}.welcomeText{max-width:470px;margin:0 auto 24px;color:#64748b;line-height:1.6}.ownerButton{min-width:230px;padding:14px 20px;background:linear-gradient(110deg,#c10b7e,#066ddb);font-size:15px;box-shadow:0 8px 20px #066ddb35}.ownerButton span{margin-left:12px}.secureNote{font-size:12px;color:#64748b;margin-top:18px}.backButton{background:#64748b}
 @media(max-width:650px){.cards{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}}
 </style>
-</head>
+<style>
+body{background:radial-gradient(ellipse at 50% 45%,#1729b8 0,#08135f 45%,#03082d 100%);color:#fff}
+header{background:linear-gradient(100deg,#03082f,#11105d 65%,#09052e);border-bottom:4px solid #ff0aa6;box-shadow:0 8px 30px #0006}
+.brand{color:white}header h1{font-size:clamp(25px,4vw,42px)}
+.wrap{max-width:1120px;margin:28px auto;min-height:calc(100vh - 200px);display:flex;align-items:center;justify-content:center}
+#loginPanel,#forgotPanel,#resetPanel{width:min(570px,100%);padding:34px 32px 28px;border-radius:34px;background:linear-gradient(145deg,#07104fee,#050b3df2);border:2px solid #08c9ff;box-shadow:0 0 18px #08c9ff,0 0 38px #ff0aa688,inset 0 0 28px #102b9b;color:white}
+.welcome{padding:4px 0 18px}.welcomeIcon{width:auto;height:auto;background:none;box-shadow:none;font-size:50px;margin:0 auto 8px}
+.welcome h2,#forgotPanel h2,#resetPanel h2{font-size:clamp(32px,4vw,48px);color:#fff;text-shadow:0 4px 2px #000;margin:8px 0}
+.welcome h2 span,#forgotPanel h2 span{color:#ffd21a}.eyebrow{color:#ff68d0}
+.welcomeText{color:#e7edff;margin-bottom:24px}
+#loginPanel form label,#forgotPanel label,#resetPanel label{color:#fff;font-weight:700}
+#loginPanel input,#forgotPanel input,#resetPanel input{background:#06134f;color:#fff;border:2px solid #286dff;border-radius:15px;padding:16px;margin:9px 0 14px}
+#loginPanel input::placeholder,#forgotPanel input::placeholder,#resetPanel input::placeholder{color:#aab8df}
+#loginPanel button.ownerButton,#forgotPanel button.ownerButton,#resetPanel button{width:100%;border:0;border-radius:16px;padding:16px;color:white;font-size:21px;font-weight:1000;background:linear-gradient(100deg,#ff00a8,#e50089);box-shadow:0 7px 0 #9d006a,0 0 24px #ff00aa88}
+#forgotBtn{display:block;margin:26px auto 0;border:2px solid #08c9ff;border-radius:30px;padding:12px 22px;color:#fff;background:#07104f;font-size:17px;font-weight:900;box-shadow:0 0 16px #00cfff88}
+#notice,#forgotNotice,#resetNotice{color:#ffb9e7;text-align:center}
+#forgotPanel p,#resetPanel p{color:#dbe5ff;text-align:center;line-height:1.5}
+#forgotPanel .backBtn{display:block;margin:22px auto 0;border:2px solid #4389ff;border-radius:30px;padding:11px 22px;color:white;background:transparent;font-weight:900}
+#dashboard{width:100%;color:#fff}#dashboard .panel{background:#fff;color:#17213a}
+footer{background:#03082f;border-top:4px solid #ff0aa6}
+@media(max-width:600px){.wrap{padding:12px;margin:12px auto}#loginPanel,#forgotPanel,#resetPanel{padding:26px 18px;border-radius:25px}header{padding:12px;flex-wrap:wrap}.welcome h2{font-size:32px}}
+</style></head>
 <body>
 <header><h1 class="brand"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none'"></a> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
 <main class="wrap">
-<section class="panel" id="loginPanel"><div id="loginFields"><div class="welcome" style="padding-top:4px"><div class="welcomeIcon"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener"><img src="./icon/icon.png" alt="Balo Games website"></a></div><p class="eyebrow">BALO GAMES • ADMIN</p><h2>Admin Login</h2><p class="welcomeText">Sign in to view the private admin dashboard.</p></div><form id="loginForm"><label>Gmail</label><input id="adminEmail" type="email" required autocomplete="username" value="blablugamerz012@gmail.com"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter admin password"><button type="submit" class="ownerButton">Open Dashboard →</button></form><p><button type="button" class="secondary" id="forgotBtn">Forgot Password?</button></p><p id="notice" role="status" aria-live="polite"></p></div></section>
+<section class="panel" id="loginPanel"><div id="loginFields"><div class="welcome"><div class="welcomeIcon">🎮</div><p class="eyebrow">BALO GAMES • ADMIN</p><h2>Admin <span>Login</span></h2><p class="welcomeText">Sign in to manage Balo Games.</p></div><form id="loginForm"><label>Email Address</label><input id="adminEmail" type="email" required autocomplete="username" value="blablugamerz012@gmail.com"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter admin password"><button type="submit" class="ownerButton">⇥ &nbsp; Login</button></form><p><button type="button" id="forgotBtn">⟳ &nbsp; Forgot Password?</button></p><p class="secureNote">🛡 Secure Admin Access</p><p id="notice" role="status" aria-live="polite"></p></div></section>
+<section class="panel hidden" id="forgotPanel"><div class="welcomeIcon">🔐</div><h2>Forgot <span>Password?</span></h2><p>Enter your email address and we’ll send you a password reset link.</p><form id="forgotForm"><label>Email Address</label><input id="recoveryEmail" type="email" required autocomplete="email" placeholder="Email Address"><button class="ownerButton" id="sendResetBtn" type="submit">➤ &nbsp; Send Reset Link</button></form><button class="backBtn" type="button" id="backToLogin">← &nbsp; Back to Login</button><p id="forgotNotice" role="status" aria-live="polite"></p></section>
 <section class="panel hidden" id="resetPanel">
 <h2 id="resetHeading">Create Your Password</h2><p>Choose a private code with at least 12 characters.</p>
 <form id="resetForm"><label>New Password</label><input id="newPassword" type="password" required minlength="12" autocomplete="new-password"><label>Confirm Password</label><input id="confirmPassword" type="password" required minlength="12" autocomplete="new-password"><button type="submit">Save Password</button></form>
@@ -71,21 +93,13 @@ async function showDashboard(){
   $("loginPanel").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logout").classList.remove("hidden");$("bell").classList.remove("hidden");await loadData();
 }
 async function sendOwnerRecovery(){ $("notice").textContent="Sending secure recovery email...";try{const {data,error}=await db.auth.resetPasswordForEmail($("adminEmail").value.trim(),{redirectTo:"https://blablugamerz012-lang.github.io/Balo-Games/admin.html"});if(error)throw error;$("notice").textContent="Recovery email sent to the registered owner Gmail. Check Inbox and Spam.";return true;}catch(err){console.error("Owner recovery error:",err);$("notice").textContent="Email send failed: "+(err.message||"Check Supabase Auth email/SMTP settings.");return false;} }
-$("forgotBtn").addEventListener("click",async()=>{
-  const btn=$("forgotBtn");
-  btn.disabled=true;
-  try {
-    if(!window.supabase || !db || !db.auth){$("notice").textContent="Login service did not load. Refresh the page and try again.";return;}
-    await sendOwnerRecovery();
-  } catch(err) {
-    console.error("Forgot password button error:",err);
-    $("notice").textContent="Could not start password recovery: "+(err.message||"Please refresh and try again.");
-  } finally { btn.disabled=false; }
-});
+$("forgotBtn").addEventListener("click",()=>{$("recoveryEmail").value=$("adminEmail").value;$("loginPanel").classList.add("hidden");$("forgotPanel").classList.remove("hidden");});
+$("backToLogin").addEventListener("click",()=>{$("forgotPanel").classList.add("hidden");$("loginPanel").classList.remove("hidden");});
+$("forgotForm").addEventListener("submit",async e=>{e.preventDefault();$("sendResetBtn").disabled=true;$("forgotNotice").textContent="Sending reset link...";try{const {error}=await db.auth.resetPasswordForEmail($("recoveryEmail").value.trim(),{redirectTo:"https://blablugamerz012-lang.github.io/Balo-Games/admin.html"});if(error)throw error;$("forgotNotice").textContent="If this email is registered, a reset link has been sent. Check Inbox and Spam.";}catch(err){console.error(err);$("forgotNotice").textContent=err.message||"Could not send reset email.";}finally{$("sendResetBtn").disabled=false;}});
 
 db.auth.onAuthStateChange((event,session)=>{
   if(event==="PASSWORD_RECOVERY" && session){
-    $("loginPanel").classList.add("hidden");$("dashboard").classList.add("hidden");$("resetPanel").classList.remove("hidden");
+    $("loginPanel").classList.add("hidden");$("forgotPanel").classList.add("hidden");$("dashboard").classList.add("hidden");$("resetPanel").classList.remove("hidden");
   }
 });
 $("resetForm").addEventListener("submit",async e=>{
