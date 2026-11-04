@@ -74,7 +74,8 @@ $("loginForm").addEventListener("submit",async e=>{
   if(error){$("notice").textContent="Login failed. Check your email and password.";return;}
   await showDashboard();
 });
-$("refresh").addEventListener("click",loadData);\n$("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
+$("refresh").addEventListener("click",loadData);
+$("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
 $("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
 db.auth.getSession().then(showDashboard);
 </script>
