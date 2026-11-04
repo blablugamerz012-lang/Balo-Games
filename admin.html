@@ -163,7 +163,7 @@ body.screen-jolt{animation:screenJolt .55s ease}
 #effectsPanel .effectTiles{display:flex;flex-direction:column;align-items:stretch;gap:14px;width:100%}
 #effectsPanel button.effectTile{display:grid!important;position:relative!important;inset:auto!important;box-sizing:border-box!important;width:100%!important;height:70px!important;min-width:100%!important;min-height:70px!important;max-width:100%!important;max-height:70px!important;aspect-ratio:auto!important;flex:0 0 70px!important;margin:0!important;padding:8px!important;border:1px solid #62dfff;border-radius:15px;background:linear-gradient(145deg,#142d79,#c10b7e);font-size:32px;place-items:center;box-shadow:0 4px 12px #0005}
 #effectsPanel button.effectTile:active{transform:scale(.94)}
-</style></head>
+\n/* Extra admin-only visual controls */\n#effectsPanel .speedControl{height:54px;display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid #62dfff;border-radius:14px;background:#142d79;color:white;font-size:22px;margin:0;padding:8px}\n#effectsPanel .speedControl input{width:65%;margin:0;padding:0;accent-color:#ff35b6}\nbody.admin-theme-sunset{background:radial-gradient(ellipse at 50% 45%,#7b245e 0,#351044 48%,#10051e 100%)}body.admin-theme-ocean{background:radial-gradient(ellipse at 50% 45%,#087b9c 0,#082e68 48%,#030b2b 100%)}\n.fx-particle{position:fixed;top:-35px;z-index:76;pointer-events:none;font-size:24px;animation:extraFall var(--duration,3s) linear forwards}\n@keyframes extraFall{to{transform:translate3d(var(--drift,20px),110vh,0) rotate(600deg);opacity:.1}}\n#lightningFlash{position:fixed;inset:0;z-index:77;background:#fff;opacity:0;pointer-events:none}\n#lightningFlash.flash{animation:lightFlash .65s ease-out}\n@keyframes lightFlash{0%,100%{opacity:0}12%,35%{opacity:.75}22%{opacity:.08}45%{opacity:.45}}\n.fx-burst{position:fixed;z-index:76;pointer-events:none;font-size:28px;animation:burstPop 1.3s ease-out forwards}\n@keyframes burstPop{0%{transform:scale(.2);opacity:1}100%{transform:translate(var(--x),var(--y)) scale(1.3);opacity:0}}\n</style></head>
 <body>
 <div id="screenStage">
 <header><h1 class="brand"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none'"></a> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
@@ -187,7 +187,7 @@ body.screen-jolt{animation:screenJolt .55s ease}
 </main>
 </div>
 <div id="activeEffectTray" class="hidden" role="status"><span id="activeEffectName">Effect active</span><button id="removeEffect" type="button">Remove ×</button></div>
-<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead"><span></span><button id="closeEffects" type="button" aria-label="Close panel">×</button></div><div class="effectTiles"><button class="effectTile" id="magicDrop" type="button" aria-label="Flowers and rain" title="Flowers and rain">🌸</button><button class="effectTile" id="bearDrop" type="button" aria-label="Dropping animals" title="Dropping animals">🐾</button><button class="effectTile" id="screenEffect" type="button" aria-label="Screen movement" title="Screen movement">🖥️</button></div></aside>
+<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead"><span></span><button id="closeEffects" type="button" aria-label="Close panel">×</button></div><div class="effectTiles"><button class="effectTile" id="magicDrop" type="button" aria-label="Flowers and rain" title="Flowers and rain">🌸</button><button class="effectTile" id="bearDrop" type="button" aria-label="Dropping animals" title="Dropping animals">🐾</button><button class="effectTile" id="screenEffect" type="button" aria-label="Screen movement" title="Screen movement">🖥️</button><button class="effectTile" id="confettiEffect" type="button" aria-label="Confetti" title="Confetti">🎊</button><button class="effectTile" id="snowEffect" type="button" aria-label="Snow" title="Snow">❄️</button><button class="effectTile" id="lightningEffect" type="button" aria-label="Lightning" title="Lightning">⚡</button><button class="effectTile" id="fireworksEffect" type="button" aria-label="Fireworks" title="Fireworks">🎆</button><button class="effectTile" id="themeEffect" type="button" aria-label="Change theme" title="Change theme">🎨</button><button class="effectTile" id="soundEffect" type="button" aria-label="Toggle sound" title="Toggle sound">🔊</button><label class="speedControl" title="Effect speed">⚡ <input id="effectSpeed" type="range" min="0.5" max="2" step="0.1" value="1" aria-label="Effect speed"></label><button class="effectTile" id="resetEffects" type="button" aria-label="Reset all effects" title="Reset all effects">↩️</button></div></aside>
 <script>
 const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
@@ -304,6 +304,34 @@ $("magicDrop").addEventListener("click",()=>{if(longHold){longHold=false;return;
 $("bearDrop").addEventListener("click",()=>{for(let i=0;i<9;i++){const bear=document.createElement("span");bear.className="bear-drop";bear.textContent="🐾";bear.style.left=(5+Math.random()*88)+"vw";bear.style.setProperty("--bear-time",(3.1+Math.random()*2.2)+"s");bear.style.setProperty("--bear-drift",((Math.random()-.5)*100)+"px");bear.style.animationDelay=(Math.random()*.9)+"s";document.body.appendChild(bear);bear.addEventListener("animationend",()=>bear.remove(),{once:true});}showTray("Dropping animals");});
 $("screenEffect").addEventListener("click",runScreenSequence);
 $("removeEffect").addEventListener("click",()=>{stopAuto();clearScreenEffect();tray.classList.add("hidden");});
+
+/* Extra visual effects, themes, sound and speed */
+let effectSpeed=1,themeIndex=0,soundOn=true,audioCtx=null;
+const themes=["", "admin-theme-sunset","admin-theme-ocean"];
+function playUiTone(freq=620){
+ if(!soundOn)return;
+ try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.frequency.value=freq;osc.type="sine";gain.gain.setValueAtTime(.045,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.16);osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+.17);}catch(e){}
+}
+function makeParticles(symbols,count=45){
+ for(let i=0;i<count;i++){const p=document.createElement("span");p.className="fx-particle";p.textContent=symbols[Math.floor(Math.random()*symbols.length)];p.style.left=Math.random()*100+"vw";p.style.setProperty("--duration",(2+Math.random()*3)/effectSpeed+"s");p.style.setProperty("--drift",((Math.random()-.5)*180)+"px");p.style.animationDelay=(Math.random()*.7)+"s";document.body.appendChild(p);p.addEventListener("animationend",()=>p.remove(),{once:true});}
+}
+function burstFireworks(){
+ for(let n=0;n<5;n++){const x=10+Math.random()*80,y=15+Math.random()*55;for(let i=0;i<14;i++){const p=document.createElement("span");p.className="fx-burst";p.textContent=["✦","✧","•","✨"][i%4];p.style.left=x+"vw";p.style.top=y+"vh";p.style.setProperty("--x",Math.cos(i*Math.PI/7)* (55+Math.random()*65)+"px");p.style.setProperty("--y",Math.sin(i*Math.PI/7)* (55+Math.random()*65)+"px");document.body.appendChild(p);p.addEventListener("animationend",()=>p.remove(),{once:true});}}
+}
+$("confettiEffect").addEventListener("click",()=>{makeParticles(["🎉","🎊","✨","🟡","💖"],65);showTray("Confetti");playUiTone(740);});
+$("snowEffect").addEventListener("click",()=>{makeParticles(["❄","❅","❆","❄️"],55);showTray("Snow");playUiTone(520);});
+$("lightningEffect").addEventListener("click",()=>{let flash=document.getElementById("lightningFlash");if(!flash){flash=document.createElement("div");flash.id="lightningFlash";document.body.appendChild(flash);}flash.classList.remove("flash");void flash.offsetWidth;flash.classList.add("flash");showTray("Lightning");playUiTone(180);});
+$("fireworksEffect").addEventListener("click",()=>{burstFireworks();showTray("Fireworks");playUiTone(880);});
+$("themeEffect").addEventListener("click",()=>{document.body.classList.remove(...themes.filter(Boolean));themeIndex=(themeIndex+1)%themes.length;if(themes[themeIndex])document.body.classList.add(themes[themeIndex]);showTray("Theme changed");playUiTone(660);});
+$("soundEffect").addEventListener("click",()=>{soundOn=!soundOn;$("soundEffect").textContent=soundOn?"🔊":"🔇";showTray(soundOn?"Sound on":"Sound off");if(soundOn)playUiTone(700);});
+$("effectSpeed").addEventListener("input",e=>{effectSpeed=Number(e.target.value);document.querySelectorAll(".fx-particle").forEach(p=>p.style.animationDuration=(3/effectSpeed)+"s");showTray("Effect speed: "+effectSpeed.toFixed(1)+"×");});
+$("resetEffects").addEventListener("click",()=>{
+ stopAuto();clearScreenEffect();document.querySelectorAll(".drop-item,.bear-drop,.fx-particle,.fx-burst").forEach(p=>p.remove());
+ const flash=document.getElementById("lightningFlash");if(flash)flash.remove();
+ document.body.classList.remove(...themes.filter(Boolean));themeIndex=0;effectSpeed=1;$("effectSpeed").value="1";
+ tray.classList.add("hidden");playUiTone(420);
+});
+
 
 
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
