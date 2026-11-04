@@ -176,6 +176,26 @@ body.screen-jolt{animation:screenJolt .55s ease}
 #effectsPanel .effectGroup:has(.speedControl) .effectTiles{grid-template-columns:repeat(2,minmax(0,1fr))}
 #effectsPanel .effectGroup .speedControl{grid-column:1/-1;height:58px}
 @media(max-height:650px){#effectsPanel{top:6vh;transform:translate(105%,0);max-height:88vh}#effectsPanel.open{transform:translate(0,0)}}
+
+/* Minecraft-style effect picker and saved hotbar */
+#effectPicker{position:fixed;inset:0;z-index:120;display:none;place-items:center;padding:18px;background:#020617bb;backdrop-filter:blur(5px)}
+#effectPicker.open{display:grid}
+#effectPickerCard{width:min(620px,94vw);max-height:82vh;overflow:auto;padding:20px;border:3px solid #fff;border-radius:12px;background:linear-gradient(145deg,#182b58,#0b1536);box-shadow:0 12px 0 #050b20,0 0 0 5px #ffffff22,0 20px 55px #000b}
+#effectPickerTitle{font-size:20px;font-weight:1000;margin:0 0 16px}
+#effectPickerOptions{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:10px}
+#effectPickerOptions button{min-height:88px;border:3px solid #7893c8;border-radius:8px;background:linear-gradient(145deg,#263f70,#17294f);font-size:27px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+#effectPickerOptions button span{font-size:12px}
+#effectPickerOptions button.added{border-color:#76ef9b;box-shadow:inset 0 0 0 2px #76ef9b}
+#effectPickerClose{float:right;background:#d92775}
+#effectsPanel .effectGroup h3{cursor:pointer;padding:8px;border-radius:8px;background:#ffffff12}
+#effectsPanel .effectGroup h3:after{content:"  ▣";float:right;color:#9cecff}
+#effectHotbar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:110;display:flex;align-items:center;gap:7px;max-width:calc(100vw - 18px);overflow-x:auto;padding:8px;background:#f8fafc;border:4px solid #64748b;border-radius:7px;box-shadow:0 5px 0 #263449,0 10px 24px #0008;min-height:68px}
+#effectHotbar:empty{display:none}
+.hotbarSlot{position:relative;flex:0 0 52px;width:52px;height:50px;padding:3px!important;border:3px solid #94a3b8!important;border-radius:4px!important;background:linear-gradient(145deg,#e2e8f0,#cbd5e1)!important;color:#172554!important;font-size:23px!important;box-shadow:inset 0 0 0 2px #fff}
+.hotbarSlot.active{border-color:#eab308!important;background:#fff7c2!important}
+.hotbarSlot small{display:block;font-size:8px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hotbarRemove{position:absolute;right:-5px;top:-7px;width:17px;height:17px;padding:0!important;border-radius:50%!important;background:#dc2626!important;color:#fff!important;font-size:12px!important;line-height:17px}
+@media(max-width:480px){#effectPickerCard{padding:14px}#effectHotbar{bottom:8px;gap:4px;padding:5px}.hotbarSlot{flex-basis:46px;width:46px;height:46px}}
 </style></head>
 <body>
 <div id="screenStage">
@@ -199,9 +219,55 @@ body.screen-jolt{animation:screenJolt .55s ease}
 </section>
 </main>
 </div>
+
+<div id="effectPicker" aria-hidden="true"><div id="effectPickerCard"><button id="effectPickerClose" type="button">✕</button><h2 id="effectPickerTitle">Choose effects</h2><div id="effectPickerOptions"></div></div></div>
+<div id="effectHotbar" aria-label="Saved effect slots"></div>
 <div id="activeEffectTray" class="hidden" role="status"><span id="activeEffectName">Effect active</span><button id="removeEffect" type="button">Remove ×</button></div>
 <button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead"><span></span><button id="closeEffects" type="button" aria-label="Close panel">×</button></div><div class="effectGroups"><section class="effectGroup"><h3>🌧️ Falling</h3><div class="effectTiles"><button class="effectTile" id="magicDrop" type="button" aria-label="Flowers and rain" title="Flowers and rain">🌸</button><button class="effectTile" id="bearDrop" type="button" aria-label="Dropping animals" title="Dropping animals">🐾</button><button class="effectTile" id="snowEffect" type="button" aria-label="Snow" title="Snow">❄️</button></div></section><section class="effectGroup"><h3>✨ Magic</h3><div class="effectTiles"><button class="effectTile" id="confettiEffect" type="button" aria-label="Confetti" title="Confetti">🎊</button><button class="effectTile" id="lightningEffect" type="button" aria-label="Lightning" title="Lightning">⚡</button><button class="effectTile" id="fireworksEffect" type="button" aria-label="Fireworks" title="Fireworks">🎆</button></div></section><section class="effectGroup"><h3>🖥️ Screen</h3><div class="effectTiles"><button class="effectTile" id="screenEffect" type="button" aria-label="Screen movement" title="Screen movement">🖥️</button></div></section><section class="effectGroup"><h3>⚙️ Settings</h3><div class="effectTiles"><button class="effectTile" id="themeEffect" type="button" aria-label="Change background theme" title="Change background theme">🎨</button><button class="effectTile" id="soundEffect" type="button" aria-label="Toggle sound" title="Toggle sound">🔊</button><label class="speedControl" title="Effect speed">⚡ <input id="effectSpeed" type="range" min="0.5" max="2" step="0.1" value="1" aria-label="Effect speed"></label><button class="effectTile" id="resetEffects" type="button" aria-label="Reset all effects" title="Reset all effects">↩️</button></div></section></div></aside>
 <script>
+
+/* Category picker + persistent Minecraft-style effect hotbar */
+const EFFECT_GROUPS={
+ "🌧️ Falling":[["magicDrop","🌸","Flowers & rain"],["bearDrop","🐾","Animals"],["snowEffect","❄️","Snow"]],
+ "✨ Magic":[["confettiEffect","🎊","Confetti"],["lightningEffect","⚡","Lightning"],["fireworksEffect","🎆","Fireworks"]],
+ "🖥️ Screen":[["screenEffect","🖥️","Screen movement"]],
+ "⚙️ Settings":[["themeEffect","🎨","Background"],["soundEffect","🔊","Sound"],["resetEffects","↩️","Reset"]]
+};
+const HOTBAR_KEY="balo_admin_effect_hotbar_v1";
+let hotbarItems=[];
+try{hotbarItems=JSON.parse(localStorage.getItem(HOTBAR_KEY)||"[]");if(!Array.isArray(hotbarItems))hotbarItems=[];}catch{hotbarItems=[];}
+const picker=$("effectPicker"),pickerOptions=$("effectPickerOptions"),hotbar=$("effectHotbar");
+function saveHotbar(){try{localStorage.setItem(HOTBAR_KEY,JSON.stringify(hotbarItems));}catch{}}
+function renderHotbar(){
+ hotbar.innerHTML="";
+ hotbarItems.forEach((id,index)=>{
+  const info=Object.values(EFFECT_GROUPS).flat().find(x=>x[0]===id);if(!info)return;
+  const slot=document.createElement("button");slot.type="button";slot.className="hotbarSlot";slot.title="Click to use "+info[2];slot.innerHTML=info[1]+'<small>'+info[2]+'</small>';
+  slot.addEventListener("click",()=>{hotbar.querySelectorAll(".hotbarSlot").forEach(x=>x.classList.remove("active"));slot.classList.add("active");const original=$(id);if(original){original.click();}});
+  const remove=document.createElement("button");remove.type="button";remove.className="hotbarRemove";remove.textContent="×";remove.title="Remove";remove.addEventListener("click",e=>{e.stopPropagation();hotbarItems=hotbarItems.filter(x=>x!==id);saveHotbar();renderHotbar();});
+  slot.appendChild(remove);hotbar.appendChild(slot);
+ });
+}
+function openEffectPicker(groupName){
+ const items=EFFECT_GROUPS[groupName]||[];
+ $("effectPickerTitle").textContent=groupName+" — Choose options";
+ pickerOptions.innerHTML="";
+ items.forEach(([id,emoji,label])=>{
+  const b=document.createElement("button");b.type="button";b.innerHTML=emoji+"<span>"+label+"</span>";
+  if(hotbarItems.includes(id))b.classList.add("added");
+  b.addEventListener("click",()=>{if(!hotbarItems.includes(id)){hotbarItems.push(id);saveHotbar();renderHotbar();b.classList.add("added");}else{hotbarItems=hotbarItems.filter(x=>x!==id);saveHotbar();renderHotbar();b.classList.remove("added");}});
+  pickerOptions.appendChild(b);
+ });
+ picker.classList.add("open");picker.setAttribute("aria-hidden","false");
+}
+document.querySelectorAll("#effectsPanel .effectGroup").forEach(group=>{
+ const heading=group.querySelector("h3");if(!heading)return;
+ heading.addEventListener("click",()=>openEffectPicker(heading.textContent.trim()));
+});
+$("effectPickerClose").addEventListener("click",()=>{picker.classList.remove("open");picker.setAttribute("aria-hidden","true");});
+picker.addEventListener("click",e=>{if(e.target===picker){picker.classList.remove("open");picker.setAttribute("aria-hidden","true");}});
+renderHotbar();
+
 const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
 const ADMIN_UID="72706391-8b46-495e-8605-4babf75c64dc";
