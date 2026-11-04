@@ -137,8 +137,25 @@ main.wrap:before,main.wrap:after{display:none!important}
 body.screen-jolt{animation:screenJolt .55s ease}
 @keyframes screenJolt{0%,100%{transform:translate(0) rotate(0)}15%{transform:translate(-8px,3px) rotate(-1deg)}30%{transform:translate(8px,-3px) rotate(1deg)}45%{transform:translate(-6px,2px) rotate(-.7deg)}60%{transform:translate(6px,-2px) rotate(.7deg)}75%{transform:translate(-3px,1px) rotate(-.3deg)}}
 @media(prefers-reduced-motion:reduce){#effectsPanel,#sideArrow{transition:none}body.screen-jolt{animation:none}}
+
+/* Screen effects and bottom effect controls */
+#screenStage{transform-origin:center center;will-change:transform;transition:transform .55s cubic-bezier(.2,.8,.2,1);min-height:100vh}
+#activeEffectTray{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:80;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);padding:10px 12px 10px 16px;border:1px solid #6de5ff;border-radius:999px;background:linear-gradient(100deg,#09194fef,#24105eef);box-shadow:0 8px 28px #0009,0 0 18px #08c9ff66;color:#fff;font-size:13px;font-weight:800}
+#activeEffectTray.hidden{display:none!important}
+#activeEffectTray button{padding:7px 12px;border-radius:999px;background:#e6008d;color:#fff;white-space:nowrap}
+#screenStage.fx-zoom-in{transform:scale(1.12)}
+#screenStage.fx-zoom-out{transform:scale(.88)}
+#screenStage.fx-mirror{transform:scaleX(-1)}
+#screenStage.fx-flip{transform:scaleY(-1)}
+#screenStage.fx-slide-left{transform:translateX(-48px)}
+#screenStage.fx-slide-right{transform:translateX(48px)}
+#screenStage.fx-zoom-in.fx-mirror{transform:scale(1.08,-1)}
+@media(max-width:600px){#screenStage.fx-zoom-in{transform:scale(1.04)}#screenStage.fx-zoom-out{transform:scale(.96)}#screenStage.fx-slide-left{transform:translateX(-18px)}#screenStage.fx-slide-right{transform:translateX(18px)}}
+@media(prefers-reduced-motion:reduce){#screenStage{transition:none}}
+
 </style></head>
 <body>
+<div id="screenStage">
 <header><h1 class="brand"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" target="_blank" rel="noopener" draggable="true" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website" draggable="false" onerror="this.style.display='none'"></a> Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
 <main class="wrap">
 <section class="panel" id="loginPanel"><div id="loginFields"><div class="welcome"><div class="welcomeIcon"><a class="logoLink" href="https://blablugamerz012-lang.github.io/Balo-Games/" aria-label="Open Balo Games website"><img src="./icon/icon.png" alt="Open Balo Games website"></a></div><p class="eyebrow">BALO GAMES • ADMIN</p><h2>Admin <span>Login</span></h2><p class="welcomeText">Sign in to manage Balo Games.</p></div><form id="loginForm"><label>Email Address</label><input id="adminEmail" type="email" required autocomplete="username" value="blablugamerz012@gmail.com"><label>Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Enter admin password"><button type="submit" class="ownerButton">⇥ &nbsp; Login</button></form><p><button type="button" id="forgotBtn">⟳ &nbsp; Forgot Password?</button></p><p class="secureNote">🛡 Secure Admin Access</p><p id="notice" role="status" aria-live="polite"></p><p id="lockoutNote" role="status" aria-live="polite"></p></div></section>
@@ -158,7 +175,9 @@ body.screen-jolt{animation:screenJolt .55s ease}
 <div class="panel"><h2>💬 Comments</h2><div id="comments"></div></div>
 </section>
 </main>
-<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead">Balo Games Effects <button id="closeEffects" type="button" aria-label="Close panel">×</button></div><button id="magicDrop" type="button">🌸 Flowers & Rain</button><p class="holdHint">3 seconds hold = automatic effects</p><button id="shoeEffect" type="button" aria-label="Screen shake effect">👟 Shoe</button></aside>
+</div>
+<div id="activeEffectTray" class="hidden" role="status"><span id="activeEffectName">Effect active</span><button id="removeEffect" type="button">Remove ×</button></div>
+<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead">Balo Games Effects <button id="closeEffects" type="button" aria-label="Close panel">×</button></div><button id="magicDrop" type="button">🌸 Flowers & Rain</button><p class="holdHint">Hold 3 seconds for continuous flowers and rain</p><button id="screenEffect" type="button">🖥 Screen Effects</button><p class="holdHint">Zoom • Mirror • Flip • Cha Cha Slide • Reset</p></aside>
 <script>
 const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
@@ -247,13 +266,33 @@ function dropBurst(){
  const colors=["#ff4fa3","#ffd43b","#66d9ff","#a78bfa","#72e6a6","#ff8a4c","#ffffff"];
  for(let i=0;i<38;i++){const el=document.createElement("span");el.className="drop-item";const rain=Math.random()<.28;el.textContent=rain?"💧":symbols[Math.floor(Math.random()*symbols.length)];if(!rain)el.style.color=colors[Math.floor(Math.random()*colors.length)];el.style.fontSize=(14+Math.random()*22)+"px";el.style.left=(Math.random()*100)+"vw";el.style.setProperty("--fall-time",(2.8+Math.random()*3.8)+"s");el.style.setProperty("--drift",((Math.random()-.5)*180)+"px");document.body.appendChild(el);el.addEventListener("animationend",()=>el.remove(),{once:true});}
 }
-let autoDrops=false,autoTimer=null,holdTimer=null,longHold=false;
-function startAuto(){if(autoDrops)return;autoDrops=true;$("magicDrop").textContent="⏹ Stop automatic effects";dropBurst();autoTimer=setInterval(dropBurst,1800);}
-function stopAuto(){autoDrops=false;clearInterval(autoTimer);autoTimer=null;$("magicDrop").textContent="🌸 Flowers & Rain";}
+let autoDrops=false,autoTimer=null,holdTimer=null,longHold=false,screenTimer=null;
+const stage=$("screenStage"), tray=$("activeEffectTray"), trayName=$("activeEffectName");
+function showTray(label){trayName.textContent=label;tray.classList.remove("hidden");}
+function clearScreenEffect(){clearTimeout(screenTimer);stage.className="";$("screenEffect").textContent="🖥 Screen Effects";}
+function runScreenSequence(){
+  clearScreenEffect();
+  const steps=[
+    ["fx-zoom-in","Screen zoom in"],
+    ["fx-zoom-out","Screen zoom out"],
+    ["fx-mirror","Screen mirror"],
+    ["fx-flip","Screen flip"],
+    ["fx-slide-left","Cha Cha Slide — left"],
+    ["fx-slide-right","Cha Cha Slide — right"]
+  ];
+  let i=0;
+  const next=()=>{if(i>=steps.length){clearScreenEffect();showTray("Screen restored to normal");return;}
+    stage.className=steps[i][0];showTray(steps[i][1]);i++;screenTimer=setTimeout(next,650);
+  };
+  $("screenEffect").textContent="↻ Playing screen effects";next();
+}
+function startAuto(){if(autoDrops)return;autoDrops=true;$("magicDrop").textContent="⏹ Stop automatic effects";dropBurst();autoTimer=setInterval(dropBurst,1800);showTray("Flowers & rain are active");}
+function stopAuto(){autoDrops=false;clearInterval(autoTimer);autoTimer=null;$("magicDrop").textContent="🌸 Flowers & Rain";document.querySelectorAll(".drop-item").forEach(x=>x.remove());showTray("Flowers & rain removed");}
 $("magicDrop").addEventListener("pointerdown",()=>{longHold=false;holdTimer=setTimeout(()=>{longHold=true;startAuto();},3000);});
 ["pointerup","pointerleave","pointercancel"].forEach(ev=>$("magicDrop").addEventListener(ev,()=>clearTimeout(holdTimer)));
-$("magicDrop").addEventListener("click",()=>{if(longHold){longHold=false;return;}if(autoDrops)stopAuto();else dropBurst();});
-$("shoeEffect").addEventListener("click",()=>{document.body.classList.remove("screen-jolt");void document.body.offsetWidth;document.body.classList.add("screen-jolt");setTimeout(()=>document.body.classList.remove("screen-jolt"),650);});
+$("magicDrop").addEventListener("click",()=>{if(longHold){longHold=false;return;}if(autoDrops)stopAuto();else{dropBurst();showTray("Flowers & rain effect");}});
+$("screenEffect").addEventListener("click",runScreenSequence);
+$("removeEffect").addEventListener("click",()=>{stopAuto();clearScreenEffect();tray.classList.add("hidden");});
 
 
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
