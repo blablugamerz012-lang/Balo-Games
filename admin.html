@@ -187,7 +187,7 @@ body.screen-jolt{animation:screenJolt .55s ease}
 </main>
 </div>
 <div id="activeEffectTray" class="hidden" role="status"><span id="activeEffectName">Effect active</span><button id="removeEffect" type="button">Remove ×</button></div>
-<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead"><span></span><button id="closeEffects" type="button" aria-label="Close panel">×</button></div><div class="effectTiles"><button class="effectTile" id="magicDrop" type="button" aria-label="Flowers and rain" title="Flowers and rain">🌸</button><button class="effectTile" id="bearDrop" type="button" aria-label="Dropping teddy bears" title="Dropping teddy bears">🧸</button><button class="effectTile" id="screenEffect" type="button" aria-label="Screen movement" title="Screen movement">🖥️</button></div></aside>
+<button id="sideArrow" type="button" aria-label="Open effects panel" aria-expanded="false">‹</button><aside id="effectsPanel" aria-hidden="true"><div class="effectsHead"><span></span><button id="closeEffects" type="button" aria-label="Close panel">×</button></div><div class="effectTiles"><button class="effectTile" id="magicDrop" type="button" aria-label="Flowers and rain" title="Flowers and rain">🌸</button><button class="effectTile" id="bearDrop" type="button" aria-label="Dropping animals" title="Dropping animals">🐾</button><button class="effectTile" id="screenEffect" type="button" aria-label="Screen movement" title="Screen movement">🖥️</button></div></aside>
 <script>
 const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
@@ -301,7 +301,7 @@ function stopAuto(){autoDrops=false;clearInterval(autoTimer);autoTimer=null;docu
 $("magicDrop").addEventListener("pointerdown",()=>{longHold=false;holdTimer=setTimeout(()=>{longHold=true;startAuto();},3000);});
 ["pointerup","pointerleave","pointercancel"].forEach(ev=>$("magicDrop").addEventListener(ev,()=>clearTimeout(holdTimer)));
 $("magicDrop").addEventListener("click",()=>{if(longHold){longHold=false;return;}if(autoDrops)stopAuto();else{dropBurst();showTray("Flowers & rain effect");}});
-$("bearDrop").addEventListener("click",()=>{for(let i=0;i<9;i++){const bear=document.createElement("span");bear.className="bear-drop";bear.textContent="🧸";bear.style.left=(5+Math.random()*88)+"vw";bear.style.setProperty("--bear-time",(3.1+Math.random()*2.2)+"s");bear.style.setProperty("--bear-drift",((Math.random()-.5)*100)+"px");bear.style.animationDelay=(Math.random()*.9)+"s";document.body.appendChild(bear);bear.addEventListener("animationend",()=>bear.remove(),{once:true});}showTray("Dropping teddy bears");});
+$("bearDrop").addEventListener("click",()=>{for(let i=0;i<9;i++){const bear=document.createElement("span");bear.className="bear-drop";bear.textContent="🐾";bear.style.left=(5+Math.random()*88)+"vw";bear.style.setProperty("--bear-time",(3.1+Math.random()*2.2)+"s");bear.style.setProperty("--bear-drift",((Math.random()-.5)*100)+"px");bear.style.animationDelay=(Math.random()*.9)+"s";document.body.appendChild(bear);bear.addEventListener("animationend",()=>bear.remove(),{once:true});}showTray("Dropping animals");});
 $("screenEffect").addEventListener("click",runScreenSequence);
 $("removeEffect").addEventListener("click",()=>{stopAuto();clearScreenEffect();tray.classList.add("hidden");});
 
