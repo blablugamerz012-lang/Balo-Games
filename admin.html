@@ -102,7 +102,7 @@ $("loginForm").addEventListener("submit",async e=>{
 });
 $("refresh").addEventListener("click",loadData);
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
-$("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");();$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
+$("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
 db.auth.getSession().then(showDashboard);
 </script>
 </body></html>
