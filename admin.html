@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balo Games — Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#071a48;color:#fff}
+header{background:linear-gradient(120deg,#c10b7e,#066ddb);padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+h1{font-size:22px;margin:0}.wrap{max-width:1100px;margin:28px auto;padding:0 16px}
+.panel{background:#fff;color:#17213a;border-radius:16px;padding:22px;box-shadow:0 10px 30px #0003;margin-bottom:18px}
+input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:9px;margin:7px 0 13px;font-size:14px}
+button{border:0;border-radius:9px;padding:10px 15px;background:#c10b7e;color:white;font-weight:800;cursor:pointer}
+button.secondary{background:#066ddb}.hidden{display:none!important}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{border:1px solid #e2e8f0;border-radius:12px;padding:15px;margin:12px 0}
+.card h3{margin:0 0 8px;color:#071a48}.meta{font-size:12px;color:#64748b;margin-bottom:8px}
+.message{white-space:pre-wrap;line-height:1.5;overflow-wrap:anywhere}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.count{font-size:26px;font-weight:900;color:#c10b7e}
+#notice{color:#b91c1c;font-size:13px;margin-top:8px}
+@media(max-width:650px){.cards{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header><h1>🎮 Balo Games Admin</h1><div style="display:flex;gap:10px;align-items:center"><button id="bell" class="hidden" title="View notifications">🔔 <span id="bellCount">0</span></button><button id="logout" class="hidden">Logout</button></div></header>
+<main class="wrap">
+<section class="panel" id="loginPanel">
+<h2>Admin Login</h2><p>Sign in with your authorized Supabase admin account.</p>
+<form id="loginForm"><label>Email</label><input id="email" type="email" required autocomplete="username"><label>Password</label><input id="password" type="password" required autocomplete="current-password"><button type="submit">Login</button></form>
+<p id="notice"></p>
+</section>
+<section id="dashboard" class="hidden">
+<div class="panel topline"><div><h2>Feedback Overview</h2><p>Only the authorized admin account can read these submissions.</p></div><button class="secondary" id="refresh">Refresh</button></div>
+<div class="cards">
+<div class="panel"><div>Bug reports</div><div class="count" id="bugCount">0</div></div>
+<div class="panel"><div>Comments</div><div class="count" id="commentCount">0</div></div>
+</div>
+<div class="panel"><div class="topline"><h2>🔔 Notifications & Bug Reports</h2><span id="newCount"></span></div><div id="bugs"></div></div>
+<div class="panel"><h2>💬 Comments</h2><div id="comments"></div></div>
+</section>
+</main>
+<script>
+const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
+const ADMIN_UID="72706391-8b46-495e-8605-4babf75c64dc";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const $=id=>document.getElementById(id);
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function date(v){return v?new Date(v).toLocaleString():"";}
+function render(items,target,kind){
+  $(target).innerHTML=items.length?items.map(x=>`<article class="card"><h3>${esc(x.name)} — ${esc(x.game_slug)}</h3><div class="meta">${esc(x.country)}${x.age?` · Age ${esc(x.age)}`:""} · ${esc(date(x.created_at))}</div><div class="message">${esc(x.message)}</div></article>`).join(""):"<p>No submissions yet.</p>";
+}
+async function loadData(){
+  $("notice").textContent="";
+  const [bugs,comments]=await Promise.all([
+    db.from("admin_bug_reports").select("id,game_slug,name,country,age,message,created_at").order("created_at",{ascending:false}).limit(200),
+    db.from("admin_game_comments").select("id,game_slug,name,country,age,message,created_at").order("created_at",{ascending:false}).limit(200)
+  ]);
+  if(bugs.error||comments.error){$("notice").textContent="Could not load feedback. Check the database setup and admin read policies.";console.error(bugs.error,comments.error);return;}
+  $("bugCount").textContent=bugs.data.length;$("commentCount").textContent=comments.data.length;
+  $("newCount").textContent=(bugs.data.length+comments.data.length)+" submissions";$("bellCount").textContent=bugs.data.length+comments.data.length;
+  render(bugs.data,"bugs","bug");render(comments.data,"comments","comment");
+}
+async function showDashboard(){
+  const {data:{user}}=await db.auth.getUser();
+  if(!user||user.id!==ADMIN_UID){await db.auth.signOut();$("loginPanel").classList.remove("hidden");$("dashboard").classList.add("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");return;}
+  $("loginPanel").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logout").classList.remove("hidden");$("bell").classList.remove("hidden");await loadData();
+}
+$("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();$("notice").textContent="Signing in...";
+  const {error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
+  if(error){$("notice").textContent="Login failed. Check your email and password.";return;}
+  await showDashboard();
+});
+$("refresh").addEventListener("click",loadData);\n$("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
+$("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
+db.auth.getSession().then(showDashboard);
+</script>
+</body></html>
