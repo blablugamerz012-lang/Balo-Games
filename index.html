@@ -245,88 +245,8 @@
       color: #fff;
       border-color: #fff;
     }
-    #loginBtn.is-settings {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: #fff;
-      border-color: #fff;
-    }
-    .account-actions { display:flex; align-items:center; gap:8px; flex-shrink:0; }
-    .account-icon-btn { width:42px; height:42px; border:2px solid #fff; border-radius:12px; background:linear-gradient(135deg,#fff,#e8f4ff); color:#066ddb; font-size:18px; cursor:pointer; box-shadow:0 3px 12px rgba(0,0,0,.18); }
-    .account-icon-btn:hover { transform:translateY(-2px); }
-    .account-icon-btn[hidden] { display:none !important; }
-    @media(max-width:700px){ .account-icon-btn { width:36px; height:36px; border-radius:10px; } }
+}
 
-    /* Settings modal */
-    #settingsModal {
-      position: fixed;
-      inset: 0;
-      z-index: 7100;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(0,0,0,0.68);
-    }
-    #settingsModal.open { display: flex; }
-    .settings-box {
-      width: min(420px, 100%);
-      max-height: 85vh;
-      overflow-y: auto;
-      background: #fff;
-      color: #17213a;
-      border-radius: 18px;
-      padding: 24px 22px 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-      position: relative;
-    }
-    .settings-box h2 { color: #6366f1; margin-bottom: 4px; font-size: 22px; }
-    .settings-sub { font-size: 13px; color: #64748b; margin-bottom: 16px; }
-    .settings-close {
-      position: absolute; top: 12px; right: 12px; border: 0; background: #f1f5f9;
-      color: #334155; width: 32px; height: 32px; border-radius: 8px; font-weight: 800;
-      cursor: pointer; font-size: 16px;
-    }
-    .settings-section {
-      margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;
-    }
-    .settings-section:last-of-type { border-bottom: 0; margin-bottom: 8px; }
-    .settings-section h3 {
-      font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;
-      color: #64748b; margin-bottom: 10px;
-    }
-    .settings-row {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: #1e293b;
-    }
-    .settings-row label { flex: 1; }
-    .settings-row select {
-      padding: 8px 10px; border: 2px solid #e2e8f0; border-radius: 8px;
-      font-size: 13px; font-weight: 700; background: #fff; cursor: pointer; max-width: 150px;
-    }
-    .settings-row input[type="range"] { width: 120px; accent-color: #6366f1; }
-    .toggle-btn {
-      border: 0; border-radius: 20px; padding: 6px 14px; font-size: 12px;
-      font-weight: 800; cursor: pointer; min-width: 56px;
-    }
-    .toggle-btn.on { background: #10b981; color: #fff; }
-    .toggle-btn.off { background: #e2e8f0; color: #64748b; }
-    .settings-danger {
-      width: 100%; border: 2px solid #fecaca; background: #fef2f2; color: #dc2626;
-      border-radius: 10px; padding: 11px; font-weight: 800; font-size: 13px;
-      cursor: pointer; margin-top: 4px;
-    }
-    .settings-danger:hover { background: #fee2e2; }
-    .settings-logout {
-      width: 100%; border: 0; background: #1e293b; color: #fff; border-radius: 10px;
-      padding: 11px; font-weight: 800; font-size: 13px; cursor: pointer; margin-top: 8px;
-    }
-    .settings-logout:hover { background: #334155; }
-    .accent-swatches { display: flex; gap: 6px; flex-wrap: wrap; }
-    .accent-swatch {
-      width: 28px; height: 28px; border-radius: 50%; border: 3px solid transparent;
-      cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-    .accent-swatch.active { border-color: #1e293b; transform: scale(1.1); }
 
     /* Login modal */
     #loginModal {
@@ -759,6 +679,50 @@
     .game-reaction-actions { justify-content: center; }
     .game-reaction-actions .poki-btn.is-selected { background: #c10b7e; border-color: #fff; }
     #reactionStatus { font-size: 11px; color: #263238; font-weight: 700; }
+
+    /* Player feedback panels: compact side card for like/unlike, centered bug form */
+    .bg-feedback-overlay {
+      position: fixed; inset: 0; z-index: 9500; display: none;
+      align-items: center; justify-content: center; padding: 16px;
+      background: rgba(3, 10, 28, .18); backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    }
+    .bg-feedback-overlay.open { display: flex; }
+    .bg-feedback-card {
+      position: relative; width: min(470px, 100%); max-height: min(82vh, 620px);
+      overflow-y: auto; padding: 23px 21px 19px; border-radius: 17px;
+      background: #fff; color: #17213a; box-shadow: 0 22px 65px rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.7);
+    }
+    .bg-feedback-card h3 { margin: 0 38px 5px 0; color: #c10b7e; font-size: 20px; }
+    .bg-feedback-game { color: #64748b; font-size: 12px; margin: 0 0 15px; }
+    .bg-feedback-card label { display: block; margin: 10px 0 6px; color: #334155; font-size: 12px; font-weight: 800; }
+    .bg-feedback-card textarea {
+      display: block; width: 100%; min-height: 112px; resize: vertical; padding: 11px 12px;
+      border: 1.5px solid #dbe2ea; border-radius: 10px; outline: none;
+      color: #17213a; background: #fff; font: 14px/1.45 Arial, sans-serif;
+    }
+    .bg-feedback-card textarea:focus { border-color: #066ddb; box-shadow: 0 0 0 3px rgba(6,109,219,.1); }
+    .bg-feedback-close {
+      position: absolute; top: 11px; right: 11px; width: 33px; height: 33px;
+      border: 0; border-radius: 9px; background: #eef2f7; color: #334155;
+      font-size: 22px; line-height: 1; cursor: pointer;
+    }
+    .bg-feedback-submit {
+      width: 100%; margin-top: 12px; padding: 11px 14px; border: 0; border-radius: 10px;
+      background: linear-gradient(135deg, #c10b7e, #066ddb); color: #fff;
+      font-size: 13px; font-weight: 900; cursor: pointer;
+    }
+    .bg-feedback-submit:disabled { opacity: .65; cursor: wait; }
+    .bg-feedback-notice { min-height: 18px; margin: 9px 0 0; text-align: center; font-size: 12px; font-weight: 700; color: #087f5b; }
+    /* Like/unlike feedback appears as a small Poki-style card at the right side. */
+    #reactionFeedbackOverlay { justify-content: flex-end; align-items: center; padding: 18px; }
+    #reactionFeedbackOverlay .bg-feedback-card { width: min(350px, 100%); margin-right: max(0px, calc((100vw - 1400px) / 2)); transform: translateY(35px); }
+    @media (max-width: 600px) {
+      #reactionFeedbackOverlay { align-items: center; justify-content: center; padding: 10px; }
+      #reactionFeedbackOverlay .bg-feedback-card { width: 100%; max-height: 72vh; margin: 0; transform: translateY(24px); }
+      .bg-feedback-card { padding: 21px 17px 17px; }
+    }
+
     @media (max-width: 700px) {
       .game-bottom-actions { justify-content: center; padding: 9px 8px; }
       .game-reaction-actions { width: 100%; justify-content: center; gap: 6px; }
@@ -964,6 +928,8 @@
     .info-close { float:right; border:0; background:#ff1493; color:#fff; border-radius:9px; padding:7px 11px; cursor:pointer; font-weight:800; }
     @media(max-width:800px){ .footer-inner{grid-template-columns:1fr 1fr;} }
     @media(max-width:500px){ .footer-inner{grid-template-columns:1fr;} }
+
+
   </style>
 </head>
 <body>
@@ -991,8 +957,6 @@
         <span class="login-ico">👤</span>
         <span class="login-label">Login</span>
       </button>
-      <button type="button" id="notificationBtn" class="account-icon-btn" title="Notifications" aria-label="Notifications" hidden>🔔</button>
-      <button type="button" id="accountBtn" class="account-icon-btn" title="Account settings" aria-label="Account settings" hidden>👤</button>
     </div>
   </header>
 
@@ -1095,10 +1059,10 @@
         </div>
         <div class="game-bottom-actions">
           <div class="action-group game-reaction-actions">
-            <button class="poki-btn" id="likeBtn" onclick="toggleLike()" type="button" aria-pressed="false">❤️ <span id="likeCount">0</span></button>
-            <button class="poki-btn" id="unlikeBtn" onclick="toggleUnlike()" type="button" aria-pressed="false">👎 <span id="unlikeCount">0</span></button>
+            <button class="poki-btn" id="reportBugBtn" onclick="reportBug()" type="button" aria-label="Report a bug" title="Report a bug">🚩</button>
             <button class="poki-btn" id="shareGameBtn" onclick="shareGame()" type="button">🔗 Share</button>
-            <button class="poki-btn" onclick="reportBug()" type="button">⚠️ Bug Report</button>
+            <button class="poki-btn" id="unlikeBtn" onclick="toggleUnlike()" type="button" aria-pressed="false" aria-label="Unlike">👎 <span id="unlikeCount">0</span></button>
+            <button class="poki-btn" id="likeBtn" onclick="toggleLike()" type="button" aria-pressed="false" aria-label="Like">❤️ <span id="likeCount">0</span></button>
             <span id="reactionStatus" role="status" aria-live="polite"></span>
           </div>
           <div class="action-group">
@@ -1201,58 +1165,35 @@
       <p id="authMessage" role="status" aria-live="polite" style="font-size:12px;line-height:1.5;margin-top:10px;color:#334155;text-align:center"></p>
     </div>
   </div>
-
-  <div id="settingsModal" onclick="if(event.target===this) closeSettings()">
-    <div class="settings-box">
-      <button type="button" class="settings-close" onclick="closeSettings()" aria-label="Close">×</button>
-      <h2>Settings</h2>
-      <p class="settings-sub" id="settingsUserLabel">Account settings</p>
-
-      <div class="settings-section">
-        <h3>Game Preferences</h3>
-        <div class="settings-row">
-          <label>Sound</label>
-          <button type="button" class="toggle-btn off" id="setSound">OFF</button>
-        </div>
-        <div class="settings-row">
-          <label>Music</label>
-          <button type="button" class="toggle-btn off" id="setMusic">OFF</button>
-        </div>
-        <div class="settings-row">
-          <label for="setVolume">Volume</label>
-          <input type="range" id="setVolume" min="0" max="100" value="70">
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <h3>Controls Guide</h3>
-        <div class="controls-guide" id="controlsGuide">
-          <p><b>Keyboard</b></p>
-          <ul>
-            <li>Arrow keys / WASD — move</li>
-            <li>Space / P — pause</li>
-            <li>Enter — confirm / start</li>
-            <li>Esc — close menus</li>
-          </ul>
-          <p><b>Mobile / Touch</b></p>
-          <ul>
-            <li>Swipe — move direction</li>
-            <li>Tap buttons — actions</li>
-            <li>On-screen D-pad — where available</li>
-          </ul>
-          <p class="controls-note">Exact controls can change per game.</p>
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <h3>Account</h3>
-        <button type="button" class="settings-logout" id="logoutBtn">Logout</button>
-      </div>
-    </div>
+  <!-- Like / Unlike written feedback: compact side panel -->
+  <div id="reactionFeedbackOverlay" class="bg-feedback-overlay" onclick="if(event.target===this) closeReactionFeedback()">
+    <section class="bg-feedback-card" role="dialog" aria-modal="true" aria-labelledby="reactionFeedbackTitle">
+      <button type="button" class="bg-feedback-close" onclick="closeReactionFeedback()" aria-label="Close">×</button>
+      <h3 id="reactionFeedbackTitle">Share your thoughts</h3>
+      <p class="bg-feedback-game" id="reactionFeedbackGame">Game: Balo Games</p>
+      <form id="reactionFeedbackForm">
+        <label for="reactionFeedbackMessage" id="reactionFeedbackLabel">What did you think about this game?</label>
+        <textarea id="reactionFeedbackMessage" maxlength="1000" required placeholder="Write a short comment about the game..."></textarea>
+        <button class="bg-feedback-submit" id="reactionFeedbackSubmit" type="submit">Send feedback</button>
+        <p class="bg-feedback-notice" id="reactionFeedbackNotice" role="status" aria-live="polite"></p>
+      </form>
+    </section>
   </div>
 
-  
-  
+  <!-- Bug report: centered panel, closes by X or clicking outside -->
+  <div id="bugFeedbackOverlay" class="bg-feedback-overlay" onclick="if(event.target===this) closeBugFeedback()">
+    <section class="bg-feedback-card" role="dialog" aria-modal="true" aria-labelledby="bugFeedbackTitle">
+      <button type="button" class="bg-feedback-close" onclick="closeBugFeedback()" aria-label="Close">×</button>
+      <h3 id="bugFeedbackTitle">Report a game problem</h3>
+      <p class="bg-feedback-game" id="bugFeedbackGame">Game: Balo Games</p>
+      <form id="bugFeedbackForm">
+        <label for="bugFeedbackMessage">What went wrong?</label>
+        <textarea id="bugFeedbackMessage" maxlength="1000" required placeholder="Describe the problem you noticed in this game..."></textarea>
+        <button class="bg-feedback-submit" id="bugFeedbackSubmit" type="submit">Submit bug report</button>
+        <p class="bg-feedback-notice" id="bugFeedbackNotice" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const games = [
@@ -1579,29 +1520,33 @@
       try {
         const visitorId = await ensureReactionVisitor();
         const slug = reactionSlug(currentGameTitle);
+        // One reaction per visitor per game. Repeating the same action does nothing.
         if (currentReaction === nextReaction) {
-          const { error } = await reactionClient.from("game_reactions")
-            .delete().eq("game_slug", slug).eq("visitor_id", visitorId);
-          if (error) throw error;
-          currentReaction = null;
-        } else {
-          const { error } = await reactionClient.from("game_reactions").upsert(
-            { game_slug: slug, visitor_id: visitorId, reaction: nextReaction },
-            { onConflict: "game_slug,visitor_id" }
-          );
-          if (error) throw error;
-          currentReaction = nextReaction;
+          await refreshGameReactions();
+          return;
         }
+        const { error } = await reactionClient.from("game_reactions").upsert(
+          { game_slug: slug, visitor_id: visitorId, reaction: nextReaction },
+          { onConflict: "game_slug,visitor_id" }
+        );
+        if (error) throw error;
+        currentReaction = nextReaction;
         await refreshGameReactions();
       } catch (error) {
         console.error("Reaction save failed:", error);
-        setReactionStatus("Could not save — check Supabase settings");
+        setReactionStatus("Could not save — check the Supabase connection");
       } finally {
         reactionBusy = false;
       }
     }
-    function toggleLike() { saveGameReaction("like"); }
-    function toggleUnlike() { saveGameReaction("dislike"); }
+    function toggleLike() {
+      saveGameReaction("like");
+      openReactionFeedback("like");
+    }
+    function toggleUnlike() {
+      saveGameReaction("dislike");
+      openReactionFeedback("dislike");
+    }
 
     async function shareGame() {
       const game = games.find(g => g.title === currentGameTitle);
@@ -1628,9 +1573,116 @@
       }
     }
 
-    function reportBug() {
-      alert("Bug report sent successfully!");
+    let feedbackSubmitBusy = false;
+    let activeWrittenFeedbackType = "like";
+
+    function feedbackGameLabel() {
+      return "Game: " + (currentGameTitle || "Balo Games");
     }
+    function openReactionFeedback(type) {
+      activeWrittenFeedbackType = type === "dislike" ? "dislike" : "like";
+      const isLike = activeWrittenFeedbackType === "like";
+      document.getElementById("reactionFeedbackTitle").textContent = isLike ? "What did you like?" : "How can this game improve?";
+      document.getElementById("reactionFeedbackLabel").textContent = isLike ? "What did you enjoy about this game?" : "What could be better about this game?";
+      document.getElementById("reactionFeedbackMessage").placeholder = isLike ? "Tell us what you liked..." : "Tell us what could be improved...";
+      document.getElementById("reactionFeedbackGame").textContent = feedbackGameLabel();
+      document.getElementById("reactionFeedbackNotice").textContent = "";
+      document.getElementById("reactionFeedbackForm").reset();
+      document.getElementById("reactionFeedbackOverlay").classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+    function closeReactionFeedback() {
+      document.getElementById("reactionFeedbackOverlay").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+    function reportBug() {
+      document.getElementById("bugFeedbackGame").textContent = feedbackGameLabel();
+      document.getElementById("bugFeedbackNotice").textContent = "";
+      document.getElementById("bugFeedbackForm").reset();
+      document.getElementById("bugFeedbackOverlay").classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+    function closeBugFeedback() {
+      document.getElementById("bugFeedbackOverlay").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+    async function submitWrittenFeedback(kind, message, noticeEl, submitEl) {
+      if (feedbackSubmitBusy) return;
+      const cleanMessage = String(message || "").trim();
+      if (cleanMessage.length < 3) {
+        noticeEl.style.color = "#b91c1c";
+        noticeEl.textContent = "Please write a little more detail.";
+        return;
+      }
+      if (!reactionClient) {
+        noticeEl.style.color = "#b91c1c";
+        noticeEl.textContent = "Feedback service is unavailable. Please try again later.";
+        return;
+      }
+      feedbackSubmitBusy = true;
+      submitEl.disabled = true;
+      submitEl.textContent = "Sending...";
+      noticeEl.style.color = "#087f5b";
+      noticeEl.textContent = "";
+      try {
+        const isBug = kind === "bug";
+        const table = isBug ? "admin_bug_reports" : "admin_game_comments";
+        const tag = kind === "like" ? "[LIKE FEEDBACK]" : kind === "dislike" ? "[UNLIKE FEEDBACK]" : "[BUG REPORT]";
+        const payload = {
+          game_slug: reactionSlug(currentGameTitle || "website"),
+          name: "Player",
+          country: "Not provided",
+          age: null,
+          message: tag + "\nGame: " + (currentGameTitle || "Balo Games website") + "\n\n" + cleanMessage
+        };
+        const { error } = await reactionClient.from(table).insert(payload);
+        if (error) throw error;
+        noticeEl.style.color = "#087f5b";
+        noticeEl.textContent = "Thank you! Your feedback has been sent.";
+        submitEl.textContent = "Sent";
+        window.setTimeout(() => {
+          if (isBug) closeBugFeedback(); else closeReactionFeedback();
+          submitEl.disabled = false;
+          submitEl.textContent = isBug ? "Submit bug report" : "Send feedback";
+          noticeEl.textContent = "";
+        }, 1100);
+      } catch (error) {
+        console.error("Player feedback submission failed:", error);
+        noticeEl.style.color = "#b91c1c";
+        noticeEl.textContent = "Could not send. Please try again later.";
+        submitEl.disabled = false;
+        submitEl.textContent = kind === "bug" ? "Submit bug report" : "Send feedback";
+      } finally {
+        feedbackSubmitBusy = false;
+      }
+    }
+
+    document.addEventListener("keydown", function(e) {
+      if (e.key !== "Escape") return;
+      closeReactionFeedback();
+      closeBugFeedback();
+    });
+
+
+
+    document.getElementById("reactionFeedbackForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      submitWrittenFeedback(
+        activeWrittenFeedbackType,
+        document.getElementById("reactionFeedbackMessage").value,
+        document.getElementById("reactionFeedbackNotice"),
+        document.getElementById("reactionFeedbackSubmit")
+      );
+    });
+    document.getElementById("bugFeedbackForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      submitWrittenFeedback(
+        "bug",
+        document.getElementById("bugFeedbackMessage").value,
+        document.getElementById("bugFeedbackNotice"),
+        document.getElementById("bugFeedbackSubmit")
+      );
+    });
 
     document.querySelectorAll(".category-btn").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -1785,51 +1837,21 @@
     function showInfo(page){ document.getElementById('infoContent').innerHTML=infoPages[page]||infoPages.about; document.getElementById('infoModal').classList.add('open'); document.body.style.overflow='hidden'; }
     function closeInfo(){ document.getElementById('infoModal').classList.remove('open'); document.body.style.overflow=''; }
 
-    /* Login + Settings — real Supabase Auth */
+    /* Login — real Supabase Auth */
     const authClient = reactionClient;
     let currentUser = null;
     let authMode = "login";
     let authBusy = false;
 
-    let appSettings = {
-      sound: false,
-      music: false,
-      volume: 70
-    };
-    try {
-      const saved = JSON.parse(localStorage.getItem("baloSettings") || "null");
-      if (saved) appSettings = Object.assign(appSettings, saved);
-    } catch (e) {}
-
-    function saveSettings() {
-      localStorage.setItem("baloSettings", JSON.stringify(appSettings));
-      applySettings();
-    }
-
-    function applySettings() {
-      const volEl = document.getElementById("setVolume");
-      if (volEl) volEl.value = appSettings.volume;
-
-      const soundBtn = document.getElementById("setSound");
-      const musicBtn = document.getElementById("setMusic");
-      if (soundBtn) {
-        soundBtn.textContent = appSettings.sound ? "ON" : "OFF";
-        soundBtn.className = "toggle-btn " + (appSettings.sound ? "on" : "off");
-      }
-      if (musicBtn) {
-        musicBtn.textContent = appSettings.music ? "ON" : "OFF";
-        musicBtn.className = "toggle-btn " + (appSettings.music ? "on" : "off");
-      }
-    }
-
     function updateLoginButton() {
       const loginBtn = document.getElementById("loginBtn");
-      const bellBtn = document.getElementById("notificationBtn");
-      const accountBtn = document.getElementById("accountBtn");
       const signedIn = !!currentUser && !currentUser.is_anonymous;
-      if (loginBtn) loginBtn.hidden = signedIn;
-      if (bellBtn) bellBtn.hidden = !signedIn;
-      if (accountBtn) accountBtn.hidden = !signedIn;
+      if (loginBtn) {
+        loginBtn.hidden = false;
+        loginBtn.disabled = signedIn;
+        loginBtn.innerHTML = signedIn ? '<span class="login-ico">✓</span><span class="login-label">Logged in</span>' : '<span class="login-ico">👤</span><span class="login-label">Login</span>';
+        loginBtn.title = signedIn ? "Logged in" : "Login";
+      }
     }
 
     function showAuthMessage(message, isError=false) {
@@ -1850,7 +1872,7 @@
     }
 
     function openLogin() {
-      if (currentUser && !currentUser.is_anonymous) { openSettings(); return; }
+      if (currentUser && !currentUser.is_anonymous) return;
       setAuthMode("login");
       document.getElementById("loginModal").classList.add("open");
       document.body.style.overflow = "hidden";
@@ -1860,17 +1882,7 @@
       document.body.style.overflow = "";
       showAuthMessage("");
     }
-    function openSettings() {
-      const label = document.getElementById("settingsUserLabel");
-      if (label && currentUser) label.textContent = "Logged in as " + (currentUser.email || currentUser.user_metadata?.full_name || "Guest");
-      applySettings();
-      document.getElementById("settingsModal").classList.add("open");
-      document.body.style.overflow = "hidden";
-    }
-    function closeSettings() {
-      document.getElementById("settingsModal").classList.remove("open");
-      document.body.style.overflow = "";
-    }
+
     function syncAuthUser(user) {
       currentUser = user || null;
       updateLoginButton();
@@ -1897,7 +1909,6 @@
           if (error) throw error;
           syncAuthUser(data.user || data.session?.user);
           closeLogin();
-          openSettings();
         }
       } catch (err) { showAuthMessage(err.message || "Authentication failed.", true); }
       finally { authBusy = false; submit.disabled = false; }
@@ -1937,37 +1948,11 @@
     document.getElementById("authModeBtn").addEventListener("click", () => setAuthMode(authMode === "login" ? "signup" : "login"));
     document.getElementById("forgotPasswordBtn").addEventListener("click", resetPassword);
 
-    async function doLogout() {
-      if (!confirm("Are you sure you want to log out of Balo Games?")) return;
-      if (!authClient) { alert("Authentication service is unavailable."); return; }
-      try {
-        const { error } = await authClient.auth.signOut();
-        if (error) throw error;
-        syncAuthUser(null);
-        closeSettings();
-      } catch (err) { alert("Logout failed: " + (err.message || "Please try again.")); }
-    }
 
-    // Settings controls
-    document.getElementById("setVolume").addEventListener("input", function () {
-      appSettings.volume = parseInt(this.value, 10);
-      saveSettings();
-    });
-    document.getElementById("setSound").addEventListener("click", function () {
-      appSettings.sound = !appSettings.sound;
-      saveSettings();
-    });
-    document.getElementById("setMusic").addEventListener("click", function () {
-      appSettings.music = !appSettings.music;
-      saveSettings();
-    });
-    document.getElementById("logoutBtn").addEventListener("click", doLogout);
 
     document.getElementById("loginBtn").addEventListener("click", openLogin);
-    document.getElementById("accountBtn").addEventListener("click", openSettings);
-    document.getElementById("notificationBtn").addEventListener("click", () => alert("Notifications will be added in the next phase."));
     document.addEventListener("keydown", e => {
-      if (e.key === "Escape") { closeInfo(); closeLogin(); closeSettings(); }
+      if (e.key === "Escape") { closeInfo(); closeLogin(); closeReactionFeedback(); closeBugFeedback(); }
     });
     updateLoginButton();
     if (authClient) {
@@ -1977,7 +1962,6 @@
       });
       authClient.auth.onAuthStateChange((_event, session) => syncAuthUser(session?.user || null));
     }
-    applySettings();
     </script>
 
 
