@@ -166,6 +166,7 @@ main.wrap:before,main.wrap:after{display:none!important}
   <button class="side-link" data-page="likes">👍 <span>Likes</span></button>
   <button class="side-link" data-page="unlikes">👎 <span>Unlikes</span></button>
   <button class="side-link" data-page="bugs">🚩 <span>Bug Reports</span></button>
+  <button class="side-link" data-page="feedback">💬 <span>Reaction Feedback</span></button>
  </nav>
  <div class="side-foot"><small id="signedAdmin">Admin</small><button id="sideLogout">↪ Logout</button></div>
 </aside>
@@ -190,6 +191,15 @@ main.wrap:before,main.wrap:after{display:none!important}
    <div class="game-reaction-grid" id="unlikeGames"></div>
   </div>
   <div class="admin-page" id="view-bugs"><div class="section-heading"><h3>🚩 Bug Reports</h3><span id="bugTotal">0 items</span></div><div class="feedback-grid" id="bugs"></div></div>
+  <div class="admin-page" id="view-feedback">
+   <div class="section-heading"><h3>💬 Reaction Feedback</h3><span id="reactionFeedbackTotal">0 items</span></div>
+   <div class="reaction-feedback-filters" style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px">
+    <button type="button" class="secondary reaction-feedback-filter active" data-filter="all">All Feedback</button>
+    <button type="button" class="secondary reaction-feedback-filter" data-filter="like">Like Reaction</button>
+    <button type="button" class="secondary reaction-feedback-filter" data-filter="unlike">Unlike Reaction</button>
+   </div>
+   <div class="feedback-grid" id="reactionFeedback"></div>
+  </div>
   <p id="dataStatus" class="data-status"></p>
  </div>
 </div><div class="admin-shade" id="adminShade"></div></section>
@@ -230,10 +240,38 @@ function category(m){m=String(m||"").toUpperCase();return m.includes("[LIKE FEED
 function clean(m){return String(m||"").replace(/^\[(?:LIKE FEEDBACK|UNLIKE FEEDBACK|BUG REPORT)\]\s*/i,"").trim()}
 function renderCards(rows,target,kind,table){const host=$(target);host.replaceChildren();if(!rows.length){host.innerHTML='<div class="empty-dark">No submissions yet.</div>';return}rows.forEach(row=>{const card=document.createElement("article");card.className="feedback-entry";const title=document.createElement("h4");title.textContent=(row.name||"Player")+" — "+(row.game_slug||"Balo Games");const meta=document.createElement("div");meta.className="entry-meta";meta.innerHTML="<b>"+(kind==="bug"?"BUG REPORT":kind.toUpperCase())+"</b><br>Country: "+esc(row.country||"—")+(row.age?" · Age "+esc(row.age):"")+"<br>"+esc(date(row.created_at));const msg=document.createElement("div");msg.className="entry-message";msg.textContent=clean(row.message);const actions=document.createElement("div");actions.className="entry-actions";const del=document.createElement("button");del.className="delete";del.textContent="Delete";del.addEventListener("click",()=>deleteEntry(table,row.id,card));actions.append(del);card.append(title,meta,msg,actions);host.append(card)})}
 function prettyGameName(slug){
- const known={"my-gun-life":"My Gun Life","evo-eater":"Evo Eater","tik-tak-toe":"Tik Tak Toe","tic-tac-toe":"Tik Tak Toe","memory-match":"Memory Match","snake-king":"Snake King"};
+ const known={"my-gun-life":"My Gun Life","evo-eater":"Evo Eater","tik-tak-toe":"Tic Tac Toe","tic-tac-toe":"Tic Tac Toe","memory-match":"Memory Match","snake-king":"Snake King"};
  const key=String(slug||"").toLowerCase().replace(/_/g,"-");
  return known[key]||key.replace(/-/g," ").replace(/\b\w/g,x=>x.toUpperCase())||"Unknown Game";
 }
+let reactionFeedbackRows=[];
+let reactionFeedbackFilter="all";
+function renderReactionFeedback(){
+ const host=$("reactionFeedback");host.replaceChildren();
+ const rows=reactionFeedbackRows.filter(row=>{
+  const m=String(row.message||"").toUpperCase();
+  const type=m.includes("[LIKE FEEDBACK]")?"like":m.includes("[UNLIKE FEEDBACK]")?"unlike":"other";
+  return type!=="other"&&(reactionFeedbackFilter==="all"||reactionFeedbackFilter===type);
+ });
+ $("reactionFeedbackTotal").textContent=rows.length+" items";
+ if(!rows.length){host.innerHTML='<div class="empty-dark">No reaction feedback found for this filter.</div>';return}
+ rows.forEach(row=>{
+  const message=String(row.message||"");
+  const type=message.toUpperCase().includes("[LIKE FEEDBACK]")?"LIKE FEEDBACK":"UNLIKE FEEDBACK";
+  const game=(message.match(/^Game:\s*(.+)$/mi)||[])[1]||"Balo Games";
+  const body=message.replace(/^\[(?:LIKE|UNLIKE) FEEDBACK\]\s*/i,"").replace(/^Game:\s*.+\n*/mi,"").trim();
+  const card=document.createElement("article");card.className="feedback-entry";
+  const title=document.createElement("h4");title.textContent=game+" — "+type;
+  const meta=document.createElement("div");meta.className="entry-meta";
+  meta.textContent="Player ID: "+(row.user_id||row.sender_id||"Guest")+" · "+date(row.created_at);
+  const msg=document.createElement("div");msg.className="entry-message";msg.textContent=body;
+  card.append(title,meta,msg);host.append(card);
+ });
+}
+document.querySelectorAll(".reaction-feedback-filter").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".reaction-feedback-filter").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");reactionFeedbackFilter=btn.dataset.filter;renderReactionFeedback();
+}));
 function renderGameTotals(map,type,target){
  const host=$(target);host.replaceChildren();
  const entries=[...map.entries()].sort((a,b)=>prettyGameName(a[0]).localeCompare(prettyGameName(b[0])));
@@ -249,9 +287,10 @@ function renderGameTotals(map,type,target){
 async function loadData(){
  if(!adminUser)return;
  $("dataStatus").textContent="Loading dashboard data…";
- const [bugs,reactions]=await Promise.all([
+ const [bugs,reactions,feedback]=await Promise.all([
   db.from("admin_bug_reports").select("*").order("created_at",{ascending:false}).limit(500),
-  db.from("game_reactions").select("game_slug,reaction").limit(5000)
+  db.from("game_reactions").select("game_slug,reaction").limit(5000),
+  db.from("messages").select("id,user_id,sender_id,sender_role,message,created_at").order("created_at",{ascending:false}).limit(1000)
  ]);
  if(bugs.error){$("dataStatus").textContent="Could not load bug reports. Check Supabase SELECT policies.";console.error(bugs.error);return}
  const bugData=bugs.data||[],reactionData=reactions.error?[]:(reactions.data||[]);
@@ -270,6 +309,8 @@ async function loadData(){
  else $("dataStatus").textContent="Updated: "+new Date().toLocaleTimeString();
  renderGameTotals(map,"like","likeGames");renderGameTotals(map,"dislike","unlikeGames");
  renderCards(bugData,"bugs","bug","admin_bug_reports");
+ if(feedback.error){console.error("Reaction feedback load failed:",feedback.error);$("reactionFeedback").innerHTML='<div class="empty-dark">Could not load reaction feedback. Check messages SELECT access.</div>';}
+ else {reactionFeedbackRows=(feedback.data||[]).filter(row=>/\[(?:LIKE|UNLIKE) FEEDBACK\]/i.test(String(row.message||"")));renderReactionFeedback();}
 }
 async function deleteEntry(table,id,element){if(!adminUser||!id||!confirm("Permanently delete this submission?"))return;const {error}=await db.from(table).delete().eq("id",id);if(error){alert("Delete failed. Check admin DELETE RLS policy.");console.error(error);return}element.remove();await loadData()}
 async function showDashboard(){
