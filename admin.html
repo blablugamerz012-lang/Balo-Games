@@ -193,8 +193,9 @@ const SUPABASE_URL="https://ajpglxinwfgpenlfbkzz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
 const ADMIN_UID="72706391-8b46-495e-8605-4babf75c64dc";
 const ADMIN_EMAIL="blablugamerz012@gmail.com";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:false,autoRefreshToken:true,detectSessionInUrl:true}});
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id);
+let adminUser=null;
 
 const LOCK_KEY="balo_admin_login_lock_v1";
 const FAIL_KEY="balo_admin_login_fails_v1";
@@ -221,9 +222,16 @@ function renderCards(rows,target,kind,table){const host=$(target);host.replaceCh
 async function loadData(){if(!adminUser)return;$("dataStatus").textContent="Loading dashboard data…";const [comments,bugs,reactions]=await Promise.all([db.from("admin_game_comments").select("*").order("created_at",{ascending:false}).limit(500),db.from("admin_bug_reports").select("*").order("created_at",{ascending:false}).limit(500),db.from("game_reactions").select("game_slug,reaction").limit(5000)]);if(comments.error||bugs.error){$("dataStatus").textContent="Could not load feedback. Check Supabase SELECT policies.";console.error(comments.error,bugs.error);return}const feedback=comments.data||[],bugData=bugs.data||[],reactionData=reactions.error?[]:(reactions.data||[]);const likes=feedback.filter(x=>category(x.message)==="like"),unlikes=feedback.filter(x=>category(x.message)==="unlike"),other=feedback.filter(x=>category(x.message)==="comment");$("likeCount").textContent=likes.length;$("unlikeCount").textContent=unlikes.length;$("commentCount").textContent=other.length;$("bugCount").textContent=bugData.length;$("statFeedback").textContent=feedback.length;let tl=0,tu=0;const map=new Map();reactionData.forEach(x=>{const k=x.game_slug||"unknown-game";if(!map.has(k))map.set(k,{like:0,dislike:0});if(x.reaction==="like"){map.get(k).like++;tl++}else if(x.reaction==="dislike"){map.get(k).dislike++;tu++}});$("statReactions").textContent=tl+tu;$("likeCount").textContent=tl;$("unlikeCount").textContent=tu;$("likeTotal").textContent=likes.length+" items";$("unlikeTotal").textContent=unlikes.length+" items";$("commentTotal").textContent=other.length+" items";$("bugTotal").textContent=bugData.length+" items";const body=$("liveReactions");body.replaceChildren();if(reactions.error){body.innerHTML='<tr><td colspan="4">Could not load reactions. Check game_reactions SELECT policy.</td></tr>'}else if(!map.size){body.innerHTML='<tr><td colspan="4">No reactions recorded yet.</td></tr>'}else [...map.entries()].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([slug,c])=>{const tr=document.createElement("tr");tr.innerHTML="<td>"+esc(slug.replace(/-/g," ").replace(/\b\w/g,x=>x.toUpperCase()))+"</td><td>👍 "+c.like+"</td><td>👎 "+c.dislike+"</td><td>"+(c.like+c.dislike)+"</td>";body.append(tr)});$("reactionUpdated").textContent="Updated: "+new Date().toLocaleTimeString();renderCards(likes,"likes","like","admin_game_comments");renderCards(unlikes,"unlikes","unlike","admin_game_comments");renderCards(other,"comments","comment","admin_game_comments");renderCards(bugData,"bugs","bug","admin_bug_reports");$("dataStatus").textContent="Updated: "+new Date().toLocaleTimeString()}
 async function deleteEntry(table,id,element){if(!adminUser||!id||!confirm("Permanently delete this submission?"))return;const {error}=await db.from(table).delete().eq("id",id);if(error){alert("Delete failed. Check admin DELETE RLS policy.");console.error(error);return}element.remove();await loadData()}
 async function showDashboard(){
-  const {data:{user}}=await db.auth.getUser();
-  if(!user||user.id!==ADMIN_UID){await db.auth.signOut();$("loginPanel").classList.remove("hidden");$("dashboard").classList.add("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");return;}
-  $("loginPanel").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logout").classList.remove("hidden");$("bell").classList.remove("hidden");await loadData();
+  const {data:{user},error}=await db.auth.getUser();
+  if(error||!user||user.id!==ADMIN_UID){
+    adminUser=null;
+    $("loginPanel").classList.remove("hidden");$("dashboard").classList.add("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");
+    return;
+  }
+  adminUser=user;
+  $("loginPanel").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logout").classList.remove("hidden");$("bell").classList.remove("hidden");
+  $("signedAdmin").textContent=user.email||"Admin";
+  await loadData();
 }
 async function sendOwnerRecovery(){ $("notice").textContent="Sending secure recovery email...";try{const {data,error}=await db.auth.resetPasswordForEmail($("adminEmail").value.trim(),{redirectTo:"https://blablugamerz012-lang.github.io/Balo-Games/admin.html"});if(error)throw error;$("notice").textContent="Recovery email sent to the registered owner Gmail. Check Inbox and Spam.";return true;}catch(err){console.error("Owner recovery error:",err);$("notice").textContent="Email send failed: "+(err.message||"Check Supabase Auth email/SMTP settings.");return false;} }
 $("forgotBtn").addEventListener("click",()=>{$("recoveryEmail").value=$("adminEmail").value;$("loginPanel").classList.add("hidden");$("forgotPanel").classList.remove("hidden");});
@@ -256,7 +264,19 @@ $("loginForm").addEventListener("submit",async e=>{
   setFailures(0);setLock(0);await showDashboard();
 });
 
-$("refresh").addEventListener("click",loadData);
+$("refresh").addEventListener("click",async()=>{
+  if(!adminUser)return;
+  const button=$("refresh");
+  if(button.disabled)return;
+  button.disabled=true;button.textContent="↻ Refreshing…";
+  try{
+    const {data:{user},error}=await db.auth.getUser();
+    if(error||!user||user.id!==ADMIN_UID){$("dataStatus").textContent="Your admin session could not be verified. Please sign in again.";return;}
+    adminUser=user;
+    await loadData();
+  }catch(err){console.error("Dashboard refresh failed:",err);$("dataStatus").textContent="Refresh failed. Please try again.";}
+  finally{button.disabled=false;button.textContent="↻ Refresh";}
+});
 
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
 $("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
