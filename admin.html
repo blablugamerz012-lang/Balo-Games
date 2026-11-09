@@ -310,7 +310,7 @@ async function loadData(){
  else $("dataStatus").textContent="Updated: "+new Date().toLocaleTimeString();
  renderGameTotals(map,"like","likeGames");renderGameTotals(map,"dislike","unlikeGames");
  const messageRows=feedback.error?[]:(feedback.data||[]);
- const bugMessageRows=messageRows.filter(row=>/^\\[BUG REPORT\\]/i.test(String(row.message||""))).map(row=>({...row,_table:"messages",name:"Player",game_slug:(String(row.message||"").match(/^Game:\\s*(.+)$/mi)||[])[1]||"Balo Games"}));
+ const bugMessageRows=messageRows.filter(row=>/^\[BUG REPORT\]/i.test(String(row.message||""))).map(row=>({...row,_table:"messages",name:"Player",game_slug:(String(row.message||"").match(/^Game:\\s*(.+)$/mi)||[])[1]||"Balo Games"}));
  const allBugRows=[...bugData.map(row=>({...row,_table:"admin_bug_reports"})),...bugMessageRows].sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
  $("bugCount").textContent=allBugRows.length;$("bugTotal").textContent=allBugRows.length+" items";
  renderCards(allBugRows,"bugs","bug","admin_bug_reports");
