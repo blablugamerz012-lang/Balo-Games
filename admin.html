@@ -238,7 +238,7 @@ function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&l
 function date(v){const d=v?new Date(v):null;return d&&!Number.isNaN(d.getTime())?d.toLocaleString():"—"}
 function category(m){m=String(m||"").toUpperCase();return m.includes("[LIKE FEEDBACK]")?"like":m.includes("[UNLIKE FEEDBACK]")?"unlike":"comment"}
 function clean(m){return String(m||"").replace(/^\[(?:LIKE FEEDBACK|UNLIKE FEEDBACK|BUG REPORT)\]\s*/i,"").trim()}
-function renderCards(rows,target,kind,table){const host=$(target);host.replaceChildren();if(!rows.length){host.innerHTML='<div class="empty-dark">No submissions yet.</div>';return}rows.forEach(row=>{const card=document.createElement("article");card.className="feedback-entry";const title=document.createElement("h4");title.textContent=(row.name||"Player")+" — "+(row.game_slug||"Balo Games");const meta=document.createElement("div");meta.className="entry-meta";meta.innerHTML="<b>"+(kind==="bug"?"BUG REPORT":kind.toUpperCase())+"</b><br>Country: "+esc(row.country||"—")+(row.age?" · Age "+esc(row.age):"")+"<br>"+esc(date(row.created_at));const msg=document.createElement("div");msg.className="entry-message";msg.textContent=clean(row.message);const actions=document.createElement("div");actions.className="entry-actions";const del=document.createElement("button");del.className="delete";del.textContent="Delete";del.addEventListener("click",()=>deleteEntry(table,row.id,card));actions.append(del);card.append(title,meta,msg,actions);host.append(card)})}
+function renderCards(rows,target,kind,table){const host=$(target);host.replaceChildren();if(!rows.length){host.innerHTML='<div class="empty-dark">No submissions yet.</div>';return}rows.forEach(row=>{const card=document.createElement("article");card.className="feedback-entry";const title=document.createElement("h4");title.textContent=(row.name||"Player")+" — "+(row.game_slug||"Balo Games");const meta=document.createElement("div");meta.className="entry-meta";meta.innerHTML="<b>"+(kind==="bug"?"BUG REPORT":kind.toUpperCase())+"</b><br>Country: "+esc(row.country||"—")+(row.age?" · Age "+esc(row.age):"")+"<br>"+esc(date(row.created_at));const msg=document.createElement("div");msg.className="entry-message";msg.textContent=clean(row.message);const actions=document.createElement("div");actions.className="entry-actions";const del=document.createElement("button");del.className="delete";del.textContent="Delete";del.addEventListener("click",()=>deleteEntry(row._table||table,row.id,card));actions.append(del);card.append(title,meta,msg,actions);host.append(card)})}
 function prettyGameName(slug){
  const known={"my-gun-life":"My Gun Life","evo-eater":"Evo Eater","tik-tak-toe":"Tic Tac Toe","tic-tac-toe":"Tic Tac Toe","memory-match":"Memory Match","snake-king":"Snake King"};
  const key=String(slug||"").toLowerCase().replace(/_/g,"-");
@@ -302,16 +302,20 @@ async function loadData(){
   if(row.reaction==="like"){map.get(slug).like++;totalLikes++}
   else if(row.reaction==="dislike"||row.reaction==="unlike"){map.get(slug).dislike++;totalUnlikes++}
  });
- $("bugCount").textContent=bugData.length;$("bugTotal").textContent=bugData.length+" items";
+
  $("overviewLikes").textContent=totalLikes;$("overviewUnlikes").textContent=totalUnlikes;
  $("likeGrandTotal").textContent=totalLikes;$("unlikeGrandTotal").textContent=totalUnlikes;
  $("likeTotal").textContent=totalLikes+" likes";$("unlikeTotal").textContent=totalUnlikes+" unlikes";
  if(reactions.error){$("dataStatus").textContent="Could not load reactions. Check game_reactions SELECT policy.";console.error(reactions.error)}
  else $("dataStatus").textContent="Updated: "+new Date().toLocaleTimeString();
  renderGameTotals(map,"like","likeGames");renderGameTotals(map,"dislike","unlikeGames");
- renderCards(bugData,"bugs","bug","admin_bug_reports");
+ const messageRows=feedback.error?[]:(feedback.data||[]);
+ const bugMessageRows=messageRows.filter(row=>/^\\[BUG REPORT\\]/i.test(String(row.message||""))).map(row=>({...row,_table:"messages",name:"Player",game_slug:(String(row.message||"").match(/^Game:\\s*(.+)$/mi)||[])[1]||"Balo Games"}));
+ const allBugRows=[...bugData.map(row=>({...row,_table:"admin_bug_reports"})),...bugMessageRows].sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+ $("bugCount").textContent=allBugRows.length;$("bugTotal").textContent=allBugRows.length+" items";
+ renderCards(allBugRows,"bugs","bug","admin_bug_reports");
  if(feedback.error){console.error("Reaction feedback load failed:",feedback.error);$("reactionFeedback").innerHTML='<div class="empty-dark">Could not load reaction feedback. Check messages SELECT access.</div>';}
- else {reactionFeedbackRows=(feedback.data||[]).filter(row=>/\[(?:LIKE|UNLIKE) FEEDBACK\]/i.test(String(row.message||"")));renderReactionFeedback();}
+ else {reactionFeedbackRows=messageRows.filter(row=>/\[(?:LIKE|UNLIKE) FEEDBACK\]/i.test(String(row.message||"")));renderReactionFeedback();}
 }
 async function deleteEntry(table,id,element){if(!adminUser||!id||!confirm("Permanently delete this item? This cannot be undone."))return;const {error}=await db.from(table).delete().eq("id",id);if(error){alert("Delete failed. Check the Supabase DELETE RLS policy for "+table+".");console.error(error);return}element.remove();await loadData()}
 async function deleteReactionGroup(slug,type,element){if(!adminUser||!slug)return;const dbReaction=type==="like"?"like":"dislike";if(!confirm("Delete ALL "+(type==="like"?"LIKES":"UNLIKES")+" for "+prettyGameName(slug)+"? This cannot be undone."))return;const {error}=await db.from("game_reactions").delete().eq("game_slug",slug).eq("reaction",dbReaction);if(error){alert("Delete failed. Check the Supabase DELETE RLS policy for game_reactions.");console.error(error);return}element.remove();await loadData()}
