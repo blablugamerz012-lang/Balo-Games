@@ -119,6 +119,24 @@ main.wrap:before,main.wrap:after{display:none!important}
 @media(max-width:390px){#dashboard .cards{grid-template-columns:1fr}}
 
 
+
+/* New dark Admin Control Center — keeps the existing branded login screen */
+#dashboard.admin-app{width:100%;max-width:none;min-height:calc(100vh - 125px);display:flex;align-items:stretch;background:#070b14;color:#e8eef8;border:1px solid #1e2a3f;border-radius:18px;overflow:hidden;box-shadow:0 18px 48px #0005}
+#dashboard.admin-app.hidden{display:none!important}
+.admin-sidebar{width:260px;flex:0 0 260px;background:#0d1321;border-right:1px solid #1e2a3f;display:flex;flex-direction:column;min-height:720px}
+.side-brand{padding:22px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1e2a3f}.brand-mark{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#8b5cf6,#06b6d4);font-size:20px}.side-brand b{display:block;font-size:15px}.side-brand small,.side-foot small{display:block;color:#8b9bb4;font-size:11px;margin-top:3px}
+.side-nav{padding:16px 11px;display:grid;gap:5px;flex:1}.side-link{width:100%;text-align:left;background:transparent;color:#8b9bb4;padding:12px;border-radius:9px;font-size:13px;display:flex;gap:11px;align-items:center}.side-link:hover,.side-link.active{background:linear-gradient(90deg,#8b5cf633,#06b6d422);color:#fff}.side-link.active{box-shadow:inset 3px 0 #8b5cf6}
+.side-foot{padding:15px;border-top:1px solid #1e2a3f}.side-foot button{width:100%;margin-top:10px;background:#ef444422;color:#ff7777;border:1px solid #ef444444}
+.admin-main{flex:1;min-width:0;background:#070b14}.admin-topbar{position:sticky;top:0;z-index:4;background:#0d1321ee;backdrop-filter:blur(12px);border-bottom:1px solid #1e2a3f;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px}.top-title{display:flex;align-items:center;gap:12px}.top-title h2{margin:0;color:#e8eef8;font-size:19px}.top-title small{color:#8b9bb4;font-size:11px}.top-title #sideMenu{display:none;background:#121a2b;color:#e8eef8;border:1px solid #1e2a3f}.top-actions{display:flex;gap:8px}.top-actions button{font-size:12px;padding:9px 13px}
+.admin-content{padding:24px;max-width:1400px;margin:auto}.admin-page{display:none}.admin-page.active{display:block;animation:adminFade .2s ease}@keyframes adminFade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.welcome-head{margin:0 0 24px}.welcome-head h2{font-size:25px;margin:0 0 5px;color:#e8eef8}.welcome-head p{color:#8b9bb4;margin:0;font-size:13px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}.stat-tile{background:#121a2b;border:1px solid #1e2a3f;border-radius:14px;padding:18px;min-height:140px;display:flex;flex-direction:column;gap:8px}.stat-tile>span{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;background:#8b5cf622}.stat-tile small{color:#8b9bb4;font-size:11px;text-transform:uppercase;font-weight:800;letter-spacing:.4px}.stat-tile strong{font-size:27px;color:#e8eef8}.stat-tile.green>span{background:#10b98122}.stat-tile.amber>span{background:#f59e0b22}.stat-tile.cyan>span{background:#06b6d422}.stat-tile.blue>span{background:#3b82f622}.stat-tile.red>span{background:#ef444422}
+.section-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px}.section-heading h3{margin:0;color:#e8eef8;font-size:17px}.section-heading span{color:#8b9bb4;font-size:11px}
+.dark-table{background:#121a2b;border:1px solid #1e2a3f;border-radius:13px;overflow:auto}.dark-table table{width:100%;border-collapse:collapse;min-width:520px}.dark-table th{text-align:left;padding:13px 16px;background:#0d1321;color:#8b9bb4;font-size:10px;letter-spacing:.6px}.dark-table td{padding:13px 16px;border-top:1px solid #1e2a3f;color:#e8eef8;font-size:13px}.dark-table tbody tr:hover{background:#8b5cf60d}
+.feedback-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:13px}.feedback-entry{background:#121a2b;border:1px solid #1e2a3f;border-radius:13px;padding:16px;min-width:0}.feedback-entry h4{margin:0;color:#e8eef8;font-size:14px;overflow-wrap:anywhere}.feedback-entry .entry-meta{font-size:11px;color:#8b9bb4;line-height:1.7;margin:9px 0}.feedback-entry .entry-message{background:#0d1321;border:1px solid #1e2a3f;border-radius:9px;padding:11px;color:#e8eef8;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}.feedback-entry .entry-actions{display:flex;justify-content:flex-end;margin-top:11px}.feedback-entry .delete{background:#ef444422;color:#ff7777;border:1px solid #ef444444;font-size:11px;padding:7px 11px}
+.empty-dark{padding:28px;text-align:center;color:#8b9bb4;background:#121a2b;border:1px dashed #1e2a3f;border-radius:12px;font-size:13px}.data-status{color:#8b9bb4;font-size:11px;margin:14px 0}.admin-shade{display:none}
+@media(max-width:900px){#dashboard.admin-app{position:relative}.admin-sidebar{position:absolute;z-index:9;left:0;top:0;bottom:0;width:260px;min-height:100%;transform:translateX(-105%);transition:transform .25s}.admin-sidebar.open{transform:translateX(0)}.top-title #sideMenu{display:inline-block}.admin-shade.show{display:block;position:absolute;inset:0;background:#0009;z-index:8}.admin-content{padding:17px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.admin-topbar{padding:12px}.top-title h2{font-size:16px}.top-actions #logout{display:none}.stats-grid{gap:8px}.stat-tile{padding:13px;min-height:125px}.stat-tile strong{font-size:23px}.feedback-grid{grid-template-columns:1fr}.admin-content{padding:13px}}
 </style></head>
 <body>
 <div>
@@ -131,15 +149,40 @@ main.wrap:before,main.wrap:after{display:none!important}
 <form id="resetForm"><label>New Password</label><input id="newPassword" type="password" required minlength="12" autocomplete="new-password"><label>Confirm Password</label><input id="confirmPassword" type="password" required minlength="12" autocomplete="new-password"><button type="submit">Save Password</button></form>
 <p id="resetNotice" role="status" aria-live="polite"></p>
 </section>
-<section id="dashboard" class="hidden">
-<div class="panel topline"><div><h2>Feedback Overview</h2><p>Only the authorized admin account can read these submissions.</p></div><button class="secondary" id="refresh">Refresh</button></div>
-<div class="cards">
-<div class="panel"><div>Bug reports</div><div class="count" id="bugCount">0</div></div>
-<div class="panel"><div>Comments</div><div class="count" id="commentCount">0</div></div>
-</div>
-<div class="panel"><div class="topline"><h2>🔔 Notifications & Bug Reports</h2><span id="newCount"></span></div><div id="bugs"></div></div>
-<div class="panel"><h2>💬 Comments</h2><div id="comments"></div></div>
-</section>
+<section id="dashboard" class="hidden admin-app">
+<aside class="admin-sidebar" id="adminSidebar">
+ <div class="side-brand"><span class="brand-mark">🎮</span><div><b>Balo Games</b><small>Admin Control Center</small></div></div>
+ <nav class="side-nav">
+  <button class="side-link active" data-page="overview">📊 <span>Dashboard</span></button>
+  <button class="side-link" data-page="reactions">⚡ <span>Live Game Reactions</span></button>
+  <button class="side-link" data-page="likes">👍 <span>Like Feedback</span></button>
+  <button class="side-link" data-page="unlikes">👎 <span>Unlike Feedback</span></button>
+  <button class="side-link" data-page="comments">💬 <span>Other Comments</span></button>
+  <button class="side-link" data-page="bugs">🚩 <span>Bug Reports</span></button>
+ </nav>
+ <div class="side-foot"><small id="signedAdmin">Admin</small><button id="sideLogout">↪ Logout</button></div>
+</aside>
+<div class="admin-main">
+ <div class="admin-topbar"><div class="top-title"><button id="sideMenu" aria-label="Toggle menu">☰</button><div><h2 id="activePageTitle">Dashboard</h2><small id="adminClock"></small></div></div><div class="top-actions"><button class="secondary" id="refresh">↻ Refresh</button><button id="logout">Logout</button></div></div>
+ <div class="admin-content">
+  <div class="admin-page active" id="view-overview"><div class="welcome-head"><h2>Welcome back 👋</h2><p>Here's what's happening across Balo Games right now.</p></div>
+   <div class="stats-grid">
+    <article class="stat-tile purple"><span>⚡</span><small>Total Reactions</small><strong id="statReactions">0</strong></article>
+    <article class="stat-tile green"><span>👍</span><small>Total Likes</small><strong id="likeCount">0</strong></article>
+    <article class="stat-tile amber"><span>👎</span><small>Total Unlikes</small><strong id="unlikeCount">0</strong></article>
+    <article class="stat-tile cyan"><span>📝</span><small>Total Feedback</small><strong id="statFeedback">0</strong></article>
+    <article class="stat-tile blue"><span>💬</span><small>Other Comments</small><strong id="commentCount">0</strong></article>
+    <article class="stat-tile red"><span>🚩</span><small>Bug Reports</small><strong id="bugCount">0</strong></article>
+   </div>
+  </div>
+  <div class="admin-page" id="view-reactions"><div class="section-heading"><h3>⚡ Live Game Reactions</h3><span id="reactionUpdated">Live totals from Supabase</span></div><div class="dark-table"><table><thead><tr><th>Game</th><th>Likes</th><th>Unlikes</th><th>Total</th></tr></thead><tbody id="liveReactions"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></div>
+  <div class="admin-page" id="view-likes"><div class="section-heading"><h3>👍 Like Feedback</h3><span id="likeTotal">0 items</span></div><div class="feedback-grid" id="likes"></div></div>
+  <div class="admin-page" id="view-unlikes"><div class="section-heading"><h3>👎 Unlike Feedback</h3><span id="unlikeTotal">0 items</span></div><div class="feedback-grid" id="unlikes"></div></div>
+  <div class="admin-page" id="view-comments"><div class="section-heading"><h3>💬 Other Comments</h3><span id="commentTotal">0 items</span></div><div class="feedback-grid" id="comments"></div></div>
+  <div class="admin-page" id="view-bugs"><div class="section-heading"><h3>🚩 Bug Reports</h3><span id="bugTotal">0 items</span></div><div class="feedback-grid" id="bugs"></div></div>
+  <p id="dataStatus" class="data-status"></p>
+ </div>
+</div><div class="admin-shade" id="adminShade"></div></section>
 </main>
 </div>
 
@@ -171,21 +214,12 @@ function lockMessage(){
 setInterval(lockMessage,1000);
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function date(v){return v?new Date(v).toLocaleString():"";}
-function render(items,target,kind){
-  $(target).innerHTML=items.length?items.map(x=>`<article class="card"><h3>${esc(x.name)} — ${esc(x.game_slug)}</h3><div class="meta">${esc(x.country)}${x.age?` · Age ${esc(x.age)}`:""} · ${esc(date(x.created_at))}</div><div class="message">${esc(x.message)}</div></article>`).join(""):"<p>No submissions yet.</p>";
-}
-async function loadData(){
-  $("notice").textContent="";
-  const [bugs,comments]=await Promise.all([
-    db.from("admin_bug_reports").select("id,game_slug,name,country,age,message,created_at").order("created_at",{ascending:false}).limit(200),
-    db.from("admin_game_comments").select("id,game_slug,name,country,age,message,created_at").order("created_at",{ascending:false}).limit(200)
-  ]);
-  if(bugs.error||comments.error){$("notice").textContent="Could not load feedback. Check the database setup and admin read policies.";console.error(bugs.error,comments.error);return;}
-  $("bugCount").textContent=bugs.data.length;$("commentCount").textContent=comments.data.length;
-  $("newCount").textContent=(bugs.data.length+comments.data.length)+" submissions";$("bellCount").textContent=bugs.data.length+comments.data.length;
-  render(bugs.data,"bugs","bug");render(comments.data,"comments","comment");
-}
+function date(v){const d=v?new Date(v):null;return d&&!Number.isNaN(d.getTime())?d.toLocaleString():"—"}
+function category(m){m=String(m||"").toUpperCase();return m.includes("[LIKE FEEDBACK]")?"like":m.includes("[UNLIKE FEEDBACK]")?"unlike":"comment"}
+function clean(m){return String(m||"").replace(/^\[(?:LIKE FEEDBACK|UNLIKE FEEDBACK|BUG REPORT)\]\s*/i,"").trim()}
+function renderCards(rows,target,kind,table){const host=$(target);host.replaceChildren();if(!rows.length){host.innerHTML='<div class="empty-dark">No submissions yet.</div>';return}rows.forEach(row=>{const card=document.createElement("article");card.className="feedback-entry";const title=document.createElement("h4");title.textContent=(row.name||"Player")+" — "+(row.game_slug||"Balo Games");const meta=document.createElement("div");meta.className="entry-meta";meta.innerHTML="<b>"+(kind==="bug"?"BUG REPORT":kind.toUpperCase())+"</b><br>Country: "+esc(row.country||"—")+(row.age?" · Age "+esc(row.age):"")+"<br>"+esc(date(row.created_at));const msg=document.createElement("div");msg.className="entry-message";msg.textContent=clean(row.message);const actions=document.createElement("div");actions.className="entry-actions";const del=document.createElement("button");del.className="delete";del.textContent="Delete";del.addEventListener("click",()=>deleteEntry(table,row.id,card));actions.append(del);card.append(title,meta,msg,actions);host.append(card)})}
+async function loadData(){if(!adminUser)return;$("dataStatus").textContent="Loading dashboard data…";const [comments,bugs,reactions]=await Promise.all([db.from("admin_game_comments").select("*").order("created_at",{ascending:false}).limit(500),db.from("admin_bug_reports").select("*").order("created_at",{ascending:false}).limit(500),db.from("game_reactions").select("game_slug,reaction").limit(5000)]);if(comments.error||bugs.error){$("dataStatus").textContent="Could not load feedback. Check Supabase SELECT policies.";console.error(comments.error,bugs.error);return}const feedback=comments.data||[],bugData=bugs.data||[],reactionData=reactions.error?[]:(reactions.data||[]);const likes=feedback.filter(x=>category(x.message)==="like"),unlikes=feedback.filter(x=>category(x.message)==="unlike"),other=feedback.filter(x=>category(x.message)==="comment");$("likeCount").textContent=likes.length;$("unlikeCount").textContent=unlikes.length;$("commentCount").textContent=other.length;$("bugCount").textContent=bugData.length;$("statFeedback").textContent=feedback.length;let tl=0,tu=0;const map=new Map();reactionData.forEach(x=>{const k=x.game_slug||"unknown-game";if(!map.has(k))map.set(k,{like:0,dislike:0});if(x.reaction==="like"){map.get(k).like++;tl++}else if(x.reaction==="dislike"){map.get(k).dislike++;tu++}});$("statReactions").textContent=tl+tu;$("likeCount").textContent=tl;$("unlikeCount").textContent=tu;$("likeTotal").textContent=likes.length+" items";$("unlikeTotal").textContent=unlikes.length+" items";$("commentTotal").textContent=other.length+" items";$("bugTotal").textContent=bugData.length+" items";const body=$("liveReactions");body.replaceChildren();if(reactions.error){body.innerHTML='<tr><td colspan="4">Could not load reactions. Check game_reactions SELECT policy.</td></tr>'}else if(!map.size){body.innerHTML='<tr><td colspan="4">No reactions recorded yet.</td></tr>'}else [...map.entries()].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([slug,c])=>{const tr=document.createElement("tr");tr.innerHTML="<td>"+esc(slug.replace(/-/g," ").replace(/\b\w/g,x=>x.toUpperCase()))+"</td><td>👍 "+c.like+"</td><td>👎 "+c.dislike+"</td><td>"+(c.like+c.dislike)+"</td>";body.append(tr)});$("reactionUpdated").textContent="Updated: "+new Date().toLocaleTimeString();renderCards(likes,"likes","like","admin_game_comments");renderCards(unlikes,"unlikes","unlike","admin_game_comments");renderCards(other,"comments","comment","admin_game_comments");renderCards(bugData,"bugs","bug","admin_bug_reports");$("dataStatus").textContent="Updated: "+new Date().toLocaleTimeString()}
+async function deleteEntry(table,id,element){if(!adminUser||!id||!confirm("Permanently delete this submission?"))return;const {error}=await db.from(table).delete().eq("id",id);if(error){alert("Delete failed. Check admin DELETE RLS policy.");console.error(error);return}element.remove();await loadData()}
 async function showDashboard(){
   const {data:{user}}=await db.auth.getUser();
   if(!user||user.id!==ADMIN_UID){await db.auth.signOut();$("loginPanel").classList.remove("hidden");$("dashboard").classList.add("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");return;}
@@ -226,6 +260,12 @@ $("refresh").addEventListener("click",loadData);
 
 $("bell").addEventListener("click",()=>document.getElementById("bugs").scrollIntoView({behavior:"smooth",block:"start"}));
 $("logout").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("bell").classList.add("hidden");});
+
+document.querySelectorAll(".side-link").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".side-link").forEach(x=>x.classList.remove("active"));btn.classList.add("active");document.querySelectorAll(".admin-page").forEach(x=>x.classList.remove("active"));$("view-"+btn.dataset.page).classList.add("active");$("activePageTitle").textContent=btn.innerText.replace(/^\S+\s*/,"");$("adminSidebar").classList.remove("open");$("adminShade").classList.remove("show")}));
+$("sideMenu").addEventListener("click",()=>{$("adminSidebar").classList.toggle("open");$("adminShade").classList.toggle("show")});$("adminShade").addEventListener("click",()=>{$("adminSidebar").classList.remove("open");$("adminShade").classList.remove("show")});
+$("sideLogout").addEventListener("click",()=>$("logout").click());
+function updateAdminClock(){const d=new Date();$("adminClock").textContent=d.toLocaleDateString()+" · "+d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}updateAdminClock();setInterval(updateAdminClock,30000);
+
 db.auth.getSession().then(showDashboard);
 </script>
 </body></html>
