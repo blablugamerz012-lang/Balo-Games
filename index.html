@@ -245,21 +245,29 @@
       color: #fff;
       border-color: #fff;
     }
-}
 
-
-    /* Login modal */
-    #loginModal {
-      position: fixed;
-      inset: 0;
-      z-index: 7000;
+    /* Login modal: always render as a centered viewport overlay */
+    body > #loginModal {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 100000 !important;
       display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      background: rgba(0,0,0,0.65);
+      overflow-y: auto;
+      background: rgba(0,0,0,0.68);
+      isolation: isolate;
     }
-    #loginModal.open { display: flex; }
+    body > #loginModal.open { display: flex !important; }
+    #loginModal .login-box {
+      flex: 0 1 380px;
+      width: min(380px, 100%);
+      max-height: calc(100dvh - 40px);
+      overflow-y: auto;
+      margin: auto;
+    }
+    body.login-modal-open { overflow: hidden !important; }
     .login-box {
       width: min(380px, 100%);
       background: #fff;
@@ -676,6 +684,18 @@
       transition: background 0.2s, border-color 0.2s;
     }
     .poki-btn:hover { background: var(--game-btn-hover); border-color: var(--game-btn-hover); }
+    .poki-btn.icon-only-btn {
+      min-width: 44px; height: 40px; padding: 0 9px; justify-content: center;
+      border-radius: 10px; gap: 6px;
+    }
+    .poki-btn.icon-only-btn svg {
+      width: 21px; height: 21px; flex: 0 0 21px; fill: none; stroke: currentColor;
+      stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .reaction-count {
+      display: inline-block; min-width: 10px; font-size: 12px; line-height: 1;
+      font-weight: 900; color: #fff; font-variant-numeric: tabular-nums;
+    }
     .game-reaction-actions { justify-content: center; }
     .game-reaction-actions .poki-btn.is-selected { background: #c10b7e; border-color: #fff; }
     #reactionStatus { font-size: 11px; color: #263238; font-weight: 700; }
@@ -726,7 +746,7 @@
     @media (max-width: 700px) {
       .game-bottom-actions { justify-content: center; padding: 9px 8px; }
       .game-reaction-actions { width: 100%; justify-content: center; gap: 6px; }
-      .game-reaction-actions .poki-btn { padding: 7px 9px; font-size: 11px; }
+      .game-reaction-actions .poki-btn { padding: 0 8px; font-size: 11px; }
       #reactionStatus { width: 100%; text-align: center; }
     }
 
@@ -1059,10 +1079,20 @@
         </div>
         <div class="game-bottom-actions">
           <div class="action-group game-reaction-actions">
-            <button class="poki-btn" id="reportBugBtn" onclick="reportBug()" type="button" aria-label="Report a bug" title="Report a bug">🚩</button>
-            <button class="poki-btn" id="shareGameBtn" onclick="shareGame()" type="button">🔗 Share</button>
-            <button class="poki-btn" id="unlikeBtn" onclick="toggleUnlike()" type="button" aria-pressed="false" aria-label="Unlike">👎 <span id="unlikeCount">0</span></button>
-            <button class="poki-btn" id="likeBtn" onclick="toggleLike()" type="button" aria-pressed="false" aria-label="Like">❤️ <span id="likeCount">0</span></button>
+            <button class="poki-btn icon-only-btn" id="reportBugBtn" onclick="reportBug()" type="button" title="Report a bug" aria-label="Report a bug">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 21V4m0 1c5-4 9 4 14 0v10c-5 4-9-4-14 0" /></svg>
+            </button>
+            <button class="poki-btn icon-only-btn" id="shareGameBtn" onclick="shareGame()" type="button" title="Share" aria-label="Share">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4M8.7 13.3l6.6 4.4"/></svg>
+            </button>
+            <button class="poki-btn icon-only-btn" id="unlikeBtn" onclick="toggleUnlike()" type="button" aria-pressed="false" title="Unlike" aria-label="Unlike">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 14V3H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3Zm0 0 5 8c2 0 3-2 2-4l-1-4h6a2 2 0 0 0 2-2l-2-7a2 2 0 0 0-2-2H7" /></svg>
+              <span id="unlikeCount" class="reaction-count" aria-label="Total unlikes">0</span>
+            </button>
+            <button class="poki-btn icon-only-btn" id="likeBtn" onclick="toggleLike()" type="button" aria-pressed="false" title="Like" aria-label="Like">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Zm0 0 5-8c2 0 3 2 2 4l-1 4h6a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 2H7" /></svg>
+              <span id="likeCount" class="reaction-count" aria-label="Total likes">0</span>
+            </button>
             <span id="reactionStatus" role="status" aria-live="polite"></span>
           </div>
           <div class="action-group">
@@ -1144,7 +1174,7 @@
     </div>
   </div>
 
-  <div id="loginModal" onclick="if(event.target===this) closeLogin()">
+  <div id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" aria-hidden="true" onclick="if(event.target===this) closeLogin()">
     <div class="login-box">
       <button type="button" class="login-close" onclick="closeLogin()" aria-label="Close">×</button>
       <h2 id="loginModalTitle">Welcome to Balo Games</h2>
@@ -1439,7 +1469,14 @@
     // Live game reactions: shown only in the game screen's bottom action bar.
     const SUPABASE_URL = "https://ajpglxinwfgpenlfbkzz.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
-    const reactionClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    const reactionClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        flowType: "pkce"
+      }
+    });
     let reactionVisitorId = null;
     let reactionBusy = false;
     let currentReaction = null;
@@ -1520,17 +1557,19 @@
       try {
         const visitorId = await ensureReactionVisitor();
         const slug = reactionSlug(currentGameTitle);
-        // One reaction per visitor per game. Repeating the same action does nothing.
         if (currentReaction === nextReaction) {
-          await refreshGameReactions();
-          return;
+          const { error } = await reactionClient.from("game_reactions")
+            .delete().eq("game_slug", slug).eq("visitor_id", visitorId);
+          if (error) throw error;
+          currentReaction = null;
+        } else {
+          const { error } = await reactionClient.from("game_reactions").upsert(
+            { game_slug: slug, visitor_id: visitorId, reaction: nextReaction },
+            { onConflict: "game_slug,visitor_id" }
+          );
+          if (error) throw error;
+          currentReaction = nextReaction;
         }
-        const { error } = await reactionClient.from("game_reactions").upsert(
-          { game_slug: slug, visitor_id: visitorId, reaction: nextReaction },
-          { onConflict: "game_slug,visitor_id" }
-        );
-        if (error) throw error;
-        currentReaction = nextReaction;
         await refreshGameReactions();
       } catch (error) {
         console.error("Reaction save failed:", error);
@@ -1625,17 +1664,17 @@
       noticeEl.style.color = "#087f5b";
       noticeEl.textContent = "";
       try {
+        await ensureReactionVisitor();
         const isBug = kind === "bug";
-        const table = isBug ? "admin_bug_reports" : "admin_game_comments";
+        const playerId = await ensureReactionVisitor();
         const tag = kind === "like" ? "[LIKE FEEDBACK]" : kind === "dislike" ? "[UNLIKE FEEDBACK]" : "[BUG REPORT]";
-        const payload = {
-          game_slug: reactionSlug(currentGameTitle || "website"),
-          name: "Player",
-          country: "Not provided",
-          age: null,
-          message: tag + "\nGame: " + (currentGameTitle || "Balo Games website") + "\n\n" + cleanMessage
-        };
-        const { error } = await reactionClient.from(table).insert(payload);
+        const gameLabel = currentGameTitle || "Balo Games website";
+        const { error } = await reactionClient.from("messages").insert({
+          user_id: playerId,
+          sender_id: playerId,
+          sender_role: "player",
+          message: tag + "\nGame: " + gameLabel + "\n\n" + cleanMessage
+        });
         if (error) throw error;
         noticeEl.style.color = "#087f5b";
         noticeEl.textContent = "Thank you! Your feedback has been sent.";
@@ -1846,12 +1885,14 @@
     function updateLoginButton() {
       const loginBtn = document.getElementById("loginBtn");
       const signedIn = !!currentUser && !currentUser.is_anonymous;
-      if (loginBtn) {
-        loginBtn.hidden = false;
-        loginBtn.disabled = signedIn;
-        loginBtn.innerHTML = signedIn ? '<span class="login-ico">✓</span><span class="login-label">Logged in</span>' : '<span class="login-ico">👤</span><span class="login-label">Login</span>';
-        loginBtn.title = signedIn ? "Logged in" : "Login";
-      }
+      if (!loginBtn) return;
+      loginBtn.hidden = false;
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = signedIn
+        ? '<span class="login-ico">↪</span><span class="login-label">Logout</span>'
+        : '<span class="login-ico">👤</span><span class="login-label">Login</span>';
+      loginBtn.title = signedIn ? "Sign out of your account" : "Login to Balo Games";
+      loginBtn.setAttribute("aria-label", signedIn ? "Logout" : "Login");
     }
 
     function showAuthMessage(message, isError=false) {
@@ -1874,11 +1915,19 @@
     function openLogin() {
       if (currentUser && !currentUser.is_anonymous) return;
       setAuthMode("login");
-      document.getElementById("loginModal").classList.add("open");
-      document.body.style.overflow = "hidden";
+      const modal = document.getElementById("loginModal");
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("login-modal-open");
+      document.getElementById("loginEmail")?.focus();
     }
     function closeLogin() {
-      document.getElementById("loginModal").classList.remove("open");
+      const modal = document.getElementById("loginModal");
+      if (modal) {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      }
+      document.body.classList.remove("login-modal-open");
       document.body.style.overflow = "";
       showAuthMessage("");
     }
@@ -1886,6 +1935,8 @@
     function syncAuthUser(user) {
       currentUser = user || null;
       updateLoginButton();
+      const googleButton = document.getElementById("googleLoginBtn");
+      if (googleButton) { googleButton.disabled = false; googleButton.innerHTML = "<span>G</span> Continue with Google"; }
       if (user && !user.is_anonymous) closeLogin();
     }
 
@@ -1900,7 +1951,7 @@
       const submit = document.getElementById("loginSubmitBtn"); submit.disabled = true;
       try {
         if (authMode === "signup") {
-          const { data, error } = await authClient.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + window.location.pathname } });
+          const { data, error } = await authClient.auth.signUp({ email, password, options: { emailRedirectTo: getAuthRedirectUrl() } });
           if (error) throw error;
           if (data.session?.user) { syncAuthUser(data.session.user); showAuthMessage("Account created successfully."); }
           else showAuthMessage("Account created. Check your email and confirm your address before logging in.");
@@ -1915,12 +1966,28 @@
       return false;
     }
 
+    function getAuthRedirectUrl() {
+      const publishedUrl = "https://blablugamerz012-lang.github.io/Balo-Games/";
+      return location.hostname === "blablugamerz012-lang.github.io"
+        ? publishedUrl
+        : (location.origin + location.pathname);
+    }
+
     async function loginWithGoogle() {
       if (!authClient) { showAuthMessage("Supabase could not load. Refresh and try again.", true); return; }
+      const button = document.getElementById("googleLoginBtn");
+      if (button) { button.disabled = true; button.textContent = "Connecting to Google…"; }
+      showAuthMessage("Opening secure Google sign-in…");
       try {
-        const { error } = await authClient.auth.signInWithOAuth({ provider: "google", options: { redirectTo: window.location.origin + window.location.pathname } });
+        const { error } = await authClient.auth.signInWithOAuth({
+          provider: "google",
+          options: { redirectTo: getAuthRedirectUrl() }
+        });
         if (error) throw error;
-      } catch (err) { showAuthMessage(err.message || "Google sign-in could not start.", true); }
+      } catch (err) {
+        showAuthMessage(err.message || "Google sign-in could not start. Check the Google provider in Supabase.", true);
+        if (button) { button.disabled = false; button.innerHTML = "<span>G</span> Continue with Google"; }
+      }
     }
 
     async function loginAsGuest() {
@@ -1937,7 +2004,7 @@
       const email = document.getElementById("loginEmail").value.trim();
       if (!email) { showAuthMessage("Enter your email address first.", true); return; }
       try {
-        const { error } = await authClient.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + window.location.pathname });
+        const { error } = await authClient.auth.resetPasswordForEmail(email, { redirectTo: getAuthRedirectUrl() });
         if (error) throw error;
         showAuthMessage("Password reset email sent. Check your inbox.");
       } catch (err) { showAuthMessage(err.message || "Could not send reset email.", true); }
@@ -1950,7 +2017,30 @@
 
 
 
-    document.getElementById("loginBtn").addEventListener("click", openLogin);
+    async function handleLoginButtonClick() {
+      // A returning account stays signed in; clicking its button signs it out.
+      if (currentUser && !currentUser.is_anonymous) {
+        if (!authClient) return;
+        const btn = document.getElementById("loginBtn");
+        if (btn) btn.disabled = true;
+        try {
+          const { error } = await authClient.auth.signOut();
+          if (error) throw error;
+          currentUser = null;
+          reactionVisitorId = null;
+          updateLoginButton();
+        } catch (err) {
+          console.error("Logout failed:", err);
+          showAuthMessage(err.message || "Could not log out. Please try again.", true);
+        } finally {
+          if (btn) btn.disabled = false;
+        }
+        return;
+      }
+      openLogin();
+    }
+
+    document.getElementById("loginBtn").addEventListener("click", handleLoginButtonClick);
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") { closeInfo(); closeLogin(); closeReactionFeedback(); closeBugFeedback(); }
     });
