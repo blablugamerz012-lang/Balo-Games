@@ -607,19 +607,20 @@
       gap: 8px;
       flex-shrink: 0;
     }
-    /* Fav button on game screen top-right */
+    /* Larger favorite button on the game screen */
     #gameFavBtn {
       border: 0;
-      border-radius: 8px;
-      padding: 6px 12px;
+      border-radius: 10px;
+      padding: 10px 18px;
       font-weight: 800;
-      font-size: 12px;
+      font-size: 16px;
       cursor: pointer;
       background: #066ddb;
       color: #fff;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 7px;
+      min-height: 42px;
     }
     #gameFavBtn:hover { filter: brightness(1.1); }
     #gameFavBtn.is-fav {
@@ -1159,8 +1160,7 @@
         <div class="game-title-bar">
           <span id="overlayGameTitle">Game Title</span>
           <div class="title-bar-actions">
-            <button type="button" id="gameFavBtn" onclick="toggleGameFavorite()">☆ Fav</button>
-            <button type="button" class="home-btn" onclick="goHome()">Home</button>
+            <button type="button" id="gameFavBtn" onclick="toggleGameFavorite()">☆ Favorite</button>
           </div>
         </div>
         <div class="game-frame-wrap" id="frameWrap">
