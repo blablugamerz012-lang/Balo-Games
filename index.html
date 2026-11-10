@@ -472,6 +472,9 @@
       background: linear-gradient(135deg, var(--card-bg), var(--card-bg-2));
       position: relative;
     }
+    .game-image .game-thumb { width:100%; height:100%; display:block; object-fit:cover; object-position:center; }
+    .game-image:has(.game-thumb) { padding:0; overflow:hidden; }
+    .game-image:has(.game-thumb) .game-category-tag { z-index:2; }
     .game-category-tag {
       position: absolute;
       top: 8px;
@@ -1121,31 +1124,7 @@
 
     <main id="games">
       <h2 class="section-title">All Games</h2>
-      <div class="games-grid" id="homeGrid"><div class="game-card" onclick="openGame('My Gun Life')">
-        <div class="game-image"><span class="game-category-tag">action</span>⚡</div>
-        <div class="game-info"><h3>My Gun Life</h3><p>Fast-paced action game.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Evo Eater')">
-        <div class="game-image"><span class="game-category-tag">action</span>🦅</div>
-        <div class="game-info"><h3>Evo Eater</h3><p>Grow, evolve, and explore.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Tik Tak Toe')">
-        <div class="game-image"><span class="game-category-tag">arcade</span>❌⭕</div>
-        <div class="game-info"><h3>Tik Tak Toe</h3><p>Classic strategy game.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Memory Match')">
-        <div class="game-image"><span class="game-category-tag">arcade</span>🧠</div>
-        <div class="game-info"><h3>Memory Match</h3><p>Test your memory.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Snake King')">
-        <div class="game-image"><span class="game-category-tag">arcade</span>🐍</div>
-        <div class="game-info"><h3>Snake King</h3><p>Classic snake action.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Space Run')">
-        <div class="game-image"><span class="game-category-tag">action</span>🚀</div>
-        <div class="game-info"><h3>Space Run</h3><p>Space runner.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Puzzle Box')">
-        <div class="game-image"><span class="game-category-tag">adventure</span>🧩</div>
-        <div class="game-info"><h3>Puzzle Box</h3><p>Solve puzzles.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Dungeon Quest')">
-        <div class="game-image"><span class="game-category-tag">adventure</span>⚔️</div>
-        <div class="game-info"><h3>Dungeon Quest</h3><p>Explore dungeons.</p><span class="game-action">Play game →</span></div>
-      </div></div>
+      <div class="games-grid" id="homeGrid"></div>
     </main>
   </div>
 
@@ -1223,31 +1202,7 @@
 
     <div class="all-games-bottom-section">
       <h3 class="bottom-section-title">All Games</h3>
-      <div class="games-grid" id="bottomGrid"><div class="game-card" onclick="openGame('My Gun Life')">
-        <div class="game-image"><span class="game-category-tag">action</span>⚡</div>
-        <div class="game-info"><h3>My Gun Life</h3><p>Fast-paced action game.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Evo Eater')">
-        <div class="game-image"><span class="game-category-tag">action</span>🦅</div>
-        <div class="game-info"><h3>Evo Eater</h3><p>Grow, evolve, and explore.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Tik Tak Toe')">
-        <div class="game-image"><span class="game-category-tag">arcade</span>❌⭕</div>
-        <div class="game-info"><h3>Tik Tak Toe</h3><p>Classic strategy game.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Memory Match')">
-        <div class="game-image"><span class="game-category-tag">arcade</span>🧠</div>
-        <div class="game-info"><h3>Memory Match</h3><p>Test your memory.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Snake King')">
-        <div class="game-image"><span class="game-category-tag">arcade</span>🐍</div>
-        <div class="game-info"><h3>Snake King</h3><p>Classic snake action.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Space Run')">
-        <div class="game-image"><span class="game-category-tag">action</span>🚀</div>
-        <div class="game-info"><h3>Space Run</h3><p>Space runner.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Puzzle Box')">
-        <div class="game-image"><span class="game-category-tag">adventure</span>🧩</div>
-        <div class="game-info"><h3>Puzzle Box</h3><p>Solve puzzles.</p><span class="game-action">Play game →</span></div>
-      </div><div class="game-card" onclick="openGame('Dungeon Quest')">
-        <div class="game-image"><span class="game-category-tag">adventure</span>⚔️</div>
-        <div class="game-info"><h3>Dungeon Quest</h3><p>Explore dungeons.</p><span class="game-action">Play game →</span></div>
-      </div></div>
+      <div class="games-grid" id="bottomGrid"></div>
     </div>
   </div>
 
@@ -1344,7 +1299,7 @@
     const games = [
       { title: "My Gun Life", cat: "action", tags: ["gun"], icon: "⚡", desc: "Jump into a fast-paced action game.", path: "games/my-gun-life/index.html" },
       { title: "Evo Eater", cat: "action", tags: ["evolution"], icon: "🦅", desc: "Grow, evolve, and explore the arena.", path: "games/evoeater/index.html" },
-      { title: "Tik Tak Toe", cat: "arcade", tags: ["puzzle", "2player"], icon: "❌⭕", desc: "A classic strategy game for a quick match.", path: "games/tik-tak-toe/index.html" },
+      { title: "Tik Tak Toe", cat: "arcade", tags: ["puzzle", "2player"], icon: "❌⭕", image: "games/tik-tak-toe/thumbnail.svg?v=1", desc: "A classic strategy game for a quick match.", path: "games/tik-tak-toe/index.html" },
       { title: "Memory Match", cat: "arcade", tags: ["puzzle"], icon: "🧠", desc: "Find matching cards and test your memory.", path: "games/MATCH%20GAME/memory-match.html" },
       { title: "Snake King", cat: "arcade", tags: ["snake"], icon: "🐍", desc: "Classic snake action with mobile and keyboard controls.", path: "games/snake-king/index.html" },
       { title: "Adventure Games", cat: "adventure", tags: ["adventure"], icon: "🗺️", desc: "A new adventure is being prepared.", comingSoon: true },
@@ -1444,11 +1399,12 @@
         : `<button type="button" class="fav-toggle${fav ? " is-fav" : ""}" data-title="${safe}" onclick="toggleFavorite('${safe}', event)" title="${fav ? "In Favorites" : "Add to Favorites"}">${fav ? "♥" : "☆"}</button>`;
       const clickAttr = g.comingSoon ? "" : ` onclick="onCardClick('${safe}')" role="button" tabindex="0"`;
       const action = g.comingSoon ? "Coming soon ✦" : (showingFavorites && removeFavMode ? "Select to remove →" : "Play game →");
+      const visual = g.image ? `<img class="game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy">` : g.icon;
       return `<div class="game-card${removeClass}${g.comingSoon ? " coming-soon-card" : ""}"${clickAttr}>
         <div class="game-image">
           <span class="game-category-tag">${g.cat}</span>
           ${heartBtn}
-          ${g.icon}
+          ${visual}
         </div>
         <div class="game-info"><h3>${g.title}</h3><p>${g.desc}</p><span class="game-action">${action}</span></div>
       </div>`;
