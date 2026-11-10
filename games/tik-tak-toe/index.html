@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<title>Tic Tac Toe - vs Bot</title>
+<title>Tic-Tac-Toe - vs Bot</title>
 <style>
 *{box-sizing:border-box}
 :root{--a:#061b55;--b:#0875e8}
@@ -236,8 +236,8 @@ body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-ite
 <!-- HOME -->
 <div class="home" id="homeScreen">
   <img class="home-logo" src="xo.png" alt="XO">
-  <h1 class="home-title">TIC TAC TOE</h1>
-  <p class="home-sub">Play vs Smart Bot</p>
+  <h1 class="home-title">TIC-TAC-TOE</h1>
+  <p class="home-sub">Play vs. a Smart Bot</p>
   <div class="home-player" id="homePlayerLabel">Player: Guest</div>
   <button class="home-play" onclick="goToDiff()">▶  PLAY</button>
   <div class="home-menu">
@@ -266,7 +266,7 @@ body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-ite
 <div class="bot-av hidden" id="botAv"><div class="bot-face" id="botFace">😎</div><div class="bubble" id="bubble"></div></div>
 
 <div class="game">
-  <h1 class="title">TIC TAC TOE</h1>
+  <h1 class="title">TIC-TAC-TOE</h1>
   <div class="status" id="status"></div>
   <div class="board-wrap">
     <img class="board-bg" src="board.png" alt="Board">
@@ -287,7 +287,7 @@ body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-ite
   <div class="box">
     <button class="box-close" onclick="closeDiff()" title="Close">✕</button>
     <div class="box-title">SELECT DIFFICULTY</div>
-    <div class="box-sub">Choose how hard the Bot plays</div>
+    <div class="box-sub">Choose the bot's difficulty</div>
     <div class="diff-row">
       <button class="diff-btn diff-easy" onclick="selectDiff('easy')"><span>😊 EASY</span><span class="diff-desc">Win = 5 <span class="coin"></span></span></button>
       <button class="diff-btn diff-normal" onclick="selectDiff('normal')"><span>😐 NORMAL</span><span class="diff-desc">Win = 10 <span class="coin"></span></span></button>
@@ -699,7 +699,7 @@ function exitGame(){
   stopMusicTrack();
   try{window.close()}catch(e){}
   setTimeout(()=>{
-    if(!window.closed) alert('Thanks for playing Tic Tac Toe!\nYou can close this tab manually.');
+    if(!window.closed) alert('Thanks for playing Tic-Tac-Toe!\nYou can close this tab manually.');
   },200);
 }
 
