@@ -622,6 +622,8 @@
       gap: 7px;
       min-height: 42px;
     }
+    #gameFavBtn .fav-star { color: #ffdf00; font-size: 21px; line-height: 1; }
+    #gameFavBtn .fav-word { color: #ff1493; }
     #gameFavBtn:hover { filter: brightness(1.1); }
     #gameFavBtn.is-fav {
       background: #ff1493;
@@ -1160,7 +1162,7 @@
         <div class="game-title-bar">
           <span id="overlayGameTitle">Game Title</span>
           <div class="title-bar-actions">
-            <button type="button" id="gameFavBtn" onclick="toggleGameFavorite()">☆ Favorite</button>
+            <button type="button" id="gameFavBtn" onclick="toggleGameFavorite()"><span class="fav-star">★</span><span class="fav-word">Favorite</span></button>
           </div>
         </div>
         <div class="game-frame-wrap" id="frameWrap">
