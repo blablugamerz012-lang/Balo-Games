@@ -472,19 +472,19 @@
       position: relative;
     }
     .game-card { position:relative; }
-    .game-card .game-image { height:150px; min-height:150px; padding:0; overflow:hidden; }
+    .game-card .game-image { height:220px; min-height:220px; padding:0; overflow:hidden; }
     .game-image .game-thumb { width:100%; height:100%; display:block; object-fit:cover; object-position:center; }
     .game-image:has(.game-thumb) { padding:0; }
     .game-image .game-fallback { width:100%; height:100%; display:grid; place-items:center; font-size:48px; background:linear-gradient(135deg,var(--card-bg),var(--card-bg-2)); }
     .game-hover-title { position:absolute; left:0; right:0; bottom:0; padding:22px 10px 9px; color:#fff; font-size:15px; font-weight:800; text-align:center; background:linear-gradient(transparent,rgba(0,0,0,.86)); opacity:0; transform:translateY(5px); transition:opacity .2s,transform .2s; pointer-events:none; }
     .game-card:hover .game-hover-title,.game-card:focus-visible .game-hover-title { opacity:1; transform:translateY(0); }
-    .game-category-tag { position:absolute; bottom:8px; left:9px; z-index:3; padding:4px 8px; border-radius:7px; background:rgba(0,0,0,.76); color:#fff; font-size:10px; font-weight:800; text-transform:uppercase; opacity:0; transition:opacity .2s; pointer-events:none; }
-    .game-card-likes { position:absolute; bottom:8px; right:9px; z-index:3; padding:4px 8px; border-radius:12px; background:rgba(0,0,0,.76); color:#fff; font-size:11px; font-weight:800; opacity:0; transition:opacity .2s; pointer-events:none; }
+    .game-category-tag { position:absolute; bottom:9px; left:9px; z-index:5; display:inline-flex; align-items:center; justify-content:center; min-height:25px; padding:5px 10px; border:0; border-radius:7px; background:rgba(0,0,0,.82); color:#fff; font-size:10px; line-height:1; font-weight:800; text-transform:uppercase; text-decoration:none; box-shadow:none; outline:0; opacity:0; transition:opacity .2s; pointer-events:none; }
+    .game-card-likes { position:absolute; bottom:9px; right:9px; z-index:5; display:inline-flex; align-items:center; min-height:25px; padding:5px 9px; border:0; border-radius:12px; background:rgba(0,0,0,.82); color:#fff; font-size:11px; line-height:1; font-weight:800; text-decoration:none; box-shadow:none; opacity:0; transition:opacity .2s; pointer-events:none; }
     .game-card:hover .game-category-tag,.game-card:focus-visible .game-category-tag,.game-card:hover .game-card-likes,.game-card:focus-visible .game-card-likes { opacity:1; }
     .game-card .fav-toggle { z-index:4; }
     .game-card .game-info { display:none !important; }
     @media (hover:none) { .game-hover-title,.game-category-tag,.game-card-likes { opacity:1; transform:none; } }
-    .game-image .game-thumb { width:100%; height:115px; min-width:100%; display:block; object-fit:cover; object-position:center; flex:0 0 100%; }
+    .game-image .game-thumb { width:100%; height:100%; min-width:100%; display:block; object-fit:cover; object-position:center; flex:0 0 100%; }
     .game-image:has(.game-thumb) { padding:0; overflow:hidden; }
     .game-image:has(.game-thumb) .game-category-tag { z-index:2; }
     .game-category-tag {
