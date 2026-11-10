@@ -6,8 +6,9 @@
 <title>Tic Tac Toe - vs Bot</title>
 <style>
 *{box-sizing:border-box}
+:root{--a:#061b55;--b:#0875e8}
 html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;overflow:hidden}
-body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items:center;justify-content:center;color:#fff}
+body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-items:center;justify-content:center;color:#fff}
 .game{width:min(94vw,520px);text-align:center;position:relative}
 .title{font-size:clamp(32px,7vw,52px);font-weight:900;text-shadow:0 4px 0 #003477;margin:0 0 4px}
 .status{font-size:clamp(18px,4vw,26px);font-weight:800;margin:2px 0 8px;min-height:28px}
@@ -17,21 +18,20 @@ body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items
 .cell{border:0;background:rgba(0,40,120,.08);border-radius:12px;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;padding:0}
 .cell:hover{background:rgba(255,255,255,.08)}
 .cell img{width:82%;height:82%;object-fit:contain;pointer-events:none}
+.wincell{background:rgba(18,199,90,.5)!important;animation:pulse .5s infinite alternate}
+.hint{background:rgba(255,220,60,.55)!important;animation:pulse .4s infinite alternate}
+@keyframes pulse{to{transform:scale(1.07)}}
 .score{display:flex;justify-content:center;gap:10px;margin-top:8px;font-weight:800;flex-wrap:wrap;font-size:14px}
 .score span{background:rgba(0,0,0,.2);padding:5px 11px;border-radius:8px}
+.tools{display:flex;justify-content:center;gap:10px;margin-top:8px}
+.tool{border:0;border-radius:10px;padding:8px 16px;font-size:14px;font-weight:800;color:#fff;cursor:pointer;background:rgba(255,255,255,.16)}
+.tool:hover{background:rgba(255,255,255,.26)}
 .overlay{position:fixed;inset:0;background:rgba(3,16,60,.92);display:flex;align-items:center;justify-content:center;z-index:10;padding:20px}
+#settingsScreen,#shopScreen{z-index:30}
 .box{position:relative;width:min(92vw,440px);text-align:center;background:linear-gradient(145deg,#0b398d,#075bc4);padding:28px 20px;border-radius:26px;box-shadow:0 20px 60px rgba(0,0,0,.5);border:2px solid rgba(255,255,255,.16)}
-
-.box-close{
-  position:absolute;top:8px;right:8px;width:42px;height:42px;border:0;border-radius:50%;
-  background:#e02440;color:#fff;font-size:24px;font-weight:900;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;line-height:1;transition:.15s;z-index:5;
-  border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,.45);
-}
-.box-close:hover{background:#ff4060;transform:scale(1.12);box-shadow:0 4px 16px rgba(224,36,64,.6)}
-.box-title{padding-right:28px}
-
-.box-title{font-size:clamp(24px,6vw,38px);font-weight:900;margin:0 0 6px}
+.box-close{position:absolute;top:8px;right:8px;width:42px;height:42px;border-radius:50%;background:#e02440;color:#fff;font-size:24px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:.15s;z-index:5;border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,.45)}
+.box-close:hover{background:#ff4060;transform:scale(1.12)}
+.box-title{font-size:clamp(24px,6vw,38px);font-weight:900;margin:0 0 6px;padding-right:28px}
 .box-sub{font-size:15px;font-weight:700;margin:0 0 18px;opacity:.95}
 .diff-row{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
 .diff-btn{border:0;border-radius:14px;padding:14px 18px;font-size:18px;font-weight:800;cursor:pointer;color:#fff;transition:.15s;box-shadow:0 5px 0 rgba(0,0,0,.25);text-align:left;display:flex;align-items:center;justify-content:space-between}
@@ -51,7 +51,7 @@ body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items
 .diff-badge{font-size:12px;font-weight:700;opacity:.85;margin-top:4px}
 
 /* HOME */
-.home{position:fixed;inset:0;background:linear-gradient(135deg,#061b55 0%,#0875e8 50%,#0a4a9e 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;padding:20px;overflow:auto}
+.home{position:fixed;inset:0;background:linear-gradient(135deg,var(--a) 0%,var(--b) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;padding:20px;overflow:auto}
 .home::before{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.04);top:-70px;right:-50px}
 .home-logo{width:min(60vw,250px);margin-bottom:4px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.4));animation:float 3s ease-in-out infinite;position:relative;z-index:1}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
@@ -66,23 +66,51 @@ body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items
 .menu-btn:hover{background:rgba(255,255,255,.24);transform:translateY(-2px)}
 .menu-btn.on{background:linear-gradient(135deg,#12c75a,#1a9e4a)}
 .menu-btn.off{opacity:.55}
+.menu-btn.shop{background:linear-gradient(135deg,#c47a0a,#e8a020)}
+
+/* Coins + toast */
+.coin{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.22em;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23ffe680'/><stop offset='1' stop-color='%23e8a010'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='%23a85e08'/><circle cx='32' cy='32' r='26' fill='url(%23g)' stroke='%23fff3b8' stroke-width='2'/><circle cx='32' cy='32' r='19' fill='none' stroke='%23c98410' stroke-width='2' stroke-dasharray='2.5 3'/><path d='M32 17l4.6 9.6 10.4 1.4-7.6 7.3 1.9 10.4L32 40.6l-9.3 5.1 1.9-10.4L17 28l10.4-1.4z' fill='%23b86f06'/><ellipse cx='23' cy='19' rx='9' ry='5' transform='rotate(-35 23 19)' fill='%23fff' opacity='.4'/></svg>") center/contain no-repeat}
+.coin-badge{position:fixed;top:12px;right:12px;z-index:22;display:flex;align-items:center;gap:8px;padding:5px 16px 5px 6px;border-radius:999px;font-weight:900;font-size:18px;background:linear-gradient(135deg,rgba(0,0,0,.5),rgba(70,45,0,.55));border:2px solid #e8b230;box-shadow:0 0 14px rgba(255,190,50,.35),inset 0 0 8px rgba(255,200,80,.15);backdrop-filter:blur(6px)}
+.coin-badge .coin{width:30px;height:30px;animation:coinspin 3.2s ease-in-out infinite}
+.coin-badge.pop{animation:badgepop .45s}
+#boostTag{font-size:13px;color:#ffe680}
+#boostTag:empty{display:none}
+.buy .coin{width:16px;height:16px;vertical-align:-3px}
+.bc .coin{width:1.4em;height:1.4em;vertical-align:-.35em}
+@keyframes coinspin{0%,65%{transform:rotateY(0)}100%{transform:rotateY(360deg)}}
+@keyframes badgepop{40%{transform:scale(1.18)}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);padding:10px 18px;border-radius:12px;font-weight:800;z-index:50;opacity:0;pointer-events:none;transition:.2s;text-align:center}
+.toast.show{opacity:1}
+
+/* Shop */
+.shop-list{max-height:56vh;overflow:auto;text-align:left;padding-right:4px}
+.shop-h{font-weight:900;margin:12px 0 6px;opacity:.9}
+.shop-row{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.2);padding:10px 12px;border-radius:12px;margin-bottom:6px;font-weight:700}
+.shop-row small{display:block;font-size:11px;opacity:.75;font-weight:600}
+.buy{border:0;border-radius:10px;padding:8px 14px;font-weight:800;color:#fff;cursor:pointer;background:linear-gradient(135deg,#c47a0a,#e8a020);min-width:96px}
+.buy.own{background:rgba(255,255,255,.22)}
+.buy.eq{background:linear-gradient(135deg,#1a9e4a,#12c75a)}
+
+/* Big Win / Lose emoji */
+.burst{position:fixed;inset:0;z-index:18;display:none;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;background:rgba(0,0,0,.5)}
+.burst.show{display:flex}
+.big{font-size:min(58vw,300px);line-height:1}
+.big.win{animation:pop .7s both,bounce .9s .7s infinite}
+.big.lose{animation:pop .7s both,shake .45s .7s infinite}
+.big.draw{animation:pop .7s both}
+.bt{font-size:clamp(34px,10vw,64px);font-weight:900;text-shadow:0 5px 0 #003477,0 8px 24px rgba(0,0,0,.5)}
+.bc{font-size:clamp(18px,5vw,28px);font-weight:800;margin-top:6px}
+@keyframes pop{from{transform:scale(0) rotate(-25deg)}to{transform:scale(1)}}
+@keyframes bounce{50%{transform:translateY(-22px) scale(1.06)}}
+@keyframes shake{25%{transform:translateX(-12px) rotate(-5deg)}75%{transform:translateX(12px) rotate(5deg)}}
+.cf{position:fixed;top:-50px;z-index:19;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(360deg)}}
 
 /* Music side panel */
-.music-panel{
-  position:fixed;top:0;right:0;height:100%;width:min(280px,78vw);
-  background:linear-gradient(180deg,#0a2d6e,#0b4a9e);
-  box-shadow:-8px 0 30px rgba(0,0,0,.45);
-  z-index:25;transform:translateX(105%);transition:transform .28s ease;
-  padding:20px 16px;display:flex;flex-direction:column;gap:8px;
-  border-left:2px solid rgba(255,255,255,.15);
-}
+.music-panel{position:fixed;top:0;right:0;height:100%;width:min(280px,78vw);background:linear-gradient(180deg,#0a2d6e,#0b4a9e);box-shadow:-8px 0 30px rgba(0,0,0,.45);z-index:25;transform:translateX(105%);transition:transform .28s ease;padding:20px 16px;display:flex;flex-direction:column;gap:8px;border-left:2px solid rgba(255,255,255,.15)}
 .music-panel.open{transform:translateX(0)}
 .music-panel h3{margin:0 0 10px;font-size:20px;font-weight:900;text-align:center}
-.music-item{
-  border:0;border-radius:12px;padding:12px 14px;font-size:15px;font-weight:800;
-  cursor:pointer;color:#fff;background:rgba(255,255,255,.12);text-align:left;
-  display:flex;align-items:center;justify-content:space-between;transition:.15s;
-}
+.music-item{border:0;border-radius:12px;padding:12px 14px;font-size:15px;font-weight:800;cursor:pointer;color:#fff;background:rgba(255,255,255,.12);text-align:left;display:flex;align-items:center;justify-content:space-between;transition:.15s}
 .music-item:hover{background:rgba(255,255,255,.22)}
 .music-item.playing{background:linear-gradient(135deg,#12c75a,#1a9e4a);box-shadow:0 0 12px rgba(18,199,90,.4)}
 .music-stop{margin-top:8px;background:rgba(176,26,46,.7)!important}
@@ -91,14 +119,8 @@ body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items
 .music-now{font-size:12px;opacity:.8;text-align:center;min-height:18px;margin-bottom:4px}
 
 /* Corner Home */
-.corner-home{
-  position:fixed;top:14px;left:14px;z-index:15;
-  border:0;border-radius:12px;padding:10px 14px;font-size:15px;font-weight:800;
-  cursor:pointer;color:#fff;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);
-  border:1px solid rgba(255,255,255,.2);transition:.15s;
-}
+.corner-home{position:fixed;top:14px;left:14px;z-index:15;border-radius:12px;padding:10px 14px;font-size:15px;font-weight:800;cursor:pointer;color:#fff;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);transition:.15s}
 .corner-home:hover{background:rgba(0,0,0,.5);transform:scale(1.05)}
-.corner-home.hidden{display:none}
 
 .confirm-box .btn-row{display:flex;gap:14px;justify-content:center;margin-top:8px}
 .confirm-yes,.confirm-no{border:0;border-radius:12px;padding:12px 28px;font-size:16px;font-weight:800;cursor:pointer;color:#fff;transition:.15s}
@@ -134,13 +156,23 @@ body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items
 
 @media(max-height:700px){
   .title{font-size:30px}.status{margin-bottom:4px;font-size:16px}
-  .board-wrap{width:min(68vh,360px)}
+  .board-wrap{width:min(60vh,360px)}
   .home-logo{width:min(40vw,160px)}.home-title{font-size:clamp(26px,6vw,40px)}.home-sub{margin-bottom:12px}
   .result{font-size:18px;min-height:26px}
 }
 </style>
 </head>
 <body>
+
+<div class="coin-badge" id="coinBadge"><span class="coin"></span><b id="coins">0</b><span id="boostTag"></span></div>
+<div class="toast" id="toast"></div>
+
+<!-- Big Win / Lose emoji -->
+<div class="burst" id="burst">
+  <div class="big" id="bigEmoji"></div>
+  <div class="bt" id="bigText"></div>
+  <div class="bc" id="bigCoins"></div>
+</div>
 
 <!-- HOME -->
 <div class="home" id="homeScreen">
@@ -150,6 +182,7 @@ body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items
   <div class="home-player" id="homePlayerLabel">Player: Guest</div>
   <button class="home-play" onclick="goToDiff()">▶  PLAY</button>
   <div class="home-menu">
+    <button class="menu-btn shop" onclick="openShop()">🛒 Shop</button>
     <button class="menu-btn" onclick="openSettings()">⚙ Settings</button>
     <button class="menu-btn" id="musicBtn" onclick="openMusicPanel()">🎵 Music</button>
     <button class="menu-btn on" id="soundBtn" onclick="toggleSound()">🔊 Sound: On</button>
@@ -185,7 +218,8 @@ body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items
     <button class="replay-btn" onclick="replayGame()">▶  PLAY</button>
     <span class="light-r"></span>
   </div>
-  <div class="score"><span>X: <b id="xScore">0</b></span><span>O: <b id="oScore">0</b></span><span>Draw: <b id="dScore">0</b></span></div>
+  <div class="score"><span>X: <b id="xScore">0</b></span><span>O: <b id="oScore">0</b></span><span>Draw: <b id="dScore">0</b></span><span>🔥 Streak: <b id="streakEl">0</b></span></div>
+  <div class="tools"><button class="tool" id="hintBtn" onclick="useHint()">💡 Hint (0)</button><button class="tool" onclick="openShop()">🛒 Shop</button></div>
   <div class="diff-badge" id="diffBadge"></div>
 </div>
 
@@ -195,9 +229,9 @@ body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items
     <div class="box-title">SELECT DIFFICULTY</div>
     <div class="box-sub">Choose how hard the Bot plays</div>
     <div class="diff-row">
-      <button class="diff-btn diff-easy" onclick="selectDiff('easy')"><span>😊 EASY</span><span class="diff-desc">Bot makes mistakes</span></button>
-      <button class="diff-btn diff-normal" onclick="selectDiff('normal')"><span>😐 NORMAL</span><span class="diff-desc">Balanced challenge</span></button>
-      <button class="diff-btn diff-hard" onclick="selectDiff('hard')"><span>🔥 HARD</span><span class="diff-desc">Almost unbeatable</span></button>
+      <button class="diff-btn diff-easy" onclick="selectDiff('easy')"><span>😊 EASY</span><span class="diff-desc">Win = 5 <span class="coin"></span></span></button>
+      <button class="diff-btn diff-normal" onclick="selectDiff('normal')"><span>😐 NORMAL</span><span class="diff-desc">Win = 10 <span class="coin"></span></span></button>
+      <button class="diff-btn diff-hard" onclick="selectDiff('hard')"><span>🔥 HARD</span><span class="diff-desc">Win = 20 <span class="coin"></span> • Draw = 10 <span class="coin"></span></span></button>
     </div>
   </div>
 </div>
@@ -242,6 +276,15 @@ body{background:linear-gradient(135deg,#061b55,#0875e8);display:flex;align-items
   </div>
 </div>
 
+<div class="overlay hidden" id="shopScreen">
+  <div class="box">
+    <button class="box-close" onclick="closeShop()" title="Close">✕</button>
+    <div class="box-title">🛒 SHOP</div>
+    <div class="box-sub">Your coins: <span class="coin"></span> <b id="shopCoins">0</b></div>
+    <div class="shop-list" id="shopList"></div>
+  </div>
+</div>
+
 <script>
 const grid=document.getElementById('grid');
 const statusEl=document.getElementById('status');
@@ -251,6 +294,7 @@ const diffScreen=document.getElementById('diffScreen');
 const homeScreen=document.getElementById('homeScreen');
 const confirmScreen=document.getElementById('confirmScreen');
 const settingsScreen=document.getElementById('settingsScreen');
+const shopScreen=document.getElementById('shopScreen');
 const cornerHome=document.getElementById('cornerHome');
 const diffBadge=document.getElementById('diffBadge');
 const replayWrap=document.getElementById('replayWrap');
@@ -264,6 +308,17 @@ const soundBtn=document.getElementById('soundBtn');
 const setSound=document.getElementById('setSound');
 const musicPanel=document.getElementById('musicPanel');
 const musicNow=document.getElementById('musicNow');
+const coinsEl=document.getElementById('coins');
+const boostTag=document.getElementById('boostTag');
+const hintBtn=document.getElementById('hintBtn');
+const streakEl=document.getElementById('streakEl');
+const shopList=document.getElementById('shopList');
+const shopCoins=document.getElementById('shopCoins');
+const burstEl=document.getElementById('burst');
+const bigEmoji=document.getElementById('bigEmoji');
+const bigText=document.getElementById('bigText');
+const bigCoins=document.getElementById('bigCoins');
+const toastEl=document.getElementById('toast');
 
 const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 let board=Array(9).fill('');
@@ -277,7 +332,131 @@ let currentTrack=0;
 
 const diffLabels={easy:'😊 Easy',normal:'😐 Normal',hard:'🔥 Hard'};
 
-// Real audio
+/* ===== SAVE DATA (coins, shop, streak) ===== */
+const ITEMS=[
+ {id:'t0',t:'theme',n:'🌊 Ocean',p:0,v:['#061b55','#0875e8']},
+ {id:'t1',t:'theme',n:'🌅 Sunset',p:100,v:['#5a0a2a','#f0642a']},
+ {id:'t2',t:'theme',n:'🌲 Forest',p:100,v:['#06351f','#1fa05a']},
+ {id:'t3',t:'theme',n:'🌌 Galaxy',p:150,v:['#1c0840','#7a3be8']},
+ {id:'t4',t:'theme',n:'👑 Gold',p:200,v:['#3a2a06','#d99a14']},
+ {id:'e0',t:'emo',n:'🏆 / 😭 Classic',p:0,v:['🏆','😭']},
+ {id:'e1',t:'emo',n:'👑 / 😢 Royal',p:80,v:['👑','😢']},
+ {id:'e2',t:'emo',n:'🤩 / 🥺 Star',p:80,v:['🤩','🥺']},
+ {id:'e3',t:'emo',n:'🔥 / 💔 Fire',p:120,v:['🔥','💔']}
+];
+let S={coins:50,owned:['t0','e0'],theme:'t0',emo:'e0',hints:1,boost:0,streak:0,name:'Guest',day:''};
+try{const r=JSON.parse(localStorage.getItem('xo_save'));if(r)S=Object.assign(S,r);}catch(e){}
+function save(){try{localStorage.setItem('xo_save',JSON.stringify(S));}catch(e){}}
+const item=id=>ITEMS.find(i=>i.id===id);
+
+let shown=S.coins;
+const badge=document.getElementById('coinBadge');
+function tick(){
+  if(S.coins!==shown){badge.classList.remove('pop');void badge.offsetWidth;badge.classList.add('pop');}
+  clearInterval(tick.t);
+  tick.t=setInterval(()=>{
+    const d=S.coins-shown;
+    if(!d){clearInterval(tick.t);return;}
+    shown+=Math.sign(d)*Math.max(1,Math.floor(Math.abs(d)/6));
+    coinsEl.textContent=shopCoins.textContent=shown;
+  },40);
+}
+function toast(t){
+  toastEl.innerHTML=t;toastEl.classList.add('show');
+  clearTimeout(toast.t);toast.t=setTimeout(()=>toastEl.classList.remove('show'),2200);
+}
+function applyTheme(){
+  const v=item(S.theme).v;
+  document.documentElement.style.setProperty('--a',v[0]);
+  document.documentElement.style.setProperty('--b',v[1]);
+}
+function upd(){
+  tick();
+  boostTag.textContent=S.boost>0?'⚡x2':'';
+  hintBtn.textContent='💡 Hint ('+S.hints+')';
+  streakEl.textContent=S.streak;
+}
+
+/* ===== SHOP ===== */
+function openShop(){renderShop();shopScreen.classList.remove('hidden');}
+function closeShop(){shopScreen.classList.add('hidden');}
+function renderShop(){
+  const h=t=>`<div class="shop-h">${t}</div>`;
+  const row=(n,sub,btn)=>`<div class="shop-row"><span>${n}<small>${sub}</small></span>${btn}</div>`;
+  let o=h('⚡ Power-ups')
+   +row('💡 Hint','Shows the best move • Owned: '+S.hints,`<button class="buy" onclick="buyC('hints',20)"><span class="coin"></span> 20</button>`)
+   +row('⚡ Double Coins','Next win gives x2 • Owned: '+S.boost,`<button class="buy" onclick="buyC('boost',30)"><span class="coin"></span> 30</button>`);
+  [['theme','🎨 Themes'],['emo','🏆 Win / 😭 Lose Emoji']].forEach(([t,title])=>{
+    o+=h(title);
+    ITEMS.filter(i=>i.t===t).forEach(i=>{
+      const own=S.owned.includes(i.id),on=S[t]===i.id;
+      o+=row(i.n,'',own?`<button class="buy ${on?'eq':'own'}" onclick="equip('${i.id}')">${on?'✔ Equipped':'Equip'}</button>`:`<button class="buy" onclick="buyI('${i.id}')"><span class="coin"></span> ${i.p}</button>`);
+    });
+  });
+  shopList.innerHTML=o;
+  upd();
+}
+function buyC(k,p){
+  if(S.coins<p){toast('Not enough coins <span class="coin"></span>');return;}
+  S.coins-=p;S[k]++;save();upd();renderShop();toast('Purchased!');playSfx(sfxMove);
+}
+function buyI(id){
+  const i=item(id);
+  if(S.coins<i.p){toast('Not enough coins <span class="coin"></span>');return;}
+  S.coins-=i.p;S.owned.push(id);equip(id);toast('Purchased & equipped!');playSfx(sfxMove);
+}
+function equip(id){
+  S[item(id).t]=id;applyTheme();save();renderShop();
+}
+
+/* ===== BIG WIN / LOSE EMOJI ===== */
+function confetti(chars){
+  for(let i=0;i<30;i++){
+    const s=document.createElement('span');
+    s.className='cf';const c=chars[i%chars.length];s.innerHTML=c==='🪙'?'<span class="coin"></span>':c;
+    s.style.cssText='left:'+Math.random()*100+'vw;animation-duration:'+(1.8+Math.random()*1.6)+'s;animation-delay:'+Math.random()*.6+'s;font-size:'+(18+Math.random()*22)+'px';
+    document.body.appendChild(s);setTimeout(()=>s.remove(),4400);
+  }
+}
+function burst(res,g){
+  const e=item(S.emo).v;
+  bigEmoji.textContent=res==='win'?e[0]:res==='lose'?e[1]:'🤝';
+  bigEmoji.className='big '+res;
+  bigText.textContent=res==='win'?'WINNER!':res==='lose'?'YOU LOST!':'DRAW!';
+  bigCoins.innerHTML='+'+g+' <span class="coin"></span>'+(res==='win'&&S.streak>1?'  •  🔥 Streak x'+S.streak:'');
+  burstEl.classList.add('show');
+  if(res==='win')confetti(['🎉','⭐','✨','🪙']);
+  if(res==='lose')confetti(['💧','😢']);
+  clearTimeout(burst.t);burst.t=setTimeout(()=>burstEl.classList.remove('show'),2800);
+}
+function finish(res){
+  let g;
+  if(res==='win'){
+    S.streak++;
+    g=({easy:5,normal:10,hard:20})[difficulty]+(S.streak>1?Math.min(S.streak,5)*2:0);
+    if(S.boost>0){g*=2;S.boost--;}
+  }else{
+    S.streak=0;
+    g=res==='draw'?({easy:2,normal:4,hard:10})[difficulty]:1;
+  }
+  S.coins+=g;save();upd();
+  burst(res,g);
+}
+
+/* ===== HINT ===== */
+function useHint(){
+  if(!setupDone||gameOver||turn!==player)return;
+  if(S.hints<1){toast('No hints left — buy more in the Shop 🛒');return;}
+  S.hints--;save();upd();
+  [bot,player]=[player,bot];
+  const m=bestMove();
+  [bot,player]=[player,bot];
+  if(m<0)return;
+  const c=grid.children[m];c.classList.add('hint');
+  setTimeout(()=>c.classList.remove('hint'),1800);
+}
+
+/* ===== AUDIO ===== */
 const musicTracks={
   1:new Audio('music1.mp3'),
   2:new Audio('music2.mp3'),
@@ -303,12 +482,8 @@ function playSfx(audio){
   }catch(e){}
 }
 
-function openMusicPanel(){
-  musicPanel.classList.add('open');
-}
-function closeMusicPanel(){
-  musicPanel.classList.remove('open');
-}
+function openMusicPanel(){musicPanel.classList.add('open');}
+function closeMusicPanel(){musicPanel.classList.remove('open');}
 
 function playMusic(n){
   stopMusicTrack(false);
@@ -359,6 +534,7 @@ function openSettings(){
 function closeSettings(){
   const n=(nameInput.value||'').trim().slice(0,16);
   playerName=n||'Guest';
+  S.name=playerName;save();
   updatePlayerLabel();
   settingsScreen.classList.add('hidden');
 }
@@ -377,7 +553,6 @@ function symbolImg(p){
   img.alt=p;
   return img;
 }
-
 
 function closeDiff(){
   diffScreen.classList.add('hidden');
@@ -416,6 +591,7 @@ function startRound(){
   gameOver=false;
   resultEl.textContent='';
   replayWrap.classList.remove('show');
+  burstEl.classList.remove('show');
   render();
   if(bot==='X'){
     statusEl.textContent="Bot's Turn";
@@ -433,6 +609,7 @@ function confirmHomeYes(){
   cornerHome.classList.add('hidden');
   diffScreen.classList.add('hidden');
   chooseEl.classList.add('hidden');
+  burstEl.classList.remove('show');
   resultEl.textContent='';
   statusEl.textContent='';
   replayWrap.classList.remove('show');
@@ -483,18 +660,22 @@ function botMove(){
 
 function afterMove(symbol){
   render();
-  if(checkWin(board,symbol)){
+  const line=wins.find(l=>l.every(i=>board[i]===symbol));
+  if(line){
     gameOver=true;
+    line.forEach(i=>grid.children[i].classList.add('wincell'));
     if(symbol==='X')xScore++;else oScore++;
     updateScore();
     if(symbol===player){
       statusEl.textContent='YOU WIN!';
       resultEl.textContent='🎉 YOU WIN!';
       playSfx(sfxWin);
+      finish('win');
     }else{
       statusEl.textContent='BOT WINS!';
       resultEl.textContent='BOT WINS!';
       playSfx(sfxLose);
+      finish('lose');
     }
     showReplay();
     return;
@@ -504,6 +685,7 @@ function afterMove(symbol){
     statusEl.textContent='DRAW!';
     resultEl.textContent='DRAW!';
     playSfx(sfxDraw);
+    finish('draw');
     showReplay();
   }
 }
@@ -571,9 +753,19 @@ function minimax(b,isBotTurn,depth){
 
 function updateScore(){xScoreEl.textContent=xScore;oScoreEl.textContent=oScore;dScoreEl.textContent=dScore;}
 
+/* ===== INIT ===== */
+playerName=S.name||'Guest';
+applyTheme();
 updatePlayerLabel();
 updateSoundUI();
 render();
+coinsEl.textContent=shopCoins.textContent=S.coins;
+upd();
+const today=new Date().toDateString();
+if(S.day!==today){
+  S.day=today;S.coins+=20;save();upd();
+  setTimeout(()=>toast('🎁 Daily bonus: +20 <span class="coin"></span>'),600);
+}
 </script>
 </body>
 </html>
