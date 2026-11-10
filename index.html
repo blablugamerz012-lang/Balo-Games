@@ -478,12 +478,12 @@
     .game-image .game-fallback { width:100%; height:100%; display:grid; place-items:center; font-size:48px; background:linear-gradient(135deg,var(--card-bg),var(--card-bg-2)); }
     .game-hover-title { position:absolute; left:0; right:0; bottom:0; padding:22px 10px 9px; color:#fff; font-size:15px; font-weight:800; text-align:center; background:linear-gradient(transparent,rgba(0,0,0,.86)); opacity:0; transform:translateY(5px); transition:opacity .2s,transform .2s; pointer-events:none; }
     .game-card:hover .game-hover-title,.game-card:focus-visible .game-hover-title { opacity:1; transform:translateY(0); }
-    .game-category-tag { top:8px; left:8px; z-index:2; }
-    .game-year-tag { position:absolute; top:8px; left:8px; margin-top:25px; z-index:2; padding:3px 7px; border-radius:6px; background:rgba(0,0,0,.62); color:#fff; font-size:10px; font-weight:700; }
-    .game-card-likes { position:absolute; bottom:8px; left:9px; z-index:3; padding:3px 7px; border-radius:12px; background:rgba(0,0,0,.65); color:#fff; font-size:11px; font-weight:800; }
+    .game-category-tag { position:absolute; bottom:8px; left:9px; z-index:3; padding:4px 8px; border-radius:7px; background:rgba(0,0,0,.76); color:#fff; font-size:10px; font-weight:800; text-transform:uppercase; opacity:0; transition:opacity .2s; pointer-events:none; }
+    .game-card-likes { position:absolute; bottom:8px; right:9px; z-index:3; padding:4px 8px; border-radius:12px; background:rgba(0,0,0,.76); color:#fff; font-size:11px; font-weight:800; opacity:0; transition:opacity .2s; pointer-events:none; }
+    .game-card:hover .game-category-tag,.game-card:focus-visible .game-category-tag,.game-card:hover .game-card-likes,.game-card:focus-visible .game-card-likes { opacity:1; }
     .game-card .fav-toggle { z-index:4; }
     .game-card .game-info { display:none !important; }
-    @media (hover:none) { .game-hover-title { opacity:1; transform:none; } }
+    @media (hover:none) { .game-hover-title,.game-category-tag,.game-card-likes { opacity:1; transform:none; } }
     .game-image .game-thumb { width:100%; height:115px; min-width:100%; display:block; object-fit:cover; object-position:center; flex:0 0 100%; }
     .game-image:has(.game-thumb) { padding:0; overflow:hidden; }
     .game-image:has(.game-thumb) .game-category-tag { z-index:2; }
@@ -1387,12 +1387,10 @@
         : `<button type="button" class="fav-toggle${fav ? " is-fav" : ""}" data-title="${safe}" onclick="toggleFavorite('${safe}', event)" title="${fav ? "In Favorites" : "Add to Favorites"}">${fav ? "♥" : "☆"}</button>`;
       const clickAttr = g.comingSoon ? "" : ` onclick="onCardClick('${safe}')" role="button" tabindex="0"`;
       const visual = g.image ? `<img class="game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy">` : `<div class="game-fallback">${g.icon}</div>`;
-      const year = g.year || "—";
       return `<div class="game-card${removeClass}${g.comingSoon ? " coming-soon-card" : ""}"${clickAttr}>
         <div class="game-image">
           ${visual}
           <span class="game-category-tag">${g.cat}</span>
-          <span class="game-year-tag">${year}</span>
           ${heartBtn}
           <div class="game-hover-title">${g.title}</div>
           <div class="game-card-likes" data-like-title="${safe}">♥ <span>—</span></div>
