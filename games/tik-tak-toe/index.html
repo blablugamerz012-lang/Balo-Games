@@ -23,7 +23,7 @@ body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-ite
 @keyframes pulse{to{transform:scale(1.07)}}
 .score{display:flex;justify-content:center;gap:10px;margin-top:8px;font-weight:800;flex-wrap:wrap;font-size:14px}
 .score span{background:rgba(0,0,0,.2);padding:5px 11px;border-radius:8px}
-.tools{display:flex;justify-content:center;gap:10px;margin-top:8px}
+.tools{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:8px}
 .tool{border:0;border-radius:10px;padding:8px 16px;font-size:14px;font-weight:800;color:#fff;cursor:pointer;background:rgba(255,255,255,.16)}
 .tool:hover{background:rgba(255,255,255,.26)}
 .overlay{position:fixed;inset:0;background:rgba(3,16,60,.92);display:flex;align-items:center;justify-content:center;z-index:10;padding:20px}
@@ -79,10 +79,69 @@ body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-ite
 .bc .coin{width:1.4em;height:1.4em;vertical-align:-.35em}
 @keyframes coinspin{0%,65%{transform:rotateY(0)}100%{transform:rotateY(360deg)}}
 @keyframes badgepop{40%{transform:scale(1.18)}}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);padding:10px 18px;border-radius:12px;font-weight:800;z-index:50;opacity:0;pointer-events:none;transition:.2s;text-align:center}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);padding:10px 18px;border-radius:12px;font-weight:800;z-index:80;opacity:0;pointer-events:none;transition:.2s;text-align:center;max-width:90vw}
 .toast.show{opacity:1}
 
-/* Shop */
+/* Shop (landscape) */
+.shop-box{width:min(96vw,860px);padding:18px;text-align:left}
+.shop-top{display:flex;align-items:center;justify-content:space-between;padding-right:52px;margin-bottom:12px}
+.shop-title{font-size:clamp(22px,4vw,32px);font-weight:900}
+.shop-bal{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.3);border:2px solid #e8b230;border-radius:999px;padding:4px 14px 4px 6px;font-weight:900;font-size:18px}
+.shop-bal .coin{width:26px;height:26px}
+.shop-body{display:flex;gap:14px;height:min(62vh,420px)}
+.shop-tabs{display:flex;flex-direction:column;gap:8px;width:150px;flex:none}
+.stab{border:0;border-radius:12px;padding:13px 12px;font-size:15px;font-weight:800;color:#fff;cursor:pointer;background:rgba(255,255,255,.12);text-align:left;transition:.15s}
+.stab:hover{background:rgba(255,255,255,.22)}
+.stab.on{background:linear-gradient(135deg,#c47a0a,#e8a020);box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.shop-grid{flex:1;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;align-content:start;padding:2px 4px 8px 2px}
+.card{background:rgba(0,0,0,.22);border:2px solid rgba(255,255,255,.12);border-radius:16px;padding:12px 10px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;transition:.15s}
+.card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.35)}
+.card.on{border-color:#12c75a;box-shadow:0 0 14px rgba(18,199,90,.35)}
+.card .pv{height:66px;width:100%;display:flex;align-items:center;justify-content:center;font-size:38px;border-radius:12px;background-color:rgba(255,255,255,.08)}
+.card b{font-size:15px}
+.card small{font-size:11px;opacity:.85;min-height:28px}
+.card .buy{width:100%}
+@media(max-width:560px){.shop-body{flex-direction:column;height:68vh}.shop-tabs{flex-direction:row;width:auto}.stab{flex:1;text-align:center;padding:10px 4px;font-size:13px}}
+/* Win loading screen */
+.load{position:fixed;inset:0;z-index:60;background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
+.load-ico{font-size:72px;animation:float 1.6s ease-in-out infinite}
+.load-t{font-size:clamp(20px,5vw,30px);font-weight:900;margin:10px 0 14px;letter-spacing:1px}
+.ld-bar{width:min(80vw,380px);height:22px;border-radius:12px;background:rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.35);overflow:hidden}
+.ld-bar i{display:block;height:100%;width:0;border-radius:10px;background:repeating-linear-gradient(45deg,#12c75a 0 12px,#38e07b 12px 24px);background-size:34px 34px;animation:stripe .6s linear infinite}
+@keyframes stripe{to{background-position:34px 0}}
+.load-s{font-weight:800;font-size:15px;margin-top:10px}
+.rv-pv{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:14px}
+.rv-pv img{height:80px}
+.rv-n{font-size:20px;font-weight:900;margin:8px 0 12px}
+/* X/O + Board skins */
+.cell,.choice{container-type:size}
+.sym{font-size:44px;font-size:62cqmin;line-height:1;font-weight:900;pointer-events:none}
+.sym.neon-x{color:#3ff;text-shadow:0 0 8px #0ff,0 0 18px #0ff}
+.sym.neon-o{color:#f6c;text-shadow:0 0 8px #f0c,0 0 18px #f0c}
+.board-wrap.sk .board-bg{display:none}
+.board-wrap.sk .grid{inset:6%;gap:3%}
+.bd-wood{background:linear-gradient(135deg,#8a5a2b,#5e3a17)!important}
+.bd-wood .cell{background:linear-gradient(135deg,#d9a768,#b98242);box-shadow:inset 0 -4px 0 rgba(0,0,0,.25),0 2px 6px rgba(0,0,0,.3)}
+.bd-glass{background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.08))!important;border:2px solid rgba(255,255,255,.4);backdrop-filter:blur(6px)}
+.bd-glass .cell{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4)}
+.bd-neon{background:#0a0020!important;border:2px solid #0ff;box-shadow:0 0 22px #0ff,inset 0 0 22px rgba(0,255,255,.25)!important}
+.bd-neon .cell{background:rgba(255,0,200,.08);border:2px solid #f0c;box-shadow:0 0 10px #f0c,inset 0 0 10px rgba(255,0,200,.35)}
+.bd-candy{background:linear-gradient(135deg,#ff9ac8,#ffd1e8)!important}
+.bd-candy .cell{background:#fff;border-radius:50%;box-shadow:0 5px 0 #f06aa6}
+.bd-gold{background:#14110a!important;border:3px solid #e8b230;box-shadow:0 0 20px rgba(232,178,48,.5)!important}
+.bd-gold .cell{background:linear-gradient(135deg,#2a2210,#1a150a);border:2px solid #e8b230}
+.shop-bals{display:flex;gap:8px}
+.bar{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.2);margin-top:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#12c75a,#7cffb0)}
+.buy:disabled{opacity:.65;cursor:not-allowed;background:rgba(255,255,255,.18)}
+@media(max-width:560px){.shop-bal{font-size:14px;padding:3px 10px 3px 5px}.shop-bal .coin{width:20px;height:20px}.shop-title{font-size:20px}.shop-tabs{flex-wrap:wrap}.stab{flex:1 1 30%}}
+/* Bot buddy + sparkles + level */
+.bot-av{position:fixed;left:12px;bottom:12px;z-index:15;display:flex;align-items:flex-end;gap:8px;pointer-events:none}
+.bot-face{width:54px;height:54px;border-radius:50%;background:rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:32px;animation:float 3s ease-in-out infinite}
+.bubble{background:#fff;color:#0a2d6e;font-weight:800;font-size:13px;padding:7px 12px;border-radius:14px 14px 14px 4px;max-width:150px;margin-bottom:6px}
+.sp{position:fixed;z-index:17;pointer-events:none;font-size:18px;animation:spark .65s ease-out forwards}
+@keyframes spark{to{transform:translate(var(--dx),var(--dy)) scale(.4);opacity:0}}
+.tool.lv{cursor:default;background:rgba(0,0,0,.28)}
 .shop-list{max-height:56vh;overflow:auto;text-align:left;padding-right:4px}
 .shop-h{font-weight:900;margin:12px 0 6px;opacity:.9}
 .shop-row{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.2);padding:10px 12px;border-radius:12px;margin-bottom:6px;font-weight:700}
@@ -103,7 +162,7 @@ body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-ite
 @keyframes pop{from{transform:scale(0) rotate(-25deg)}to{transform:scale(1)}}
 @keyframes bounce{50%{transform:translateY(-22px) scale(1.06)}}
 @keyframes shake{25%{transform:translateX(-12px) rotate(-5deg)}75%{transform:translateX(12px) rotate(5deg)}}
-.cf{position:fixed;top:-50px;z-index:19;pointer-events:none;animation:fall linear forwards}
+.cf{position:fixed;top:-50px;z-index:65;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(112vh) rotate(360deg)}}
 
 /* Music side panel */
@@ -204,6 +263,7 @@ body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-ite
 </div>
 
 <button class="corner-home hidden" id="cornerHome" onclick="askGoHome()">🏠 Home</button>
+<div class="bot-av hidden" id="botAv"><div class="bot-face" id="botFace">😎</div><div class="bubble" id="bubble"></div></div>
 
 <div class="game">
   <h1 class="title">TIC TAC TOE</h1>
@@ -219,7 +279,7 @@ body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-ite
     <span class="light-r"></span>
   </div>
   <div class="score"><span>X: <b id="xScore">0</b></span><span>O: <b id="oScore">0</b></span><span>Draw: <b id="dScore">0</b></span><span>🔥 Streak: <b id="streakEl">0</b></span></div>
-  <div class="tools"><button class="tool" id="hintBtn" onclick="useHint()">💡 Hint (0)</button><button class="tool" onclick="openShop()">🛒 Shop</button></div>
+  <div class="tools"><button class="tool" id="hintBtn" onclick="useHint()">💡 Hint (0)</button><button class="tool" onclick="openShop()">🛒 Shop</button><span class="tool lv" id="lvEl">⭐ Lv 1</span></div>
   <div class="diff-badge" id="diffBadge"></div>
 </div>
 
@@ -277,11 +337,25 @@ body{background:linear-gradient(135deg,var(--a),var(--b));display:flex;align-ite
 </div>
 
 <div class="overlay hidden" id="shopScreen">
-  <div class="box">
+  <div class="box shop-box">
     <button class="box-close" onclick="closeShop()" title="Close">✕</button>
-    <div class="box-title">🛒 SHOP</div>
-    <div class="box-sub">Your coins: <span class="coin"></span> <b id="shopCoins">0</b></div>
-    <div class="shop-list" id="shopList"></div>
+    <div class="shop-top"><div class="shop-title">🛒 SHOP</div><div class="shop-bals"><div class="shop-bal"><span class="coin"></span> <b id="shopCoins">0</b></div><div class="shop-bal">🏆 <b id="ptsEl">0</b></div></div></div>
+    <div class="shop-body">
+      <div class="shop-tabs" id="shopTabs"></div>
+      <div class="shop-grid" id="shopList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="load hidden" id="loadScreen" onclick="if(!LD.got)closeLoad()">
+  <div class="load-ico">🎨</div>
+  <div class="load-t" id="loadT">LOADING NEW SKIN...</div>
+  <div class="ld-bar"><i id="barFill"></i></div>
+  <div class="load-s" id="loadS"></div>
+  <div class="hidden" id="reveal">
+    <div class="rv-pv" id="rvPv"></div>
+    <div class="rv-n" id="rvN"></div>
+    <button class="confirm-yes" onclick="closeLoad()">Continue</button>
   </div>
 </div>
 
@@ -342,25 +416,73 @@ const ITEMS=[
  {id:'e0',t:'emo',n:'🏆 / 😭 Classic',p:0,v:['🏆','😭']},
  {id:'e1',t:'emo',n:'👑 / 😢 Royal',p:80,v:['👑','😢']},
  {id:'e2',t:'emo',n:'🤩 / 🥺 Star',p:80,v:['🤩','🥺']},
- {id:'e3',t:'emo',n:'🔥 / 💔 Fire',p:120,v:['🔥','💔']}
+ {id:'e3',t:'emo',n:'🔥 / 💔 Fire',p:120,v:['🔥','💔']},
+ {id:'t5',t:'theme',n:'🍬 Candy',p:120,v:['#6a1550','#ff5fa8']},
+ {id:'t6',t:'theme',n:'⚡ Neon',p:180,v:['#05060f','#00c9b8']},
+ {id:'e4',t:'emo',n:'😎 / 🥶 Cool',p:100,v:['😎','🥶']},
+ {id:'e5',t:'emo',n:'😻 / 🙀 Cat',p:100,v:['😻','🙀']},
+ {id:'e6',t:'emo',n:'🥳 / 💀 Party',p:120,v:['🥳','💀']}
 ];
-let S={coins:50,owned:['t0','e0'],theme:'t0',emo:'e0',hints:1,boost:0,streak:0,name:'Guest',day:''};
+const SYM=[
+ {id:'s0',n:'🎮 Classic',p:0},
+ {id:'s1',n:'💜 Neon',p:20,t:['X','O'],cls:'neon'},
+ {id:'s2',n:'🔥 Fire&Ice',p:40,t:['🔥','❄️']},
+ {id:'s3',n:'🐱 Pets',p:60,t:['🐱','🐶']},
+ {id:'s4',n:'🚀 Space',p:80,t:['🚀','🪐']},
+ {id:'s5',n:'🍎 Fruits',p:100,t:['🍎','🍊']}
+];
+const BRD=[
+ {id:'b0',n:'🎮 Classic',p:0,st:'background:linear-gradient(135deg,#0a4a9e,#0875e8)'},
+ {id:'b1',n:'🪵 Wood',p:25,cls:'wood',st:'background:linear-gradient(135deg,#8a5a2b,#5e3a17)'},
+ {id:'b2',n:'🧊 Glass',p:50,cls:'glass',st:'background:linear-gradient(135deg,rgba(255,255,255,.4),rgba(255,255,255,.1))'},
+ {id:'b3',n:'💜 Neon',p:75,cls:'neon',st:'background:#0a0020;box-shadow:inset 0 0 0 2px #0ff'},
+ {id:'b4',n:'🍭 Candy',p:100,cls:'candy',st:'background:linear-gradient(135deg,#ff9ac8,#ffd1e8)'},
+ {id:'b5',n:'👑 Gold',p:150,cls:'gold',st:'background:#14110a;box-shadow:inset 0 0 0 2px #e8b230'}
+];
+const ORDER=['s1','b1','s2','b2','s3','b3','s4','b4','s5','b5'];
+const NEED=[3,5,10];
+const skin=id=>SYM.concat(BRD).find(k=>k.id===id);
+let S={coins:50,owned:['t0','e0'],theme:'t0',emo:'e0',hints:1,boost:0,streak:0,name:'Guest',day:'',xp:0,lv:1,wins:0,prog:0,unl:0,sym:'s0',brd:'b0'};
 try{const r=JSON.parse(localStorage.getItem('xo_save'));if(r)S=Object.assign(S,r);}catch(e){}
-function save(){try{localStorage.setItem('xo_save',JSON.stringify(S));}catch(e){}}
+try{S.coins=BigInt(S.coins)}catch(e){S.coins=50n}
+if(S.coins>1000000n)S.coins=50n;
+delete S.codes;delete S.pts;if(!SYM.some(x=>x.id===S.sym))S.sym='s0';if(!BRD.some(x=>x.id===S.brd))S.brd='b0';
+[['sym',SYM],['brd',BRD]].forEach(([k,L])=>{if(ORDER.indexOf(S[k])>=S.unl)S[k]=L[0].id;});
+function save(){try{localStorage.setItem('xo_save',JSON.stringify(S,(k,v)=>typeof v==='bigint'?v.toString():v));}catch(e){}}
 const item=id=>ITEMS.find(i=>i.id===id);
 
+const COIN='<span class="coin"></span>';
+const ptsEl=document.getElementById('ptsEl');
+const botAv=document.getElementById('botAv'),botFace=document.getElementById('botFace'),bubble=document.getElementById('bubble'),lvEl=document.getElementById('lvEl');
+const FACE={idle:['😎','Your move 😏','Show me what you got!','Take your time 😌'],think:['🤔','Hmm... 🤔','Let me think 🧠'],botwin:['😏','Too easy! 😎','GG 😂','Better luck next time 🤭'],botlose:['😵','No way!! 😱','You got me 😭','Rematch? 🥺'],draw:['😅','Close one! 😅','Nobody wins 🤝']};
+function say(k){const a=FACE[k];botFace.textContent=a[0];bubble.textContent=a[1+Math.floor(Math.random()*(a.length-1))];}
+function sparkle(i){
+  const r=grid.children[i].getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  for(let k=0;k<6;k++){
+    const e=document.createElement('span');e.className='sp';e.textContent=['✨','⭐','💫'][k%3];
+    e.style.cssText='left:'+cx+'px;top:'+cy+'px;--dx:'+((Math.random()-.5)*110)+'px;--dy:'+((Math.random()-.8)*90)+'px';
+    document.body.appendChild(e);setTimeout(()=>e.remove(),700);
+  }
+}
 let shown=S.coins;
 const badge=document.getElementById('coinBadge');
+const fmt=n=>n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+function show(n){
+  const t=fmt(n);
+  coinsEl.textContent=shopCoins.textContent=t;
+  badge.style.fontSize=t.length>20?'12px':t.length>12?'15px':'';
+}
 function tick(){
   if(S.coins!==shown){badge.classList.remove('pop');void badge.offsetWidth;badge.classList.add('pop');}
   clearInterval(tick.t);
   tick.t=setInterval(()=>{
-    const d=S.coins-shown;
-    if(!d){clearInterval(tick.t);return;}
-    shown+=Math.sign(d)*Math.max(1,Math.floor(Math.abs(d)/6));
-    coinsEl.textContent=shopCoins.textContent=shown;
+    const d=S.coins-shown,a=d<0n?-d:d;
+    if(a===0n){clearInterval(tick.t);return;}
+    shown=a>1000000n?S.coins:shown+(d<0n?-1n:1n)*(a/6n>0n?a/6n:1n);
+    show(shown);
   },40);
 }
+
 function toast(t){
   toastEl.innerHTML=t;toastEl.classList.add('show');
   clearTimeout(toast.t);toast.t=setTimeout(()=>toastEl.classList.remove('show'),2200);
@@ -375,35 +497,62 @@ function upd(){
   boostTag.textContent=S.boost>0?'⚡x2':'';
   hintBtn.textContent='💡 Hint ('+S.hints+')';
   streakEl.textContent=S.streak;
+  ptsEl.textContent=S.wins;
+  lvEl.textContent='⭐ Lv '+S.lv+' • '+S.xp+'/'+S.lv*50;
+  updatePlayerLabel();
 }
 
 /* ===== SHOP ===== */
 function openShop(){renderShop();shopScreen.classList.remove('hidden');}
 function closeShop(){shopScreen.classList.add('hidden');}
+let tab='pow';
 function renderShop(){
-  const h=t=>`<div class="shop-h">${t}</div>`;
-  const row=(n,sub,btn)=>`<div class="shop-row"><span>${n}<small>${sub}</small></span>${btn}</div>`;
-  let o=h('⚡ Power-ups')
-   +row('💡 Hint','Shows the best move • Owned: '+S.hints,`<button class="buy" onclick="buyC('hints',20)"><span class="coin"></span> 20</button>`)
-   +row('⚡ Double Coins','Next win gives x2 • Owned: '+S.boost,`<button class="buy" onclick="buyC('boost',30)"><span class="coin"></span> 30</button>`);
-  [['theme','🎨 Themes'],['emo','🏆 Win / 😭 Lose Emoji']].forEach(([t,title])=>{
-    o+=h(title);
-    ITEMS.filter(i=>i.t===t).forEach(i=>{
-      const own=S.owned.includes(i.id),on=S[t]===i.id;
-      o+=row(i.n,'',own?`<button class="buy ${on?'eq':'own'}" onclick="equip('${i.id}')">${on?'✔ Equipped':'Equip'}</button>`:`<button class="buy" onclick="buyI('${i.id}')"><span class="coin"></span> ${i.p}</button>`);
+  const TABS=[['pow','⚡ Items'],['theme','🎨 Themes'],['emo','😎 Emoji'],['sym','❌⭕ XO'],['brd','🖼 Boards']];
+  document.getElementById('shopTabs').innerHTML=TABS.map(([k,n])=>`<button class="stab ${tab===k?'on':''}" onclick="tab='${k}';renderShop()">${n}</button>`).join('');
+  const card=(pv,name,sub,btn,on,st)=>`<div class="card ${on?'on':''}"><div class="pv" style="${st||''}">${pv}</div><b>${name}</b><small>${sub}</small>${btn}</div>`;
+  let o='';
+  if(tab==='pow'){
+    o=card('💡','Hint','Shows the best move<br>Owned: '+S.hints,`<button class="buy" onclick="buyC('hints',20)">${COIN} 20</button>`)
+     +card('⚡','Double Coins','Next win gives x2<br>Owned: '+S.boost,`<button class="buy" onclick="buyC('boost',30)">${COIN} 30</button>`)
+     +card('🎁','Mystery Box','Coins, hints or a jackpot!',`<button class="buy" onclick="openBox()">${COIN} 40</button>`);
+  }else if(tab==='sym'||tab==='brd'){
+    (tab==='sym'?SYM:BRD).forEach(k=>{
+      const ix=ORDER.indexOf(k.id),ok=ix<S.unl,on=S[tab]===k.id,sy=tab==='sym',nx=ix===S.unl;
+      const pv=sy?(k.t?`<span class="sym ${k.cls?k.cls+'-x':''}" style="font-size:30px">${k.t[0]}</span>&nbsp;<span class="sym ${k.cls?k.cls+'-o':''}" style="font-size:30px">${k.t[1]}</span>`:'<img src="x.png" height="40" alt="">&nbsp;<img src="o.png" height="40" alt="">'):k.n.split(' ')[0];
+      const bar=nx?`<span class="bar"><i style="width:${S.prog/NEED[S.unl%3]*100}%"></i></span>`:'';
+      o+=card(pv,k.n.split(' ').pop(),ok?'Unlocked ✔':(nx?'Next! Wins '+S.prog+'/'+NEED[S.unl%3]:'Unlock #'+(ix+1)+' • win games')+bar,
+        ok?`<button class="buy ${on?'eq':'own'}" onclick="equipSk('${tab}','${k.id}')">${on?'✔ Equipped':'Equip'}</button>`:`<button class="buy" disabled>${nx?'🎯 In progress':'🔒 Locked'}</button>`,
+        on,sy?'':k.st);
     });
-  });
+  }else{
+    ITEMS.filter(i=>i.t===tab).forEach(i=>{
+      const own=S.owned.includes(i.id),on=S[tab]===i.id,th=tab==='theme';
+      o+=card(th?i.n.split(' ')[0]:i.v.join(' '),i.n.split(' ').pop(),th?'Background':'Win / Lose',
+        own?`<button class="buy ${on?'eq':'own'}" onclick="equip('${i.id}')">${on?'✔ Equipped':'Equip'}</button>`:`<button class="buy" onclick="buyI('${i.id}')">${COIN} ${i.p}</button>`,
+        on,th?`background:linear-gradient(135deg,${i.v[0]},${i.v[1]})`:'');
+    });
+  }
   shopList.innerHTML=o;
   upd();
 }
+function openBox(){
+  if(S.coins<40){toast('Not enough coins '+COIN);return;}
+  S.coins-=40n;
+  const r=Math.random();let m;
+  if(r<.5){const g=10+Math.floor(Math.random()*91);S.coins+=BigInt(g);m='+'+g+' '+COIN;}
+  else if(r<.75){S.hints++;m='💡 +1 Hint';}
+  else if(r<.95){S.boost++;m='⚡ Double Coins';}
+  else{S.coins+=200n;m='💎 JACKPOT +200 '+COIN;}
+  save();upd();renderShop();toast('🎁 You got: '+m);playSfx(sfxWin);
+}
 function buyC(k,p){
   if(S.coins<p){toast('Not enough coins <span class="coin"></span>');return;}
-  S.coins-=p;S[k]++;save();upd();renderShop();toast('Purchased!');playSfx(sfxMove);
+  S.coins-=BigInt(p);S[k]++;save();upd();renderShop();toast('Purchased!');playSfx(sfxMove);
 }
 function buyI(id){
   const i=item(id);
   if(S.coins<i.p){toast('Not enough coins <span class="coin"></span>');return;}
-  S.coins-=i.p;S.owned.push(id);equip(id);toast('Purchased & equipped!');playSfx(sfxMove);
+  S.coins-=BigInt(i.p);S.owned.push(id);equip(id);toast('Purchased & equipped!');playSfx(sfxMove);
 }
 function equip(id){
   S[item(id).t]=id;applyTheme();save();renderShop();
@@ -423,13 +572,14 @@ function burst(res,g){
   bigEmoji.textContent=res==='win'?e[0]:res==='lose'?e[1]:'🤝';
   bigEmoji.className='big '+res;
   bigText.textContent=res==='win'?'WINNER!':res==='lose'?'YOU LOST!':'DRAW!';
-  bigCoins.innerHTML='+'+g+' <span class="coin"></span>'+(res==='win'&&S.streak>1?'  •  🔥 Streak x'+S.streak:'');
+  bigCoins.innerHTML='+'+g+' <span class="coin"></span>'+(res==='win'?'  •  +5 ⭐':'')+(res==='win'&&S.streak>1?'  •  🔥 Streak x'+S.streak:'');
   burstEl.classList.add('show');
   if(res==='win')confetti(['🎉','⭐','✨','🪙']);
   if(res==='lose')confetti(['💧','😢']);
   clearTimeout(burst.t);burst.t=setTimeout(()=>burstEl.classList.remove('show'),2800);
 }
 function finish(res){
+  say(res==='win'?'botlose':res==='lose'?'botwin':'draw');
   let g;
   if(res==='win'){
     S.streak++;
@@ -439,8 +589,14 @@ function finish(res){
     S.streak=0;
     g=res==='draw'?({easy:2,normal:4,hard:10})[difficulty]:1;
   }
-  S.coins+=g;save();upd();
+  S.coins+=BigInt(g);
+  S.xp+=res==='win'?30:res==='draw'?10:5;
+  let up=false;
+  while(S.xp>=S.lv*50){S.xp-=S.lv*50;S.lv++;S.coins+=25n;up=true;}
+  save();upd();
   burst(res,g);
+  if(res==='win')skinProgress();
+  if(up)setTimeout(()=>toast('🎊 LEVEL UP! Lv '+S.lv+' • +25 '+COIN),2000);
 }
 
 /* ===== HINT ===== */
@@ -523,7 +679,7 @@ function toggleSound(){
 }
 
 function updatePlayerLabel(){
-  homePlayerLabel.textContent='Player: '+(playerName||'Guest');
+  homePlayerLabel.textContent='Player: '+(playerName||'Guest')+' • ⭐ Lv '+S.lv;
 }
 
 function openSettings(){
@@ -548,11 +704,58 @@ function exitGame(){
 }
 
 function symbolImg(p){
-  const img=document.createElement('img');
-  img.src=p==='X'?'x.png':'o.png';
-  img.alt=p;
-  return img;
+  const k=SYM.find(x=>x.id===S.sym);
+  if(!k.t){const img=document.createElement('img');img.src=p==='X'?'x.png':'o.png';img.alt=p;return img;}
+  const e=document.createElement('span');
+  e.className='sym'+(k.cls?' '+k.cls+'-'+p.toLowerCase():'');
+  e.textContent=k.t[p==='X'?0:1];
+  return e;
 }
+function applySkins(){
+  const b=BRD.find(x=>x.id===S.brd);
+  document.querySelector('.board-wrap').className='board-wrap'+(b.cls?' sk bd-'+b.cls:'');
+  render();
+  document.querySelectorAll('.choice').forEach((el,i)=>{el.innerHTML='';el.appendChild(symbolImg(i?'O':'X'));});
+}
+function equipSk(key,id){S[key]=id;save();applySkins();renderShop();}
+
+/* ===== WIN LOADING + SKIN UNLOCK (3 -> 5 -> 10 wins, repeating) ===== */
+const loadScreen=document.getElementById('loadScreen');
+let LD={};
+function skinProgress(){
+  S.wins++;
+  if(S.unl>=ORDER.length){save();upd();showReplay();return;}
+  const need=NEED[S.unl%3],from=S.prog/need*100;
+  S.prog++;
+  let got=null;
+  if(S.prog>=need){S.prog=0;got=ORDER[S.unl];S.unl++;}
+  save();upd();
+  LD={from,to:got?100:S.prog/need*100,got,need,prog:got?need:S.prog};
+  setTimeout(showLoad,1800);
+}
+function showLoad(){
+  const L=LD,el=id=>document.getElementById(id);
+  el('reveal').classList.add('hidden');
+  el('loadT').textContent='LOADING NEW SKIN...';
+  el('loadS').textContent='Wins: '+L.prog+' / '+L.need+(L.got?'':' • '+(L.need-L.prog)+' more to unlock');
+  const f=el('barFill');f.style.transition='none';f.style.width=L.from+'%';
+  loadScreen.classList.remove('hidden');
+  void f.offsetWidth;f.style.transition='width 1.6s ease-out';f.style.width=L.to+'%';
+  clearTimeout(showLoad.t);
+  showLoad.t=setTimeout(()=>{
+    if(L.got){
+      const k=skin(L.got),sy=L.got[0]==='s';
+      equipSk(sy?'sym':'brd',L.got);
+      el('loadT').textContent='🎉 NEW SKIN UNLOCKED!';
+      el('rvPv').innerHTML=sy?(k.t?`<span class="sym ${k.cls?k.cls+'-x':''}" style="font-size:64px">${k.t[0]}</span><span class="sym ${k.cls?k.cls+'-o':''}" style="font-size:64px">${k.t[1]}</span>`:'<img src="x.png" alt=""><img src="o.png" alt="">'):`<div style="${k.st};width:130px;height:90px;border-radius:16px"></div>`;
+      el('rvN').textContent=k.n+(sy?' XO':' Board')+' • Equipped!';
+      el('loadS').textContent=S.unl>=ORDER.length?'All skins unlocked 🏆':'Next skin: win '+NEED[S.unl%3]+' games';
+      el('reveal').classList.remove('hidden');
+      confetti(['🎉','⭐','✨']);
+    }else showLoad.t=setTimeout(closeLoad,900);
+  },1800);
+}
+function closeLoad(){clearTimeout(showLoad.t);loadScreen.classList.add('hidden');showReplay();}
 
 function closeDiff(){
   diffScreen.classList.add('hidden');
@@ -582,6 +785,7 @@ function chooseSymbol(p){
   setupDone=true;
   chooseEl.classList.add('hidden');
   cornerHome.classList.remove('hidden');
+  botAv.classList.remove('hidden');
   startRound();
 }
 
@@ -593,6 +797,7 @@ function startRound(){
   replayWrap.classList.remove('show');
   burstEl.classList.remove('show');
   render();
+  say('idle');
   if(bot==='X'){
     statusEl.textContent="Bot's Turn";
     setTimeout(botMove,450);
@@ -607,6 +812,7 @@ function askGoHome(){ confirmScreen.classList.remove('hidden'); }
 function confirmHomeYes(){
   confirmScreen.classList.add('hidden');
   cornerHome.classList.add('hidden');
+  botAv.classList.add('hidden');
   diffScreen.classList.add('hidden');
   chooseEl.classList.add('hidden');
   burstEl.classList.remove('show');
@@ -637,10 +843,11 @@ function playerMove(i){
   if(gameOver||turn!==player||board[i])return;
   board[i]=player;
   playSfx(sfxMove);
-  afterMove(player);
+  afterMove(player);sparkle(i);
   if(!gameOver){
     turn=bot;
     statusEl.textContent="Bot's Turn";
+    say('think');
     setTimeout(botMove,350);
   }
 }
@@ -651,10 +858,11 @@ function botMove(){
   if(move<0)return;
   board[move]=bot;
   playSfx(sfxMove);
-  afterMove(bot);
+  afterMove(bot);sparkle(move);
   if(!gameOver){
     turn=player;
     statusEl.textContent='Your Turn ('+player+')';
+    say('idle');
   }
 }
 
@@ -677,7 +885,7 @@ function afterMove(symbol){
       playSfx(sfxLose);
       finish('lose');
     }
-    showReplay();
+    if(symbol!==player)showReplay();
     return;
   }
   if(board.every(Boolean)){
@@ -758,12 +966,12 @@ playerName=S.name||'Guest';
 applyTheme();
 updatePlayerLabel();
 updateSoundUI();
-render();
-coinsEl.textContent=shopCoins.textContent=S.coins;
+applySkins();
+show(S.coins);
 upd();
 const today=new Date().toDateString();
 if(S.day!==today){
-  S.day=today;S.coins+=20;save();upd();
+  S.day=today;S.coins+=20n;save();upd();
   setTimeout(()=>toast('🎁 Daily bonus: +20 <span class="coin"></span>'),600);
 }
 </script>
