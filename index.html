@@ -1386,6 +1386,7 @@
     }
 
     function cardHTML(g) {
+      const gameType = (g.tags || []).includes("puzzle") ? "puzzle" : g.cat;
       const fav = !g.comingSoon && isFav(g.title);
       const safe = g.title.replace(/'/g, "\\'");
       const removeClass = (showingFavorites && removeFavMode) ? " remove-select-mode" : "";
@@ -1397,7 +1398,7 @@
       return `<div class="game-card${removeClass}${g.comingSoon ? " coming-soon-card" : ""}"${clickAttr}>
         <div class="game-image">
           ${visual}
-          <span class="game-category-tag">${g.cat}</span>
+          <span class="game-category-tag">${gameType}</span>
           ${heartBtn}
           <div class="game-hover-title">${g.title}</div>
           <div class="game-card-likes" data-like-title="${safe}">♥ <span>—</span></div>
