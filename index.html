@@ -443,7 +443,7 @@
     .section-title { font-size: 21px; margin-bottom: 20px; color: white; font-weight: 800; }
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 19px;
     }
     .game-card {
@@ -489,15 +489,22 @@
     .game-image:has(.game-thumb) .game-category-tag { z-index:2; }
     .game-category-tag {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      padding: 3px 7px;
-      border-radius: 6px;
-      background: var(--tag-bg);
-      color: white;
-      font-size: 9px;
+      top: auto;
+      bottom: 9px;
+      left: 9px;
+      z-index: 5;
+      padding: 5px 10px;
+      border: 0;
+      border-radius: 7px;
+      background: rgba(0,0,0,.82);
+      color: #fff;
+      font-size: 10px;
+      line-height: 1;
       font-weight: 800;
       text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: none;
+      outline: 0;
     }
     .game-info { padding: 12px; text-align: center; background: var(--card-bg-2); }
     .game-info h3 { font-size: 15px; margin-bottom: 5px; color: #fff; font-weight: 800; }
