@@ -514,8 +514,9 @@
       .poki-left-sidebar { display: none; }
     }
     @media (max-width: 900px) {
-      .poki-play-container { grid-template-columns: 1fr; }
+      .poki-play-container { grid-template-columns: minmax(0, 1fr); }
       .poki-right-sidebar { display: none; }
+      .game-main-pane { min-width: 0; width: 100%; }
     }
 
     .poki-left-sidebar {
@@ -554,6 +555,8 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      min-width: 0;
+      container-type: inline-size;
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
     .game-title-bar {
@@ -650,13 +653,40 @@
       outline-color: #fff;
       transform: translateY(-2px);
     }
+    /* Responsive game viewport: scales with the game panel and available screen height. */
     .game-frame-wrap {
       width: 100%;
-      height: 380px;
+      height: clamp(240px, min(56.25cqw, calc(100dvh - 250px)), 900px);
+      min-height: 240px;
+      max-height: 900px;
       background: var(--game-frame-bg);
       position: relative;
+      overflow: hidden;
+      flex: 0 0 auto;
     }
-    #gameFrame { width: 100%; height: 100%; border: none; }
+    #gameFrame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      border: none;
+    }
+
+    /* Fullscreen must use the complete device viewport, not the normal page size. */
+    .game-frame-wrap:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 0;
+      max-height: none;
+      border: 0;
+      border-radius: 0;
+      background: #000;
+    }
+    .game-frame-wrap:fullscreen #gameFrame {
+      width: 100%;
+      height: 100%;
+    }
 
     .game-bottom-actions {
       display: flex;
@@ -794,7 +824,10 @@
     }
     @media (max-width: 700px) {
       .games-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-      .game-frame-wrap { height: 260px; }
+      .game-frame-wrap {
+        height: clamp(200px, min(56.25cqw, calc(100svh - 210px)), 900px);
+        min-height: 200px;
+      }
     }
   
     
@@ -1006,7 +1039,31 @@
 
     <main id="games">
       <h2 class="section-title">All Games</h2>
-      <div class="games-grid" id="homeGrid"></div>
+      <div class="games-grid" id="homeGrid"><div class="game-card" onclick="openGame('My Gun Life')">
+        <div class="game-image"><span class="game-category-tag">action</span>⚡</div>
+        <div class="game-info"><h3>My Gun Life</h3><p>Fast-paced action game.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Evo Eater')">
+        <div class="game-image"><span class="game-category-tag">action</span>🦅</div>
+        <div class="game-info"><h3>Evo Eater</h3><p>Grow, evolve, and explore.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Tik Tak Toe')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>❌⭕</div>
+        <div class="game-info"><h3>Tik Tak Toe</h3><p>Classic strategy game.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Memory Match')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>🧠</div>
+        <div class="game-info"><h3>Memory Match</h3><p>Test your memory.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Snake King')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>🐍</div>
+        <div class="game-info"><h3>Snake King</h3><p>Classic snake action.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Space Run')">
+        <div class="game-image"><span class="game-category-tag">action</span>🚀</div>
+        <div class="game-info"><h3>Space Run</h3><p>Space runner.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Puzzle Box')">
+        <div class="game-image"><span class="game-category-tag">adventure</span>🧩</div>
+        <div class="game-info"><h3>Puzzle Box</h3><p>Solve puzzles.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Dungeon Quest')">
+        <div class="game-image"><span class="game-category-tag">adventure</span>⚔️</div>
+        <div class="game-info"><h3>Dungeon Quest</h3><p>Explore dungeons.</p><span class="game-action">Play game →</span></div>
+      </div></div>
     </main>
   </div>
 
@@ -1015,7 +1072,31 @@
     <div class="poki-play-container">
       <aside class="poki-left-sidebar">
         <h3 class="sidebar-title">More</h3>
-        <div id="sidebarGames"></div>
+        <div id="sidebarGames"><div class="sidebar-game-item" onclick="openGame('My Gun Life')">
+        <div class="sidebar-game-icon">⚡</div>
+        <div class="sidebar-game-info"><h4>My Gun Life</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Evo Eater')">
+        <div class="sidebar-game-icon">🦅</div>
+        <div class="sidebar-game-info"><h4>Evo Eater</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Tik Tak Toe')">
+        <div class="sidebar-game-icon">❌⭕</div>
+        <div class="sidebar-game-info"><h4>Tik Tak Toe</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Memory Match')">
+        <div class="sidebar-game-icon">🧠</div>
+        <div class="sidebar-game-info"><h4>Memory Match</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Snake King')">
+        <div class="sidebar-game-icon">🐍</div>
+        <div class="sidebar-game-info"><h4>Snake King</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Space Run')">
+        <div class="sidebar-game-icon">🚀</div>
+        <div class="sidebar-game-info"><h4>Space Run</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Puzzle Box')">
+        <div class="sidebar-game-icon">🧩</div>
+        <div class="sidebar-game-info"><h4>Puzzle Box</h4></div>
+      </div><div class="sidebar-game-item" onclick="openGame('Dungeon Quest')">
+        <div class="sidebar-game-icon">⚔️</div>
+        <div class="sidebar-game-info"><h4>Dungeon Quest</h4></div>
+      </div></div>
       </aside>
 
       <div class="game-main-pane">
@@ -1060,7 +1141,31 @@
 
     <div class="all-games-bottom-section">
       <h3 class="bottom-section-title">All Games</h3>
-      <div class="games-grid" id="bottomGrid"></div>
+      <div class="games-grid" id="bottomGrid"><div class="game-card" onclick="openGame('My Gun Life')">
+        <div class="game-image"><span class="game-category-tag">action</span>⚡</div>
+        <div class="game-info"><h3>My Gun Life</h3><p>Fast-paced action game.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Evo Eater')">
+        <div class="game-image"><span class="game-category-tag">action</span>🦅</div>
+        <div class="game-info"><h3>Evo Eater</h3><p>Grow, evolve, and explore.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Tik Tak Toe')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>❌⭕</div>
+        <div class="game-info"><h3>Tik Tak Toe</h3><p>Classic strategy game.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Memory Match')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>🧠</div>
+        <div class="game-info"><h3>Memory Match</h3><p>Test your memory.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Snake King')">
+        <div class="game-image"><span class="game-category-tag">arcade</span>🐍</div>
+        <div class="game-info"><h3>Snake King</h3><p>Classic snake action.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Space Run')">
+        <div class="game-image"><span class="game-category-tag">action</span>🚀</div>
+        <div class="game-info"><h3>Space Run</h3><p>Space runner.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Puzzle Box')">
+        <div class="game-image"><span class="game-category-tag">adventure</span>🧩</div>
+        <div class="game-info"><h3>Puzzle Box</h3><p>Solve puzzles.</p><span class="game-action">Play game →</span></div>
+      </div><div class="game-card" onclick="openGame('Dungeon Quest')">
+        <div class="game-image"><span class="game-category-tag">adventure</span>⚔️</div>
+        <div class="game-info"><h3>Dungeon Quest</h3><p>Explore dungeons.</p><span class="game-action">Play game →</span></div>
+      </div></div>
     </div>
   </div>
 
@@ -1157,7 +1262,7 @@
     const games = [
       { title: "My Gun Life", cat: "action", tags: ["gun"], icon: "⚡", desc: "Jump into a fast-paced action game.", path: "games/my-gun-life/index.html" },
       { title: "Evo Eater", cat: "action", tags: ["evolution"], icon: "🦅", desc: "Grow, evolve, and explore the arena.", path: "games/evoeater/index.html" },
-      { title: "Tic Tac Toe", cat: "arcade", tags: ["puzzle", "2player"], icon: "❌⭕", desc: "A classic strategy game for a quick match.", path: "games/tik-tak-toe/index.html" },
+      { title: "Tik Tak Toe", cat: "arcade", tags: ["puzzle", "2player"], icon: "❌⭕", desc: "A classic strategy game for a quick match.", path: "games/tik-tak-toe/index.html" },
       { title: "Memory Match", cat: "arcade", tags: ["puzzle"], icon: "🧠", desc: "Find matching cards and test your memory.", path: "games/MATCH%20GAME/memory-match.html" },
       { title: "Snake King", cat: "arcade", tags: ["snake"], icon: "🐍", desc: "Classic snake action with mobile and keyboard controls.", path: "games/snake-king/index.html" },
       { title: "Adventure Games", cat: "adventure", tags: ["adventure"], icon: "🗺️", desc: "A new adventure is being prepared.", comingSoon: true },
@@ -1485,6 +1590,8 @@
       try {
         const visitorId = await ensureReactionVisitor();
         const slug = reactionSlug(currentGameTitle);
+        // Keep one reaction row per player/game. Repeating the same reaction
+        // does not remove it; changing Like to Unlike (or back) updates that row.
         if (currentReaction !== nextReaction) {
           const { error } = await reactionClient.from("game_reactions").upsert(
             { game_slug: slug, visitor_id: visitorId, reaction: nextReaction },
@@ -1502,12 +1609,14 @@
       }
     }
     function toggleLike() {
-      saveGameReaction("like");
+      if (!currentGameTitle) return;
       openReactionFeedback("like");
+      saveGameReaction("like");
     }
     function toggleUnlike() {
-      saveGameReaction("dislike");
+      if (!currentGameTitle) return;
       openReactionFeedback("dislike");
+      saveGameReaction("dislike");
     }
 
     async function shareGame() {
@@ -1589,14 +1698,25 @@
       try {
         const isBug = kind === "bug";
         const playerId = await ensureReactionVisitor();
-        const tag = kind === "like" ? "[LIKE FEEDBACK]" : kind === "dislike" ? "[UNLIKE FEEDBACK]" : "[BUG REPORT]";
         const gameLabel = currentGameTitle || "Balo Games website";
-        const { error } = await reactionClient.from("messages").insert({
-          user_id: playerId,
-          sender_id: playerId,
-          sender_role: "player",
-          message: tag + "\nGame: " + gameLabel + "\n\n" + cleanMessage
-        });
+        let error;
+        if (kind === "like" || kind === "dislike") {
+          // One persistent feedback row per player/game. A later Like/Unlike
+          // submission updates that same row, even months or years later.
+          ({ error } = await reactionClient.from("admin_reaction_feedback").upsert({
+            visitor_id: playerId,
+            game_slug: reactionSlug(gameLabel),
+            reaction: kind,
+            feedback: cleanMessage
+          }, { onConflict: "visitor_id,game_slug" }));
+        } else {
+          ({ error } = await reactionClient.from("messages").insert({
+            user_id: playerId,
+            sender_id: playerId,
+            sender_role: "player",
+            message: "[BUG REPORT]\nGame: " + gameLabel + "\n\n" + cleanMessage
+          }));
+        }
         if (error) throw error;
         noticeEl.style.color = "#087f5b";
         noticeEl.textContent = "Thank you! Your feedback has been sent.";
