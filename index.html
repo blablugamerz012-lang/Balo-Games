@@ -1980,6 +1980,52 @@
     function showInfo(page){ document.getElementById('infoContent').innerHTML=infoPages[page]||infoPages.about; document.getElementById('infoModal').classList.add('open'); document.body.style.overflow='hidden'; }
     function closeInfo(){ document.getElementById('infoModal').classList.remove('open'); document.body.style.overflow=''; }
 
+    // Add the copyright control inside each same-origin game iframe as it loads.
+    function addCopyrightInsideGame() {
+      const frame = document.getElementById("gameFrame");
+      if (!frame) return;
+      const install = () => {
+        try {
+          const doc = frame.contentDocument;
+          if (!doc || !doc.body || doc.getElementById("baloGameCopyrightButton")) return;
+          const style = doc.createElement("style");
+          style.id = "baloGameCopyrightStyle";
+          style.textContent = `
+            #baloGameCopyrightButton{position:fixed!important;right:8px!important;bottom:8px!important;z-index:2147483646!important;border:1px solid rgba(255,255,255,.8)!important;border-radius:7px!important;padding:6px 9px!important;background:rgba(20,20,35,.86)!important;color:#fff!important;font:700 11px Arial,sans-serif!important;cursor:pointer!important;box-shadow:0 2px 10px rgba(0,0,0,.25)!important}
+            #baloGameCopyrightPanel{position:fixed!important;inset:0!important;z-index:2147483647!important;display:none;align-items:center!important;justify-content:center!important;padding:16px!important;background:rgba(0,0,0,.62)!important;font-family:Arial,sans-serif!important}
+            #baloGameCopyrightPanel.open{display:flex!important}
+            #baloGameCopyrightPanel .balo-cp-card{position:relative!important;width:min(440px,94vw)!important;max-height:82vh!important;overflow:auto!important;padding:22px!important;border-radius:14px!important;background:#fff!important;color:#202033!important;box-shadow:0 18px 55px rgba(0,0,0,.4)!important;line-height:1.55!important}
+            #baloGameCopyrightPanel h3{margin:0 34px 10px 0!important;color:#c10b7e!important;font-size:19px!important}
+            #baloGameCopyrightPanel p{margin:8px 0!important;font-size:13px!important}
+            #baloGameCopyrightPanel .balo-cp-close{position:absolute!important;right:12px!important;top:10px!important;border:0!important;border-radius:7px!important;padding:6px 9px!important;background:#c10b7e!important;color:#fff!important;font-weight:700!important;cursor:pointer!important}
+          `;
+          doc.head.appendChild(style);
+          const button = doc.createElement("button");
+          button.id = "baloGameCopyrightButton";
+          button.type = "button";
+          button.textContent = "© Balo Games";
+          button.setAttribute("aria-label", "Copyright and ownership information");
+          const panel = doc.createElement("div");
+          panel.id = "baloGameCopyrightPanel";
+          panel.innerHTML = '<section class="balo-cp-card" role="dialog" aria-modal="true" aria-label="Copyright and ownership"><button class="balo-cp-close" type="button">Close</button><h3>Copyright &amp; Ownership</h3><p><strong>© 2026 Balo Games. All Rights Reserved.</strong></p><p>Original game code, artwork, graphics and other content created by Balo Games are protected by applicable copyright laws. Copying, republishing or redistributing Balo Games original content without permission is not allowed.</p><p>Third-party games, assets, trademarks, characters, music and other materials remain the property of their respective owners. Balo Games does not claim ownership of those materials.</p><p>Ownership applies only to original material and is subject to applicable licences and law.</p></section>';
+          doc.body.appendChild(button);
+          doc.body.appendChild(panel);
+          button.addEventListener("click", () => panel.classList.add("open"));
+          panel.addEventListener("click", event => {
+            if (event.target === panel || event.target.closest(".balo-cp-close")) panel.classList.remove("open");
+          });
+          doc.addEventListener("keydown", event => {
+            if (event.key === "Escape") panel.classList.remove("open");
+          });
+        } catch (error) {
+          console.warn("Balo Games copyright badge could not be added to this game frame:", error);
+        }
+      };
+      frame.addEventListener("load", install);
+      if (frame.contentDocument && frame.contentDocument.readyState === "complete") install();
+    }
+    addCopyrightInsideGame();
+
     /* Login — real Supabase Auth */
     const authClient = reactionClient;
     let currentUser = null;
