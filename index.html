@@ -1187,6 +1187,7 @@
             <span id="reactionStatus" role="status" aria-live="polite"></span>
           </div>
           <div class="action-group">
+            <button class="poki-btn" type="button" onclick="showInfo('copyright')" title="Copyright and ownership information">© Copyright</button>
             <button class="poki-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
           </div>
         </div>
@@ -1222,6 +1223,7 @@
         <a onclick="showInfo('privacy')">Privacy Policy</a>
         <a onclick="showInfo('terms')">Terms &amp; Conditions</a>
         <a onclick="showInfo('cookies')">Cookie Policy</a>
+        <a onclick="showInfo('copyright')">Copyright &amp; Ownership</a>
       </div>
       <div class="footer-col">
         <h4>Games</h4>
@@ -1231,7 +1233,7 @@
         <a onclick="filterGames('arcade')">Arcade</a>
       </div>
     </div>
-    <div class="footer-bottom">© 2026 Balo Games. All rights reserved.</div>
+    <div class="footer-bottom">© 2026 Balo Games. All Rights Reserved. Original Balo Games content is protected by applicable copyright laws. Third-party content remains the property of its respective owners.</div>
   </footer>
 
   <div class="info-modal" id="infoModal" onclick="if(event.target===this) closeInfo()">
@@ -1972,7 +1974,8 @@
       contact: `<h2>Contact Balo Games</h2><p>If you need help, want to report a problem, or have feedback about a game, please contact the Balo Games team through the official contact channel provided with the website.</p><p>For game bugs, you can also use the Bug Report button on the game screen.</p>`,
       privacy: `<h2>Privacy Policy</h2><p>Balo Games is designed to provide browser-based gaming content. We aim to collect only information needed to operate and improve the website.</p><p>Third-party services, analytics, advertising, or browser storage may have their own policies where applicable. Please review their policies before using those services.</p>`,
       terms: `<h2>Terms &amp; Conditions</h2><p>By using Balo Games, you agree to use the website responsibly and not to interfere with its operation or misuse its content.</p><p>Game availability and features may change as the website is updated.</p>`,
-      cookies: `<h2>Cookie Policy</h2><p>Balo Games may use browser storage or similar technologies where needed for website functionality. Third-party services may also use their own technologies according to their policies.</p>`
+      cookies: `<h2>Cookie Policy</h2><p>Balo Games may use browser storage or similar technologies where needed for website functionality. Third-party services may also use their own technologies according to their policies.</p>`,
+      copyright: `<h2>Copyright &amp; Ownership Policy</h2><p>© 2026 Balo Games. All Rights Reserved.</p><p>Original game code, artwork, graphics, written content, and designs created by Balo Games are protected by applicable copyright laws. Balo Games does not claim ownership of third-party games, trademarks, characters, music, images, software, or other materials; those remain the property of their respective owners and are used only where permitted.</p><p>You may not copy, reproduce, redistribute, republish, modify, or claim ownership of original Balo Games content without prior written permission from the applicable copyright owner.</p><p>Game concepts and mechanics may not be exclusively owned by Balo Games. Ownership depends on the specific original material and any applicable third-party licences.</p><p>For permission or copyright concerns, please contact the Balo Games team through the official contact channel.</p>`
     };
     function showInfo(page){ document.getElementById('infoContent').innerHTML=infoPages[page]||infoPages.about; document.getElementById('infoModal').classList.add('open'); document.body.style.overflow='hidden'; }
     function closeInfo(){ document.getElementById('infoModal').classList.remove('open'); document.body.style.overflow=''; }
