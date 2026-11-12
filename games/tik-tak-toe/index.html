@@ -504,7 +504,7 @@ body:not(.online) .vs .who span:last-child{font-size:14px;font-weight:900;color:
 #drScreen .box-sub{font-weight:700;opacity:.9}
 #drScreen{z-index:30}
 /* Daily Reward button: top-left on the home page and on the game screen */
-body:has(#homeScreen:not(.hidden)) #drBtn,body:has(#cornerHome:not(.hidden)) #drBtn{display:inline-flex!important;position:fixed}
+body:has(#homeScreen:not(.hidden)) #drBtn{display:inline-flex!important;position:fixed}
 body:has(#homeScreen:not(.hidden)) #drBtn{top:max(14px,env(safe-area-inset-top))}
 #drBtn{z-index:25}
 /* ===== Home Daily Reward button: gold gift pill ===== */
@@ -519,6 +519,31 @@ body:has(#homeScreen:not(.hidden)) #drBtn{top:max(14px,env(safe-area-inset-top))
 @keyframes drping{0%{box-shadow:0 0 0 0 rgba(255,59,92,.7)}70%{box-shadow:0 0 0 10px rgba(255,59,92,0)}100%{box-shadow:0 0 0 0 rgba(255,59,92,0)}}
 @keyframes drglow{0%,100%{box-shadow:0 4px 0 #b06e00,0 8px 18px rgba(0,0,0,.25)}50%{box-shadow:0 4px 0 #b06e00,0 0 24px 6px rgba(255,220,90,.75)}}
 @media (max-width:480px){.dr-home{font-size:14px;padding:6px 11px 6px 8px}.dr-gift{font-size:17px}}
+/* Daily Reward (left) and coin badge (right) pinned to the very top of the screen */
+.coin-badge{position:fixed!important;top:10px!important;right:14px;z-index:40}
+body:has(#homeScreen:not(.hidden)) #drBtn{position:fixed!important;top:10px!important;left:14px!important;z-index:40!important}
+/* ===== Bigger Home button (game screen) and bigger Daily + coins (home) ===== */
+.corner-home{font-size:19px!important;padding:12px 18px!important;border-radius:16px!important}
+#homeScreen .coin-badge,.coin-badge{transform:scale(1.25);transform-origin:top right}
+.dr-home{font-size:21px!important;padding:11px 20px 11px 13px!important;gap:8px!important;border-width:3px!important}
+.dr-home .dr-gift{font-size:28px!important}
+.dr-home .dr-badge{width:18px!important;height:18px!important;top:-8px!important;right:-8px!important}
+body:has(#homeScreen:not(.hidden)) #drBtn{top:14px!important;left:16px!important}
+body:has(#homeScreen:not(.hidden)) .coin-badge{top:14px!important;right:20px!important}
+@media (max-width:480px){
+  .corner-home{font-size:17px!important;padding:10px 15px!important}
+  .dr-home{font-size:17px!important;padding:8px 14px 8px 10px!important}
+  .dr-home .dr-gift{font-size:22px!important}
+  .coin-badge{transform:scale(1.15);transform-origin:top right}
+}
+/* Portrait phone: keep the score and Shop panels inside their columns */
+@media (orientation:portrait){
+  body:not(.online) .score{width:100%;max-width:none;padding:8px 6px;box-sizing:border-box}
+  body:not(.online) .score span{min-width:0!important;width:100%;box-sizing:border-box;font-size:14px;padding:7px 8px;white-space:nowrap}
+  body:not(.online) .tools{width:100%;max-width:none;box-sizing:border-box;padding:8px 6px}
+  body:not(.online) .score span:last-child{font-size:12px;padding:7px 6px}
+  body:not(.online) .tools .tool{font-size:14px;padding:10px 6px}
+}
 </style>
 </head>
 <body>
@@ -1620,24 +1645,16 @@ function lbCountdown(){
   const el=document.getElementById('lbCount');
   if(el)el.textContent=[h,m,s].map(x=>String(x).padStart(2,'0')).join(':');
 }
-/* Leaderboard opening sound: load the MP3 beside this game page */
-const LB_SFX_URL='./sfx_leaderboard.mp3';
+/* Leaderboard opening sound: paste the GitHub raw URL of sfx_leaderboard.mp3 here */
+const LB_SFX_URL='';
 let lbAudio=null;
 function playLbSound(){
-  if(!soundOn)return;
+  if(!LB_SFX_URL)return;
   try{
-    if(!lbAudio){
-      lbAudio=new Audio();
-      lbAudio.preload='auto';
-      lbAudio.src=LB_SFX_URL;
-      lbAudio.load();
-    }
-    lbAudio.pause();
-    lbAudio.currentTime=0;
-    const playPromise=lbAudio.play();
-    if(playPromise&&typeof playPromise.catch==='function'){
-      playPromise.catch(()=>{});
-    }
+    if(!lbAudio){lbAudio=new Audio(LB_SFX_URL);lbAudio.preload='auto';lbAudio.onerror=()=>{};}
+    lbAudio.pause();lbAudio.currentTime=0;
+    const p=lbAudio.play();
+    if(p&&p.catch)p.catch(()=>{});
   }catch(e){}
 }
 function stopLbSound(){
