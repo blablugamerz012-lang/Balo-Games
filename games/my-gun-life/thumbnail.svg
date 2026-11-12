@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="t d">
+<title id="t">GUN LIFE</title><desc id="d">Bright cartoon arcade action game thumbnail with a hero, energy blaster and playful monsters.</desc>
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#0878ee"/><stop offset="1" stop-color="#55d9ff"/></linearGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#fff34c"/><stop offset=".55" stop-color="#ff9c00"/><stop offset="1" stop-color="#e84b00"/></linearGradient>
+ <linearGradient id="blue" x2="0" y2="1"><stop stop-color="#7ffaff"/><stop offset="1" stop-color="#0870ff"/></linearGradient>
+ <linearGradient id="red" x2="0" y2="1"><stop stop-color="#ff5a45"/><stop offset="1" stop-color="#c90025"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="7"/><feOffset dy="8"/><feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="960" height="540" fill="url(#sky)"/>
+<circle cx="710" cy="150" r="165" fill="#b9f4ff" opacity=".18"/><path d="M0 250L90 170 145 225 225 145 300 230 390 165 480 250 570 175 655 250 760 155 860 250 960 175V440H0Z" fill="#0872b9" opacity=".42"/>
+<g fill="#e0fbff" opacity=".7"><path d="M55 110q22-30 55-8 24-38 67-4 40-4 43 35H48q-5-15 7-23Z"/><path d="M590 85q25-34 62-7 27-41 72-2 39-1 43 34H585q-8-13 5-25Z"/></g>
+<g fill="#124d8e" opacity=".55"><path d="M0 335h70v-80h65v80h55v-115h90v115h65v-70h75v70h65v-125h90v125h70v-80h85v80h80v-115h100v115h80v205H0Z"/></g>
+<path d="M0 445Q180 410 350 455T700 445T960 430V540H0Z" fill="#58c900"/><path d="M0 480Q210 450 420 490T960 465V540H0Z" fill="#4d9c20"/>
+<g filter="url(#shadow)">
+ <path d="M490 165l-25-45 45 18 20-47 18 50 49-4-35 36 22 44-49-20-32 33-2-49-48-16Z" fill="#fff333" stroke="#ff9a00" stroke-width="8"/>
+ <path d="M105 185q-20-50 27-77l92-20q62-15 98 45l-12 117-153 20q-67-5-52-85Z" fill="url(#red)" stroke="#76142d" stroke-width="12"/>
+ <path d="M158 115q26-67 96-68 75 0 96 65l-17 67-165 10Z" fill="#7b371e" stroke="#3b1a21" stroke-width="12"/>
+ <path d="M160 120q18-63 92-72l-25 54 48-42-8 51 53-27-24 66-135 22Z" fill="#a64c20"/>
+ <ellipse cx="254" cy="151" rx="67" ry="66" fill="#ffc18b" stroke="#52212a" stroke-width="9"/>
+ <path d="M198 133l40-18-9 29-31 8m65-19 43-16-8 32-35 5" fill="#3a1b24"/>
+ <ellipse cx="231" cy="150" rx="11" ry="17" fill="#fff"/><ellipse cx="285" cy="148" rx="11" ry="17" fill="#fff"/><circle cx="235" cy="151" r="7" fill="#1b2538"/><circle cx="289" cy="149" r="7" fill="#1b2538"/>
+ <path d="M240 189q26 12 49-7" fill="none" stroke="#8b2a27" stroke-width="8" stroke-linecap="round"/>
+ <path d="M155 212q-44 42-17 105l56 15 33-82-31-52Z" fill="url(#red)" stroke="#641b2c" stroke-width="12"/>
+ <path d="M198 260l120-20 20 44-126 29Z" fill="#202b49" stroke="#10172c" stroke-width="10"/>
+ <path d="M278 236l190-8 25 36-18 51-195 1-25-33Z" fill="url(#blue)" stroke="#102b65" stroke-width="13"/>
+ <path d="M335 241h80v13h-80Zm0 29h90v11h-90Z" fill="#a8ffff"/><path d="M475 252l49 12-49 15Z" fill="#fff" stroke="#ffcf00" stroke-width="7"/>
+ <path d="M190 300l-24 105 76 15 35-102Z" fill="#242b43" stroke="#121b35" stroke-width="12"/>
+ <path d="M220 400l-20 42 100 16 20-30-43-27Z" fill="#f6f7ff" stroke="#1b2440" stroke-width="10"/>
+ <path d="M315 300l65 5 4 105-75 3Z" fill="#222b43" stroke="#121b35" stroke-width="12"/>
+</g>
+<g filter="url(#shadow)"><path d="M775 372q-5-49 42-52 47-1 49 48l-10 50-72 0Z" fill="#70d84b" stroke="#194e45" stroke-width="10"/><path d="M782 379l22 10 17-11 22 12" fill="none" stroke="#20283b" stroke-width="9"/><path d="M799 358l-12-17m53 17 14-17" stroke="#ffed54" stroke-width="10" stroke-linecap="round"/><path d="M650 390q-5-34 29-38 36 0 39 37l-9 32h-52Z" fill="#9a52ef" stroke="#3c257b" stroke-width="9"/><path d="M666 388l9 8 10-8 12 8" fill="none" stroke="#ffdf43" stroke-width="8"/></g>
+<g fill="#ffdb32" stroke="#e57a00" stroke-width="5"><circle cx="580" cy="82" r="28"/><path d="M580 60l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2Z" stroke="none"/><circle cx="690" cy="465" r="22"/></g>
+<g filter="url(#shadow)"><path d="M515 72L900 55 940 118 910 315 500 335 465 280Z" fill="#111b35" stroke="#ffe22b" stroke-width="12"/><text x="700" y="185" text-anchor="middle" font-family="Arial Black,Impact,sans-serif" font-size="112" font-weight="900" fill="url(#gold)" stroke="#5b160c" stroke-width="17" paint-order="stroke">GUN</text><text x="700" y="290" text-anchor="middle" font-family="Arial Black,Impact,sans-serif" font-size="112" font-weight="900" fill="url(#blue)" stroke="#09275d" stroke-width="17" paint-order="stroke">LIFE</text></g>
+<g fill="#fff" opacity=".9"><path d="M80 35l9 20 21 8-21 8-9 21-8-21-21-8 21-8Z"/><path d="M440 390l7 15 16 6-16 6-7 16-6-16-16-6 16-6Z"/></g>
+</svg>
