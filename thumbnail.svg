@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="340 135 600 395" width="600" height="395">
+  <defs>
+    <!-- Main Blue Radial/Linear Background -->
+    <radialGradient id="bg-blue" cx="50%" cy="65%" r="75%">
+      <stop offset="0%" stop-color="#0568d6" />
+      <stop offset="55%" stop-color="#00449e" />
+      <stop offset="100%" stop-color="#002359" />
+    </radialGradient>
+
+    <!-- VS Circle Gradient -->
+    <linearGradient id="vs-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe066" />
+      <stop offset="100%" stop-color="#e69500" />
+    </linearGradient>
+
+    <!-- Neon Glow Filters -->
+    <filter id="cyan-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="pink-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="card-shadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#001233" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- 1. Main Background -->
+  <rect width="1280" height="720" fill="url(#bg-blue)" />
+
+  <!-- 2. Top Header: EVO-KILLER vs Bot -->
+  <g transform="translate(342, 36)" filter="url(#card-shadow)">
+    <rect x="0" y="0" width="106" height="96" rx="14" fill="#062857" stroke="#fbc02d" stroke-width="1.5" />
+    <circle cx="53" cy="34" r="24" fill="#ffffff" />
+    <g transform="translate(38, 18)">
+      <path d="M8 26 C8 16 14 10 20 12 L24 6 L22 14 C25 16 26 21 24 26 Z" fill="#e1f5fe" stroke="#0d47a1" stroke-width="1.5" />
+      <polygon points="20,11 26,2 23,12" fill="#ffd54f" stroke="#f57f17" stroke-width="1" />
+      <path d="M10 14 Q6 18 9 23" fill="none" stroke="#ec407a" stroke-width="3" stroke-linecap="round" />
+      <circle cx="19" cy="17" r="1.5" fill="#0d47a1" />
+    </g>
+    <text x="53" y="73" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="800" font-size="12" fill="#ffffff" text-anchor="middle">EVO-</text>
+    <text x="53" y="87" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="800" font-size="12" fill="#ffffff" text-anchor="middle">KILLER</text>
+  </g>
+
+  <g transform="translate(640, 84)" filter="url(#card-shadow)">
+    <circle cx="0" cy="0" r="28" fill="url(#vs-gold)" />
+    <text x="0" y="7" font-family="&#39;Arial Black&#39;, sans-serif" font-weight="900" font-size="20" fill="#ffffff" text-anchor="middle">VS</text>
+  </g>
+
+  <g transform="translate(848, 36)" filter="url(#card-shadow)">
+    <rect x="0" y="0" width="90" height="86" rx="14" fill="#062857" stroke="#fbc02d" stroke-width="1.5" />
+    <circle cx="45" cy="33" r="23" fill="#ffffff" />
+    <g transform="translate(30, 18)">
+      <line x1="15" y1="2" x2="15" y2="7" stroke="#37474f" stroke-width="2" />
+      <circle cx="15" cy="2" r="2" fill="#ff5252" />
+      <rect x="4" y="7" width="22" height="16" rx="5" fill="#cfd8dc" stroke="#37474f" stroke-width="1.5" />
+      <rect x="7" y="11" width="16" height="6" rx="2" fill="#263238" />
+      <circle cx="11" cy="14" r="2" fill="#00e5ff" />
+      <circle cx="19" cy="14" r="2" fill="#00e5ff" />
+      <line x1="10" y1="20" x2="20" y2="20" stroke="#37474f" stroke-width="1.5" />
+    </g>
+    <text x="45" y="74" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">Bot</text>
+  </g>
+
+  <!-- 3. Left Scoreboard Panel -->
+  <g transform="translate(186, 150)" filter="url(#card-shadow)">
+    <rect x="0" y="0" width="224" height="94" rx="14" fill="#0b3a75" fill-opacity="0.7" />
+    <rect x="14" y="14" width="52" height="30" rx="8" fill="#1b4d89" />
+    <text x="40" y="34" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">
+      X: <tspan fill="#ffca28">1</tspan>
+    </text>
+    <rect x="74" y="14" width="52" height="30" rx="8" fill="#1b4d89" />
+    <text x="100" y="34" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">
+      O: <tspan fill="#ffca28">0</tspan>
+    </text>
+    <rect x="134" y="14" width="76" height="30" rx="8" fill="#1b4d89" />
+    <text x="172" y="34" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">
+      Draw: <tspan fill="#ffca28">0</tspan>
+    </text>
+    <rect x="14" y="52" width="196" height="30" rx="8" fill="#1b4d89" />
+    <text x="112" y="72" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">
+      🔥 Streak: <tspan fill="#ffca28">1</tspan>
+    </text>
+  </g>
+
+  <!-- 4. Right Shop Panel -->
+  <g transform="translate(870, 150)" filter="url(#card-shadow)">
+    <rect x="0" y="0" width="224" height="66" rx="14" fill="#0b3a75" fill-opacity="0.7" />
+    <rect x="10" y="10" width="204" height="46" rx="10" fill="#235796" stroke="#3c73b5" stroke-width="1" />
+    <g transform="translate(74, 24)" fill="none" stroke="#cfd8dc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="0,1 3,1 6,12 16,12 18,4 4,4" />
+      <circle cx="7" cy="16" r="1.5" fill="#cfd8dc" />
+      <circle cx="15" cy="16" r="1.5" fill="#cfd8dc" />
+    </g>
+    <text x="122" y="38" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="800" font-size="15" fill="#ffffff" text-anchor="middle">Shop</text>
+  </g>
+
+  <!-- 5. Center Neon Tic-Tac-Toe Board -->
+  <g transform="translate(448, 138)">
+    <rect x="0" y="0" width="384" height="384" rx="22" fill="#190826" stroke="#26e6ff" stroke-width="3" filter="url(#cyan-glow)" />
+
+    <rect x="18" y="18" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+    <rect x="138" y="18" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+    
+    <g transform="translate(258, 18)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#146348" stroke="#28e070" stroke-width="2.5" />
+      <g stroke="#29f2ff" stroke-width="15" stroke-linecap="round" filter="url(#cyan-glow)">
+        <line x1="34" y1="34" x2="74" y2="74" />
+        <line x1="74" y1="34" x2="34" y2="74" />
+      </g>
+    </g>
+
+    <rect x="18" y="138" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+    
+    <g transform="translate(138, 138)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#146348" stroke="#28e070" stroke-width="2.5" />
+      <g stroke="#29f2ff" stroke-width="15" stroke-linecap="round" filter="url(#cyan-glow)">
+        <line x1="34" y1="34" x2="74" y2="74" />
+        <line x1="74" y1="34" x2="34" y2="74" />
+      </g>
+    </g>
+
+    <g transform="translate(258, 138)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+      <circle cx="54" cy="54" r="23" fill="none" stroke="#ff33b8" stroke-width="14" filter="url(#pink-glow)" />
+    </g>
+
+    <g transform="translate(18, 258)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#146348" stroke="#28e070" stroke-width="2.5" />
+      <g stroke="#29f2ff" stroke-width="15" stroke-linecap="round" filter="url(#cyan-glow)">
+        <line x1="34" y1="34" x2="74" y2="74" />
+        <line x1="74" y1="34" x2="34" y2="74" />
+      </g>
+    </g>
+
+    <g transform="translate(138, 258)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+      <circle cx="54" cy="54" r="23" fill="none" stroke="#ff33b8" stroke-width="14" filter="url(#pink-glow)" />
+    </g>
+
+    <rect x="258" y="258" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+  </g>
+</svg>
