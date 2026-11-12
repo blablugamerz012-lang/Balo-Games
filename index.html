@@ -1525,7 +1525,7 @@
 
     function renderSideAndBottom() {
       document.getElementById("sidebarGames").innerHTML = games.filter(g => !g.comingSoon && g.title !== currentGameTitle).map(sidebarHTML).join("");
-      document.getElementById("bottomGrid").innerHTML = games.map(cardHTML).join("");
+      document.getElementById("bottomGrid").innerHTML = games.filter(g => g.title !== currentGameTitle).map(cardHTML).join("");
       refreshCardLikeCounts();
     }
 
