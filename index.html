@@ -1524,7 +1524,7 @@
     }
 
     function renderSideAndBottom() {
-      document.getElementById("sidebarGames").innerHTML = games.filter(g => !g.comingSoon).map(sidebarHTML).join("");
+      document.getElementById("sidebarGames").innerHTML = games.filter(g => !g.comingSoon && g.title !== currentGameTitle).map(sidebarHTML).join("");
       document.getElementById("bottomGrid").innerHTML = games.map(cardHTML).join("");
       refreshCardLikeCounts();
     }
@@ -1533,6 +1533,7 @@
       const game = games.find(g => g.title === title);
       if (!game || game.comingSoon || !game.path) return;
       currentGameTitle = title;
+      renderSideAndBottom();
       document.getElementById("overlayGameTitle").textContent = title;
       document.getElementById("gameFrame").src = game.path;
       document.getElementById("homeScreenView").classList.add("hidden");
@@ -1549,6 +1550,7 @@
       document.getElementById("gameFrame").src = "";
       history.replaceState(null, "", window.location.pathname + window.location.search);
       currentGameTitle = "";
+      renderSideAndBottom();
       renderHome("all");
       document.querySelectorAll(".category-btn").forEach(b => {
         b.classList.toggle("active", b.dataset.cat === "all");
