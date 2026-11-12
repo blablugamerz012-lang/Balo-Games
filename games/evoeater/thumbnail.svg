@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+<defs>
+ <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#071b55"/><stop offset=".55" stop-color="#0757a6"/><stop offset="1" stop-color="#06b9c8"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#40dcff" stop-opacity="0"/></radialGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#fff68a"/><stop offset=".5" stop-color="#ffc928"/><stop offset="1" stop-color="#f07808"/></linearGradient>
+ <linearGradient id="blue" x2="0" y2="1"><stop stop-color="#baf6ff"/><stop offset=".45" stop-color="#36bfff"/><stop offset="1" stop-color="#0759dc"/></linearGradient>
+ <linearGradient id="green" x2="0" y2="1"><stop stop-color="#e2ff9a"/><stop offset=".5" stop-color="#75e943"/><stop offset="1" stop-color="#16a64a"/></linearGradient>
+ <linearGradient id="red" x2="0" y2="1"><stop stop-color="#ffd1db"/><stop offset=".5" stop-color="#ff6682"/><stop offset="1" stop-color="#d51b55"/></linearGradient>
+ <linearGradient id="purple" x2="0" y2="1"><stop stop-color="#f1caff"/><stop offset=".5" stop-color="#b45aff"/><stop offset="1" stop-color="#6523c9"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="9"/><feOffset dy="10"/><feComponentTransfer><feFuncA type="linear" slope=".45"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <g id="eyes"><ellipse cx="-18" cy="-7" rx="15" ry="19" fill="white"/><ellipse cx="18" cy="-7" rx="15" ry="19" fill="white"/><circle cx="-15" cy="-5" r="8" fill="#10182e"/><circle cx="21" cy="-5" r="8" fill="#10182e"/><circle cx="-18" cy="-11" r="3.5" fill="white"/><circle cx="18" cy="-11" r="3.5" fill="white"/><path d="M-6 19 Q0 25 7 18" fill="none" stroke="#8b3b27" stroke-width="3" stroke-linecap="round"/></g>
+</defs>
+<rect width="1200" height="675" fill="url(#bg)"/>
+<circle cx="910" cy="300" r="330" fill="url(#glow)" opacity=".7"/>
+<g fill="#b9f7ff" opacity=".8"><circle cx="85" cy="100" r="7"/><circle cx="1030" cy="100" r="5"/><circle cx="1100" cy="500" r="8"/><circle cx="570" cy="75" r="5"/><circle cx="760" cy="160" r="4"/></g>
+<g opacity=".65" fill="none" stroke="#35dfff" stroke-width="5"><path d="M-30 490 Q180 390 370 470 T760 455 T1240 420"/><path d="M-20 535 Q190 435 390 515 T790 500 T1230 470"/></g>
+<text x="62" y="175" font-family="Arial,sans-serif" font-size="112" font-weight="1000" fill="#071b3e" stroke="#071b3e" stroke-width="24" stroke-linejoin="round">EVO</text>
+<text x="58" y="172" font-family="Arial,sans-serif" font-size="112" font-weight="1000" fill="url(#gold)" stroke="#fff2a6" stroke-width="5" paint-order="stroke">EVO</text>
+<text x="58" y="282" font-family="Arial,sans-serif" font-size="112" font-weight="1000" fill="#071b3e" stroke="#071b3e" stroke-width="24" stroke-linejoin="round">EATER</text>
+<text x="58" y="279" font-family="Arial,sans-serif" font-size="112" font-weight="1000" fill="#f7fdff" stroke="#5ccfff" stroke-width="5" paint-order="stroke">EATER</text>
+<path d="M65 325 H590" stroke="#8cecff" stroke-width="7" stroke-linecap="round"/>
+<text x="70" y="375" font-family="Arial,sans-serif" font-size="31" font-weight="800" letter-spacing="3" fill="#e4fbff">EAT • GROW • EVOLVE</text>
+<!-- tiny yellow form -->
+<g transform="translate(120 550)" filter="url(#shadow)"><ellipse cy="40" rx="55" ry="13" fill="#00163b" opacity=".35"/><circle r="48" fill="url(#gold)" stroke="#fff4a6" stroke-width="5"/><use href="#eyes" transform="scale(.85)"/></g>
+<!-- blue form -->
+<g transform="translate(300 535)" filter="url(#shadow)"><path d="M-38 0 Q-100 -70 -91 12 Q-70 50 -38 28 M38 0 Q100 -70 91 12 Q70 50 38 28" fill="#279fff" stroke="#a6edff" stroke-width="6"/><ellipse cy="42" rx="66" ry="15" fill="#00163b" opacity=".35"/><circle r="62" fill="url(#blue)" stroke="#b8f6ff" stroke-width="5"/><use href="#eyes" transform="scale(1.05)"/></g>
+<!-- green form -->
+<g transform="translate(505 510)" filter="url(#shadow)"><path d="M-36 -45 Q-65 -105 -85 -75 Q-85 -28 -42 -12 M36 -45 Q65 -105 85 -75 Q85 -28 42 -12" fill="#59d94b" stroke="#d6ffb0" stroke-width="6"/><ellipse cy="48" rx="75" ry="17" fill="#00163b" opacity=".35"/><circle r="73" fill="url(#green)" stroke="#d8ffb7" stroke-width="6"/><use href="#eyes" transform="scale(1.2)"/></g>
+<!-- red evolved form -->
+<g transform="translate(735 495)" filter="url(#shadow)"><path d="M-47 -45 Q-105 -125 -116 -62 Q-108 -15 -50 -4 M47 -45 Q105 -125 116 -62 Q108 -15 50 -4" fill="#ff5476" stroke="#ffd0db" stroke-width="7"/><path d="M-30 -60 L-47 -112 M30 -60 L47 -112" stroke="#ffd3de" stroke-width="8" stroke-linecap="round"/><ellipse cy="55" rx="89" ry="18" fill="#00163b" opacity=".35"/><circle r="88" fill="url(#red)" stroke="#ffe0e7" stroke-width="6"/><use href="#eyes" transform="scale(1.35)"/></g>
+<!-- final purple/orange creature -->
+<g transform="translate(1010 430)" filter="url(#shadow)"><circle r="175" fill="#ffe64a" opacity=".12"/><path d="M-68 -55 Q-150 -160 -180 -80 Q-170 -20 -75 -5 M68 -55 Q150 -160 180 -80 Q170 -20 75 -5" fill="#ff9b25" stroke="#ffe4a4" stroke-width="10"/><path d="M-40 -120 L-65 -195 M40 -120 L65 -195" stroke="#ffd477" stroke-width="13" stroke-linecap="round"/><ellipse cy="92" rx="125" ry="25" fill="#00163b" opacity=".35"/><circle r="128" fill="url(#gold)" stroke="#fff2a6" stroke-width="9"/><use href="#eyes" transform="scale(1.9)"/><path d="M-55 -137 L-42 -180 L-15 -150 L0 -205 L20 -150 L48 -180 L58 -137Z" fill="#ffcf28" stroke="#fff2a6" stroke-width="7" stroke-linejoin="round"/></g>
+<g fill="none" stroke="#ffeb77" stroke-width="7" stroke-linecap="round"><path d="M880 280 l18 -28 M900 300 l34 -4 M850 325 l-20 -20"/><path d="M1130 235 l18 -30 M1150 260 l28 -2"/></g>
+<text x="610" y="640" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#d9faff" text-anchor="middle" letter-spacing="4">EVOLVE INTO YOUR STRONGEST FORM</text>
+</svg>
