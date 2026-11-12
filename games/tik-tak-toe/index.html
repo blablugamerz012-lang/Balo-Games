@@ -1645,13 +1645,13 @@ function lbCountdown(){
   const el=document.getElementById('lbCount');
   if(el)el.textContent=[h,m,s].map(x=>String(x).padStart(2,'0')).join(':');
 }
-/* Leaderboard opening sound: paste the GitHub raw URL of sfx_leaderboard.mp3 here */
-const LB_SFX_URL='';
+/* Leaderboard opening sound (file is stored beside this game page) */
+const LB_SFX_URL='./sfx_leaderboard.mp3';
 let lbAudio=null;
 function playLbSound(){
-  if(!LB_SFX_URL)return;
+  if(!soundOn)return;
   try{
-    if(!lbAudio){lbAudio=new Audio(LB_SFX_URL);lbAudio.preload='auto';lbAudio.onerror=()=>{};}
+    if(!lbAudio){lbAudio=new Audio(LB_SFX_URL);lbAudio.preload='auto';}
     lbAudio.pause();lbAudio.currentTime=0;
     const p=lbAudio.play();
     if(p&&p.catch)p.catch(()=>{});
