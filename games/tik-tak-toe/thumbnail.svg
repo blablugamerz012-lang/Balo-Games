@@ -1,24 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 420" width="400" height="420">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
   <defs>
     <!-- Glow Filters -->
-    <filter id="cyan-glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="5" result="blur" />
-      <feMerge>
-        <feMergeNode in="blur" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-    
-    <filter id="pink-glow" x="-30%" y="-30%" width="160%" height="160%">
+    <filter id="cyan-glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="6" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
+    
+    <filter id="pink-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
 
-    <filter id="blue-glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="5" result="blur" />
+    <filter id="blue-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
         <feMergeNode in="SourceGraphic" />
@@ -27,55 +27,58 @@
 
     <!-- Gradients -->
     <linearGradient id="pink-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ffc2d1" />
+      <stop offset="0%" stop-color="#ff75b5" />
       <stop offset="100%" stop-color="#ff1e56" />
     </linearGradient>
 
-    <linearGradient id="light-cyan-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#d0f4ff" />
-      <stop offset="100%" stop-color="#70e4ff" />
+    <linearGradient id="cyan-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b8f2ff" />
+      <stop offset="100%" stop-color="#30e3df" />
     </linearGradient>
 
     <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3898ff" />
-      <stop offset="100%" stop-color="#0055ff" />
+      <stop offset="0%" stop-color="#4da6ff" />
+      <stop offset="100%" stop-color="#0066ff" />
     </linearGradient>
   </defs>
 
-  <!-- Main Dark Board Background & Outer Border -->
-  <rect x="15" y="15" width="370" height="390" rx="35" fill="#15152b" stroke="#5ce1e6" stroke-width="6" filter="url(#cyan-glow)" />
+  <!-- Background -->
+  <rect width="500" height="500" fill="#0d0f1a" />
+
+  <!-- Outer Neon Board Frame -->
+  <rect x="40" y="40" width="420" height="420" rx="40" fill="#131526" stroke="url(#cyan-grad)" stroke-width="8" filter="url(#cyan-glow)" />
 
   <!-- Grid Lines -->
-  <g stroke="#5ce1e6" stroke-width="8" stroke-linecap="round" filter="url(#cyan-glow)">
+  <g stroke="url(#cyan-grad)" stroke-width="8" stroke-linecap="round" filter="url(#cyan-glow)">
     <!-- Vertical Lines -->
-    <line x1="142" y1="35" x2="142" y2="385" />
-    <line x1="258" y1="35" x2="258" y2="385" />
+    <line x1="180" y1="65" x2="180" y2="435" />
+    <line x1="320" y1="65" x2="320" y2="435" />
     <!-- Horizontal Lines -->
-    <line x1="35" y1="145" x2="365" y2="145" />
-    <line x1="35" y1="275" x2="365" y2="275" />
+    <line x1="65" y1="180" x2="435" y2="180" />
+    <line x1="65" y1="320" x2="435" y2="320" />
   </g>
 
-  <!-- Top-Left X (Light Cyan) -->
-  <g stroke="url(#light-cyan-grad)" stroke-width="20" stroke-linecap="round" filter="url(#cyan-glow)">
-    <line x1="55" y1="55" x2="112" y2="112" />
-    <line x1="112" y1="55" x2="55" y2="112" />
+  <!-- Top-Left X (Cyan) -->
+  <g stroke="url(#cyan-grad)" stroke-width="22" stroke-linecap="round" filter="url(#cyan-glow)">
+    <line x1="85" y1="100" x2="145" y2="160" />
+    <line x1="145" y1="100" x2="85" y2="160" />
   </g>
 
   <!-- Top-Center O (Pink) -->
-  <circle cx="200" cy="85" r="33" fill="none" stroke="url(#pink-grad)" stroke-width="19" filter="url(#pink-glow)" />
+  <circle cx="250" cy="125" r="38" fill="none" stroke="url(#pink-grad)" stroke-width="20" filter="url(#pink-glow)" />
 
   <!-- Middle-Left O (Pink) -->
-  <circle cx="83" cy="210" r="33" fill="none" stroke="url(#pink-grad)" stroke-width="19" filter="url(#pink-glow)" />
+  <circle cx="110" cy="250" r="38" fill="none" stroke="url(#pink-grad)" stroke-width="20" filter="url(#pink-glow)" />
 
   <!-- Middle-Right O (Pink) -->
-  <circle cx="317" cy="210" r="33" fill="none" stroke="url(#pink-grad)" stroke-width="19" filter="url(#pink-glow)" />
+  <circle cx="390" cy="250" r="38" fill="none" stroke="url(#pink-grad)" stroke-width="20" filter="url(#pink-glow)" />
 
   <!-- Bottom-Center O (Pink) -->
-  <circle cx="200" cy="335" r="33" fill="none" stroke="url(#pink-grad)" stroke-width="19" filter="url(#pink-glow)" />
+  <circle cx="250" cy="375" r="38" fill="none" stroke="url(#pink-grad)" stroke-width="20" filter="url(#pink-glow)" />
 
-  <!-- Bottom-Right X (Deep Blue) -->
-  <g stroke="url(#blue-grad)" stroke-width="20" stroke-linecap="round" filter="url(#blue-glow)">
-    <line x1="288" y1="305" x2="345" y2="362" />
-    <line x1="345" y1="305" x2="288" y2="362" />
+  <!-- Bottom-Right X (Blue) -->
+  <g stroke="url(#blue-grad)" stroke-width="22" stroke-linecap="round" filter="url(#blue-glow)">
+    <line x1="355" y1="340" x2="415" y2="400" />
+    <line x1="415" y1="340" x2="355" y2="400" />
   </g>
 </svg>
