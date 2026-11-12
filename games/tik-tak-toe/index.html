@@ -1621,10 +1621,10 @@ function lbCountdown(){
   if(el)el.textContent=[h,m,s].map(x=>String(x).padStart(2,'0')).join(':');
 }
 /* Leaderboard opening sound: paste the GitHub raw URL of sfx_leaderboard.mp3 here */
-const LB_SFX_URL='';
+const LB_SFX_URL='https://raw.githubusercontent.com/blablugamerz012-lang/Balo-Games/main/games/tik-tak-toe/sfx_leaderboard.mp3';
 let lbAudio=null;
 function playLbSound(){
-  if(!LB_SFX_URL)return;
+  if(!LB_SFX_URL||!soundOn)return;
   try{
     if(!lbAudio){lbAudio=new Audio(LB_SFX_URL);lbAudio.preload='auto';lbAudio.onerror=()=>{};}
     lbAudio.pause();lbAudio.currentTime=0;
