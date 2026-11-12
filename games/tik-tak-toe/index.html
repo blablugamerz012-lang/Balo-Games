@@ -504,9 +504,21 @@ body:not(.online) .vs .who span:last-child{font-size:14px;font-weight:900;color:
 #drScreen .box-sub{font-weight:700;opacity:.9}
 #drScreen{z-index:30}
 /* Daily Reward button: top-left on the home page and on the game screen */
-body:has(#homeScreen:not(.hidden)) #drBtn,body:has(#cornerHome:not(.hidden)) #drBtn{display:block!important}
+body:has(#homeScreen:not(.hidden)) #drBtn,body:has(#cornerHome:not(.hidden)) #drBtn{display:inline-flex!important;position:fixed}
 body:has(#homeScreen:not(.hidden)) #drBtn{top:max(14px,env(safe-area-inset-top))}
 #drBtn{z-index:25}
+/* ===== Home Daily Reward button: gold gift pill ===== */
+.dr-home{display:none;align-items:center;gap:6px;padding:8px 14px 8px 10px;border-radius:999px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;color:#3a2300;background:linear-gradient(180deg,#fff3b0,#ffc83d 60%,#f0a000);border:2px solid #fff;box-shadow:0 4px 0 #b06e00,0 8px 18px rgba(0,0,0,.25);text-shadow:0 1px 0 rgba(255,255,255,.6);transition:transform .15s}
+.dr-home:hover{transform:translateY(-2px)}
+.dr-home:active{transform:translateY(3px);box-shadow:0 1px 0 #b06e00}
+.dr-gift{font-size:20px;display:inline-block;animation:drbob 2.4s ease-in-out infinite}
+@keyframes drbob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-8deg)}}
+.dr-badge{display:none;position:absolute;top:-6px;right:-6px;width:14px;height:14px;border-radius:50%;background:#ff3b5c;border:2px solid #fff;box-shadow:0 0 0 0 rgba(255,59,92,.7);animation:drping 1.4s infinite}
+.dr-home.ready .dr-badge{display:block}
+.dr-home.ready{animation:drglow 1.6s ease-in-out infinite}
+@keyframes drping{0%{box-shadow:0 0 0 0 rgba(255,59,92,.7)}70%{box-shadow:0 0 0 10px rgba(255,59,92,0)}100%{box-shadow:0 0 0 0 rgba(255,59,92,0)}}
+@keyframes drglow{0%,100%{box-shadow:0 4px 0 #b06e00,0 8px 18px rgba(0,0,0,.25)}50%{box-shadow:0 4px 0 #b06e00,0 0 24px 6px rgba(255,220,90,.75)}}
+@media (max-width:480px){.dr-home{font-size:14px;padding:6px 11px 6px 8px}.dr-gift{font-size:17px}}
 </style>
 </head>
 <body>
@@ -604,7 +616,7 @@ body:has(#homeScreen:not(.hidden)) #drBtn{top:max(14px,env(safe-area-inset-top))
   <button class="music-close" onclick="closeMusicPanel()">Close</button>
 </div>
 
-<button class="corner-home" id="drBtn" style="left:14px;display:none" onclick="openDR()">🎁 Daily</button>
+<button class="corner-home dr-home" id="drBtn" style="left:14px;display:none" onclick="openDR()"><span class="dr-gift">🎁</span><span class="dr-txt">Daily</span><span class="dr-badge" aria-hidden="true"></span></button>
 <button class="corner-home hidden" id="cornerHome" style="left:116px" onclick="askGoHome()">🏠 Home</button>
 <div class="bot-av hidden" id="botAv"><div class="bot-face" id="botFace">😎</div><div class="bubble" id="bubble"></div></div>
 
@@ -891,6 +903,7 @@ function applyTheme(){
   document.documentElement.style.setProperty('--b',v[1]);
 }
 function upd(){
+  if(typeof drBtn!=='undefined'&&drBtn)drBtn.classList.toggle('ready',typeof drReady==='function'&&drReady());
   tick();
   boostTag.textContent=S.boost>0?'⚡x2':'';
   streakEl.textContent=S.streak;
