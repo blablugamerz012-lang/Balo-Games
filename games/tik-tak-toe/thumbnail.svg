@@ -1,265 +1,66 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="442 132 396 396" width="396" height="396">
   <defs>
-    <!-- Main Screen Background -->
-    <linearGradient id="screen-bg" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#4dd0e1" />
-      <stop offset="100%" stop-color="#26c6da" />
-    </linearGradient>
-
-    <!-- Card Background -->
-    <linearGradient id="card-bg" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#6ee7f7" />
-      <stop offset="100%" stop-color="#4dd0e1" />
-    </linearGradient>
-
-    <!-- Wood Texture Base -->
-    <linearGradient id="wood-base" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#b87333" />
-      <stop offset="50%" stop-color="#9e5b21" />
-      <stop offset="100%" stop-color="#7a4111" />
-    </linearGradient>
-
-    <!-- Wood Button Base -->
-    <linearGradient id="wood-btn" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#9e5a23" />
-      <stop offset="100%" stop-color="#6e380e" />
-    </linearGradient>
-
-    <!-- Yellow Button (Online Play) -->
-    <linearGradient id="yellow-btn" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffeb3b" />
-      <stop offset="50%" stop-color="#fbc02d" />
-      <stop offset="100%" stop-color="#f57f17" />
-    </linearGradient>
-
-    <!-- Blue X Gradient -->
-    <linearGradient id="blue-piece" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#4fc3f7" />
-      <stop offset="50%" stop-color="#0288d1" />
-      <stop offset="100%" stop-color="#01579b" />
-    </linearGradient>
-
-    <!-- Orange O Gradient -->
-    <linearGradient id="orange-piece" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ff9800" />
-      <stop offset="50%" stop-color="#f57c00" />
-      <stop offset="100%" stop-color="#bf360c" />
-    </linearGradient>
-
-    <!-- Title Gradients -->
-    <linearGradient id="title-blue" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#4fc3f7" />
-      <stop offset="100%" stop-color="#0277bd" />
-    </linearGradient>
-    <linearGradient id="title-orange" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffb74d" />
-      <stop offset="100%" stop-color="#e65100" />
-    </linearGradient>
-
-    <!-- Shadows -->
-    <filter id="drop-shadow" x="-15%" y="-15%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#002b36" flood-opacity="0.3" />
-    </filter>
-    <filter id="piece-shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="5" stdDeviation="3" flood-color="#2b1200" flood-opacity="0.6" />
+    <!-- Neon Glow Filters -->
+    <filter id="cyan-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
     </filter>
 
-    <!-- Grid Pattern for Inner Card -->
-    <pattern id="card-grid" width="24" height="24" patternUnits="userSpaceOnUse">
-      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.22" />
-    </pattern>
+    <filter id="pink-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
   </defs>
 
-  <!-- Full Screen Cyan Background -->
-  <rect width="1280" height="720" fill="url(#screen-bg)" />
+  <!-- Center Neon Tic-Tac-Toe Board -->
+  <g transform="translate(448, 138)">
+    <rect x="0" y="0" width="384" height="384" rx="22" fill="#190826" stroke="#26e6ff" stroke-width="3" filter="url(#cyan-glow)" />
 
-  <!-- Top Center Player Pill -->
-  <g transform="translate(570, 28)" filter="url(#drop-shadow)">
-    <rect x="0" y="0" width="140" height="46" rx="23" fill="#06396b" />
-    <!-- Fire Avatar Circle -->
-    <circle cx="24" cy="23" r="17" fill="#ffffff" />
-    <text x="24" y="29" font-size="18" text-anchor="middle">🔥</text>
-    <!-- Player Text & Dashed Line -->
-    <text x="84" y="25" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">Player</text>
-    <line x1="56" y1="32" x2="112" y2="32" stroke="#4fc3f7" stroke-width="2" stroke-dasharray="4,3" />
-  </g>
-
-  <!-- Top Right Coin Badge (117) -->
-  <g transform="translate(1165, 22)" filter="url(#drop-shadow)">
-    <rect x="0" y="0" width="95" height="42" rx="21" fill="#7a5927" stroke="#fbc02d" stroke-width="2.5" />
-    <circle cx="21" cy="21" r="14" fill="#ffca28" stroke="#e65100" stroke-width="2" />
-    <text x="21" y="26" font-size="14" text-anchor="middle" fill="#e65100" font-weight="bold">★</text>
-    <text x="62" y="27" font-family="&#39;Arial Black&#39;, sans-serif" font-weight="900" font-size="17" fill="#ffffff" text-anchor="middle">117</text>
-  </g>
-
-  <!-- Main Center Game Window Card -->
-  <g transform="translate(260, 100)" filter="url(#drop-shadow)">
-    <rect x="0" y="0" width="760" height="580" rx="26" fill="url(#card-bg)" />
-    <rect x="0" y="0" width="760" height="580" rx="26" fill="url(#card-grid)" />
-
-    <!-- TIC TAC TOE Logo -->
-    <g transform="translate(380, 62)" text-anchor="middle" font-family="&#39;Arial Black&#39;, Impact, sans-serif" font-weight="900" font-size="54" letter-spacing="1">
-      <!-- Outer White Sticker Border -->
-      <text x="0" y="0" stroke="#ffffff" stroke-width="14" stroke-linejoin="round">
-        <tspan fill="#083b66">TIC </tspan>
-        <tspan fill="#083b66">TAC </tspan>
-        <tspan fill="#083b66">TOE</tspan>
-      </text>
-      <!-- Dark Navy Outline -->
-      <text x="0" y="0" stroke="#083b66" stroke-width="7" stroke-linejoin="round">
-        <tspan>TIC </tspan>
-        <tspan>TAC </tspan>
-        <tspan>TOE</tspan>
-      </text>
-      <!-- Colored Fill -->
-      <text x="0" y="0">
-        <tspan fill="url(#title-blue)">TIC </tspan>
-        <tspan fill="url(#title-orange)">TAC </tspan>
-        <tspan fill="url(#title-orange)">TOE</tspan>
-      </text>
-    </g>
-
-    <!-- Left Wooden Tic-Tac-Toe Board -->
-    <g transform="translate(26, 110)" filter="url(#drop-shadow)">
-      <!-- Board Outer Frame -->
-      <rect x="0" y="0" width="415" height="435" rx="28" fill="url(#wood-base)" stroke="#4a2205" stroke-width="6" />
-      <!-- Inner Bevel Highlight -->
-      <rect x="5" y="5" width="405" height="425" rx="23" fill="none" stroke="#d9934c" stroke-width="3" stroke-opacity="0.6" />
-
-      <!-- Wood Grain & Edge Notches -->
-      <g stroke="#5c2b08" stroke-width="2.5" stroke-opacity="0.45" fill="none">
-        <path d="M 15 85 Q 110 80 200 88 T 395 82" />
-        <path d="M 12 195 Q 140 202 260 192 T 400 198" />
-        <path d="M 18 335 Q 150 328 290 338 T 398 330" />
-      </g>
-      <!-- Wood Notches on Border -->
-      <polygon points="0,120 12,126 0,132" fill="#4a2205" />
-      <polygon points="0,280 10,285 0,292" fill="#4a2205" />
-      <polygon points="415,160 403,166 415,172" fill="#4a2205" />
-      <polygon points="320,435 326,423 332,435" fill="#4a2205" />
-
-      <!-- Carved Grid Lines -->
-      <g stroke="#4a2205" stroke-width="10" stroke-linecap="round">
-        <line x1="142" y1="26" x2="142" y2="409" />
-        <line x1="273" y1="26" x2="273" y2="409" />
-        <line x1="26" y1="148" x2="389" y2="148" />
-        <line x1="26" y1="286" x2="389" y2="286" />
-      </g>
-
-      <!-- PIECE 1: Top-Left O (Orange) -->
-      <g transform="translate(82, 85)" filter="url(#piece-shadow)">
-        <circle cx="0" cy="0" r="36" fill="none" stroke="#5c1900" stroke-width="22" />
-        <circle cx="0" cy="0" r="36" fill="none" stroke="url(#orange-piece)" stroke-width="16" />
-        <circle cx="0" cy="0" r="36" fill="none" stroke="#ffcc80" stroke-width="3" stroke-dasharray="60 170" transform="rotate(-130)" />
-      </g>
-
-      <!-- PIECE 2: Top-Right X (Blue) -->
-      <g transform="translate(333, 85)" filter="url(#piece-shadow)" stroke-linecap="round">
-        <g stroke="#002f5c" stroke-width="26">
-          <line x1="-26" y1="-26" x2="26" y2="26" />
-          <line x1="26" y1="-26" x2="-26" y2="26" />
-        </g>
-        <g stroke="url(#blue-piece)" stroke-width="20">
-          <line x1="-26" y1="-26" x2="26" y2="26" />
-          <line x1="26" y1="-26" x2="-26" y2="26" />
-        </g>
-      </g>
-
-      <!-- PIECE 3: Center X (Blue) -->
-      <g transform="translate(207, 217)" filter="url(#piece-shadow)" stroke-linecap="round">
-        <g stroke="#002f5c" stroke-width="26">
-          <line x1="-26" y1="-26" x2="26" y2="26" />
-          <line x1="26" y1="-26" x2="-26" y2="26" />
-        </g>
-        <g stroke="url(#blue-piece)" stroke-width="20">
-          <line x1="-26" y1="-26" x2="26" y2="26" />
-          <line x1="26" y1="-26" x2="-26" y2="26" />
-        </g>
-      </g>
-
-      <!-- PIECE 4: Bottom-Left X (Blue) -->
-      <g transform="translate(82, 348)" filter="url(#piece-shadow)" stroke-linecap="round">
-        <g stroke="#002f5c" stroke-width="26">
-          <line x1="-26" y1="-26" x2="26" y2="26" />
-          <line x1="26" y1="-26" x2="-26" y2="26" />
-        </g>
-        <g stroke="url(#blue-piece)" stroke-width="20">
-          <line x1="-26" y1="-26" x2="26" y2="26" />
-          <line x1="26" y1="-26" x2="-26" y2="26" />
-        </g>
-      </g>
-
-      <!-- PIECE 5: Bottom-Right O (Orange) -->
-      <g transform="translate(333, 348)" filter="url(#piece-shadow)">
-        <circle cx="0" cy="0" r="36" fill="none" stroke="#5c1900" stroke-width="22" />
-        <circle cx="0" cy="0" r="36" fill="none" stroke="url(#orange-piece)" stroke-width="16" />
-        <circle cx="0" cy="0" r="36" fill="none" stroke="#ffcc80" stroke-width="3" stroke-dasharray="60 170" transform="rotate(-130)" />
+    <rect x="18" y="18" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+    <rect x="138" y="18" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+    
+    <g transform="translate(258, 18)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#146348" stroke="#28e070" stroke-width="2.5" />
+      <g stroke="#29f2ff" stroke-width="15" stroke-linecap="round" filter="url(#cyan-glow)">
+        <line x1="34" y1="34" x2="74" y2="74" />
+        <line x1="74" y1="34" x2="34" y2="74" />
       </g>
     </g>
 
-    <!-- Right Wooden Menu Panel -->
-    <g transform="translate(460, 125)" filter="url(#drop-shadow)">
-      <!-- Wooden Backing Frame -->
-      <rect x="0" y="0" width="275" height="320" rx="22" fill="url(#wood-base)" stroke="#4a2205" stroke-width="5" />
-
-      <!-- Button 1: PLAY -->
-      <g transform="translate(14, 15)">
-        <rect x="0" y="0" width="247" height="62" rx="31" fill="url(#wood-btn)" stroke="#3b1903" stroke-width="3.5" />
-        <rect x="4" y="4" width="239" height="54" rx="27" fill="none" stroke="#c77d3e" stroke-width="2" stroke-opacity="0.5" />
-        <text x="38" y="40" font-size="28" text-anchor="middle">🤝</text>
-        <text x="145" y="39" font-family="&#39;Arial Black&#39;, sans-serif" font-weight="900" font-size="22" fill="#ffffff" stroke="#3b1903" stroke-width="4" text-anchor="middle">PLAY</text>
-      </g>
-
-      <!-- Button 2: ONLINE PLAY (Highlighted Yellow) -->
-      <g transform="translate(14, 90)">
-        <rect x="0" y="0" width="247" height="62" rx="31" fill="url(#yellow-btn)" stroke="#4a2205" stroke-width="3.5" />
-        <rect x="4" y="4" width="239" height="54" rx="27" fill="none" stroke="#fff9c4" stroke-width="2.5" />
-        <text x="38" y="40" font-size="26" text-anchor="middle">🌐</text>
-        <text x="148" y="39" font-family="&#39;Arial Black&#39;, sans-serif" font-weight="900" font-size="20" fill="#ffffff" stroke="#4a2205" stroke-width="4" text-anchor="middle">ONLINE PLAY</text>
-      </g>
-
-      <!-- Button 3: BUNDLES -->
-      <g transform="translate(14, 165)">
-        <rect x="0" y="0" width="247" height="62" rx="31" fill="url(#wood-btn)" stroke="#3b1903" stroke-width="3.5" />
-        <rect x="4" y="4" width="239" height="54" rx="27" fill="none" stroke="#c77d3e" stroke-width="2" stroke-opacity="0.5" />
-        <text x="42" y="40" font-size="28" text-anchor="middle">🧰</text>
-        <text x="148" y="39" font-family="&#39;Arial Black&#39;, sans-serif" font-weight="900" font-size="21" fill="#ffffff" stroke="#3b1903" stroke-width="4" text-anchor="middle">BUNDLES</text>
-      </g>
-
-      <!-- Button 4: SETTINGS -->
-      <g transform="translate(14, 240)">
-        <rect x="0" y="0" width="247" height="62" rx="31" fill="url(#wood-btn)" stroke="#3b1903" stroke-width="3.5" />
-        <rect x="4" y="4" width="239" height="54" rx="27" fill="none" stroke="#c77d3e" stroke-width="2" stroke-opacity="0.5" />
-        <text x="38" y="40" font-size="26" text-anchor="middle">⚙️</text>
-        <text x="148" y="39" font-family="&#39;Arial Black&#39;, sans-serif" font-weight="900" font-size="21" fill="#ffffff" stroke="#3b1903" stroke-width="4" text-anchor="middle">SETTINGS</text>
+    <rect x="18" y="138" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+    
+    <g transform="translate(138, 138)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#146348" stroke="#28e070" stroke-width="2.5" />
+      <g stroke="#29f2ff" stroke-width="15" stroke-linecap="round" filter="url(#cyan-glow)">
+        <line x1="34" y1="34" x2="74" y2="74" />
+        <line x1="74" y1="34" x2="34" y2="74" />
       </g>
     </g>
 
-    <!-- Bottom Right Circular Action Icons -->
-    <g transform="translate(465, 465)">
-      <!-- LEADERBOARD -->
-      <g transform="translate(38, 0)" filter="url(#drop-shadow)">
-        <circle cx="0" cy="26" r="28" fill="url(#wood-base)" stroke="#4a2205" stroke-width="4" />
-        <circle cx="0" cy="26" r="22" fill="none" stroke="#fbc02d" stroke-width="2" />
-        <text x="0" y="35" font-size="24" text-anchor="middle">🏆</text>
-        <text x="0" y="72" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="900" font-size="12" fill="#083b66" text-anchor="middle">LEADERBOARD</text>
-      </g>
+    <g transform="translate(258, 138)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+      <circle cx="54" cy="54" r="23" fill="none" stroke="#ff33b8" stroke-width="14" filter="url(#pink-glow)" />
+    </g>
 
-      <!-- SHOP -->
-      <g transform="translate(132, 0)" filter="url(#drop-shadow)">
-        <circle cx="0" cy="26" r="28" fill="url(#wood-base)" stroke="#4a2205" stroke-width="4" />
-        <circle cx="0" cy="26" r="22" fill="none" stroke="#d9934c" stroke-width="2" />
-        <text x="0" y="35" font-size="24" text-anchor="middle">🛒</text>
-        <text x="0" y="72" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="900" font-size="12" fill="#083b66" text-anchor="middle">SHOP</text>
-      </g>
-
-      <!-- MUSIC -->
-      <g transform="translate(226, 0)" filter="url(#drop-shadow)">
-        <circle cx="0" cy="26" r="28" fill="url(#wood-base)" stroke="#4a2205" stroke-width="4" />
-        <circle cx="0" cy="26" r="22" fill="none" stroke="#d9934c" stroke-width="2" />
-        <text x="0" y="35" font-size="24" text-anchor="middle">🎵</text>
-        <text x="0" y="72" font-family="&#39;Segoe UI&#39;, Arial, sans-serif" font-weight="900" font-size="12" fill="#083b66" text-anchor="middle">MUSIC</text>
+    <g transform="translate(18, 258)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#146348" stroke="#28e070" stroke-width="2.5" />
+      <g stroke="#29f2ff" stroke-width="15" stroke-linecap="round" filter="url(#cyan-glow)">
+        <line x1="34" y1="34" x2="74" y2="74" />
+        <line x1="74" y1="34" x2="34" y2="74" />
       </g>
     </g>
+
+    <g transform="translate(138, 258)">
+      <rect x="0" y="0" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
+      <circle cx="54" cy="54" r="23" fill="none" stroke="#ff33b8" stroke-width="14" filter="url(#pink-glow)" />
+    </g>
+
+    <rect x="258" y="258" width="108" height="108" rx="12" fill="#260c38" stroke="#c82896" stroke-width="2" />
   </g>
 </svg>
