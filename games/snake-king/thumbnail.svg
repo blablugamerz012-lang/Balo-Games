@@ -56,7 +56,7 @@
 </g>
 <!-- coins and sparkles -->
 <g fill="url(#gold)" stroke="#fff0a8" stroke-width="3"><circle cx="270" cy="450" r="25"/><circle cx="680" cy="245" r="19"/><circle cx="1125" cy="510" r="24"/></g>
-<g fill="#8a5a08" font-family="Arial" font-weight="900" font-size="25" text-anchor="middle"><text x="270" y="459">$</text><text x="680" y="253>+</text><text x="1125" y="519>$</text></g>
+<g fill="#8a5a08" font-family="Arial" font-weight="900" font-size="25" text-anchor="middle"><text x="270" y="459">$</text><text x="680" y="253">+</text><text x="1125" y="519>$</text></g>
 <g fill="#fff"><path d="M390 150 l8 22 22 8-22 8-8 22-8-22-22-8 22-8z"/><path d="M1140 150 l6 17 17 6-17 6-6 17-6-17-17-6 17-6z"/><circle cx="600" cy="600" r="5"/><circle cx="1180" cy="355" r="6"/></g>
 <!-- title plate -->
 <rect x="42" y="42" width="430" height="176" rx="28" fill="#06162c" fill-opacity=".82" stroke="#6df7d1" stroke-opacity=".7" stroke-width="3"/>
