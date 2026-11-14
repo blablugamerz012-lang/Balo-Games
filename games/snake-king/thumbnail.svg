@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071b35"/><stop offset=".48" stop-color="#123e65"/><stop offset="1" stop-color="#27104d"/></linearGradient>
+  <radialGradient id="glow"><stop stop-color="#55ffbd" stop-opacity=".42"/><stop offset="1" stop-color="#55ffbd" stop-opacity="0"/></radialGradient>
+  <linearGradient id="snake" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#baff38"/><stop offset=".28" stop-color="#21e6a0"/><stop offset=".56" stop-color="#20c8ff"/><stop offset=".78" stop-color="#9a55ff"/><stop offset="1" stop-color="#ff55c8"/></linearGradient>
+  <linearGradient id="belly" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#eaff9c"/><stop offset=".5" stop-color="#b5fff0"/><stop offset="1" stop-color="#ffd4f5"/></linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff59b"/><stop offset="1" stop-color="#ff9d20"/></linearGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="15"/></filter>
+  <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+  <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#a8eaff" stroke-opacity=".12" stroke-width="2"/></pattern>
+</defs>
+<rect width="1280" height="720" rx="34" fill="url(#bg)"/>
+<rect width="1280" height="720" rx="34" fill="url(#grid)"/>
+<circle cx="760" cy="350" r="420" fill="url(#glow)"/>
+<path d="M0 570 Q260 490 480 610 T920 585 T1280 550 V720 H0Z" fill="#07192d" opacity=".55"/>
+<!-- arena rings -->
+<ellipse cx="760" cy="420" rx="390" ry="205" fill="none" stroke="#5af6d0" stroke-opacity=".2" stroke-width="3"/>
+<ellipse cx="760" cy="420" rx="320" ry="160" fill="none" stroke="#8a7bff" stroke-opacity=".24" stroke-width="3" stroke-dasharray="12 15"/>
+<!-- glowing shadow -->
+<path d="M450 510 C400 410 520 330 650 390 S880 530 1010 430 S1120 270 1040 210" fill="none" stroke="#00ffc3" stroke-opacity=".3" stroke-width="115" stroke-linecap="round" filter="url(#shadow)"/>
+<!-- main rainbow snake body -->
+<path d="M440 515 C390 415 505 330 640 390 C770 450 860 540 985 455 C1100 375 1110 255 1010 210 C930 175 850 225 865 295 C880 360 975 365 1015 320" fill="none" stroke="#071b35" stroke-width="112" stroke-linecap="round" opacity=".8"/>
+<path d="M440 505 C390 405 505 320 640 380 C770 440 860 530 985 445 C1100 365 1110 245 1010 200 C930 165 850 215 865 285 C880 350 975 355 1015 310" fill="none" stroke="url(#snake)" stroke-width="92" stroke-linecap="round"/>
+<path d="M440 505 C390 405 505 320 640 380 C770 440 860 530 985 445 C1100 365 1110 245 1010 200 C930 165 850 215 865 285 C880 350 975 355 1015 310" fill="none" stroke="url(#belly)" stroke-width="24" stroke-linecap="round" stroke-dasharray="3 22" opacity=".75"/>
+<!-- snake head -->
+<g transform="translate(1005 292) rotate(-20)">
+  <ellipse cx="0" cy="0" rx="91" ry="68" fill="url(#snake)" stroke="#d8fff1" stroke-width="5"/>
+  <ellipse cx="-31" cy="-19" rx="17" ry="21" fill="#fff"/>
+  <ellipse cx="31" cy="-19" rx="17" ry="21" fill="#fff"/>
+  <ellipse cx="-27" cy="-15" rx="8" ry="12" fill="#14233c"/>
+  <ellipse cx="35" cy="-15" rx="8" ry="12" fill="#14233c"/>
+  <circle cx="-30" cy="-20" r="3" fill="#fff"/><circle cx="32" cy="-20" r="3" fill="#fff"/>
+  <path d="M-31 24 Q0 47 37 20" fill="none" stroke="#17304a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M-8 40 Q0 58 9 40" fill="#ff5e9e"/>
+  <ellipse cx="-68" cy="10" rx="12" ry="7" fill="#e9ff9c" opacity=".8"/>
+</g>
+<!-- frogs -->
+<g transform="translate(330 275)">
+ <ellipse cx="0" cy="24" rx="42" ry="14" fill="#020d20" opacity=".35"/>
+ <circle cx="-20" cy="0" r="17" fill="#9cff45"/><circle cx="20" cy="0" r="17" fill="#9cff45"/>
+ <ellipse cx="0" cy="22" rx="37" ry="29" fill="#55d94a"/>
+ <ellipse cx="-13" cy="1" rx="7" ry="10" fill="#fff"/><ellipse cx="13" cy="1" rx="7" ry="10" fill="#fff"/>
+ <circle cx="-12" cy="3" r="3.5" fill="#102c38"/><circle cx="14" cy="3" r="3.5" fill="#102c38"/>
+ <path d="M-12 30 Q0 38 13 29" fill="none" stroke="#174b38" stroke-width="4" stroke-linecap="round"/>
+ <path d="M-29 40 l-16 10 M29 40 l16 10" stroke="#55d94a" stroke-width="9" stroke-linecap="round"/>
+</g>
+<g transform="translate(560 205) scale(.78)">
+ <circle cx="-20" cy="0" r="17" fill="#8dff45"/><circle cx="20" cy="0" r="17" fill="#8dff45"/><ellipse cx="0" cy="22" rx="37" ry="29" fill="#45cf76"/>
+ <ellipse cx="-13" cy="1" rx="7" ry="10" fill="#fff"/><ellipse cx="13" cy="1" rx="7" ry="10" fill="#fff"/><circle cx="-12" cy="3" r="3.5" fill="#102c38"/><circle cx="14" cy="3" r="3.5" fill="#102c38"/>
+ <path d="M-12 30 Q0 38 13 29" fill="none" stroke="#174b38" stroke-width="4" stroke-linecap="round"/>
+</g>
+<g transform="translate(770 565) scale(.68)">
+ <circle cx="-20" cy="0" r="17" fill="#a4ff4c"/><circle cx="20" cy="0" r="17" fill="#a4ff4c"/><ellipse cx="0" cy="22" rx="37" ry="29" fill="#4fdc61"/>
+ <ellipse cx="-13" cy="1" rx="7" ry="10" fill="#fff"/><ellipse cx="13" cy="1" rx="7" ry="10" fill="#fff"/><circle cx="-12" cy="3" r="3.5" fill="#102c38"/><circle cx="14" cy="3" r="3.5" fill="#102c38"/>
+ <path d="M-12 30 Q0 38 13 29" fill="none" stroke="#174b38" stroke-width="4" stroke-linecap="round"/>
+</g>
+<!-- coins and sparkles -->
+<g fill="url(#gold)" stroke="#fff0a8" stroke-width="3"><circle cx="270" cy="450" r="25"/><circle cx="680" cy="245" r="19"/><circle cx="1125" cy="510" r="24"/></g>
+<g fill="#8a5a08" font-family="Arial" font-weight="900" font-size="25" text-anchor="middle"><text x="270" y="459">$</text><text x="680" y="253>+</text><text x="1125" y="519>$</text></g>
+<g fill="#fff"><path d="M390 150 l8 22 22 8-22 8-8 22-8-22-22-8 22-8z"/><path d="M1140 150 l6 17 17 6-17 6-6 17-6-17-17-6 17-6z"/><circle cx="600" cy="600" r="5"/><circle cx="1180" cy="355" r="6"/></g>
+<!-- title plate -->
+<rect x="42" y="42" width="430" height="176" rx="28" fill="#06162c" fill-opacity=".82" stroke="#6df7d1" stroke-opacity=".7" stroke-width="3"/>
+<text x="76" y="105" fill="#a8ffd9" font-family="Arial,sans-serif" font-size="25" font-weight="900" letter-spacing="5">BALO GAMES</text>
+<text x="72" y="170" fill="#fff" font-family="Arial,sans-serif" font-size="62" font-weight="900" letter-spacing="-2">SNAKE KING</text>
+<text x="77" y="202" fill="#c7e9ff" font-family="Arial,sans-serif" font-size="19" font-weight="700" letter-spacing="2">MULTIPLAYER • FROG HUNT • REWARDS</text>
+<!-- online badge -->
+<rect x="890" y="52" width="330" height="66" rx="22" fill="#082b36" stroke="#43ffc0" stroke-width="3"/>
+<circle cx="925" cy="85" r="10" fill="#42ff9d"/><circle cx="925" cy="85" r="18" fill="#42ff9d" opacity=".2"/>
+<text x="954" y="94" fill="#eafff5" font-family="Arial,sans-serif" font-size="24" font-weight="900" letter-spacing="2">ONLINE ARENA</text>
+<!-- bonus badge -->
+<rect x="80" y="590" width="365" height="78" rx="22" fill="#3a1d69" stroke="#d18cff" stroke-width="3"/>
+<text x="110" y="638" fill="#ffe8ff" font-family="Arial,sans-serif" font-size="27" font-weight="900">BONUS CODE  ✦  REWARDS</text>
+</svg>
