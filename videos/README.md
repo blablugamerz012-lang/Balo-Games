@@ -1,5 +1,11 @@
 # Game Preview Videos
 
-Place game preview MP4 files in this folder.
+Upload preview MP4 videos for any Balo Games game in this folder.
 
-Memory Match preview filename: `memory-match-preview.mp4`
+Use a clear, game-specific filename for each video, for example:
+- `memory-match-preview.mp4`
+- `snake-king-preview.mp4`
+- `evo-eater-preview.mp4`
+
+In the game entry in `index.html`, set the `preview` path to the matching file:
+`videos/your-game-preview.mp4`
