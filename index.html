@@ -472,6 +472,9 @@
       position: relative;
     }
     .game-card { position:relative; }
+    .game-card-open-link { display:block; position:relative; color:inherit; text-decoration:none; min-width:0; }
+    .game-card-open-link:focus-visible { outline:3px solid #28e7ff; outline-offset:-4px; border-radius:20px; }
+    .game-card > .fav-toggle { position:absolute; top:8px; right:8px; z-index:6; }
     .game-card .game-image { height:auto; min-height:0; aspect-ratio:16 / 9; padding:0; overflow:hidden; flex:0 0 auto; }
     .game-image .game-thumb { width:100%; height:100%; display:block; object-fit:cover; object-position:center; }
     .game-image .game-preview-video {
@@ -1415,16 +1418,21 @@
       const heartBtn = g.comingSoon || (showingFavorites && removeFavMode)
         ? ""
         : `<button type="button" class="fav-toggle${fav ? " is-fav" : ""}" data-title="${safe}" onclick="toggleFavorite('${safe}', event)" title="${fav ? "In Favorites" : "Add to Favorites"}">${fav ? "♥" : "☆"}</button>`;
-      const clickAttr = g.comingSoon ? "" : ` onclick="onCardClick('${safe}')" role="button" tabindex="0"`;
-      const visual = g.image ? `<img class="game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy">${g.preview ? `<video class="game-preview-video" src="${g.preview}" muted loop playsinline preload="none" aria-hidden="true"></video>` : ""}` : `<div class="game-fallback">${g.icon}</div>`;
-      return `<div class="game-card${removeClass}${g.comingSoon ? " coming-soon-card" : ""}"${clickAttr}>
-        <div class="game-image">
-          ${visual}
-          <span class="game-category-tag">${gameType}</span>
-          ${heartBtn}
-          <div class="game-hover-title">${g.title}</div>
-          <div class="game-card-likes" data-like-title="${safe}">♥ <span>—</span></div>
-        </div>
+      const visual = g.image ? `<img class="game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy" draggable="false">${g.preview ? `<video class="game-preview-video" src="${g.preview}" muted loop playsinline preload="none" aria-hidden="true"></video>` : ""}` : `<div class="game-fallback">${g.icon}</div>`;
+      const gameLink = !g.comingSoon && g.path
+        ? `<a class="game-card-open-link" href="${g.path}" draggable="true" aria-label="Open ${g.title}" onclick="if(event.button===0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey){event.preventDefault();onCardClick('${safe}');}">`
+        : "";
+      const gameLinkEnd = gameLink ? "</a>" : "";
+      return `<div class="game-card${removeClass}${g.comingSoon ? " coming-soon-card" : ""}">
+        ${gameLink}
+          <div class="game-image">
+            ${visual}
+            <span class="game-category-tag">${gameType}</span>
+            <div class="game-hover-title">${g.title}</div>
+            <div class="game-card-likes" data-like-title="${safe}">♥ <span>—</span></div>
+          </div>
+        ${gameLinkEnd}
+        ${heartBtn}
       </div>`;
     }
 
@@ -1506,10 +1514,11 @@
       const visual = g.image
         ? `<img class="sidebar-game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy">${g.preview ? `<video class="sidebar-game-preview-video" src="${g.preview}" muted loop playsinline preload="none" aria-hidden="true"></video>` : ""}`
         : `<span class="sidebar-game-fallback">${g.icon}</span>`;
-      return `<div class="sidebar-game-item" onclick="openGame('${g.title.replace(/'/g, "\\'")}')">
+      const safeTitle = g.title.replace(/'/g, "\\'");
+      return `<a class="sidebar-game-item" href="${g.path}" draggable="true" onclick="if(event.button===0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey){event.preventDefault();openGame('${safeTitle}');}">
         <div class="sidebar-game-icon">${visual}</div>
         <div class="sidebar-game-info"><h4>${g.title}</h4></div>
-      </div>`;
+      </a>`;
     }
 
     function renderHome(cat) {
