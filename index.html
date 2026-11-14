@@ -474,6 +474,17 @@
     .game-card { position:relative; }
     .game-card .game-image { height:auto; min-height:0; aspect-ratio:16 / 9; padding:0; overflow:hidden; flex:0 0 auto; }
     .game-image .game-thumb { width:100%; height:100%; display:block; object-fit:cover; object-position:center; }
+    .game-image .game-preview-video {
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+      display:block; opacity:0; pointer-events:none; z-index:1;
+      transition:opacity .18s ease;
+    }
+    .game-card.is-preview-playing .game-preview-video { opacity:1; }
+    .game-card.is-preview-playing .game-thumb { opacity:0; }
+    @media (hover:none), (prefers-reduced-motion:reduce) {
+      .game-image .game-preview-video { display:none; }
+      .game-card.is-preview-playing .game-thumb { opacity:1; }
+    }
     .game-image:has(.game-thumb) { padding:0; }
     .game-image .game-fallback { width:100%; height:100%; display:grid; place-items:center; font-size:48px; background:linear-gradient(135deg,var(--card-bg),var(--card-bg-2)); }
     .game-hover-title { position:absolute; left:0; right:0; bottom:0; padding:22px 10px 9px; color:#fff; font-size:15px; font-weight:800; text-align:center; background:linear-gradient(transparent,rgba(0,0,0,.86)); opacity:0; transform:translateY(5px); transition:opacity .2s,transform .2s; pointer-events:none; }
@@ -1301,7 +1312,7 @@
       { title: "My Gun Life", cat: "action", tags: ["gun"], icon: "⚡", image: "games/my-gun-life/thumbnail.svg", desc: "Jump into a fast-paced action game.", path: "games/my-gun-life/index.html" },
       { title: "Evo Eater", cat: "action", tags: ["evolution"], icon: "🦅", image: "games/evoeater/thumbnail.svg", desc: "Grow, evolve, and explore the arena.", path: "games/evoeater/index.html" },
       { title: "Tic-Tac-Toe", cat: "arcade", tags: ["puzzle", "2player"], icon: "❌⭕", image: "games/tik-tak-toe/thumbnail.svg?v=3", desc: "A classic strategy game for a quick match.", path: "games/tik-tak-toe/index.html" },
-      { title: "Memory Match", cat: "arcade", tags: ["puzzle"], icon: "🧠", image: "games/MATCH%20GAME/thumbnail.svg", desc: "Find matching cards and test your memory.", path: "games/MATCH%20GAME/memory-match.html" },
+      { title: "Memory Match", cat: "arcade", tags: ["puzzle"], icon: "🧠", image: "games/MATCH%20GAME/thumbnail.svg", preview: "videos/memory-match-preview.mp4", desc: "Find matching cards and test your memory.", path: "games/MATCH%20GAME/memory-match.html" },
       { title: "Snake King", cat: "arcade", tags: ["snake"], icon: "🐍", image: "games/snake-king/thumbnail.svg?v=1", desc: "Classic snake action with mobile and keyboard controls.", path: "games/snake-king/index.html" },
       { title: "Adventure Games", cat: "adventure", tags: ["adventure"], icon: "🗺️", desc: "A new adventure is being prepared.", comingSoon: true },
       { title: "More Arcade Games", cat: "arcade", tags: ["arcade"], icon: "🕹️", desc: "More quick-play challenges are on the way.", comingSoon: true }
@@ -1400,7 +1411,7 @@
         ? ""
         : `<button type="button" class="fav-toggle${fav ? " is-fav" : ""}" data-title="${safe}" onclick="toggleFavorite('${safe}', event)" title="${fav ? "In Favorites" : "Add to Favorites"}">${fav ? "♥" : "☆"}</button>`;
       const clickAttr = g.comingSoon ? "" : ` onclick="onCardClick('${safe}')" role="button" tabindex="0"`;
-      const visual = g.image ? `<img class="game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy">` : `<div class="game-fallback">${g.icon}</div>`;
+      const visual = g.image ? `<img class="game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy">${g.preview ? `<video class="game-preview-video" src="${g.preview}" muted loop playsinline preload="none" aria-hidden="true"></video>` : ""}` : `<div class="game-fallback">${g.icon}</div>`;
       return `<div class="game-card${removeClass}${g.comingSoon ? " coming-soon-card" : ""}"${clickAttr}>
         <div class="game-image">
           ${visual}
@@ -1411,6 +1422,43 @@
         </div>
       </div>`;
     }
+
+    // Hover previews: play a game's muted preview while its card is hovered.
+    // Each game opts in by defining a local preview video path in the games list.
+    let activePreviewCard = null;
+    function stopCardPreview(card) {
+      if (!card) return;
+      const video = card.querySelector(".game-preview-video");
+      if (video) {
+        video.pause();
+        try { video.currentTime = 0; } catch (e) {}
+      }
+      card.classList.remove("is-preview-playing");
+      if (activePreviewCard === card) activePreviewCard = null;
+    }
+    function startCardPreview(card) {
+      if (!card || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+      const video = card.querySelector(".game-preview-video");
+      if (!video) return;
+      if (activePreviewCard && activePreviewCard !== card) stopCardPreview(activePreviewCard);
+      activePreviewCard = card;
+      video.play().then(() => {
+        if (activePreviewCard === card && card.matches(":hover")) card.classList.add("is-preview-playing");
+        else stopCardPreview(card);
+      }).catch(() => {
+        card.classList.remove("is-preview-playing");
+      });
+    }
+    document.addEventListener("pointerover", function(e) {
+      const card = e.target.closest?.(".game-card");
+      if (!card || card.contains(e.relatedTarget)) return;
+      startCardPreview(card);
+    });
+    document.addEventListener("pointerout", function(e) {
+      const card = e.target.closest?.(".game-card");
+      if (!card || card.contains(e.relatedTarget)) return;
+      stopCardPreview(card);
+    });
 
     async function refreshCardLikeCounts() {
       const cards = [...document.querySelectorAll(".game-card-likes[data-like-title]")];
