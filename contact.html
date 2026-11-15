@@ -4,24 +4,146 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Balo Games</title>
-  <meta name="description" content="Contact Balo Games with feedback, questions, or reports about our browser games.">
+  <meta name="description" content="Send Balo Games a question, suggestion or report about a browser game.">
   <link rel="canonical" href="https://blablugamerz012-lang.github.io/Balo-Games/contact.html">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body{margin:0;background:#100b24;color:#eee8ff;font:16px/1.6 Arial,sans-serif}
+    .contact-header{padding:18px 5%;background:#191333;border-bottom:1px solid #ffffff20}
+    .contact-header a{color:#28e7ff;font-weight:700;text-decoration:none}
+    .contact-card{width:min(720px,92%);margin:34px auto;padding:clamp(22px,5vw,38px);background:#191333;border:1px solid #ffffff25;border-radius:16px;box-shadow:0 18px 50px #0005}
+    h1{margin:0 0 10px;color:#fff;font-size:clamp(28px,5vw,38px)}h2{color:#fff;font-size:20px}
+    .muted{color:#c6bddc}.contact-card label{display:block;margin:17px 0 7px;color:#fff;font-weight:700}
+    .contact-card input,.contact-card select,.contact-card textarea{display:block;width:100%;padding:12px 13px;border:1px solid #51466e;border-radius:9px;background:#100b24;color:#fff;font:inherit}
+    .contact-card textarea{min-height:150px;resize:vertical}.contact-card input:focus,.contact-card select:focus,.contact-card textarea:focus{outline:2px solid #28e7ff;outline-offset:2px}
+    .contact-card button{margin-top:18px;padding:12px 20px;border:0;border-radius:9px;background:linear-gradient(100deg,#704cff,#ed3d9b);color:#fff;font-weight:800;font-size:15px;cursor:pointer}
+    .contact-card button:disabled{opacity:.6;cursor:wait}#contactStatus{min-height:26px;margin-top:14px;font-weight:700}.small{font-size:13px;color:#b9b0d0}
+    .contact-footer{text-align:center;padding:24px;color:#aaa1c5}.contact-links{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}.contact-links a{color:#28e7ff}
+    .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+  </style>
 </head>
 <body>
-  <header>
-    <a href="./" class="about-home">Balo Games — Home</a>
-  </header>
-
-  <main class="about-content">
+  <header class="contact-header"><a href="./">← Balo Games Home</a></header>
+  <main class="contact-card">
     <h1>Contact Balo Games</h1>
-    <p>Have feedback, a question, or found a problem with one of our games? We welcome your feedback.</p>
-    <p>We’re preparing an email contact option for Balo Games. Please check back soon for contact details.</p>
-    <p><a href="./">Explore games on Balo Games</a></p>
-  </main>
+    <p class="muted">Have a question, suggestion, or problem with a game? Send a message using this form. Your message is submitted to the Balo Games message service for review.</p>
+    <p class="small">A reply email is optional. If you leave it blank, we may not be able to contact you about your message. Please do not send passwords, sign-in codes, payment details or sensitive personal information.</p>
 
-  <footer>
-    © 2026 Balo Games
-  </footer>
+    <form id="contactForm">
+      <label for="contactTopic">Message type</label>
+      <select id="contactTopic" required>
+        <option value="General question">General question</option>
+        <option value="Game bug report">Game bug report</option>
+        <option value="Suggestion">Suggestion</option>
+        <option value="Copyright or content concern">Copyright or content concern</option>
+        <option value="Privacy question">Privacy question</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label for="contactName">Name (optional)</label>
+      <input id="contactName" type="text" maxlength="80" autocomplete="name" placeholder="Your name">
+
+      <label for="contactEmail">Reply email (optional)</label>
+      <input id="contactEmail" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com">
+
+      <label for="contactMessage">Your message</label>
+      <textarea id="contactMessage" maxlength="3000" minlength="10" required placeholder="Write your question or explain the issue..."></textarea>
+
+      <label class="hp" for="contactWebsite">Leave this field empty</label>
+      <input class="hp" id="contactWebsite" type="text" tabindex="-1" autocomplete="off">
+
+      <button id="contactSubmit" type="submit">Send message</button>
+      <p id="contactStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="contact-links">
+      <a href="about.html">About</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+      <a href="cookie-policy.html">Cookie Policy</a>
+    </div>
+  </main>
+  <footer class="contact-footer">© 2026 Balo Games</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ajpglxinwfgpenlfbkzz.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_MSuPIhPSiwq3n1RlwNGHgg_BXZsLGwJ";
+    const contactClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: "pkce" }
+    });
+
+    const contactForm = document.getElementById("contactForm");
+    const contactStatus = document.getElementById("contactStatus");
+    const contactSubmit = document.getElementById("contactSubmit");
+    let sending = false;
+
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (sending) return;
+      if (document.getElementById("contactWebsite").value) return;
+      const topic = document.getElementById("contactTopic").value;
+      const name = document.getElementById("contactName").value.trim();
+      const email = document.getElementById("contactEmail").value.trim();
+      const message = document.getElementById("contactMessage").value.trim();
+      if (message.length < 10) {
+        contactStatus.style.color = "#ff9b9b";
+        contactStatus.textContent = "Please write at least 10 characters.";
+        return;
+      }
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        contactStatus.style.color = "#ff9b9b";
+        contactStatus.textContent = "Please enter a valid reply email, or leave it blank.";
+        return;
+      }
+      if (!contactClient) {
+        contactStatus.style.color = "#ff9b9b";
+        contactStatus.textContent = "The message service could not load. Please try again later.";
+        return;
+      }
+
+      sending = true;
+      contactSubmit.disabled = true;
+      contactSubmit.textContent = "Sending...";
+      contactStatus.textContent = "";
+      try {
+        const { data: sessionData, error: sessionError } = await contactClient.auth.getSession();
+        if (sessionError) throw sessionError;
+        let user = sessionData?.session?.user;
+        if (!user) {
+          const { data, error } = await contactClient.auth.signInAnonymously();
+          if (error) throw error;
+          user = data?.user || data?.session?.user;
+        }
+        if (!user?.id) throw new Error("A visitor session could not be created.");
+        const parts = [
+          "[CONTACT FORM]",
+          "Topic: " + topic,
+          "Name: " + (name || "Not provided"),
+          "Reply email: " + (email || "Not provided"),
+          "",
+          message
+        ];
+        const { error } = await contactClient.from("messages").insert({
+          user_id: user.id,
+          sender_id: user.id,
+          sender_role: "player",
+          message: parts.join("\n")
+        });
+        if (error) throw error;
+        contactStatus.style.color = "#5ee3b1";
+        contactStatus.textContent = "Your message was sent. Thank you for contacting Balo Games.";
+        contactForm.reset();
+      } catch (error) {
+        console.error("Contact form submission failed:", error);
+        contactStatus.style.color = "#ff9b9b";
+        contactStatus.textContent = "We could not send your message. Please try again later.";
+      } finally {
+        sending = false;
+        contactSubmit.disabled = false;
+        contactSubmit.textContent = "Send message";
+      }
+    });
+  </script>
 </body>
 </html>
