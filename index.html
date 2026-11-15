@@ -1236,14 +1236,14 @@
       <div class="footer-col">
         <h4>Quick Links</h4>
         <a onclick="goHome()">Home</a>
-        <a onclick="showInfo('about')">About</a>
-        <a onclick="showInfo('contact')">Contact</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
       </div>
       <div class="footer-col">
         <h4>Information</h4>
-        <a onclick="showInfo('privacy')">Privacy Policy</a>
-        <a onclick="showInfo('terms')">Terms &amp; Conditions</a>
-        <a onclick="showInfo('cookies')">Cookie Policy</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+        <a href="cookie-policy.html">Cookie Policy</a>
         <a onclick="showInfo('copyright')">Copyright &amp; Ownership</a>
       </div>
       <div class="footer-col">
@@ -2039,12 +2039,12 @@
 
 
     const infoPages = {
-      about: `<h2>About Balo Games</h2><p>Balo Games is a browser gaming website where players can discover and play online games across action, adventure, and arcade categories.</p><p>Our goal is to provide a simple, fast, and enjoyable place to play games on supported devices.</p>`,
-      contact: `<h2>Contact Balo Games</h2><p>If you need help, want to report a problem, or have feedback about a game, please contact the Balo Games team through the official contact channel provided with the website.</p><p>For game bugs, you can also use the Bug Report button on the game screen.</p>`,
-      privacy: `<h2>Privacy Policy</h2><p>Balo Games is designed to provide browser-based gaming content. We aim to collect only information needed to operate and improve the website.</p><p>Third-party services, analytics, advertising, or browser storage may have their own policies where applicable. Please review their policies before using those services.</p>`,
-      terms: `<h2>Terms &amp; Conditions</h2><p>By using Balo Games, you agree to use the website responsibly and not to interfere with its operation or misuse its content.</p><p>Game availability and features may change as the website is updated.</p>`,
-      cookies: `<h2>Cookie Policy</h2><p>Balo Games may use browser storage or similar technologies where needed for website functionality. Third-party services may also use their own technologies according to their policies.</p>`,
-      copyright: `<h2>Copyright &amp; Ownership Policy</h2><p>© 2026 Balo Games. All Rights Reserved.</p><p>Original game code, artwork, graphics, designs and other game content created or developed by Balo Games are protected by applicable copyright laws, to the extent permitted by law.</p><p>Copying, republishing or redistributing original Balo Games game content without permission is not allowed.</p><p>Third-party games and other third-party materials remain the property of their respective owners. Balo Games does not claim ownership of materials it does not own or have rights to protect.</p><p>Ownership applies only to original material that Balo Games owns or is legally entitled to protect, and is subject to applicable licences and law.</p><p>For permission or copyright concerns, please contact the Balo Games team through the official contact channel.</p>`
+      about: `<h2>About Balo Games</h2><p>Balo Games is a browser-gaming website featuring games across action, adventure and arcade categories.</p><p>Games and features are developed and updated over time. Development may involve software tools and AI-assisted workflows. Some projects may include third-party materials used under their applicable licences or permissions.</p><p><a href="about.html">Read the full About page</a></p>`,
+      contact: `<h2>Contact Balo Games</h2><p>Have a question, suggestion, or problem with a game? Use our Contact page to send a message through the website's message service.</p><p>A reply email is optional. If you leave it blank, we may not be able to respond directly.</p><p><a href="contact.html">Open Contact form</a></p><p>You can also use the Bug Report button on a game screen.</p>`,
+      privacy: `<h2>Privacy Policy</h2><p>The website uses Supabase for email/password, Google and guest authentication, game reactions and visitor messages. Favorites are saved in your browser. Hosting and third-party providers may process technical data.</p><p><a href="privacy-policy.html">Read the full Privacy Policy</a></p>`,
+      terms: `<h2>Terms &amp; Conditions</h2><p>Use Balo Games lawfully and do not disrupt the website or misuse its features. Original Balo Games material and third-party content remain subject to their respective ownership and licences.</p><p><a href="terms-and-conditions.html">Read the full Terms &amp; Conditions</a></p>`,
+      cookies: `<h2>Cookie Policy</h2><p>Balo Games uses browser storage for favorites and may use storage for Supabase sign-in sessions. Third-party providers may use their own technologies.</p><p><a href="cookie-policy.html">Read the full Cookie Policy</a></p>`,
+      copyright: `<h2>Copyright &amp; Ownership Policy</h2><p>© 2026 Balo Games. All Rights Reserved.</p><p>Original game code, artwork, graphics, designs and other game content created or developed by Balo Games are protected by applicable copyright laws, to the extent permitted by law.</p><p>Copying, republishing or redistributing original Balo Games content without permission is not allowed.</p><p>Third-party games, assets, trademarks, characters, music and other materials remain the property of their respective owners. Balo Games does not claim ownership of materials it does not own or have rights to protect.</p><p>Ownership applies only to original material that Balo Games owns or is legally entitled to protect, and is subject to applicable licences and law.</p><p><a href="contact.html">Contact Balo Games about a copyright concern</a>.</p>`
     };
     function showInfo(page){ document.getElementById('infoContent').innerHTML=infoPages[page]||infoPages.about; document.getElementById('infoModal').classList.add('open'); document.body.style.overflow='hidden'; }
     function closeInfo(){ document.getElementById('infoModal').classList.remove('open'); document.body.style.overflow=''; }
