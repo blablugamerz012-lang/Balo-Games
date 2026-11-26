@@ -1329,7 +1329,7 @@
       { title: "Tic-Tac-Toe", cat: "arcade", tags: ["puzzle", "2player"], icon: "❌⭕", image: "games/tik-tak-toe/thumbnail.svg?v=3", desc: "A classic strategy game for a quick match.", path: "games/tik-tak-toe/index.html" },
       { title: "Memory Match", cat: "arcade", tags: ["puzzle"], icon: "🧠", image: "games/MATCH%20GAME/thumbnail.svg", preview: "videos/memory-match-preview.mp4", desc: "Find matching cards and test your memory.", path: "games/MATCH%20GAME/memory-match.html" },
       { title: "Snake King", cat: "arcade", tags: ["snake"], icon: "🐍", image: "games/snake-king/thumbnail.svg?v=1", desc: "Classic snake action with mobile and keyboard controls.", path: "games/snake-king/index.html" },
-      { title: "Flappy Ball", cat: "arcade", tags: ["flappy", "ball", "skill"], icon: "🐤", image: "games/flappy-ball/thumbnail.svg", preview: "videos/flappy-ball-preview.svg", desc: "Fly through the pipes, collect coins, and beat your best score.", path: "games/flappy-ball/index.html" },
+      { title: "Flappy Ball", cat: "arcade", tags: ["flappy", "ball", "skill"], icon: "🐤", image: "games/flappy-ball/thumbnail.svg", preview: "videos/flappy-ball-preview.mp4", desc: "Fly through the pipes, collect coins, and beat your best score.", path: "games/flappy-ball/index.html" },
       { title: "Adventure Games", cat: "adventure", tags: ["adventure"], icon: "🗺️", desc: "A new adventure is being prepared.", comingSoon: true },
       { title: "More Arcade Games", cat: "arcade", tags: ["arcade"], icon: "🕹️", desc: "More quick-play challenges are on the way.", comingSoon: true }
     ];
@@ -1426,7 +1426,7 @@
       const heartBtn = g.comingSoon || (showingFavorites && removeFavMode)
         ? ""
         : `<button type="button" class="fav-toggle${fav ? " is-fav" : ""}" data-title="${safe}" onclick="toggleFavorite('${safe}', event)" title="${fav ? "In Favorites" : "Add to Favorites"}">${fav ? "♥" : "☆"}</button>`;
-      const visual = g.image ? `<img class="game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy" draggable="false">${g.preview ? `<img class="game-preview-video" src="${g.preview}" alt="" aria-hidden="true" draggable="false">` : ""}` : `<div class="game-fallback">${g.icon}</div>`;
+      const visual = g.image ? `<img class="game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy" draggable="false">${g.preview ? `<video class="game-preview-video" src="${g.preview}" muted loop playsinline preload="metadata" aria-hidden="true"></video>` : ""}` : `<div class="game-fallback">${g.icon}</div>`;
       const gameLink = !g.comingSoon && g.path
         ? `<a class="game-card-open-link" href="${g.path}" draggable="true" aria-label="Open ${g.title}" onclick="if(event.button===0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey){event.preventDefault();onCardClick('${safe}');}">`
         : "";
@@ -1524,7 +1524,7 @@
 
     function sidebarHTML(g) {
       const visual = g.image
-        ? `<img class="sidebar-game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy">${g.preview ? `<img class="sidebar-game-preview-video" src="${g.preview}" alt="" aria-hidden="true" draggable="false">` : ""}`
+        ? `<img class="sidebar-game-thumb" src="${g.image}" alt="${g.title} thumbnail" loading="lazy">${g.preview ? `<video class="sidebar-game-preview-video" src="${g.preview}" muted loop playsinline preload="metadata" aria-hidden="true"></video>` : ""}`
         : `<span class="sidebar-game-fallback">${g.icon}</span>`;
       const safeTitle = g.title.replace(/'/g, "\\'");
       return `<a class="sidebar-game-item" href="${g.path}" draggable="true" onclick="if(event.button===0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey){event.preventDefault();openGame('${safeTitle}');}">
